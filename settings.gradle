@@ -1,1 +1,2 @@
 rootProject.name = 'moim'
+include 'gathering'
