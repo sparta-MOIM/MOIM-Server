@@ -6,5 +6,4 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface JpaGatheringRepository extends JpaRepository<Gathering, UUID>, GatheringRepository {
-
 }

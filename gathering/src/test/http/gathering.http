@@ -26,3 +26,15 @@ X-User-ID: 사용자ID
   "count": 0,
   "status": true
 }
+
+
+### 게더링 수정
+PUT http://localhost:19101/api/v1/gathering/daee79b6-7603-47a1-8078-a1cc7b3afe7d
+Content-Type: application/json
+X-User-Name: 사용자이름
+X-User-Role: USER
+X-User-ID: 사용자ID
+
+{
+  "status": false
+}

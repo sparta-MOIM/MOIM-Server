@@ -2,6 +2,7 @@ package com.sparta.moim.gathering.presentation.contoller;
 
 import com.sparta.moim.gathering.application.service.GatheringService;
 import com.sparta.moim.gathering.presentation.dto.request.CreateGatheringRequest;
+import com.sparta.moim.gathering.presentation.dto.request.UpdateGatheringRequest;
 import com.sparta.moim.gathering.presentation.dto.response.CreateGatheringResponse;
 import jakarta.validation.Valid;
 import java.util.UUID;
@@ -38,8 +39,8 @@ public class GatheringController {
 
 
   @PutMapping("/{gatheringId}")
-  public void updateGathering(@PathVariable UUID gatheringId) {
-
+  public void updateGathering(@PathVariable UUID gatheringId, @RequestBody @Valid UpdateGatheringRequest request) {
+    gatheringService.updateGathering(request.toCommand(gatheringId));
   }
 
   @DeleteMapping("/{gatheringId}")

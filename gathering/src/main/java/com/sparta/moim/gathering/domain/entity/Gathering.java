@@ -30,14 +30,18 @@ public class Gathering {
 
   private int count;
 
-  private boolean status;
+  private Boolean status;
 
 
   public static Gathering create(String organizationId, String name, String owner, int count, boolean status) {
     return new Gathering(null, organizationId, name, owner, count, status);
   }
 
-  private Gathering(UUID id, String organizationId, String name, String owner, int count, boolean status) {
+  public static Gathering update(UUID gatheringId, String name, int count, Boolean status) {
+    return new Gathering(gatheringId, null, name, null, count, status);
+  }
+
+  private Gathering(UUID id, String organizationId, String name, String owner, int count, Boolean status) {
     this.id = id;
     this.name = name;
     this.organizationId = organizationId;
@@ -46,4 +50,9 @@ public class Gathering {
     this.status = status;
   }
 
+  public void change(Gathering updatedGathering) {
+    this.name = updatedGathering.name == null ? this.name : updatedGathering.name;
+    this.count = updatedGathering.count == 0 ? this.count : updatedGathering.count;
+    this.status = updatedGathering.status == null ? this.status : updatedGathering.status;
+  }
 }

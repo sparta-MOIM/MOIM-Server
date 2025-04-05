@@ -15,6 +15,6 @@ public record CreateGatheringQuery(
                                     gathering.getOrganizationId(),
                                     gathering.getName(),
                                     gathering.getCount(),
-                                    gathering.isStatus());
+                                    gathering.getStatus());
   }
 }
