@@ -1,11 +1,12 @@
 package com.sparta.moim.gathering.presentation.dto.request;
 
 import com.sparta.moim.gathering.application.dto.command.CreateGatheringCommand;
+import jakarta.validation.constraints.PositiveOrZero;
 
 public record CreateGatheringRequest(
     String organizationId,
     String name,
-    int count,
+    @PositiveOrZero int count,
     boolean status
 ) {
   public CreateGatheringCommand toCommand() {
