@@ -11,3 +11,18 @@ X-User-ID: 사용자ID
   "count": 10,
   "status": true
 }
+
+
+### 게더링 생성 (모집인원이 0이하)
+POST http://localhost:19101/api/v1/gathering
+Content-Type: application/json
+X-User-Name: 사용자이름
+X-User-Role: USER
+X-User-ID: 사용자ID
+
+{
+  "organizationId": "org123",
+  "name": "모임 이름",
+  "count": 0,
+  "status": true
+}
