@@ -1,2 +1,3 @@
 rootProject.name = 'moim'
 include 'gathering'
+include 'session'
