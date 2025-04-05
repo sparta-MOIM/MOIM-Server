@@ -4,6 +4,7 @@ import com.sparta.moim.gathering.application.service.GatheringService;
 import com.sparta.moim.gathering.presentation.dto.request.CreateGatheringRequest;
 import com.sparta.moim.gathering.presentation.dto.request.UpdateGatheringRequest;
 import com.sparta.moim.gathering.presentation.dto.response.CreateGatheringResponse;
+import com.sparta.moim.gathering.presentation.dto.response.GetGatheringResponse;
 import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +34,8 @@ public class GatheringController {
   }
 
   @GetMapping("/{gatheringId}")
-  public void getGathering(@PathVariable UUID gatheringId) {
-
+  public GetGatheringResponse getGathering(@PathVariable UUID gatheringId) {
+    return GetGatheringResponse.get(gatheringService.getGathering(gatheringId));
   }
 
 
@@ -43,6 +44,7 @@ public class GatheringController {
     gatheringService.updateGathering(request.toCommand(gatheringId));
   }
 
+  //TODO:삭제는 common붙이고 테스트 해보겠음
   @DeleteMapping("/{gatheringId}")
   public void deleteGathering(@PathVariable UUID gatheringId) {
 

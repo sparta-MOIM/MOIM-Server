@@ -38,3 +38,11 @@ X-User-ID: 사용자ID
 {
   "status": false
 }
+
+
+### 게더링 조회
+GET http://localhost:19101/api/v1/gathering/698d418f-4a5d-4a63-a787-b51648cb0e60
+Content-Type: application/json
+X-User-Name: 사용자이름
+X-User-Role: USER
+X-User-ID: 사용자ID

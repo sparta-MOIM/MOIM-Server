@@ -3,6 +3,7 @@ package com.sparta.moim.gathering.application.service;
 import com.sparta.moim.gathering.application.dto.command.CreateGatheringCommand;
 import com.sparta.moim.gathering.application.dto.command.UpdateGatheringCommand;
 import com.sparta.moim.gathering.application.dto.query.CreateGatheringQuery;
+import com.sparta.moim.gathering.application.dto.query.GetGatheringQuery;
 import com.sparta.moim.gathering.domain.entity.Gathering;
 import com.sparta.moim.gathering.domain.entity.repository.GatheringRepository;
 import java.util.UUID;
@@ -25,5 +26,12 @@ public class GatheringService {
     Gathering gathering = gatheringRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Gathering with id " + id + " not found"));
     gathering.change(command.toDomain());
+  }
+
+  @Transactional(readOnly = true)
+  public GetGatheringQuery getGathering(UUID gatheringId) {
+    Gathering gathering = gatheringRepository.findById(gatheringId)
+        .orElseThrow(() -> new IllegalArgumentException("Gathering with id " + gatheringId + " not found"));
+    return GetGatheringQuery.get(gathering);
   }
 }
