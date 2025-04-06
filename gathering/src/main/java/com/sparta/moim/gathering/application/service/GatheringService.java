@@ -5,8 +5,11 @@ import com.sparta.moim.gathering.application.dto.command.DeleteGatheringCommand;
 import com.sparta.moim.gathering.application.dto.command.UpdateGatheringCommand;
 import com.sparta.moim.gathering.application.dto.query.CreateGatheringQuery;
 import com.sparta.moim.gathering.application.dto.query.GetGatheringQuery;
+import com.sparta.moim.gathering.application.dto.query.SearchGatheringListQuery;
+import com.sparta.moim.gathering.application.dto.query.SearchGatheringQuery;
 import com.sparta.moim.gathering.domain.entity.Gathering;
 import com.sparta.moim.gathering.domain.repository.GatheringRepository;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -42,5 +45,11 @@ public class GatheringService {
     Gathering gathering = gatheringRepository.findById(gatheringId)
         .orElseThrow(() -> new IllegalArgumentException("Gathering with id " + gatheringId + " not found"));
     gathering.softDelete(command.username());
+  }
+
+  @Transactional(readOnly = true)
+  public SearchGatheringQuery searchGathering() {
+    List<Gathering> gatherings = gatheringRepository.findAll();
+    return SearchGatheringQuery.search(gatherings.stream().map(SearchGatheringListQuery::new).toList(), 0, 0, 0);
   }
 }

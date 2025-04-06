@@ -7,6 +7,7 @@ import com.sparta.moim.gathering.presentation.dto.request.CreateGatheringRequest
 import com.sparta.moim.gathering.presentation.dto.request.UpdateGatheringRequest;
 import com.sparta.moim.gathering.presentation.dto.response.CreateGatheringResponse;
 import com.sparta.moim.gathering.presentation.dto.response.GetGatheringResponse;
+import com.sparta.moim.gathering.presentation.dto.response.SearchGatheringResponse;
 import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +33,8 @@ public class GatheringController {
   }
 
   @GetMapping
-  public void searchGathering() {
-
+  public SearchGatheringResponse searchGathering() {
+    return SearchGatheringResponse.search(gatheringService.searchGathering());
   }
 
   @GetMapping("/{gatheringId}")
