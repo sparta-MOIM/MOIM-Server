@@ -10,9 +10,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.gathering.application.dto.command.CreateGatheringCommand;
 import com.sparta.moim.gathering.application.dto.query.CreateGatheringQuery;
 import com.sparta.moim.gathering.application.dto.query.GetGatheringQuery;
+import com.sparta.moim.gathering.application.dto.query.SearchGatheringListQuery;
+import com.sparta.moim.gathering.application.dto.query.SearchGatheringQuery;
 import com.sparta.moim.gathering.application.service.GatheringService;
 import com.sparta.moim.gathering.presentation.dto.request.UpdateGatheringRequest;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -144,5 +147,49 @@ class GatheringControllerTest {
             .header("X-User-Role", "USER")
             .header("X-User-ID", UUID.randomUUID().toString()))
         .andExpect(status().isOk());
+  }
+
+  @Test
+  @DisplayName("게더링 목록 조회 성공")
+  void getGatheringList_success() throws Exception {
+    // given
+    SearchGatheringQuery response = new SearchGatheringQuery(
+        List.of(
+            SearchGatheringListQuery
+                .builder()
+                .gatheringId(UUID.randomUUID())
+                .organizationId("org123")
+                .count(5)
+                .name("테스트 모임 1")
+                .build(),
+            SearchGatheringListQuery
+                .builder()
+                .gatheringId(UUID.randomUUID())
+                .organizationId("org123")
+                .count(10)
+                .name("테스트 모임 2")
+                .build()
+        ), 0, 0, 0
+    );
+
+    when(gatheringService.searchGathering())
+        .thenReturn(response);
+
+    // when & then
+    mockMvc.perform(get("/api/v1/gathering")
+            .param("page", "0")
+            .param("size", "10")
+            .header("X-User-Name", "테스트유저")
+            .header("X-User-Role", "USER")
+            .header("X-User-ID", UUID.randomUUID().toString()))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.gatherings").isArray())
+        .andExpect(jsonPath("$.gatherings.length()").value(2))
+        .andExpect(jsonPath("$.gatherings[0].organizationId").value("org123"))
+        .andExpect(jsonPath("$.gatherings[0].name").value("테스트 모임 1"))
+        .andExpect(jsonPath("$.gatherings[1].name").value("테스트 모임 2"))
+        .andExpect(jsonPath("$.page").value(0))
+        .andExpect(jsonPath("$.content").value(0))
+        .andExpect(jsonPath("$.total").value(0));
   }
 }
