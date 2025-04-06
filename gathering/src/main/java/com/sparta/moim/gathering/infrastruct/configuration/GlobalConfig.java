@@ -14,14 +14,4 @@ import org.springframework.context.annotation.Import;
     GlobalSecurityConfig.class,
     GlobalSecurityContextFilter.class
 })
-public class GlobalConfig {
-//  @Bean
-//  public UserDetailsService userDetailsService() {
-//    UserDetails user = User.withUsername("user")
-//        .password("{noop}password")  // {noop}는 암호화 없이 사용
-//        .roles("USER")
-//        .build();
-//
-//    return new InMemoryUserDetailsManager(user);
-//  }
-}
+public class GlobalConfig {}
