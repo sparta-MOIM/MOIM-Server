@@ -1,10 +1,12 @@
 package com.sparta.moim.gathering.domain.entity;
 
+import com.sparta.moim.common.utils.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +17,7 @@ import lombok.Setter;
 @Setter
 @Table(name = "p_gathering")
 @NoArgsConstructor
-public class Gathering {
+public class Gathering extends BaseEntity {
 
   @Id
   @GeneratedValue
@@ -48,6 +50,10 @@ public class Gathering {
     this.owner = owner;
     this.count = count;
     this.status = status;
+    this.createdDateTime = LocalDateTime.now();
+    this.createdBy = "d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76";
+    this.modifiedDateTime = LocalDateTime.now();
+    this.modifiedBy = "d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76";
   }
 
   public void change(Gathering updatedGathering) {

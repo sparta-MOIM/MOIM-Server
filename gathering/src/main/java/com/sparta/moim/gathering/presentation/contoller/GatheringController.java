@@ -44,9 +44,8 @@ public class GatheringController {
     gatheringService.updateGathering(request.toCommand(gatheringId));
   }
 
-  //TODO:삭제는 common붙이고 테스트 해보겠음
   @DeleteMapping("/{gatheringId}")
   public void deleteGathering(@PathVariable UUID gatheringId) {
-
+    gatheringService.deleteGathering(gatheringId);
   }
 }

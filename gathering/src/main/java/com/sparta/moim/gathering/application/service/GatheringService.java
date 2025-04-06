@@ -5,7 +5,7 @@ import com.sparta.moim.gathering.application.dto.command.UpdateGatheringCommand;
 import com.sparta.moim.gathering.application.dto.query.CreateGatheringQuery;
 import com.sparta.moim.gathering.application.dto.query.GetGatheringQuery;
 import com.sparta.moim.gathering.domain.entity.Gathering;
-import com.sparta.moim.gathering.domain.entity.repository.GatheringRepository;
+import com.sparta.moim.gathering.domain.repository.GatheringRepository;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,5 +33,12 @@ public class GatheringService {
     Gathering gathering = gatheringRepository.findById(gatheringId)
         .orElseThrow(() -> new IllegalArgumentException("Gathering with id " + gatheringId + " not found"));
     return GetGatheringQuery.get(gathering);
+  }
+
+  @Transactional
+  public void deleteGathering(UUID gatheringId) {
+    Gathering gathering = gatheringRepository.findById(gatheringId)
+        .orElseThrow(() -> new IllegalArgumentException("Gathering with id " + gatheringId + " not found"));
+    gathering.softDelete("삭제아이디");
   }
 }
