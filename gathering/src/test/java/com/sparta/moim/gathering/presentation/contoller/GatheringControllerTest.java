@@ -1,11 +1,19 @@
 package com.sparta.moim.gathering.presentation.contoller;
 
+import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.gathering.application.dto.command.CreateGatheringCommand;
@@ -26,6 +34,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -82,7 +91,30 @@ class GatheringControllerTest {
         .andExpect(jsonPath("$.name").value("테스트 모임"))
         .andExpect(jsonPath("$.owner").value("주인장"))
         .andExpect(jsonPath("$.count").value(10))
-        .andExpect(jsonPath("$.Status").value(true));
+        .andExpect(jsonPath("$.Status").value(true))
+        .andDo(document("소모임 - 생성",
+            preprocessRequest(Preprocessors.prettyPrint()),
+            preprocessResponse(Preprocessors.prettyPrint()),
+            resource(ResourceSnippetParameters.builder()
+                .tag("Gathering-External")
+                .summary("소모임 생성")
+                .description("소모임을 생성하기 위한 엔드포인트입니다.")
+                .requestFields(
+                    fieldWithPath("organizationId").description("모임 아이디"),
+                    fieldWithPath("name").description("소모임 명"),
+                    fieldWithPath("owner").description("소유자 명"),
+                    fieldWithPath("count").description("모집 인원"),
+                    fieldWithPath("status").description("모집 상태"))
+                .responseFields(
+                    fieldWithPath("gatheringId").description("소모임 아이디"),
+                    fieldWithPath("organizationId").description("모임 아이디"),
+                    fieldWithPath("name").description("소모임 명"),
+                    fieldWithPath("owner").description("소유자 명"),
+                    fieldWithPath("count").description("모집 인원"),
+                    fieldWithPath("Status").description("모집 상태")
+                )
+                .build()
+        )));
   }
 
   @Test
