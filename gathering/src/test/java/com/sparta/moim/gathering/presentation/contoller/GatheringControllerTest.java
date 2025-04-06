@@ -91,7 +91,7 @@ class GatheringControllerTest {
         .andExpect(jsonPath("$.name").value("테스트 모임"))
         .andExpect(jsonPath("$.owner").value("주인장"))
         .andExpect(jsonPath("$.count").value(10))
-        .andExpect(jsonPath("$.Status").value(true))
+        .andExpect(jsonPath("$.status").value(true))
         .andDo(document("소모임 - 생성",
             preprocessRequest(Preprocessors.prettyPrint()),
             preprocessResponse(Preprocessors.prettyPrint()),

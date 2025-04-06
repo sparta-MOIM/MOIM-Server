@@ -9,7 +9,7 @@ public record CreateGatheringQuery(
     String name,
     String owner,
     int count,
-    boolean Status
+    boolean status
 ) {
   public static CreateGatheringQuery create(Gathering gathering) {
     return new CreateGatheringQuery(gathering.getId(),
