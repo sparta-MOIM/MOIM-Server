@@ -1,5 +1,7 @@
 package com.sparta.moim.gathering.presentation.contoller;
 
+import com.sparta.moim.common.security.CustomUserDetails;
+import com.sparta.moim.gathering.application.dto.command.DeleteGatheringCommand;
 import com.sparta.moim.gathering.application.service.GatheringService;
 import com.sparta.moim.gathering.presentation.dto.request.CreateGatheringRequest;
 import com.sparta.moim.gathering.presentation.dto.request.UpdateGatheringRequest;
@@ -8,6 +10,7 @@ import com.sparta.moim.gathering.presentation.dto.response.GetGatheringResponse;
 import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,7 +48,8 @@ public class GatheringController {
   }
 
   @DeleteMapping("/{gatheringId}")
-  public void deleteGathering(@PathVariable UUID gatheringId) {
-    gatheringService.deleteGathering(gatheringId);
+  public void deleteGathering(@PathVariable UUID gatheringId,
+                              @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    gatheringService.deleteGathering(new DeleteGatheringCommand(gatheringId, customUserDetails));
   }
 }

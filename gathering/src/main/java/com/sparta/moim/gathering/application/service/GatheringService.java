@@ -1,6 +1,7 @@
 package com.sparta.moim.gathering.application.service;
 
 import com.sparta.moim.gathering.application.dto.command.CreateGatheringCommand;
+import com.sparta.moim.gathering.application.dto.command.DeleteGatheringCommand;
 import com.sparta.moim.gathering.application.dto.command.UpdateGatheringCommand;
 import com.sparta.moim.gathering.application.dto.query.CreateGatheringQuery;
 import com.sparta.moim.gathering.application.dto.query.GetGatheringQuery;
@@ -36,9 +37,10 @@ public class GatheringService {
   }
 
   @Transactional
-  public void deleteGathering(UUID gatheringId) {
+  public void deleteGathering(DeleteGatheringCommand command) {
+    UUID gatheringId = command.gatheringId();
     Gathering gathering = gatheringRepository.findById(gatheringId)
         .orElseThrow(() -> new IllegalArgumentException("Gathering with id " + gatheringId + " not found"));
-    gathering.softDelete("삭제아이디");
+    gathering.softDelete(command.username());
   }
 }
