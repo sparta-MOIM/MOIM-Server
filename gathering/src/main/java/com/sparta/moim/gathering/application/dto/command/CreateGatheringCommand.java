@@ -5,6 +5,7 @@ import com.sparta.moim.gathering.domain.entity.Gathering;
 public record CreateGatheringCommand(
     String organizationId,
     String name,
+    String owner,
     int count,
     boolean status
 ) {
@@ -13,7 +14,7 @@ public record CreateGatheringCommand(
     return Gathering.create(
         organizationId,
         name,
-        "생성아이디",
+        owner,
         count,
         status
 

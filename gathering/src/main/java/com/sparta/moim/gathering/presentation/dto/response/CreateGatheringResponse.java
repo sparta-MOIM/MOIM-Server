@@ -7,6 +7,7 @@ public record CreateGatheringResponse(
     UUID gatheringId,
     String organizationId,
     String name,
+    String owner,
     int count,
     boolean Status
 ) {
@@ -14,6 +15,7 @@ public record CreateGatheringResponse(
     return new CreateGatheringResponse(query.gatheringId(),
                                        query.organizationId(),
                                        query.name(),
+                                       query.owner(),
                                        query.count(),
                                        query.Status());
   }

@@ -44,6 +44,7 @@ class GatheringControllerTest {
     CreateGatheringCommand request = new CreateGatheringCommand(
         "org123",
         "테스트 모임",
+        "주인장",
         10,
         true
     );
@@ -52,6 +53,7 @@ class GatheringControllerTest {
         gatheringId,
         "org123",
         "테스트 모임",
+        "주인장",
         10,
         true
     );
@@ -69,6 +71,7 @@ class GatheringControllerTest {
         .andExpect(jsonPath("$.gatheringId").value(gatheringId.toString()))
         .andExpect(jsonPath("$.organizationId").value("org123"))
         .andExpect(jsonPath("$.name").value("테스트 모임"))
+        .andExpect(jsonPath("$.owner").value("주인장"))
         .andExpect(jsonPath("$.count").value(10))
         .andExpect(jsonPath("$.Status").value(true));
   }
