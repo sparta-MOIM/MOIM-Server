@@ -1,0 +1,57 @@
+### 게더링 생성
+POST http://localhost:19101/api/v1/gathering
+Content-Type: application/json
+X-User-Name: 사용자이름
+X-User-Role: USER
+X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76
+
+{
+  "organizationId": "org123",
+  "name": "모임 이름",
+  "owner": "주인장",
+  "count": 10,
+  "status": true
+}
+
+
+### 게더링 생성 (모집인원이 0이하)
+POST http://localhost:19101/api/v1/gathering
+Content-Type: application/json
+X-User-Name: 사용자이름
+X-User-Role: USER
+X-User-ID: 사용자ID
+
+{
+  "organizationId": "org123",
+  "name": "모임 이름",
+  "count": 0,
+  "status": true
+}
+
+
+### 게더링 수정
+PUT http://localhost:19101/api/v1/gathering/daee79b6-7603-47a1-8078-a1cc7b3afe7d
+Content-Type: application/json
+X-User-Name: 사용자이름
+X-User-Role: USER
+X-User-ID: 사용자ID
+
+{
+  "status": false
+}
+
+
+### 게더링 조회
+GET http://localhost:19101/api/v1/gathering/698d418f-4a5d-4a63-a787-b51648cb0e60
+Content-Type: application/json
+X-User-Name: 사용자이름
+X-User-Role: USER
+X-User-ID: 사용자ID
+
+
+### 게더링 삭제
+DELETE http://localhost:19101/api/v1/gathering/c94fad72-82b6-422c-82be-a55769b3e02c
+Content-Type: application/json
+X-User-Name: 사용자이름
+X-User-Role: USER
+X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76
