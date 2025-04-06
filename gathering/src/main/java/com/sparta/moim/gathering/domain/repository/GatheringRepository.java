@@ -1,4 +1,4 @@
-package com.sparta.moim.gathering.domain.entity.repository;
+package com.sparta.moim.gathering.domain.repository;
 
 import com.sparta.moim.gathering.domain.entity.Gathering;
 import java.util.Optional;
