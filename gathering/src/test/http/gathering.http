@@ -3,7 +3,7 @@ POST http://localhost:19101/api/v1/gathering
 Content-Type: application/json
 X-User-Name: 사용자이름
 X-User-Role: USER
-X-User-ID: 사용자ID
+X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76
 
 {
   "organizationId": "org123",
@@ -46,3 +46,11 @@ Content-Type: application/json
 X-User-Name: 사용자이름
 X-User-Role: USER
 X-User-ID: 사용자ID
+
+
+### 게더링 삭제
+DELETE http://localhost:19101/api/v1/gathering/c94fad72-82b6-422c-82be-a55769b3e02c
+Content-Type: application/json
+X-User-Name: 사용자이름
+X-User-Role: USER
+X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76

@@ -17,12 +17,14 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(GatheringController.class)
+@AutoConfigureMockMvc(addFilters = false)  // 시큐리티 필터 비활성화
 class GatheringControllerTest {
   @Autowired
   private MockMvc mockMvc;
@@ -125,5 +127,19 @@ class GatheringControllerTest {
         .andExpect(jsonPath("$.owner").value("테스트유저"))
         .andExpect(jsonPath("$.count").value(10))
         .andExpect(jsonPath("$.status").value(true));
+  }
+
+  @Test
+  @DisplayName("게더링 삭제 성공")
+  void deleteGathering_success() throws Exception {
+    // given
+    UUID gatheringId = UUID.randomUUID();
+
+    // when & then
+    mockMvc.perform(delete("/api/v1/gathering/{gatheringId}", gatheringId)
+            .header("X-User-Name", "테스트유저")
+            .header("X-User-Role", "USER")
+            .header("X-User-ID", UUID.randomUUID().toString()))
+        .andExpect(status().isOk());
   }
 }
