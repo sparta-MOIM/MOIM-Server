@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.gathering.application.dto.command.CreateGatheringCommand;
 import com.sparta.moim.gathering.application.dto.command.DeleteGatheringCommand;
 import com.sparta.moim.gathering.application.dto.query.CreateGatheringQuery;
@@ -25,6 +26,8 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -143,7 +146,15 @@ class GatheringControllerTest {
   void deleteGathering_success() throws Exception {
     // given
     UUID gatheringId = UUID.randomUUID();
+    UUID userId = UUID.randomUUID();
+    String username = "user1";
+    String role = "USER";
 
+    // SecurityContext에 인증 정보 설정
+    CustomUserDetails customUserDetails = new CustomUserDetails(username, role, userId);
+    SecurityContextHolder.getContext().setAuthentication(
+        new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities())
+    );
     // when & then
     mockMvc.perform(delete("/api/v1/gathering/{gatheringId}", gatheringId)
             .header("X-User-Name", "테스트유저")
