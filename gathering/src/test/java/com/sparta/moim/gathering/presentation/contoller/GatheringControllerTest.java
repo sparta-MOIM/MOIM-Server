@@ -19,6 +19,7 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.gathering.application.dto.command.CreateGatheringCommand;
+import com.sparta.moim.gathering.application.dto.command.SearchGatheringCommand;
 import com.sparta.moim.gathering.application.dto.query.CreateGatheringQuery;
 import com.sparta.moim.gathering.application.dto.query.GetGatheringQuery;
 import com.sparta.moim.gathering.application.dto.query.SearchGatheringListQuery;
@@ -26,6 +27,7 @@ import com.sparta.moim.gathering.application.dto.query.SearchGatheringQuery;
 import com.sparta.moim.gathering.application.service.GatheringService;
 import com.sparta.moim.gathering.presentation.dto.request.UpdateGatheringRequest;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
@@ -115,7 +117,7 @@ class GatheringControllerTest {
                     fieldWithPath("status").description("모집 상태")
                 )
                 .build()
-        )));
+            )));
   }
 
   @Test
@@ -249,54 +251,71 @@ class GatheringControllerTest {
   }
 
   @Test
-  @DisplayName("게더링 목록 조회 성공")
-  void getGatheringList_success() throws Exception {
+  @DisplayName("게더링 검색 성공")
+  void searchGathering_success() throws Exception {
     // given
-    SearchGatheringQuery response = new SearchGatheringQuery(
-        List.of(
-            SearchGatheringListQuery
-                .builder()
-                .gatheringId(UUID.randomUUID())
-                .organizationId("org123")
-                .count(5)
-                .name("테스트 모임 1")
-                .build(),
-            SearchGatheringListQuery
-                .builder()
-                .gatheringId(UUID.randomUUID())
-                .organizationId("org123")
-                .count(10)
-                .name("테스트 모임 2")
-                .build()
-        ), 0, 0, 0
+    UUID userId = UUID.randomUUID();
+    String username = "테스트유저";
+    String role = "USER";
+
+    // SecurityContext에 인증 정보 설정
+    CustomUserDetails customUserDetails = new CustomUserDetails(username, role, userId);
+    SecurityContextHolder.getContext().setAuthentication(
+        new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities())
     );
 
-    when(gatheringService.searchGathering())
+    List<SearchGatheringListQuery> gatherings = List.of(
+        new SearchGatheringListQuery(
+            UUID.randomUUID(),
+            "org123",
+            "스파르타 모임",
+            10,
+            true
+        )
+    );
+
+    SearchGatheringQuery response = SearchGatheringQuery.builder()
+        .gatherings(gatherings)
+        .page(0)
+        .content(1)
+        .total(1)
+        .build();
+
+    when(gatheringService.searchGathering(any()))
         .thenReturn(response);
 
     // when & then
     mockMvc.perform(get("/api/v1/gathering")
+            .param("organizationId", "org123")
+            .param("name", "스파르타")
+            .param("status", "true")
             .param("page", "0")
             .param("size", "10")
-            .header("X-User-Name", "테스트유저")
-            .header("X-User-Role", "USER")
-            .header("X-User-ID", UUID.randomUUID().toString()))
+            .header("X-User-Name", username)
+            .header("X-User-Role", role)
+            .header("X-User-ID", userId.toString()))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.gatherings").isArray())
-        .andExpect(jsonPath("$.gatherings.length()").value(2))
+        .andExpect(jsonPath("$.gatherings.length()").value(1))
         .andExpect(jsonPath("$.gatherings[0].organizationId").value("org123"))
-        .andExpect(jsonPath("$.gatherings[0].name").value("테스트 모임 1"))
-        .andExpect(jsonPath("$.gatherings[1].name").value("테스트 모임 2"))
+        .andExpect(jsonPath("$.gatherings[0].name").value("스파르타 모임"))
         .andExpect(jsonPath("$.page").value(0))
-        .andExpect(jsonPath("$.content").value(0))
-        .andExpect(jsonPath("$.total").value(0))
-        .andDo(document("소모임 검색 - 기본",
+        .andExpect(jsonPath("$.content").value(1))
+        .andExpect(jsonPath("$.total").value(1))
+        .andDo(document("소모임 - 기본 조회",
             preprocessRequest(Preprocessors.prettyPrint()),
             preprocessResponse(Preprocessors.prettyPrint()),
             resource(ResourceSnippetParameters.builder()
                 .tag("Gathering-External")
-                .summary("소모임 검색 - 기본")
-                .description("소모임을 검색합니다. 기본 설정은 최신순, 10개씩 페이징입니다.")
+                .summary("소모임 검색")
+                .description("소모임을 삭제하기 위한 엔드포인트입니다.")
+                .pathParameters(
+                    parameterWithName("organizationId").description("모임 아이디"),
+                    parameterWithName("name").description("소모임 명"),
+                    parameterWithName("status").description("모임 상태"),
+                    parameterWithName("page").description("현재 페이지"),
+                    parameterWithName("size").description("가져올 데이터 크기")
+                )
                 .build()
             )));
   }
