@@ -1,12 +1,23 @@
 package com.sparta.moim.gathering.presentation.contoller;
 
+import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.gathering.application.dto.command.CreateGatheringCommand;
 import com.sparta.moim.gathering.application.dto.query.CreateGatheringQuery;
 import com.sparta.moim.gathering.application.dto.query.GetGatheringQuery;
@@ -20,12 +31,17 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.operation.preprocess.Preprocessors;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+@AutoConfigureRestDocs
 @WebMvcTest(GatheringController.class)
 @AutoConfigureMockMvc(addFilters = false)  // 시큐리티 필터 비활성화
 class GatheringControllerTest {
@@ -76,7 +92,30 @@ class GatheringControllerTest {
         .andExpect(jsonPath("$.name").value("테스트 모임"))
         .andExpect(jsonPath("$.owner").value("주인장"))
         .andExpect(jsonPath("$.count").value(10))
-        .andExpect(jsonPath("$.Status").value(true));
+        .andExpect(jsonPath("$.status").value(true))
+        .andDo(document("소모임 - 생성",
+            preprocessRequest(Preprocessors.prettyPrint()),
+            preprocessResponse(Preprocessors.prettyPrint()),
+            resource(ResourceSnippetParameters.builder()
+                .tag("Gathering-External")
+                .summary("소모임 생성")
+                .description("소모임을 생성하기 위한 엔드포인트입니다.")
+                .requestFields(
+                    fieldWithPath("organizationId").description("모임 아이디"),
+                    fieldWithPath("name").description("소모임 명"),
+                    fieldWithPath("owner").description("소유자 명"),
+                    fieldWithPath("count").description("모집 인원"),
+                    fieldWithPath("status").description("모집 상태"))
+                .responseFields(
+                    fieldWithPath("gatheringId").description("소모임 아이디"),
+                    fieldWithPath("organizationId").description("모임 아이디"),
+                    fieldWithPath("name").description("소모임 명"),
+                    fieldWithPath("owner").description("소유자 명"),
+                    fieldWithPath("count").description("모집 인원"),
+                    fieldWithPath("status").description("모집 상태")
+                )
+                .build()
+        )));
   }
 
   @Test
@@ -97,7 +136,23 @@ class GatheringControllerTest {
             .header("X-User-Name", "테스트유저")
             .header("X-User-Role", "USER")
             .header("X-User-ID", UUID.randomUUID().toString()))
-        .andExpect(status().isOk());
+        .andExpect(status().isOk())
+        .andDo(document("소모임 - 수정",
+            preprocessRequest(Preprocessors.prettyPrint()),
+            preprocessResponse(Preprocessors.prettyPrint()),
+            resource(ResourceSnippetParameters.builder()
+                .tag("Gathering-External")
+                .summary("소모임 수정")
+                .description("소모임을 수정하기 위한 엔드포인트입니다.")
+                .pathParameters(
+                    parameterWithName("gatheringId").description("소모임 아이디")
+                )
+                .requestFields(
+                    fieldWithPath("name").description("소모임 명"),
+                    fieldWithPath("count").description("모집 인원"),
+                    fieldWithPath("status").description("모집 상태"))
+                .build()
+            )));
   }
 
   @Test
@@ -132,7 +187,31 @@ class GatheringControllerTest {
         .andExpect(jsonPath("$.name").value("테스트 모임"))
         .andExpect(jsonPath("$.owner").value("테스트유저"))
         .andExpect(jsonPath("$.count").value(10))
-        .andExpect(jsonPath("$.status").value(true));
+        .andExpect(jsonPath("$.status").value(true))
+        .andDo(document("소모임 - 단일 조회",
+            preprocessRequest(Preprocessors.prettyPrint()),
+            preprocessResponse(Preprocessors.prettyPrint()),
+            resource(ResourceSnippetParameters.builder()
+                .tag("Gathering-External")
+                .summary("소모임 단일 조회")
+                .description("소모임을 단일 조회하기 위한 엔드포인트입니다.")
+                .pathParameters(
+                    parameterWithName("gatheringId").description("소모임 아이디")
+                )
+                .responseFields(
+                    fieldWithPath("gatheringId").description("소모임 아이디"),
+                    fieldWithPath("organizationId").description("모임 아이디"),
+                    fieldWithPath("name").description("소모임 명"),
+                    fieldWithPath("owner").description("소유자 명"),
+                    fieldWithPath("count").description("모집 인원"),
+                    fieldWithPath("status").description("모집 상태"),
+                    fieldWithPath("createAt").description("생성시간"),
+                    fieldWithPath("createBy").description("생성자"),
+                    fieldWithPath("updateAt").description("수정시간"),
+                    fieldWithPath("updateBy").description("수정자")
+                )
+                .build()
+            )));
   }
 
   @Test
@@ -140,13 +219,33 @@ class GatheringControllerTest {
   void deleteGathering_success() throws Exception {
     // given
     UUID gatheringId = UUID.randomUUID();
+    UUID userId = UUID.randomUUID();
+    String username = "user1";
+    String role = "USER";
 
+    // SecurityContext에 인증 정보 설정
+    CustomUserDetails customUserDetails = new CustomUserDetails(username, role, userId);
+    SecurityContextHolder.getContext().setAuthentication(
+        new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities())
+    );
     // when & then
     mockMvc.perform(delete("/api/v1/gathering/{gatheringId}", gatheringId)
             .header("X-User-Name", "테스트유저")
             .header("X-User-Role", "USER")
             .header("X-User-ID", UUID.randomUUID().toString()))
-        .andExpect(status().isOk());
+        .andExpect(status().isOk())
+        .andDo(document("소모임 - 삭제",
+            preprocessRequest(Preprocessors.prettyPrint()),
+            preprocessResponse(Preprocessors.prettyPrint()),
+            resource(ResourceSnippetParameters.builder()
+                .tag("Gathering-External")
+                .summary("소모임 삭제")
+                .description("소모임을 삭제하기 위한 엔드포인트입니다.")
+                .pathParameters(
+                    parameterWithName("gatheringId").description("소모임 아이디")
+                )
+                .build()
+            )));
   }
 
   @Test
@@ -190,6 +289,15 @@ class GatheringControllerTest {
         .andExpect(jsonPath("$.gatherings[1].name").value("테스트 모임 2"))
         .andExpect(jsonPath("$.page").value(0))
         .andExpect(jsonPath("$.content").value(0))
-        .andExpect(jsonPath("$.total").value(0));
+        .andExpect(jsonPath("$.total").value(0))
+        .andDo(document("소모임 검색 - 기본",
+            preprocessRequest(Preprocessors.prettyPrint()),
+            preprocessResponse(Preprocessors.prettyPrint()),
+            resource(ResourceSnippetParameters.builder()
+                .tag("Gathering-External")
+                .summary("소모임 검색 - 기본")
+                .description("소모임을 검색합니다. 기본 설정은 최신순, 10개씩 페이징입니다.")
+                .build()
+            )));
   }
 }

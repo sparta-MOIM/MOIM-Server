@@ -9,7 +9,7 @@ public record CreateGatheringResponse(
     String name,
     String owner,
     int count,
-    boolean Status
+    boolean status
 ) {
   public static CreateGatheringResponse create(CreateGatheringQuery query) {
     return new CreateGatheringResponse(query.gatheringId(),
@@ -17,6 +17,6 @@ public record CreateGatheringResponse(
                                        query.name(),
                                        query.owner(),
                                        query.count(),
-                                       query.Status());
+                                       query.status());
   }
 }
