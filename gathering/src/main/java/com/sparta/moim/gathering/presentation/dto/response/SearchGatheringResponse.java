@@ -5,7 +5,7 @@ import java.util.List;
 
 public record SearchGatheringResponse(
     List<SearchGatheringListResponse> gatherings,
-    int total,
+    long total,
     int page,
     int content
 ) {

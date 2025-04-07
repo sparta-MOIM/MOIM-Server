@@ -1,7 +1,9 @@
 package com.sparta.moim.gathering.application.dto.command;
 
 import com.sparta.moim.gathering.domain.entity.Gathering;
+import lombok.Builder;
 
+@Builder
 public record CreateGatheringCommand(
     String organizationId,
     String name,

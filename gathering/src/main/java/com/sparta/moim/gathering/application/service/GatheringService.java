@@ -1,7 +1,9 @@
 package com.sparta.moim.gathering.application.service;
 
+import com.sparta.moim.common.page.Pagination;
 import com.sparta.moim.gathering.application.dto.command.CreateGatheringCommand;
 import com.sparta.moim.gathering.application.dto.command.DeleteGatheringCommand;
+import com.sparta.moim.gathering.application.dto.command.SearchGatheringCommand;
 import com.sparta.moim.gathering.application.dto.command.UpdateGatheringCommand;
 import com.sparta.moim.gathering.application.dto.query.CreateGatheringQuery;
 import com.sparta.moim.gathering.application.dto.query.GetGatheringQuery;
@@ -9,7 +11,7 @@ import com.sparta.moim.gathering.application.dto.query.SearchGatheringListQuery;
 import com.sparta.moim.gathering.application.dto.query.SearchGatheringQuery;
 import com.sparta.moim.gathering.domain.entity.Gathering;
 import com.sparta.moim.gathering.domain.repository.GatheringRepository;
-import java.util.List;
+import com.sparta.moim.gathering.domain.repository.GatheringRepositoryCustom;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class GatheringService {
   private final GatheringRepository gatheringRepository;
+  private final GatheringRepositoryCustom gatheringRepositoryCustom;
 
   public CreateGatheringQuery createGathering(CreateGatheringCommand command) {
     return CreateGatheringQuery.create(gatheringRepository.save(command.toEntity()));
@@ -48,8 +51,9 @@ public class GatheringService {
   }
 
   @Transactional(readOnly = true)
-  public SearchGatheringQuery searchGathering() {
-    List<Gathering> gatherings = gatheringRepository.findAll();
-    return SearchGatheringQuery.search(gatherings.stream().map(SearchGatheringListQuery::new).toList(), 0, 0, 0);
+  public SearchGatheringQuery searchGathering(SearchGatheringCommand command) {
+    Pagination<Gathering> gatherings = gatheringRepositoryCustom.searchGathering(command.toCriteria());
+    return SearchGatheringQuery.search(gatherings.getContent().stream().map(SearchGatheringListQuery::new).toList(),
+        gatherings.getTotal(), gatherings.getPage(), gatherings.getContent().size());
   }
 }
