@@ -7,9 +7,11 @@ import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -17,7 +19,6 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.gathering.application.dto.command.CreateGatheringCommand;
-import com.sparta.moim.gathering.application.dto.command.DeleteGatheringCommand;
 import com.sparta.moim.gathering.application.dto.query.CreateGatheringQuery;
 import com.sparta.moim.gathering.application.dto.query.GetGatheringQuery;
 import com.sparta.moim.gathering.application.dto.query.SearchGatheringListQuery;
@@ -111,7 +112,7 @@ class GatheringControllerTest {
                     fieldWithPath("name").description("소모임 명"),
                     fieldWithPath("owner").description("소유자 명"),
                     fieldWithPath("count").description("모집 인원"),
-                    fieldWithPath("Status").description("모집 상태")
+                    fieldWithPath("status").description("모집 상태")
                 )
                 .build()
         )));
@@ -151,7 +152,7 @@ class GatheringControllerTest {
                     fieldWithPath("count").description("모집 인원"),
                     fieldWithPath("status").description("모집 상태"))
                 .build()
-            )));;
+            )));
   }
 
   @Test
@@ -192,7 +193,7 @@ class GatheringControllerTest {
             preprocessResponse(Preprocessors.prettyPrint()),
             resource(ResourceSnippetParameters.builder()
                 .tag("Gathering-External")
-                .summary("소모임 딘일 조회")
+                .summary("소모임 단일 조회")
                 .description("소모임을 단일 조회하기 위한 엔드포인트입니다.")
                 .pathParameters(
                     parameterWithName("gatheringId").description("소모임 아이디")
