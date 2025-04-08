@@ -24,12 +24,18 @@ public class GatheringService {
   private final GatheringRepositoryCustom gatheringRepositoryCustom;
 
   public CreateGatheringResult createGathering(CreateGatheringCommand command) {
+    if (gatheringRepository.existsByNameAndDeletedByIsNull(command.name())) {
+      throw new IllegalArgumentException("Gathering name already exists");
+    }
     return CreateGatheringResult.create(gatheringRepository.save(command.toEntity()));
   }
 
   @Transactional
   public void updateGathering(UpdateGatheringCommand command) {
     UUID id = command.gatheringId();
+    if (gatheringRepository.existsByNameAndDeletedByIsNullAndIdNot(command.name(), command.gatheringId())) {
+      throw new IllegalArgumentException("Gathering name already exists");
+    }
     Gathering gathering = gatheringRepository.findByTrackingId(id)
         .orElseThrow(() -> new IllegalArgumentException("Gathering with id " + id + " not found"));
     gathering.change(command.toDomain());
