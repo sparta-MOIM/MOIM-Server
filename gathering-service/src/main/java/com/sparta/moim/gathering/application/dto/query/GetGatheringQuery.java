@@ -18,7 +18,7 @@ public record GetGatheringQuery(
 ) {
   public static GetGatheringQuery get(Gathering gathering) {
     return new GetGatheringQuery(
-        gathering.getId(),
+        gathering.getTrackingId(),
         gathering.getOrganizationId(),
         gathering.getName(),
         gathering.getOwner(),

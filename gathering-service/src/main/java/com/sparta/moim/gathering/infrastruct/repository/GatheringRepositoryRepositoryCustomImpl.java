@@ -23,7 +23,7 @@ public class GatheringRepositoryRepositoryCustomImpl implements GatheringReposit
   public Pagination<Gathering> searchGathering(SearchGatheringCriteria criteria) {
     String username = criteria.username();
     String role = criteria.role();
-    List<UUID> gatheringIds = findGatheringIds(username, role);
+    List<Long> gatheringIds = findGatheringIds(username, role);
 
     List<Gathering> content = query.select(gathering)
         .where(
@@ -74,11 +74,11 @@ public class GatheringRepositoryRepositoryCustomImpl implements GatheringReposit
     return isDeleted;
   }
 
-  private Predicate nullCheckGatheringId(List<UUID> gatheringIds) {
+  private Predicate nullCheckGatheringId(List<Long> gatheringIds) {
     return gatheringIds == null ? null : gathering.id.in(gatheringIds);
   }
 
-  private List<UUID> findGatheringIds(String username, String role) {
+  private List<Long> findGatheringIds(String username, String role) {
     if (role == null || "USER".equals(role)) {
       return null;
     }

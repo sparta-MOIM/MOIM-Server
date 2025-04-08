@@ -13,7 +13,7 @@ public record SearchGatheringListQuery(
     boolean status
 ) {
   public SearchGatheringListQuery(Gathering gathering) {
-    this(gathering.getId(), gathering.getOrganizationId(), gathering.getName(), gathering.getCount(),
+    this(gathering.getTrackingId(), gathering.getOrganizationId(), gathering.getName(), gathering.getCount(),
         gathering.getStatus());
   }
 }

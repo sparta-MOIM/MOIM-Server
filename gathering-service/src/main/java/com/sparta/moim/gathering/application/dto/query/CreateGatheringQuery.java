@@ -12,7 +12,7 @@ public record CreateGatheringQuery(
     boolean status
 ) {
   public static CreateGatheringQuery create(Gathering gathering) {
-    return new CreateGatheringQuery(gathering.getId(),
+    return new CreateGatheringQuery(gathering.getTrackingId(),
                                     gathering.getOrganizationId(),
                                     gathering.getName(),
                                     gathering.getOwner(),
