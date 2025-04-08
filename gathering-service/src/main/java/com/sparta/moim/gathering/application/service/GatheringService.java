@@ -29,14 +29,14 @@ public class GatheringService {
 
   @Transactional
   public void updateGathering(UpdateGatheringCommand command) {
-    UUID id = command.gatheringId();
+    Long id = command.gatheringId();
     Gathering gathering = gatheringRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Gathering with id " + id + " not found"));
     gathering.change(command.toDomain());
   }
 
   @Transactional(readOnly = true)
-  public GetGatheringQuery getGathering(UUID gatheringId) {
+  public GetGatheringQuery getGathering(Long gatheringId) {
     Gathering gathering = gatheringRepository.findById(gatheringId)
         .orElseThrow(() -> new IllegalArgumentException("Gathering with id " + gatheringId + " not found"));
     return GetGatheringQuery.get(gathering);
@@ -44,7 +44,7 @@ public class GatheringService {
 
   @Transactional
   public void deleteGathering(DeleteGatheringCommand command) {
-    UUID gatheringId = command.gatheringId();
+    Long gatheringId = command.gatheringId();
     Gathering gathering = gatheringRepository.findById(gatheringId)
         .orElseThrow(() -> new IllegalArgumentException("Gathering with id " + gatheringId + " not found"));
     gathering.softDelete(command.username());

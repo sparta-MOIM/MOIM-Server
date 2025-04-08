@@ -1,12 +1,11 @@
 package com.sparta.moim.gathering.application.dto.query;
 
 import com.sparta.moim.gathering.domain.entity.Gathering;
-import java.util.UUID;
 import lombok.Builder;
 
 @Builder
 public record SearchGatheringListQuery(
-    UUID gatheringId,
+    Long gatheringId,
     String organizationId,
     String name,
     int count,

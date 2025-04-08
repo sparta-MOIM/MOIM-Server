@@ -59,7 +59,7 @@ class GatheringControllerTest {
   @DisplayName("게더링 생성 성공")
   void createGathering_success() throws Exception {
     // given
-    UUID gatheringId = UUID.randomUUID();
+    Long gatheringId = 1L;
     CreateGatheringCommand request = new CreateGatheringCommand(
         "org123",
         "테스트 모임",
@@ -122,7 +122,7 @@ class GatheringControllerTest {
   @DisplayName("게더링 수정 성공")
   void updateGathering_success() throws Exception {
     // given
-    UUID gatheringId = UUID.randomUUID();
+    Long gatheringId = 1L;
     UpdateGatheringRequest request = new UpdateGatheringRequest(
         "수정된 모임 이름",
         20,
@@ -159,7 +159,7 @@ class GatheringControllerTest {
   @DisplayName("게더링 단일 조회 성공")
   void getGathering_success() throws Exception {
     // given
-    UUID gatheringId = UUID.randomUUID();
+    Long gatheringId = 1L;
     GetGatheringQuery response = new GetGatheringQuery(
         gatheringId,
         "org123",
@@ -218,7 +218,7 @@ class GatheringControllerTest {
   @DisplayName("게더링 삭제 성공")
   void deleteGathering_success() throws Exception {
     // given
-    UUID gatheringId = UUID.randomUUID();
+    Long gatheringId = 1L;
     UUID userId = UUID.randomUUID();
     String username = "user1";
     String role = "USER";
@@ -264,7 +264,7 @@ class GatheringControllerTest {
 
     List<SearchGatheringListQuery> gatherings = List.of(
         new SearchGatheringListQuery(
-            UUID.randomUUID(),
+            1L,
             "org123",
             "스파르타 모임",
             10,
@@ -285,10 +285,10 @@ class GatheringControllerTest {
     // when & then
     mockMvc.perform(get("/api/v1/gathering")
             .param("name", "스파르타")
-            .param("isDeleted","false")
-            .param("startTime",LocalDateTime.now().toString())
-            .param("endTime",LocalDateTime.now().toString())
-            .param("sort","createdAt")
+            .param("isDeleted", "false")
+            .param("startTime", LocalDateTime.now().toString())
+            .param("endTime", LocalDateTime.now().toString())
+            .param("sort", "createdAt")
             .param("status", "true")
             .param("page", "0")
             .param("size", "10")

@@ -11,7 +11,7 @@ public record UpdateGatheringRequest(
     @PositiveOrZero int count,
     @NotNull Boolean status
 ) {
-  public UpdateGatheringCommand toCommand(UUID gatheringId) {
+  public UpdateGatheringCommand toCommand(Long gatheringId) {
     return new UpdateGatheringCommand(gatheringId, name, count, status);
   }
 }

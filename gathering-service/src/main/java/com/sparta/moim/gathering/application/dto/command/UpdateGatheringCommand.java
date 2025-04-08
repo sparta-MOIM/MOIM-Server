@@ -4,7 +4,7 @@ import com.sparta.moim.gathering.domain.entity.Gathering;
 import java.util.UUID;
 
 public record UpdateGatheringCommand(
-    UUID gatheringId,
+    Long gatheringId,
     String name,
     int count,
     Boolean status) {
