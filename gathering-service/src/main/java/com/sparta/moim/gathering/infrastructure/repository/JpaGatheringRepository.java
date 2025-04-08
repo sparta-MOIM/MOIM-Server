@@ -1,4 +1,4 @@
-package com.sparta.moim.gathering.infrastruct.repository;
+package com.sparta.moim.gathering.infrastructure.repository;
 
 import com.sparta.moim.gathering.domain.entity.Gathering;
 import com.sparta.moim.gathering.domain.repository.GatheringRepository;
