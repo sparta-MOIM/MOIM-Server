@@ -1,5 +1,6 @@
 package com.sparta.moim.common.config;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sparta.moim.common.utils.UserAuditorAware;
 import jakarta.persistence.EntityManager;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -18,9 +19,9 @@ public class JpaConfig {
 		return new UserAuditorAware();
 	}
 
-//	@Bean
-//	JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
-//		return new JPAQueryFactory(entityManager);
-//	}
+	@Bean
+	JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
+		return new JPAQueryFactory(entityManager);
+	}
 
 }
