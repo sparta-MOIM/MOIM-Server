@@ -1,6 +1,6 @@
 package com.sparta.moim.gathering.presentation.dto.response;
 
-import com.sparta.moim.gathering.application.dto.query.CreateGatheringQuery;
+import com.sparta.moim.gathering.application.dto.result.CreateGatheringResult;
 import java.util.UUID;
 
 public record CreateGatheringResponse(
@@ -11,7 +11,7 @@ public record CreateGatheringResponse(
     int count,
     boolean status
 ) {
-  public static CreateGatheringResponse create(CreateGatheringQuery query) {
+  public static CreateGatheringResponse create(CreateGatheringResult query) {
     return new CreateGatheringResponse(query.gatheringId(),
                                        query.organizationId(),
                                        query.name(),

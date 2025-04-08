@@ -19,10 +19,10 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.gathering.application.dto.command.CreateGatheringCommand;
-import com.sparta.moim.gathering.application.dto.query.CreateGatheringQuery;
-import com.sparta.moim.gathering.application.dto.query.GetGatheringQuery;
-import com.sparta.moim.gathering.application.dto.query.SearchGatheringListQuery;
-import com.sparta.moim.gathering.application.dto.query.SearchGatheringQuery;
+import com.sparta.moim.gathering.application.dto.result.CreateGatheringResult;
+import com.sparta.moim.gathering.application.dto.result.GetGatheringResult;
+import com.sparta.moim.gathering.application.dto.result.SearchGatheringListResult;
+import com.sparta.moim.gathering.application.dto.result.SearchGatheringResult;
 import com.sparta.moim.gathering.application.service.GatheringService;
 import com.sparta.moim.gathering.presentation.dto.request.UpdateGatheringRequest;
 import java.time.LocalDateTime;
@@ -68,7 +68,7 @@ class GatheringControllerTest {
         true
     );
 
-    CreateGatheringQuery response = new CreateGatheringQuery(
+    CreateGatheringResult response = new CreateGatheringResult(
         gatheringId,
         "org123",
         "테스트 모임",
@@ -160,7 +160,7 @@ class GatheringControllerTest {
   void getGathering_success() throws Exception {
     // given
     UUID gatheringId = UUID.randomUUID();
-    GetGatheringQuery response = new GetGatheringQuery(
+    GetGatheringResult response = new GetGatheringResult(
         gatheringId,
         "org123",
         "테스트 모임",
@@ -262,8 +262,8 @@ class GatheringControllerTest {
         new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities())
     );
 
-    List<SearchGatheringListQuery> gatherings = List.of(
-        new SearchGatheringListQuery(
+    List<SearchGatheringListResult> gatherings = List.of(
+        new SearchGatheringListResult(
             UUID.randomUUID(),
             "org123",
             "스파르타 모임",
@@ -272,7 +272,7 @@ class GatheringControllerTest {
         )
     );
 
-    SearchGatheringQuery response = SearchGatheringQuery.builder()
+    SearchGatheringResult response = SearchGatheringResult.builder()
         .gatherings(gatherings)
         .page(0)
         .content(1)

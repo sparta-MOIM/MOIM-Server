@@ -1,10 +1,10 @@
-package com.sparta.moim.gathering.application.dto.query;
+package com.sparta.moim.gathering.application.dto.result;
 
 import com.sparta.moim.gathering.domain.entity.Gathering;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record GetGatheringQuery(
+public record GetGatheringResult(
     UUID gatheringId,
     String organizationId,
     String name,
@@ -16,8 +16,8 @@ public record GetGatheringQuery(
     LocalDateTime updateAt,
     String updateBy
 ) {
-  public static GetGatheringQuery get(Gathering gathering) {
-    return new GetGatheringQuery(
+  public static GetGatheringResult get(Gathering gathering) {
+    return new GetGatheringResult(
         gathering.getTrackingId(),
         gathering.getOrganizationId(),
         gathering.getName(),

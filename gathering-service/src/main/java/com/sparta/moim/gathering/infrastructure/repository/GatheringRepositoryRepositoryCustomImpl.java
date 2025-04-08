@@ -1,4 +1,4 @@
-package com.sparta.moim.gathering.infrastruct.repository;
+package com.sparta.moim.gathering.infrastructure.repository;
 
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -9,7 +9,6 @@ import com.sparta.moim.gathering.domain.entity.QGathering;
 import com.sparta.moim.gathering.domain.repository.GatheringRepositoryCustom;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

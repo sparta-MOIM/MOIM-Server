@@ -5,10 +5,10 @@ import com.sparta.moim.gathering.application.dto.command.CreateGatheringCommand;
 import com.sparta.moim.gathering.application.dto.command.DeleteGatheringCommand;
 import com.sparta.moim.gathering.application.dto.command.SearchGatheringCommand;
 import com.sparta.moim.gathering.application.dto.command.UpdateGatheringCommand;
-import com.sparta.moim.gathering.application.dto.query.CreateGatheringQuery;
-import com.sparta.moim.gathering.application.dto.query.GetGatheringQuery;
-import com.sparta.moim.gathering.application.dto.query.SearchGatheringListQuery;
-import com.sparta.moim.gathering.application.dto.query.SearchGatheringQuery;
+import com.sparta.moim.gathering.application.dto.result.CreateGatheringResult;
+import com.sparta.moim.gathering.application.dto.result.GetGatheringResult;
+import com.sparta.moim.gathering.application.dto.result.SearchGatheringListResult;
+import com.sparta.moim.gathering.application.dto.result.SearchGatheringResult;
 import com.sparta.moim.gathering.domain.entity.Gathering;
 import com.sparta.moim.gathering.domain.repository.GatheringRepository;
 import com.sparta.moim.gathering.domain.repository.GatheringRepositoryCustom;
@@ -23,8 +23,8 @@ public class GatheringService {
   private final GatheringRepository gatheringRepository;
   private final GatheringRepositoryCustom gatheringRepositoryCustom;
 
-  public CreateGatheringQuery createGathering(CreateGatheringCommand command) {
-    return CreateGatheringQuery.create(gatheringRepository.save(command.toEntity()));
+  public CreateGatheringResult createGathering(CreateGatheringCommand command) {
+    return CreateGatheringResult.create(gatheringRepository.save(command.toEntity()));
   }
 
   @Transactional
@@ -36,10 +36,10 @@ public class GatheringService {
   }
 
   @Transactional(readOnly = true)
-  public GetGatheringQuery getGathering(UUID gatheringId) {
+  public GetGatheringResult getGathering(UUID gatheringId) {
     Gathering gathering = gatheringRepository.findByTrackingId(gatheringId)
         .orElseThrow(() -> new IllegalArgumentException("Gathering with id " + gatheringId + " not found"));
-    return GetGatheringQuery.get(gathering);
+    return GetGatheringResult.get(gathering);
   }
 
   @Transactional
@@ -51,9 +51,9 @@ public class GatheringService {
   }
 
   @Transactional(readOnly = true)
-  public SearchGatheringQuery searchGathering(SearchGatheringCommand command) {
+  public SearchGatheringResult searchGathering(SearchGatheringCommand command) {
     Pagination<Gathering> gatherings = gatheringRepositoryCustom.searchGathering(command.toCriteria());
-    return SearchGatheringQuery.search(gatherings.getContent().stream().map(SearchGatheringListQuery::new).toList(),
+    return SearchGatheringResult.search(gatherings.getContent().stream().map(SearchGatheringListResult::new).toList(),
         gatherings.getTotal(), gatherings.getPage(), gatherings.getContent().size());
   }
 }

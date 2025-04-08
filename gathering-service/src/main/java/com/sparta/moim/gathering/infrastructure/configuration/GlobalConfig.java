@@ -1,4 +1,4 @@
-package com.sparta.moim.gathering.infrastruct.configuration;
+package com.sparta.moim.gathering.infrastructure.configuration;
 
 import com.sparta.moim.common.config.JpaConfig;
 import com.sparta.moim.common.config.PropertyConfig;
