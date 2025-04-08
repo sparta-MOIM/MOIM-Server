@@ -9,14 +9,14 @@ import lombok.Getter;
 @Builder(access = AccessLevel.PRIVATE)
 public class GetOrganizationQuery {
 
-    private String organizationUuid;
+    private String organizationTrackingId;
     private String organizationName;
     private String description;
     private Integer memberCount;
 
     public static GetOrganizationQuery from(Organization organization) {
         return GetOrganizationQuery.builder()
-                .organizationUuid(organization.getTrackingId().toString())
+                .organizationTrackingId(organization.getTrackingId().toString())
                 .organizationName(organization.getOrganizationName())
                 .description(organization.getDescription())
                 .memberCount(organization.getOrganizationOrganizationMembers().size())

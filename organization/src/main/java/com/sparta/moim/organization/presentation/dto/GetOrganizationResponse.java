@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class GetOrganizationResponse {
-    private String organizationUuid;
+    private String organizationTrackingId;
     private String organizationName;
     private String description;
     private Integer memberCount;
