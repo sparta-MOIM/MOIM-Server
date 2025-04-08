@@ -1,9 +1,9 @@
-package com.sparta.moim.gathering.application.dto.query;
+package com.sparta.moim.gathering.application.dto.result;
 
 import com.sparta.moim.gathering.domain.entity.Gathering;
 import java.util.UUID;
 
-public record CreateGatheringQuery(
+public record CreateGatheringResult(
     UUID gatheringId,
     String organizationId,
     String name,
@@ -11,8 +11,8 @@ public record CreateGatheringQuery(
     int count,
     boolean status
 ) {
-  public static CreateGatheringQuery create(Gathering gathering) {
-    return new CreateGatheringQuery(gathering.getTrackingId(),
+  public static CreateGatheringResult create(Gathering gathering) {
+    return new CreateGatheringResult(gathering.getTrackingId(),
                                     gathering.getOrganizationId(),
                                     gathering.getName(),
                                     gathering.getOwner(),

@@ -1,6 +1,6 @@
 package com.sparta.moim.gathering.presentation.dto.response;
 
-import com.sparta.moim.gathering.application.dto.query.SearchGatheringListQuery;
+import com.sparta.moim.gathering.application.dto.result.SearchGatheringListResult;
 import java.util.UUID;
 
 public record SearchGatheringListResponse(
@@ -10,7 +10,7 @@ public record SearchGatheringListResponse(
     int count,
     boolean status
 ) {
-  public SearchGatheringListResponse(SearchGatheringListQuery query) {
+  public SearchGatheringListResponse(SearchGatheringListResult query) {
     this(query.gatheringId(), query.organizationId(), query.name(), query.count(), query.status());
   }
 }
