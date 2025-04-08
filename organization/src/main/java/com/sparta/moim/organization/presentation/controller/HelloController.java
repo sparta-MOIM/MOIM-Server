@@ -1,4 +1,4 @@
-package com.sparta.moim.organization.presentation;
+package com.sparta.moim.organization.presentation.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

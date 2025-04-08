@@ -39,6 +39,12 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
     implementation project(':common')
+
+    //MapStruct 의존성
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+    annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+
 }
 
 dependencyManagement {
