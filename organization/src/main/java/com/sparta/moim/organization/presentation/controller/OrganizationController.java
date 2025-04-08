@@ -6,17 +6,19 @@ import com.sparta.moim.organization.presentation.dto.CreateOrganizationRequest;
 import com.sparta.moim.organization.presentation.mapper.DtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/organization")
+@RequestMapping("/api/v1/organizations")
 @RequiredArgsConstructor
 public class OrganizationController {
 
     private final CreateOrganizationUseCase createOrganizationUseCase;
     private final DtoMapper dtoMapper;
 
+    @PostMapping
     public ResponseEntity<ApiResponseData<String>> createOrganization(
         CreateOrganizationRequest request) {
         createOrganizationUseCase.execute(dtoMapper.toCommand(request));
