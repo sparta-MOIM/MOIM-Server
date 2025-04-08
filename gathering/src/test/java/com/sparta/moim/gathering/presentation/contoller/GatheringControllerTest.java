@@ -309,8 +309,12 @@ class GatheringControllerTest {
                 .queryParameters(
                     parameterWithName("name").description("소모임 명"),
                     parameterWithName("status").description("모임 상태"),
+                    parameterWithName("isDeleted").description("삭제 여부"),
+                    parameterWithName("startTime").description("검색 시작 시간"),
+                    parameterWithName("endTime").description("검색 종료 시간"),
                     parameterWithName("page").description("현재 페이지"),
-                    parameterWithName("size").description("가져올 데이터 크기")
+                    parameterWithName("size").description("가져올 데이터 크기"),
+                    parameterWithName("sort").description("정렬 기준")
                 )
                 .build()
             )));

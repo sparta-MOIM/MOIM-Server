@@ -55,7 +55,7 @@ public class GatheringRepositoryRepositoryCustomImpl implements GatheringReposit
   }
 
   private static Boolean isActiveUser(Boolean isDeleted, String role) {
-    if (role.equals("USER")) {
+    if ("USER".equals(role)) {
       isDeleted = false;
     }
     return isDeleted;
