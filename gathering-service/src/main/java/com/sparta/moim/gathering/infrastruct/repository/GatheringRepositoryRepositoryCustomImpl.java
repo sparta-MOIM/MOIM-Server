@@ -7,6 +7,7 @@ import com.sparta.moim.gathering.domain.dto.criteria.SearchGatheringCriteria;
 import com.sparta.moim.gathering.domain.entity.Gathering;
 import com.sparta.moim.gathering.domain.entity.QGathering;
 import com.sparta.moim.gathering.domain.repository.GatheringRepositoryCustom;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class GatheringRepositoryRepositoryCustomImpl implements GatheringReposit
         .where(
             nullCheckGatheringId(gatheringIds),
             gathering.status.eq(criteria.status()),
-            gathering.createdDateTime.between(criteria.startTime(), criteria.endTime()),
+            nullCheckStartTime(criteria.startTime(), criteria.endTime()),
             nullCheckGatheringDeleted(criteria.isDeleted(), criteria.role())
         )
         .from(gathering)
@@ -41,11 +42,19 @@ public class GatheringRepositoryRepositoryCustomImpl implements GatheringReposit
         .where(
             nullCheckGatheringId(gatheringIds),
             gathering.status.eq(criteria.status()),
-            gathering.createdDateTime.between(criteria.startTime(), criteria.endTime()),
+            nullCheckStartTime(criteria.startTime(),criteria.endTime()),
             nullCheckGatheringDeleted(criteria.isDeleted(), criteria.role()))
         .from(gathering).fetchOne();
 
     return Pagination.of(criteria.page(), criteria.size(), total != null ? total : 0, content);
+  }
+
+  private Predicate nullCheckStartTime(LocalDateTime startTime, LocalDateTime endTime) {
+    if (startTime == null) {
+      return null;
+    }
+
+    return gathering.createdDateTime.between(startTime, endTime);
   }
 
   // 삭제 여부

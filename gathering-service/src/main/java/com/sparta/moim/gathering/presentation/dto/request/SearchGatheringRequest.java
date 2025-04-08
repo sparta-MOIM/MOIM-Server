@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public record SearchGatheringRequest(
     String name, // 이름
-    boolean status, // 상태
+    Boolean status, // 상태
     Boolean isDeleted, // 삭제여부
     LocalDateTime startTime, // 시작 시간
     LocalDateTime endTime, // 종료 시간
@@ -16,8 +16,8 @@ public record SearchGatheringRequest(
   public SearchGatheringRequest {
     page = page == null ? 0 : page;
     size = size == null ? 10 : size;
-    sort = sort == null ? "createdAt" : sort;
-    startTime = startTime == null ? LocalDateTime.now() : startTime;
+    sort = sort == null ? "createdDateTime" : sort;
+    status = status == null || status;
   }
 
   public SearchGatheringCommand toCommand(CustomUserDetails details) {

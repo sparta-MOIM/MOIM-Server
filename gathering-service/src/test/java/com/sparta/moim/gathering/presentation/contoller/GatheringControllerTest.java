@@ -285,6 +285,10 @@ class GatheringControllerTest {
     // when & then
     mockMvc.perform(get("/api/v1/gathering")
             .param("name", "스파르타")
+            .param("isDeleted","false")
+            .param("startTime",LocalDateTime.now().toString())
+            .param("endTime",LocalDateTime.now().toString())
+            .param("sort","CreateDateTime")
             .param("status", "true")
             .param("page", "0")
             .param("size", "10")
@@ -307,14 +311,14 @@ class GatheringControllerTest {
                 .summary("소모임 검색")
                 .description("소모임을 검색하기 위한 엔드포인트입니다.")
                 .queryParameters(
-                    parameterWithName("name").description("소모임 명"),
-                    parameterWithName("status").description("모임 상태"),
-                    parameterWithName("isDeleted").description("삭제 여부"),
-                    parameterWithName("startTime").description("검색 시작 시간"),
-                    parameterWithName("endTime").description("검색 종료 시간"),
-                    parameterWithName("page").description("현재 페이지"),
-                    parameterWithName("size").description("가져올 데이터 크기"),
-                    parameterWithName("sort").description("정렬 기준")
+                    parameterWithName("name").description("소모임 명").optional(),
+                    parameterWithName("status").description("모임 상태").optional(),
+                    parameterWithName("isDeleted").description("삭제 여부").optional(),
+                    parameterWithName("startTime").description("검색 시작 시간").optional(),
+                    parameterWithName("endTime").description("검색 종료 시간").optional(),
+                    parameterWithName("page").description("현재 페이지").optional(),
+                    parameterWithName("size").description("가져올 데이터 크기").optional(),
+                    parameterWithName("sort").description("정렬 기준").optional()
                 )
                 .build()
             )));
