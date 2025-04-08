@@ -288,7 +288,7 @@ class GatheringControllerTest {
             .param("isDeleted","false")
             .param("startTime",LocalDateTime.now().toString())
             .param("endTime",LocalDateTime.now().toString())
-            .param("sort","CreateDateTime")
+            .param("sort","createdAt")
             .param("status", "true")
             .param("page", "0")
             .param("size", "10")

@@ -35,7 +35,7 @@ public class GatheringRepositoryRepositoryCustomImpl implements GatheringReposit
         .from(gathering)
         .offset((long) criteria.page() * criteria.size())
         .limit(criteria.size())
-        .orderBy(gathering.createdDateTime.desc())
+        .orderBy(gathering.createdAt.desc())
         .fetch();
 
     Long total = query.select(gathering.count())
@@ -58,7 +58,7 @@ public class GatheringRepositoryRepositoryCustomImpl implements GatheringReposit
       return null;
     }
 
-    return gathering.createdDateTime.between(startTime, endTime);
+    return gathering.createdAt.between(startTime, endTime);
   }
 
   // 삭제 여부
