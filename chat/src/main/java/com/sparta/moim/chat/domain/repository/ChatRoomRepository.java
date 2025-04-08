@@ -8,5 +8,5 @@ public interface ChatRoomRepository {
   Optional<ChatRoom> save(ChatRoom chatRoom);
   List<ChatRoom> readChatRooms(Long organization_id);
 
-  ChatRoom findById(Long chat_room_id);
+  Optional<ChatRoom> findById(Long chat_room_id);
 }

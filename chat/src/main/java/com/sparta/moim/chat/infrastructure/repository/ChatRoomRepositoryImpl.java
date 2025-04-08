@@ -21,12 +21,13 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
 
   @Override
   public List<ChatRoom> readChatRooms(Long organization_id){
-    return jpaChatRoomRepository.findAllByOrganizationIdAndDeletedByIsNullOrderByCreatedDateTime(organization_id);
+    return jpaChatRoomRepository.findAllByOrganizationIdAndDeletedByIsNullOrderByCreatedAt(organization_id);
   }
 
   @Override
-  public ChatRoom findById(Long chat_room_id){
-    return jpaChatRoomRepository.findByIdAndDeletedByIsNull(chat_room_id).orElseThrow(()-> new BaseException("해당 채팅방을 찾지 못하였습니다."));
+  public Optional<ChatRoom> findById(Long chat_room_id){
+    return Optional.ofNullable(jpaChatRoomRepository.findByIdAndDeletedByIsNull(chat_room_id)
+        .orElseThrow(() -> new BaseException("해당 채팅방을 찾지 못하였습니다.")));
   }
 
 

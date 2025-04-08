@@ -26,7 +26,7 @@ public class ChatRoomController {
 
   private final ChatRoomDomainService chatRoomDomainService;
 
-  //채팅방 생성하기, 관리자만 가능
+  // 채팅방 생성하기, 관리자만 가능
   @PostMapping("")
   public ResponseEntity<ApiResponseData<String>> createChatRoom(@RequestBody ChatRoomRequestDTO chatRoomRequestDTO){
 
@@ -42,7 +42,7 @@ public class ChatRoomController {
     return ResponseEntity.ok().body(ApiResponseData.of(Code.SUCCESS.getCode(), "채팅방 조회가 성공적으로 완료되었습니다.",chatRoomDomainService.readChatRooms(organization_id)));
   }
 
-  //채팅방 수정하기 - 채팅방 이름만 수정 가능함
+  // 채팅방 수정하기 - 채팅방 이름만 수정 가능함
   @PutMapping("/{chat_room_id}")
   public ResponseEntity<ApiResponseData<String>> updateChatRoom(@PathVariable("chat_room_id") Long chat_room_id,
                                                                 @RequestBody ChatRoomRequestDTO chatRoomRequestDTO){
@@ -50,11 +50,11 @@ public class ChatRoomController {
     return ResponseEntity.ok().body(ApiResponseData.of(Code.SUCCESS.getCode(), "채팅방 수정을 성공하였습니다.",null));
   }
 
+  // 채팅방 삭제하기
   @DeleteMapping("/{chat_room_id}")
   public ResponseEntity<ApiResponseData<String>> deleteChatRoom(@PathVariable("chat_room_id") Long chat_room_id){
     chatRoomDomainService.deleteChatRoom(chat_room_id);
     return ResponseEntity.ok().body(ApiResponseData.of(Code.SUCCESS.getCode(), "채팅방 삭제를 성공하였습니다.",null));
-
   }
 
 }
