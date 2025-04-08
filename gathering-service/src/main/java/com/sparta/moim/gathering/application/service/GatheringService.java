@@ -36,14 +36,14 @@ public class GatheringService {
     if (gatheringRepository.existsByNameAndDeletedByIsNullAndIdNot(command.name(), command.gatheringId())) {
       throw new IllegalArgumentException("Gathering name already exists");
     }
-    Gathering gathering = gatheringRepository.findByTrackingId(id)
+    Gathering gathering = gatheringRepository.findByTrackingIdAndDeletedByIsNull(id)
         .orElseThrow(() -> new IllegalArgumentException("Gathering with id " + id + " not found"));
     gathering.change(command.toDomain());
   }
 
   @Transactional(readOnly = true)
   public GetGatheringResult getGathering(UUID gatheringId) {
-    Gathering gathering = gatheringRepository.findByTrackingId(gatheringId)
+    Gathering gathering = gatheringRepository.findByTrackingIdAndDeletedByIsNull(gatheringId)
         .orElseThrow(() -> new IllegalArgumentException("Gathering with id " + gatheringId + " not found"));
     return GetGatheringResult.get(gathering);
   }
@@ -51,7 +51,7 @@ public class GatheringService {
   @Transactional
   public void deleteGathering(DeleteGatheringCommand command) {
     UUID gatheringId = command.gatheringId();
-    Gathering gathering = gatheringRepository.findByTrackingId(gatheringId)
+    Gathering gathering = gatheringRepository.findByTrackingIdAndDeletedByIsNull(gatheringId)
         .orElseThrow(() -> new IllegalArgumentException("Gathering with id " + gatheringId + " not found"));
     gathering.softDelete(command.username());
   }
