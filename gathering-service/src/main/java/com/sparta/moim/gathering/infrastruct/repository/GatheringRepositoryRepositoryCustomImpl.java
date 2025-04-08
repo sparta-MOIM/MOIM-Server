@@ -42,7 +42,7 @@ public class GatheringRepositoryRepositoryCustomImpl implements GatheringReposit
         .where(
             nullCheckGatheringId(gatheringIds),
             gathering.status.eq(criteria.status()),
-            nullCheckStartTime(criteria.startTime(),criteria.endTime()),
+            nullCheckStartTime(criteria.startTime(), criteria.endTime()),
             nullCheckGatheringDeleted(criteria.isDeleted(), criteria.role()))
         .from(gathering).fetchOne();
 
@@ -50,6 +50,10 @@ public class GatheringRepositoryRepositoryCustomImpl implements GatheringReposit
   }
 
   private Predicate nullCheckStartTime(LocalDateTime startTime, LocalDateTime endTime) {
+    if (endTime == null) {
+      endTime = LocalDateTime.now();
+    }
+
     if (startTime == null) {
       return null;
     }

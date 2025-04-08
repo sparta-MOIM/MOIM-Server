@@ -7,7 +7,7 @@ X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76
 
 {
   "organizationId": "org123",
-  "name": "모임 이름2",
+  "name": "모임 이름5",
   "owner": "주인장",
   "count": 10,
   "status": true
@@ -23,7 +23,7 @@ X-User-ID: 사용자ID
 
 {
   "organizationId": "org123",
-  "name": "모임 이름",
+  "name": "모임 이름5",
   "count": 0,
   "status": true
 }
