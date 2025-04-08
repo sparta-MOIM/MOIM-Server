@@ -15,8 +15,9 @@ public record SearchGatheringRequest(
 ) {
   public SearchGatheringRequest {
     page = page == null ? 0 : page;
-    size = size == null ? 0 : size;
+    size = size == null ? 10 : size;
     sort = sort == null ? "createdAt" : sort;
+    startTime = startTime == null ? LocalDateTime.now() : startTime;
   }
 
   public SearchGatheringCommand toCommand(CustomUserDetails details) {

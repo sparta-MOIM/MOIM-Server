@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class GatheringRepositoryRepositoryCustom implements GatheringRepositoryCustom {
+public class GatheringRepositoryRepositoryCustomImpl implements GatheringRepositoryCustom {
   private final JPAQueryFactory query;
   private final QGathering gathering = QGathering.gathering;
 
@@ -29,15 +29,17 @@ public class GatheringRepositoryRepositoryCustom implements GatheringRepositoryC
             nullCheckGatheringId(gatheringIds),
             gathering.status.eq(criteria.status()),
             gathering.createdDateTime.between(criteria.startTime(), criteria.endTime()),
-            nullCheckGatheringDeleted(criteria.isDeleted(), criteria.role()))
+            nullCheckGatheringDeleted(criteria.isDeleted(), criteria.role())
+        )
         .from(gathering)
-        .offset((long) (criteria.page() - 1) * criteria.size())
+        .offset((long) criteria.page() * criteria.size())
         .limit(criteria.size())
+        .orderBy(gathering.createdDateTime.desc())
         .fetch();
 
     Long total = query.select(gathering.count())
         .where(
-            gathering.id.in(gatheringIds),
+            nullCheckGatheringId(gatheringIds),
             gathering.status.eq(criteria.status()),
             gathering.createdDateTime.between(criteria.startTime(), criteria.endTime()),
             nullCheckGatheringDeleted(criteria.isDeleted(), criteria.role()))
@@ -64,8 +66,7 @@ public class GatheringRepositoryRepositoryCustom implements GatheringRepositoryC
   }
 
   private List<UUID> findGatheringIds(String username, String role) {
-    // role타입이 유저 정보가 아니면 조회하지 않는다.
-    if (!role.equals("USER")) {
+    if (role == null || "USER".equals(role)) {
       return null;
     }
 

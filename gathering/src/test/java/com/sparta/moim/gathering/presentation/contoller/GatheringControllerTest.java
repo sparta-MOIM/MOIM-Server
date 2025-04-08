@@ -19,7 +19,6 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.gathering.application.dto.command.CreateGatheringCommand;
-import com.sparta.moim.gathering.application.dto.command.SearchGatheringCommand;
 import com.sparta.moim.gathering.application.dto.query.CreateGatheringQuery;
 import com.sparta.moim.gathering.application.dto.query.GetGatheringQuery;
 import com.sparta.moim.gathering.application.dto.query.SearchGatheringListQuery;
@@ -27,7 +26,6 @@ import com.sparta.moim.gathering.application.dto.query.SearchGatheringQuery;
 import com.sparta.moim.gathering.application.service.GatheringService;
 import com.sparta.moim.gathering.presentation.dto.request.UpdateGatheringRequest;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
@@ -286,7 +284,6 @@ class GatheringControllerTest {
 
     // when & then
     mockMvc.perform(get("/api/v1/gathering")
-            .param("organizationId", "org123")
             .param("name", "스파르타")
             .param("status", "true")
             .param("page", "0")
@@ -308,9 +305,8 @@ class GatheringControllerTest {
             resource(ResourceSnippetParameters.builder()
                 .tag("Gathering-External")
                 .summary("소모임 검색")
-                .description("소모임을 삭제하기 위한 엔드포인트입니다.")
-                .pathParameters(
-                    parameterWithName("organizationId").description("모임 아이디"),
+                .description("소모임을 검색하기 위한 엔드포인트입니다.")
+                .queryParameters(
                     parameterWithName("name").description("소모임 명"),
                     parameterWithName("status").description("모임 상태"),
                     parameterWithName("page").description("현재 페이지"),

@@ -58,8 +58,7 @@ X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76
 
 
 ### 게더링 검색
-GET http://localhost:19101/api/v1/gathering
-Content-Type: application/json
-X-User-Name: 사용자이름
+GET http://localhost:19101/api/v1/gathering?status=true
+X-User-Name: 테스트유저
 X-User-Role: USER
-X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76
+X-User-ID: 550e8400-e29b-41d4-a716-446655440000
