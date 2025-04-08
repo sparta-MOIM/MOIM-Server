@@ -19,7 +19,7 @@ POST http://localhost:19101/api/v1/gathering
 Content-Type: application/json
 X-User-Name: 사용자이름
 X-User-Role: USER
-X-User-ID: 사용자ID
+X-User-ID: 550e8400-e29b-41d4-a716-446655440000
 
 {
   "organizationId": "org123",
@@ -30,11 +30,11 @@ X-User-ID: 사용자ID
 
 
 ### 게더링 수정
-PUT http://localhost:19101/api/v1/gathering/daee79b6-7603-47a1-8078-a1cc7b3afe7d
+PUT http://localhost:19101/api/v1/gathering/7af12059-8279-4000-82c2-358083f9e8f6
 Content-Type: application/json
 X-User-Name: 사용자이름
 X-User-Role: USER
-X-User-ID: 사용자ID
+X-User-ID: 550e8400-e29b-41d4-a716-446655440000
 
 {
   "status": false
@@ -42,15 +42,15 @@ X-User-ID: 사용자ID
 
 
 ### 게더링 조회
-GET http://localhost:19101/api/v1/gathering/698d418f-4a5d-4a63-a787-b51648cb0e60
+GET http://localhost:19101/api/v1/gathering/88cd4965-9cb3-4a66-8a73-04b360e56da1
 Content-Type: application/json
 X-User-Name: 사용자이름
 X-User-Role: USER
-X-User-ID: 사용자ID
+X-User-ID: 550e8400-e29b-41d4-a716-446655440000
 
 
 ### 게더링 삭제
-DELETE http://localhost:19101/api/v1/gathering/c94fad72-82b6-422c-82be-a55769b3e02c
+DELETE http://localhost:19101/api/v1/gathering/7af12059-8279-4000-82c2-358083f9e8f6
 Content-Type: application/json
 X-User-Name: 사용자이름
 X-User-Role: USER

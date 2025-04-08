@@ -40,18 +40,18 @@ public class GatheringController {
   }
 
   @GetMapping("/{gatheringId}")
-  public GetGatheringResponse getGathering(@PathVariable Long gatheringId) {
+  public GetGatheringResponse getGathering(@PathVariable UUID gatheringId) {
     return GetGatheringResponse.get(gatheringService.getGathering(gatheringId));
   }
 
 
   @PutMapping("/{gatheringId}")
-  public void updateGathering(@PathVariable Long gatheringId, @RequestBody @Valid UpdateGatheringRequest request) {
+  public void updateGathering(@PathVariable UUID gatheringId, @RequestBody @Valid UpdateGatheringRequest request) {
     gatheringService.updateGathering(request.toCommand(gatheringId));
   }
 
   @DeleteMapping("/{gatheringId}")
-  public void deleteGathering(@PathVariable Long gatheringId,
+  public void deleteGathering(@PathVariable UUID gatheringId,
                               @AuthenticationPrincipal CustomUserDetails customUserDetails) {
     gatheringService.deleteGathering(new DeleteGatheringCommand(gatheringId, customUserDetails));
   }

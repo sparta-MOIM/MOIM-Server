@@ -4,7 +4,7 @@ import com.sparta.moim.gathering.domain.entity.Gathering;
 import java.util.UUID;
 
 public record CreateGatheringQuery(
-    Long gatheringId,
+    UUID gatheringId,
     String organizationId,
     String name,
     String owner,
@@ -12,7 +12,7 @@ public record CreateGatheringQuery(
     boolean status
 ) {
   public static CreateGatheringQuery create(Gathering gathering) {
-    return new CreateGatheringQuery(gathering.getId(),
+    return new CreateGatheringQuery(gathering.getTrackingId(),
                                     gathering.getOrganizationId(),
                                     gathering.getName(),
                                     gathering.getOwner(),

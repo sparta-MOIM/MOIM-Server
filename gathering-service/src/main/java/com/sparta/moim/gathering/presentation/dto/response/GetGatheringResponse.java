@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record GetGatheringResponse(
-    Long gatheringId,
+    UUID gatheringId,
     String organizationId,
     String name,
     String owner,

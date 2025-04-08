@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record GetGatheringQuery(
-    Long gatheringId,
+    UUID gatheringId,
     String organizationId,
     String name,
     String owner,
@@ -18,7 +18,7 @@ public record GetGatheringQuery(
 ) {
   public static GetGatheringQuery get(Gathering gathering) {
     return new GetGatheringQuery(
-        gathering.getId(),
+        gathering.getTrackingId(),
         gathering.getOrganizationId(),
         gathering.getName(),
         gathering.getOwner(),

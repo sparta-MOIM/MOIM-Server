@@ -4,7 +4,7 @@ import com.sparta.moim.gathering.application.dto.query.SearchGatheringListQuery;
 import java.util.UUID;
 
 public record SearchGatheringListResponse(
-    Long gatheringId,
+    UUID gatheringId,
     String organizationId,
     String name,
     int count,

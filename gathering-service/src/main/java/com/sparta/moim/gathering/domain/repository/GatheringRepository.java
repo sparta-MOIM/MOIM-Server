@@ -6,5 +6,5 @@ import java.util.UUID;
 
 public interface GatheringRepository {
   Gathering save(Gathering gathering);
-  Optional<Gathering> findById(Long id);
+  Optional<Gathering> findByTrackingId(UUID id);
 }
