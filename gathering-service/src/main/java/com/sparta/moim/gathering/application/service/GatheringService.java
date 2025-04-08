@@ -14,11 +14,13 @@ import com.sparta.moim.gathering.domain.repository.GatheringRepository;
 import com.sparta.moim.gathering.domain.repository.GatheringRepositoryCustom;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class GatheringService {
   private final GatheringRepository gatheringRepository;
   private final GatheringRepositoryCustom gatheringRepositoryCustom;
@@ -36,6 +38,7 @@ public class GatheringService {
     if (gatheringRepository.existsByNameAndDeletedByIsNullAndIdNot(command.name(), command.gatheringId())) {
       throw new IllegalArgumentException("Gathering name already exists");
     }
+    log.info("Updating gathering with id {}", id);
     Gathering gathering = gatheringRepository.findByTrackingIdAndDeletedByIsNull(id)
         .orElseThrow(() -> new IllegalArgumentException("Gathering with id " + id + " not found"));
     gathering.change(command.toDomain());
@@ -51,6 +54,7 @@ public class GatheringService {
   @Transactional
   public void deleteGathering(DeleteGatheringCommand command) {
     UUID gatheringId = command.gatheringId();
+    log.info("delete gathering with id {}", gatheringId);
     Gathering gathering = gatheringRepository.findByTrackingIdAndDeletedByIsNull(gatheringId)
         .orElseThrow(() -> new IllegalArgumentException("Gathering with id " + gatheringId + " not found"));
     gathering.softDelete(command.username());
