@@ -13,8 +13,8 @@ public record GetGatheringResponse(
     boolean status,
     LocalDateTime createAt,
     String createBy,
-    LocalDateTime updateAt,
-    String updateBy
+    LocalDateTime modifiedAt,
+    String modifiedBy
 ) {
   public static GetGatheringResponse get(GetGatheringResult query) {
     return new GetGatheringResponse(query.gatheringId(),
@@ -25,8 +25,8 @@ public record GetGatheringResponse(
         query.status(),
         query.createAt(),
         query.createBy(),
-        query.updateAt(),
-        query.updateBy()
+        query.modifiedAt(),
+        query.modifiedBy()
     );
   }
 }

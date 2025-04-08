@@ -42,7 +42,7 @@ X-User-ID: 550e8400-e29b-41d4-a716-446655440000
 
 
 ### 게더링 조회
-GET http://localhost:19101/api/v1/gathering/88cd4965-9cb3-4a66-8a73-04b360e56da1
+GET http://localhost:19101/api/v1/gathering/c73e1e95-df84-4be0-8f66-5f16449aefe2
 Content-Type: application/json
 X-User-Name: 사용자이름
 X-User-Role: USER

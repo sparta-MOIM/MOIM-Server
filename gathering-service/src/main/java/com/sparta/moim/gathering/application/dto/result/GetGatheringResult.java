@@ -13,8 +13,8 @@ public record GetGatheringResult(
     boolean status,
     LocalDateTime createAt,
     String createBy,
-    LocalDateTime updateAt,
-    String updateBy
+    LocalDateTime modifiedAt,
+    String modifiedBy
 ) {
   public static GetGatheringResult get(Gathering gathering) {
     return new GetGatheringResult(
@@ -24,10 +24,10 @@ public record GetGatheringResult(
         gathering.getOwner(),
         gathering.getCount(),
         gathering.getStatus(),
-        null,
-        null,
-        null,
-        null
+        gathering.getCreatedAt(),
+        gathering.getCreatedBy(),
+        gathering.getModifiedAt(),
+        gathering.getModifiedBy()
     );
   }
 }
