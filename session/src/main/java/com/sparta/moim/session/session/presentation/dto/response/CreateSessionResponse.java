@@ -14,7 +14,8 @@ public record CreateSessionResponse(
     int count,
     String status,
     LocalDateTime openTime,
-    LocalDateTime closeTime
+    LocalDateTime closeTime,
+    LocalDateTime applyTime
 ) {
   public static CreateSessionResponse create(CreateSessionResult result) {
     return CreateSessionResponse.builder()
@@ -24,6 +25,7 @@ public record CreateSessionResponse(
         .title(result.title())
         .count(result.count())
         .status(result.status().name())
+        .applyTime(result.applyTime())
         .openTime(result.openTime())
         .closeTime(result.closeTime())
         .build();

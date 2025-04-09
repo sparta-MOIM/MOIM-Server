@@ -15,7 +15,8 @@ public record CreateSessionResult(
     int count,
     SessionStatus status,
     LocalDateTime openTime,
-    LocalDateTime closeTime
+    LocalDateTime closeTime,
+    LocalDateTime applyTime
 ) {
   public static CreateSessionResult create(Session session) {
     return CreateSessionResult.builder()
@@ -27,6 +28,7 @@ public record CreateSessionResult(
         .status(session.getStatus())
         .openTime(session.getOpenTime())
         .closeTime(session.getCloseTime())
+        .applyTime(session.getApplyTime())
         .build();
   }
 }

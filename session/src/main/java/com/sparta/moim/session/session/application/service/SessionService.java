@@ -12,6 +12,8 @@ public class SessionService {
   private final SessionRepository sessionRepository;
 
   public CreateSessionResult createSession(CreateSessionCommand command) {
+    //TODO 이름은 중복이 될 수 없습니다.
+    //TODO reason은 공백이 될 수 없습니다. // 관리자가 생성하면 자동으로 생성되어집니다.
     return CreateSessionResult.create(sessionRepository.save(command.toDomain()));
   }
 

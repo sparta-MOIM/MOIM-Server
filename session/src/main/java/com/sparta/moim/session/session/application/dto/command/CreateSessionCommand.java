@@ -14,7 +14,8 @@ public record CreateSessionCommand(
     LocalDateTime openTime,
     LocalDateTime closeTime,
     String reason,
-    String publisher
+    String publisher,
+    String role
 ) {
   public Session toDomain() {
     return Session.builder()
@@ -24,7 +25,9 @@ public record CreateSessionCommand(
         .status(SessionStatus.valueOf(status))
         .openTime(openTime)
         .closeTime(closeTime)
-        .reason(reason == null ? "관리자가 생성한 세션입니다." : reason)
+        .applyTime(LocalDateTime.now())
+        .confirmTime(role.equals("USER") ? null : LocalDateTime.now())
+        .reason(reason)
         .publisher(publisher)
         .build();
   }

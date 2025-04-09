@@ -23,7 +23,8 @@ public record CreateSessionRequest(
         .status(role.equals("USER") ? "READY" : status)
         .openTime(openTime)
         .closeTime(closeTime)
-        .reason(applyInfo.reason())
+        .role(role)
+        .reason(role.equals("ADMIN") && applyInfo.reason() == null ? "관리자가 생성한 세션입니다." : applyInfo.reason())
         .publisher(publisher == null ? userId : publisher)
         .build();
   }
