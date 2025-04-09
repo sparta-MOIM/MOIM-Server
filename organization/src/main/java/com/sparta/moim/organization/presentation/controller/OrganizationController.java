@@ -1,12 +1,15 @@
 package com.sparta.moim.organization.presentation.controller;
 
+import com.sparta.moim.common.page.Pagination;
 import com.sparta.moim.common.response.ApiResponseData;
 import com.sparta.moim.organization.application.usecase.CreateOrganizationUseCase;
 import com.sparta.moim.organization.application.usecase.GetOrganizationUseCase;
 import com.sparta.moim.organization.presentation.dto.CreateOrganizationRequest;
 import com.sparta.moim.organization.presentation.dto.GetOrganizationResponse;
+import com.sparta.moim.organization.presentation.dto.GetOrganizationSummaryResponse;
 import com.sparta.moim.organization.presentation.mapper.CommandMapper;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -34,5 +38,13 @@ public class OrganizationController {
     @GetMapping("/{organizationTrackingId}")
     public ResponseEntity<ApiResponseData<GetOrganizationResponse>> getOrganization(@PathVariable String organizationTrackingId) {
         return ResponseEntity.ok(ApiResponseData.success(getOrganizationUseCase.execute(organizationTrackingId)));
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponseData<Pagination<GetOrganizationSummaryResponse>>> getOrganizationSummaryList(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ){
+        return ResponseEntity.ok(ApiResponseData.success(getOrganizationUseCase.execute(page, size)));
     }
 }

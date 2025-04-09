@@ -20,8 +20,10 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.annotations.Where;
 
 @Entity
+@Where(clause = "deleted_at IS NULL")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
@@ -41,7 +43,7 @@ public class OrganizationMember extends BaseEntity {
     @Column(name="user_tracking_id",length = 36, nullable = false, unique = true)
     private UUID userTrackingId;
 
-    @Column(nullable = false, length = 50, unique = true)
+    @Column(nullable = false, length = 50)
     private String nickname;
 
     @ManyToOne
