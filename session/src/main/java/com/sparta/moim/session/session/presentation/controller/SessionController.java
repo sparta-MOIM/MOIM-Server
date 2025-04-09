@@ -3,6 +3,7 @@ package com.sparta.moim.session.session.presentation.controller;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.session.session.application.service.SessionService;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionRequest;
+import com.sparta.moim.session.session.presentation.dto.request.UpdateSessionRequest;
 import com.sparta.moim.session.session.presentation.dto.response.CreateSessionResponse;
 import com.sparta.moim.session.session.presentation.dto.response.GetSessionResponse;
 import java.util.UUID;
@@ -43,8 +44,8 @@ public class SessionController {
 
 
   @PutMapping("/{sessionId}")
-  public void updateSession(@PathVariable String sessionId) {
-    sessionService.updateSession();
+  public void updateSession(@PathVariable UUID sessionId, @RequestBody UpdateSessionRequest request) {
+    sessionService.updateSession(request.toCommand(sessionId));
   }
 
   @PatchMapping("/{sessionId}")

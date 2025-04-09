@@ -43,7 +43,7 @@ public class Session {
   @Column(nullable = false, length = 100)
   private String publisher;
 
-  private int count;
+  private Integer count;
 
   private LocalDateTime openTime;
 
@@ -65,4 +65,9 @@ public class Session {
   @Column(length = 36, nullable = false, unique = true)
   private UUID trackingId;
 
+  public void update(Session updateSessionInfo) {
+    this.title = updateSessionInfo.title == null ? this.title : updateSessionInfo.title;
+    this.count = updateSessionInfo.count == null ? this.count : updateSessionInfo.count;
+    this.status = updateSessionInfo.status == null ? this.status : updateSessionInfo.status;
+  }
 }

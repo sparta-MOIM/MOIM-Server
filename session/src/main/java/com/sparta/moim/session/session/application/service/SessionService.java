@@ -1,6 +1,7 @@
 package com.sparta.moim.session.session.application.service;
 
 import com.sparta.moim.session.session.application.dto.command.CreateSessionCommand;
+import com.sparta.moim.session.session.application.dto.command.UpdateSessionCommand;
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import com.sparta.moim.session.session.domain.entity.Session;
@@ -32,7 +33,11 @@ public class SessionService {
 
   }
 
-  public void updateSession() {
+  @Transactional
+  public void updateSession(UpdateSessionCommand command) {
+    Session session = sessionRepository.findByTrackingId(command.sessionId())
+        .orElseThrow(() -> new IllegalArgumentException("Session not found"));
+    session.update(command.toDomain());
   }
 
   public void statusUpdateSession() {
