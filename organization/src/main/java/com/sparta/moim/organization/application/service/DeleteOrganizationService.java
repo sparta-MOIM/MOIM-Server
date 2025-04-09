@@ -4,6 +4,7 @@ import com.sparta.moim.organization.application.exception.CannotFindOrganization
 import com.sparta.moim.organization.application.exception.CannotFindOrganizationMember;
 import com.sparta.moim.organization.application.exception.OrganizationMasterRequiredException;
 import com.sparta.moim.organization.application.usecase.DeleteOrganizationUseCase;
+import com.sparta.moim.organization.application.util.CheckRole;
 import com.sparta.moim.organization.domain.entity.Organization;
 import com.sparta.moim.organization.domain.entity.OrganizationMember;
 import com.sparta.moim.organization.domain.enums.OrganizationMemberRole;
@@ -19,12 +20,13 @@ public class DeleteOrganizationService implements DeleteOrganizationUseCase {
 
     private final OrganizationRepository organizationRepository;
     private final OrganizationMemberRepository organizationMemberRepository;
+    private final CheckRole checkRole;
     @Override
     public void execute(String userTrackingId, String organizationTrackingId) {
 
         Organization organization = organizationRepository.findByTrackingId(organizationTrackingId)
                 .orElseThrow(CannotFindOrganization::new);
-        checkMaster(userTrackingId, organizationTrackingId); //todo-추후에 서비스 admin도 모임 삭제 허용해주어야함.
+        checkRole.checkMaster(userTrackingId, organizationTrackingId); //todo-추후에 서비스 admin도 모임 삭제 허용해주어야함.
         deleteOrganizationAndMembers(userTrackingId, organization);
     }
 
@@ -38,13 +40,5 @@ public class DeleteOrganizationService implements DeleteOrganizationUseCase {
         organizationRepository.save(organization);
         organizationMemberRepository.saveAll(members);
     }
-
-    private void checkMaster(String userTrackingId, String organizationTrackingId) {
-        OrganizationMember organizationMember = organizationMemberRepository.findByUserTrackingIdAndOrganizationTrackingId(
-                        userTrackingId, organizationTrackingId)
-                .orElseThrow(CannotFindOrganizationMember::new);
-        if(!OrganizationMemberRole.MASTER.equals(organizationMember.getRole())){
-            throw new OrganizationMasterRequiredException();
-        }
-    }
 }
+

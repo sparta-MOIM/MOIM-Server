@@ -2,6 +2,7 @@ package com.sparta.moim.organization.domain.entity;
 
 import com.sparta.moim.common.utils.BaseEntity;
 import com.sparta.moim.organization.application.dto.command.CreateOrganizationCommand;
+import com.sparta.moim.organization.application.dto.command.UpdateOrganizationCommand;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -48,6 +49,11 @@ public class Organization extends BaseEntity {
 
     @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY)
     private List<OrganizationMember> organizationOrganizationMembers;
+
+    public void updateFrom(UpdateOrganizationCommand updateOrganizationCommand) {
+        this.organizationName = updateOrganizationCommand.getUpdateOrganizationName();
+        this.description = updateOrganizationCommand.getUpdateDescription();
+    }
 
     public static Organization from(CreateOrganizationCommand command){
         return Organization.builder()
