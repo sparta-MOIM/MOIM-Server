@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
-public enum Code {
+public enum Code implements BaseError {
   /**
    * 성공
    * 200번대
