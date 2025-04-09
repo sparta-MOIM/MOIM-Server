@@ -1,6 +1,6 @@
 package com.moim.post.application;
 
-import com.moim.post.application.query.FindFeedQuery;
+import com.moim.post.application.query.FindQuery;
 import com.moim.post.application.query.SearchFeedQuery;
 import com.moim.post.application.usecase.PostQueryUseCase;
 import com.moim.post.domain.feed.Feed;
@@ -20,7 +20,7 @@ public class PostQueryService implements PostQueryUseCase {
   private final FeedQueryRepository feedRepository;
 
   @Override
-  public Feed findFeed(FindFeedQuery query) {
+  public Feed findFeed(FindQuery query) {
     // todo: 예외처리하기
     return feedRepository.findFeed(query.id()).orElseThrow(null);
   }

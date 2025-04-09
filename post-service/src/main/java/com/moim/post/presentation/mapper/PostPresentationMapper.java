@@ -2,7 +2,7 @@ package com.moim.post.presentation.mapper;
 
 import com.moim.post.application.command.CreateFeedCommand;
 import com.moim.post.application.command.CreateVoteCommand;
-import com.moim.post.application.query.FindFeedQuery;
+import com.moim.post.application.query.FindQuery;
 import com.moim.post.application.query.SearchFeedQuery;
 import com.moim.post.domain.feed.Feed;
 import com.moim.post.domain.vote.Vote;
@@ -29,7 +29,7 @@ public interface PostPresentationMapper {
   @Mapping(source = "period.end", target = "end")
   VoteResponse toResponse(Vote vote);
 
-  FindFeedQuery toQuery(UUID id);
+  FindQuery toQuery(UUID id);
 
   SearchFeedQuery toQuery(SearchFeedRequest request);
 }
