@@ -34,22 +34,22 @@ public class SessionController {
 
 
   @PutMapping("/{sessionId}")
-  public void updateSession() {
+  public void updateSession(@PathVariable String sessionId) {
     sessionService.updateSession();
   }
 
   @PatchMapping("/{sessionId}")
-  public void statusUpdateSession() {
+  public void statusUpdateSession(@PathVariable String sessionId) {
     sessionService.statusUpdateSession();
   }
 
   @DeleteMapping("/{sessionId}")
-  public void deleteSession() {
+  public void deleteSession(@PathVariable String sessionId) {
     sessionService.deleteSession();
   }
 
   @PatchMapping("/{sessionId}/apply")
-  public void applySession() {
+  public void applySession(@PathVariable String sessionId) {
     sessionService.applySession();
   }
 
