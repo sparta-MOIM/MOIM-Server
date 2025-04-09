@@ -14,6 +14,13 @@ X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76
 }
 
 
+###
+POST http://localhost:19101/api/v1/gathering/member/e62856ed-c4b7-42c1-acf0-069f12c4b629
+X-User-Name: 사용자이름2
+X-User-Role: USER
+X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c72
+Content-Type: application/x-www-form-urlencoded
+
 ### 게더링 생성 (모집인원이 0이하)
 POST http://localhost:19101/api/v1/gathering
 Content-Type: application/json
