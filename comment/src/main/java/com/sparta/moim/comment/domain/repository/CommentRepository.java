@@ -9,6 +9,8 @@ public interface CommentRepository {
 
   List<Comment> findCommentAll(Long organizationId, Long postId);
 
-  Comment findComment(Long organizationId,Long postId,Long commentId);
+  Optional<Comment> findComment(Long organizationId,Long postId,Long commentId);
+
+  List<Comment> searchComment(Long postId, String comment);
 }
 

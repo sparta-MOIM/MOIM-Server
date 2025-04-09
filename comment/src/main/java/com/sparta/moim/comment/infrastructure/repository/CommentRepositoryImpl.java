@@ -1,7 +1,12 @@
 package com.sparta.moim.comment.infrastructure.repository;
 
+import com.querydsl.core.QueryFactory;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sparta.moim.comment.domain.model.Comment;
+import com.sparta.moim.comment.domain.model.QComment;
 import com.sparta.moim.comment.domain.repository.CommentRepository;
+import com.sparta.moim.common.exception.BaseException;
+import com.sparta.moim.common.response.Code;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +16,7 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class CommentRepositoryImpl implements CommentRepository {
   private final JpaCommentRepository jpaCommentRepository;
+  private final JPAQueryFactory jpaQueryFactory;
 
   @Override
   public Optional<Comment> save(Comment comment){
@@ -18,8 +24,20 @@ public class CommentRepositoryImpl implements CommentRepository {
   }
 
   @Override
-  public List<Comment> findCommentAll(Long organizationId, Long postId) {return jpaCommentRepository.findByOrganizationIdAndPostIdAndDeletedByIsNullOrderByCreatedDateTimeAsc(organizationId, postId);}
+  public List<Comment> findCommentAll(Long organizationId, Long postId) {return jpaCommentRepository.findByOrganizationIdAndPostIdAndDeletedByIsNullOrderByCreatedAtAsc(organizationId, postId);}
 
   @Override
-  public Comment findComment(Long organizationId, Long postId, Long commentId) {return jpaCommentRepository.findByOrganizationIdAndPostIdAndIdAndDeletedByIsNull(organizationId,postId,commentId);}
+  public Optional<Comment> findComment(Long organizationId, Long postId, Long commentId) {return Optional.ofNullable(
+      jpaCommentRepository.findByOrganizationIdAndPostIdAndIdAndDeletedByIsNull(organizationId, postId, commentId)
+          .orElseThrow(() -> new BaseException(Code.INTERNAL_SERVER_ERROR)));}
+
+  @Override
+  public List<Comment> searchComment(Long postId, String comment){
+    QComment qComment = QComment.comment1;
+    return jpaQueryFactory.selectFrom(qComment)
+        .where(qComment.postId.eq(postId)
+            .and(qComment.comment.containsIgnoreCase(comment)))
+        .fetch();
+  }
+
 }

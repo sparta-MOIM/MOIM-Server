@@ -2,8 +2,10 @@ package com.sparta.moim.comment.application.dto;
 
 import com.sparta.moim.comment.domain.model.Comment;
 import lombok.Builder;
+import lombok.Getter;
 
 @Builder
+@Getter
 public class CommentResponseDTO {
   private String comment;
   private Long postId;
