@@ -20,22 +20,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/gathering/member")
 @RequiredArgsConstructor
 public class MemberController {
-  private final MemberService recruitService;
+  private final MemberService memberService;
 
   @PostMapping("/{gatheringId}")
   public void joinGathering(@PathVariable UUID gatheringId, @AuthenticationPrincipal CustomUserDetails userInfo) {
-    recruitService.joinGathering(new JoinGatheringCommand(gatheringId, userInfo));
+    memberService.joinGathering(new JoinGatheringCommand(gatheringId, userInfo));
   }
 
   @DeleteMapping("/{gatheringId}/leave")
   public void leaveGathering(@PathVariable UUID gatheringId, @AuthenticationPrincipal CustomUserDetails userInfo) {
-    recruitService.leaveGathering(new LeaveGatheringCommand(gatheringId, userInfo));
+    memberService.leaveGathering(new LeaveGatheringCommand(gatheringId, userInfo));
   }
 
   // 주인만 삭제가능
   @DeleteMapping("/{gatheringId}/remove")
   public void removeGathering(@PathVariable UUID gatheringId, @RequestBody @Valid RemoveGatheringRequest request) {
-    recruitService.removeGathering(request.toCommand(gatheringId));
+    memberService.removeGathering(request.toCommand(gatheringId));
   }
 
 
