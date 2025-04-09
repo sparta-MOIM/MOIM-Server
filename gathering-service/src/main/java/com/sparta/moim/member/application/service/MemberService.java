@@ -2,6 +2,7 @@ package com.sparta.moim.member.application.service;
 
 import com.sparta.moim.member.application.dto.command.JoinGatheringCommand;
 import com.sparta.moim.member.application.dto.command.LeaveGatheringCommand;
+import com.sparta.moim.member.application.dto.command.RemoveGatheringCommand;
 import com.sparta.moim.member.domain.Member;
 import com.sparta.moim.member.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,8 @@ public class MemberService {
     memberRepository.deleteByGatheringIdAndMemberId(command.gatheringId().toString(), command.username());
   }
 
-  public void removeGathering() {
-
+  @Transactional
+  public void removeGathering(RemoveGatheringCommand command) {
+    memberRepository.deleteAllByGatheringIdAndMembers(command.gatheringId().toString(), command.users());
   }
 }
