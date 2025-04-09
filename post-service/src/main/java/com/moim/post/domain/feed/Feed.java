@@ -42,8 +42,8 @@ public class Feed extends BaseEntity {
   @Column(name = "title", nullable = false)
   private String title;
 
-  @Column(name = "context", nullable = false)
-  private String context;
+  @Column(name = "content", nullable = false)
+  private String content;
 
   @Column(name = "image_url")
   private String imageUrl;
@@ -56,14 +56,14 @@ public class Feed extends BaseEntity {
   public static Feed create(
       UUID organizationId,
       String title,
-      String context,
+      String content,
       String imageUrl,
       List<UUID> taggedUserIds
   ) {
       return Feed.builder()
           .organizationId(organizationId)
           .title(title)
-          .context(context)
+          .content(content)
           .imageUrl(imageUrl)
           .taggedUserIds(taggedUserIds)
           .build();

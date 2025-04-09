@@ -18,7 +18,7 @@ public class PostService implements PostUseCase {
     Feed feed = Feed.create(
         command.organizationId(),
         command.title(),
-        command.context(),
+        command.content(),
         command.imageUrl(),
         command.taggedIds()
     );

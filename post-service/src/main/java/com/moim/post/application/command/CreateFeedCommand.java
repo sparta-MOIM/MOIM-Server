@@ -6,7 +6,7 @@ import java.util.UUID;
 public record CreateFeedCommand(
     UUID organizationId,
     String title,
-    String context,
+    String content,
     String imageUrl,
     List<UUID> taggedIds
 ) {

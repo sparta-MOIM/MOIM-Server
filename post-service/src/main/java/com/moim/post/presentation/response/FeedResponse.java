@@ -7,7 +7,7 @@ public record FeedResponse(
     UUID id,
     UUID organizationId,
     String title,
-    String context,
+    String content,
     String imageUrl,
     List<UUID> taggedUserIds
 ) {

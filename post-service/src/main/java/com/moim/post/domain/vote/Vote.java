@@ -32,8 +32,8 @@ public class Vote extends BaseEntity {
   @Column(name = "title", nullable = false)
   private String title;
 
-  @Column(name = "context", nullable = false)
-  private String context;
+  @Column(name = "content", nullable = false)
+  private String content;
 
   @Embedded
   @Column(name = "period", nullable = false)
