@@ -2,7 +2,7 @@ package com.moim.post.application;
 
 import com.moim.post.application.command.CreateFeedCommand;
 import com.moim.post.application.command.CreateVoteCommand;
-import com.moim.post.application.usecase.PostUseCase;
+import com.moim.post.application.usecase.PostCommandUseCase;
 import com.moim.post.domain.feed.Feed;
 import com.moim.post.domain.repository.FeedRepository;
 import com.moim.post.domain.repository.VoteRepository;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class PostCommandService implements PostUseCase {
+public class PostCommandService implements PostCommandUseCase {
 
   private final FeedRepository feedRepository;
   private final VoteRepository voteRepository;
