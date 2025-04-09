@@ -40,6 +40,10 @@ dependencies {
     
     // 공통 모듈 추가
     implementation project(':common')
+
+    // MapStruct
+    implementation 'org.mapstruct:mapstruct:1.6.3'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
 }
 
 tasks.named('test') {
