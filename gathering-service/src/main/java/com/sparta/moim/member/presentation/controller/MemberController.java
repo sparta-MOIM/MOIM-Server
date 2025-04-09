@@ -5,6 +5,7 @@ import com.sparta.moim.member.application.dto.command.JoinGatheringCommand;
 import com.sparta.moim.member.application.dto.command.LeaveGatheringCommand;
 import com.sparta.moim.member.application.service.MemberService;
 import com.sparta.moim.member.presentation.dto.request.RemoveGatheringRequest;
+import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -33,7 +34,7 @@ public class MemberController {
 
   // 주인만 삭제가능
   @DeleteMapping("/{gatheringId}/remove")
-  public void removeGathering(@PathVariable UUID gatheringId, @RequestBody RemoveGatheringRequest request) {
+  public void removeGathering(@PathVariable UUID gatheringId, @RequestBody @Valid RemoveGatheringRequest request) {
     recruitService.removeGathering(request.toCommand(gatheringId));
   }
 
