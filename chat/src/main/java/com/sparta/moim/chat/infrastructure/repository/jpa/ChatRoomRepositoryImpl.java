@@ -1,8 +1,7 @@
-package com.sparta.moim.chat.infrastructure.repository;
+package com.sparta.moim.chat.infrastructure.repository.jpa;
 
 import com.sparta.moim.chat.domain.model.ChatRoom;
 import com.sparta.moim.chat.domain.repository.ChatRoomRepository;
-import com.sparta.moim.chat.presentation.request.ChatRoomRequestDTO;
 import com.sparta.moim.common.exception.BaseException;
 import java.util.List;
 import java.util.Optional;

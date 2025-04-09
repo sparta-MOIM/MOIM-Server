@@ -1,4 +1,4 @@
-package com.sparta.moim.chat.infrastructure.repository;
+package com.sparta.moim.chat.infrastructure.repository.jpa;
 
 import com.sparta.moim.chat.domain.model.ChatRoom;
 import java.util.List;
