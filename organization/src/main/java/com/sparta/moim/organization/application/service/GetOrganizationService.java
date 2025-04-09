@@ -11,8 +11,6 @@ import com.sparta.moim.organization.domain.entity.Organization;
 import com.sparta.moim.organization.domain.repository.OrganizationRepository;
 import com.sparta.moim.organization.presentation.dto.GetOrganizationResponse;
 import com.sparta.moim.organization.presentation.dto.GetOrganizationSummaryResponse;
-import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,12 +31,8 @@ public class GetOrganizationService implements GetOrganizationUseCase {
     public Pagination<GetOrganizationSummaryResponse> execute(int page, int size) {
         Pagination<Organization> organizations = organizationRepository.findAll(page, size);
         Pagination<GetOrganizationSummaryQuery> organizationSummaryQueries = PaginationMap.map(organizations, GetOrganizationSummaryQuery::from);
-        List<GetOrganizationSummaryResponse> responseList = responseMapper.toResponse(organizationSummaryQueries.getContent());
-        return Pagination.of(
-                organizationSummaryQueries.getPage(),
-                organizationSummaryQueries.getSize(),
-                organizationSummaryQueries.getTotal(),
-                responseList);
+        return PaginationMap.map(organizationSummaryQueries, responseMapper::toResponse);
+
     }
 
 }
