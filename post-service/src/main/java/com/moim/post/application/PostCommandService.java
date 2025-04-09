@@ -4,8 +4,8 @@ import com.moim.post.application.command.CreateFeedCommand;
 import com.moim.post.application.command.CreateVoteCommand;
 import com.moim.post.application.usecase.PostCommandUseCase;
 import com.moim.post.domain.feed.Feed;
-import com.moim.post.domain.repository.FeedRepository;
-import com.moim.post.domain.repository.VoteRepository;
+import com.moim.post.domain.repository.command.FeedCommandRepository;
+import com.moim.post.domain.repository.command.VoteCommandRepository;
 import com.moim.post.domain.vote.Vote;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PostCommandService implements PostCommandUseCase {
 
-  private final FeedRepository feedRepository;
-  private final VoteRepository voteRepository;
+  private final FeedCommandRepository feedRepository;
+  private final VoteCommandRepository voteRepository;
 
   @Override
   public Feed createFeed(CreateFeedCommand command) {
