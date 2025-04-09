@@ -64,4 +64,12 @@ public class OrganizationMember extends BaseEntity {
                 .build();
     }
 
+    public static OrganizationMember from(OrganizationApplication organizationApplication, Organization organization) {
+        return OrganizationMember.builder()
+                .userTrackingId(organizationApplication.getUserTrackingId())
+                .nickname(null)
+                .role(OrganizationMemberRole.MEMBER)
+                .organization(organization)
+                .build();
+    }
 }
