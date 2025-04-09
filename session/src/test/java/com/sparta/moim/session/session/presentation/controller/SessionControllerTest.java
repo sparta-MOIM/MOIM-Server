@@ -72,6 +72,7 @@ class SessionControllerTest {
         .openTime(request.openTime())
         .closeTime(request.closeTime())
         .count(request.count())
+        .applyTime(LocalDateTime.now())
         .build();
 
     when(sessionService.createSession(any()))
@@ -89,6 +90,7 @@ class SessionControllerTest {
         .andExpect(jsonPath("$.title").value(request.title()))
         .andExpect(jsonPath("$.count").value(request.count()))
         .andExpect(jsonPath("$.status").exists())
+        .andExpect(jsonPath("$.applyTime").exists())
         .andExpect(jsonPath("$.openTime").exists())
         .andExpect(jsonPath("$.closeTime").exists());
   }
