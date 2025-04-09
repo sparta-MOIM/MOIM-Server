@@ -1,5 +1,7 @@
 package com.sparta.moim.organization.domain.entity;
 
+import com.sparta.moim.common.utils.BaseEntity;
+import com.sparta.moim.organization.application.dto.command.ApplyOrganizationCommand;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,7 +26,7 @@ import org.hibernate.annotations.Where;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder(access = AccessLevel.PRIVATE)
 @Table(name = "p_organization_application")
-public class OrganizationApplication {
+public class OrganizationApplication extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,12 +38,21 @@ public class OrganizationApplication {
     private UUID trackingId;
 
     @JdbcTypeCode(Types.VARCHAR)
-    @Column(name="user_tracking_id",length = 36, nullable = false, unique = true)
+    @Column(name="user_tracking_id",length = 36, nullable = false)
     private UUID userTrackingId;
 
-    @Column(nullable = false, length = 50)
-    private String nickname;
+    @JdbcTypeCode(Types.VARCHAR)
+    @Column(name="organization_tracking_id",length = 36, nullable = false)
+    private UUID organizationTrackingId;
 
     @Column(nullable = false)
     private String content;
+
+    public static OrganizationApplication from(String organizationTrackingId, String userTrackingId, ApplyOrganizationCommand applyOrganizationCommand) {
+        return OrganizationApplication.builder()
+                .userTrackingId(UUID.fromString(userTrackingId))
+                .organizationTrackingId(UUID.fromString(organizationTrackingId))
+                .content(applyOrganizationCommand.getContent())
+                .build();
+    }
 }

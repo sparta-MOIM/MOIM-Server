@@ -45,7 +45,7 @@ public class OrganizationMember extends BaseEntity {
     @Column(name="user_tracking_id",length = 36, nullable = false, unique = true)
     private UUID userTrackingId;
 
-    @Column(nullable = false, length = 50)
+    @Column(length = 100)
     private String nickname;
 
     @ManyToOne

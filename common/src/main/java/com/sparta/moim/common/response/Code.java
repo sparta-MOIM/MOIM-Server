@@ -28,6 +28,7 @@ public enum Code implements BaseError {
   ORGANIZATION_CANNOT_FIND_ORGANIZATION_MEMBER(HttpStatus.FORBIDDEN, 40001 , "모임 구성원이 아닙니다."),
   ORGANIZATION_NOT_MASTER(HttpStatus.FORBIDDEN, 40002 , "모임의 MASTER가 아닙니다."),
   ORGANIZATION_NOT_MANAGER(HttpStatus.FORBIDDEN, 40003 , "모임의 MANAGER가 아닙니다."),
+  ORGANIZATION_ALREADY_MEMBER(HttpStatus.BAD_REQUEST,20004 ,"이미 모임의 멤버입니다." ),
   ;
 
   private final HttpStatus status;
