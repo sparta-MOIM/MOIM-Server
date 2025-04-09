@@ -10,7 +10,6 @@ public record CreateSessionRequest(
     String publisher,
     String title,
     int count,
-    String status,
     LocalDateTime openTime,
     LocalDateTime closeTime,
     CreateSessionApplyRequest applyInfo
@@ -20,7 +19,7 @@ public record CreateSessionRequest(
         .organizationId(organizationId)
         .title(title)
         .count(count)
-        .status(role.equals("USER") ? "READY" : status)
+        .status(role.equals("USER") ? "READY" : "OPEN")
         .openTime(openTime)
         .closeTime(closeTime)
         .role(role)
