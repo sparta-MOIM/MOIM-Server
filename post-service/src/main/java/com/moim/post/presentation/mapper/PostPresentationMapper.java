@@ -2,12 +2,16 @@ package com.moim.post.presentation.mapper;
 
 import com.moim.post.application.command.CreateFeedCommand;
 import com.moim.post.application.command.CreateVoteCommand;
+import com.moim.post.application.query.FindFeedQuery;
+import com.moim.post.application.query.SearchFeedQuery;
 import com.moim.post.domain.feed.Feed;
 import com.moim.post.domain.vote.Vote;
 import com.moim.post.presentation.request.CreateFeedRequest;
 import com.moim.post.presentation.request.CreateVoteRequest;
+import com.moim.post.presentation.request.SearchFeedRequest;
 import com.moim.post.presentation.response.FeedResponse;
 import com.moim.post.presentation.response.VoteResponse;
+import java.util.UUID;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -24,4 +28,8 @@ public interface PostPresentationMapper {
   @Mapping(source = "period.start", target = "start")
   @Mapping(source = "period.end", target = "end")
   VoteResponse toResponse(Vote vote);
+
+  FindFeedQuery toQuery(UUID id);
+
+  SearchFeedQuery toQuery(SearchFeedRequest request);
 }
