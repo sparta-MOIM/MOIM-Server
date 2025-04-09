@@ -4,6 +4,8 @@ import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.session.session.application.service.SessionService;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionRequest;
 import com.sparta.moim.session.session.presentation.dto.response.CreateSessionResponse;
+import com.sparta.moim.session.session.presentation.dto.response.GetSessionResponse;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,8 +32,8 @@ public class SessionController {
 
 
   @GetMapping("/{sessionId}")
-  public void getSession(@PathVariable String sessionId) {
-    sessionService.getSession();
+  public GetSessionResponse getSession(@PathVariable UUID sessionId) {
+    return GetSessionResponse.get(sessionService.getSession(sessionId));
   }
 
   @GetMapping

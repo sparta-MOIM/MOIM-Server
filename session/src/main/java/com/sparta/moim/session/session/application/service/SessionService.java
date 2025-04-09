@@ -2,9 +2,14 @@ package com.sparta.moim.session.session.application.service;
 
 import com.sparta.moim.session.session.application.dto.command.CreateSessionCommand;
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
+import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
+import com.sparta.moim.session.session.domain.entity.Session;
 import com.sparta.moim.session.session.domain.repository.SessionRepository;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,8 +22,10 @@ public class SessionService {
     return CreateSessionResult.create(sessionRepository.save(command.toDomain()));
   }
 
-  public void getSession() {
-
+  @Transactional(readOnly = true)
+  public GetSessionResult getSession(UUID sessionId) {
+    return GetSessionResult.get(sessionRepository.findByTrackingId(sessionId)
+        .orElseThrow(() -> new IllegalArgumentException("Session not found")));
   }
 
   public void searchSession() {
