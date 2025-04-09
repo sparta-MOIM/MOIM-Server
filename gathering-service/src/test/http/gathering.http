@@ -15,10 +15,10 @@ X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76
 
 
 ###
-POST http://localhost:19101/api/v1/gathering/member/6b8b2388-9a7c-4b46-834c-fa72f4a85601
-X-User-Name: 사용자이름2
+POST http://localhost:19101/api/v1/gathering/member/39ad3059-aba2-4de9-97cf-5dcb4c5f65b3
+X-User-Name: stem
 X-User-Role: USER
-X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c72
+X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c70
 Content-Type: application/x-www-form-urlencoded
 
 
@@ -29,6 +29,16 @@ X-User-Role: USER
 X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c75
 Content-Type: application/x-www-form-urlencoded
 
+###
+DELETE http://localhost:19101/api/v1/gathering/member/39ad3059-aba2-4de9-97cf-5dcb4c5f65b3/remove
+X-User-Name: 사용자이름7
+X-User-Role: USER
+X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c79
+Content-Type: application/json
+
+{
+  "users": ["james","stem"]
+}
 
 ### 게더링 생성 (모집인원이 0이하)
 POST http://localhost:19101/api/v1/gathering
