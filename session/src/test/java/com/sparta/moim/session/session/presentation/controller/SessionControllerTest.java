@@ -2,6 +2,7 @@ package com.sparta.moim.session.session.presentation.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -9,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
+import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import com.sparta.moim.session.session.application.service.SessionService;
 import com.sparta.moim.session.session.domain.enums.SessionStatus;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionApplyRequest;
@@ -57,7 +59,6 @@ class SessionControllerTest {
         .publisher(username)
         .title("스파르타 세션")
         .count(15)
-        .status("READY")
         .openTime(LocalDateTime.now())
         .closeTime(LocalDateTime.now().plusHours(10))
         .applyInfo(new CreateSessionApplyRequest(null))
@@ -68,7 +69,6 @@ class SessionControllerTest {
         .organizationId(organizationId)
         .publisher(request.publisher())
         .title(request.title())
-        .status(SessionStatus.valueOf(request.status()))
         .openTime(request.openTime())
         .closeTime(request.closeTime())
         .count(request.count())
@@ -93,5 +93,46 @@ class SessionControllerTest {
         .andExpect(jsonPath("$.applyTime").exists())
         .andExpect(jsonPath("$.openTime").exists())
         .andExpect(jsonPath("$.closeTime").exists());
+  }
+
+  @Test
+  @DisplayName("세션 단일 조회 성공")
+  void getGathering_success() throws Exception {
+    // given
+    UUID sessionId = UUID.randomUUID();
+    GetSessionResult response = GetSessionResult.builder()
+        .organizationId("org123")
+        .sessionId(sessionId)
+        .status(SessionStatus.OPEN)
+        .title("test")
+        .openTime(LocalDateTime.now())
+        .applyTime(LocalDateTime.now())
+        .closeTime(LocalDateTime.now().plusHours(10))
+        .confirmTime(LocalDateTime.now().plusHours(10))
+        .reason("test")
+        .count(10)
+        .publisher("test")
+        .build();
+
+    when(sessionService.getSession(any()))
+        .thenReturn(response);
+
+    // when & then
+    mockMvc.perform(get("/api/v1/session/{sessionId}", sessionId)
+            .header("X-User-Name", "테스트유저")
+            .header("X-User-Role", "USER")
+            .header("X-User-ID", UUID.randomUUID().toString()))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.organizationId").value("org123"))
+        .andExpect(jsonPath("$.sessionId").value(sessionId.toString()))
+        .andExpect(jsonPath("$.status").value(SessionStatus.OPEN.toString()))
+        .andExpect(jsonPath("$.title").value("test"))
+        .andExpect(jsonPath("$.openTime").exists())
+        .andExpect(jsonPath("$.closeTime").exists())
+        .andExpect(jsonPath("$.count").value(10))
+        .andExpect(jsonPath("$.publisher").value("test"))
+        .andExpect(jsonPath("$.applyInfo.applyTime").exists())
+        .andExpect(jsonPath("$.applyInfo.confirmTime").exists())
+        .andExpect(jsonPath("$.applyInfo.reason").value("test"));
   }
 }

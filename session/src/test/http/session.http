@@ -2,7 +2,7 @@
 @baseUrl = http://localhost:8089
 @userId = d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76
 @username = 테스트유저
-@role = USER
+@role = ADMIN
 
 ### 세션 생성 - 성공
 POST {{baseUrl}}/api/v1/session
@@ -24,56 +24,9 @@ X-User-ID: {{userId}}
   }
 }
 
-### 세션 생성 - 잘못된 시간
-POST {{baseUrl}}/api/v1/session
+### 세션 조회 - 성공
+GET {{baseUrl}}/api/v1/session/da0b7791-53b0-45c5-aa87-49a8ab222f97
 Content-Type: application/json
 X-User-Name: {{username}}
 X-User-Role: {{role}}
 X-User-ID: {{userId}}
-
-{
-  "organizationId": "org123",
-  "publisher": "{{username}}",
-  "name": "스파르타 세션",
-  "count": 15,
-  "status": "READY",
-  "openTime": "2024-03-20T12:00:00",
-  "closeTime": "2024-03-20T10:00:00",
-  "applyInfo": {
-
-  }
-}
-
-### 세션 생성 - 잘못된 인원 수
-POST {{baseUrl}}/api/v1/session
-Content-Type: application/json
-X-User-Name: {{username}}
-X-User-Role: {{role}}
-X-User-ID: {{userId}}
-
-{
-  "organizationId": "org123",
-  "publisher": "{{username}}",
-  "name": "스파르타 세션",
-  "count": 0,
-  "status": "READY",
-  "openTime": "2024-03-20T10:00:00",
-  "closeTime": "2024-03-20T12:00:00"
-}
-
-### 세션 생성 - 권한 없음
-POST {{baseUrl}}/api/v1/session
-Content-Type: application/json
-X-User-Name: {{username}}
-X-User-Role: USER
-X-User-ID: {{userId}}
-
-{
-  "organizationId": "org123",
-  "publisher": "{{username}}",
-  "name": "스파르타 세션",
-  "count": 15,
-  "status": "READY",
-  "openTime": "2024-03-20T10:00:00",
-  "closeTime": "2024-03-20T12:00:00"
-}
