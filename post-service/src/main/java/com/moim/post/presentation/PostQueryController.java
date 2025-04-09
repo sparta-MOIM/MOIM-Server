@@ -2,9 +2,12 @@ package com.moim.post.presentation;
 
 import com.moim.post.application.usecase.PostQueryUseCase;
 import com.moim.post.domain.feed.Feed;
+import com.moim.post.domain.vote.Vote;
 import com.moim.post.presentation.mapper.PostPresentationMapper;
 import com.moim.post.presentation.request.SearchFeedRequest;
+import com.moim.post.presentation.request.SearchVoteRequest;
 import com.moim.post.presentation.response.FeedResponse;
+import com.moim.post.presentation.response.VoteResponse;
 import com.sparta.moim.common.response.ApiResponseData;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +47,27 @@ public class PostQueryController {
       @RequestParam(defaultValue = "createdAt") final String sortType
   ) {
     Page<FeedResponse> response = useCase.searchFeed(mapper.toQuery(request), page, size, sortType)
+        .map(mapper::toResponse);
+    return ResponseEntity.ok().body(ApiResponseData.success(response));
+  }
+
+  @GetMapping("/votes/{id}")
+  public ResponseEntity<ApiResponseData<VoteResponse>> findVote(@PathVariable final String id) {
+    log.info("Vote 조회 요청: {}", id);
+    Vote vote = useCase.findVote(mapper.toQuery(UUID.fromString(id)));
+    VoteResponse response = mapper.toResponse(vote);
+    log.info("Vote 조회 완료");
+    return ResponseEntity.ok().body(ApiResponseData.success(response));
+  }
+
+  @GetMapping("/votes")
+  public ResponseEntity<ApiResponseData<Page<VoteResponse>>> searchVotes(
+      @ModelAttribute final SearchVoteRequest request,
+      @RequestParam(defaultValue = "0") final int page,
+      @RequestParam(defaultValue = "10") final int size,
+      @RequestParam(defaultValue = "createdAt") final String sortType
+  ) {
+    Page<VoteResponse> response = useCase.searchVote(mapper.toQuery(request), page, size, sortType)
         .map(mapper::toResponse);
     return ResponseEntity.ok().body(ApiResponseData.success(response));
   }
