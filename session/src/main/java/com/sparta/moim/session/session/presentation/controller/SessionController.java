@@ -2,7 +2,6 @@ package com.sparta.moim.session.session.presentation.controller;
 
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.session.session.application.service.SessionService;
-
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionRequest;
 import com.sparta.moim.session.session.presentation.dto.response.CreateSessionResponse;
 import lombok.RequiredArgsConstructor;
