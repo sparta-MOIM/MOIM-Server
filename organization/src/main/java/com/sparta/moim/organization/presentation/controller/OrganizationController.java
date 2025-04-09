@@ -3,6 +3,7 @@ package com.sparta.moim.organization.presentation.controller;
 import com.sparta.moim.common.page.Pagination;
 import com.sparta.moim.common.response.ApiResponseData;
 import com.sparta.moim.organization.application.usecase.CreateOrganizationUseCase;
+import com.sparta.moim.organization.application.usecase.DeleteOrganizationUseCase;
 import com.sparta.moim.organization.application.usecase.GetOrganizationUseCase;
 import com.sparta.moim.organization.presentation.dto.CreateOrganizationRequest;
 import com.sparta.moim.organization.presentation.dto.GetOrganizationResponse;
@@ -12,6 +13,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +29,7 @@ public class OrganizationController {
 
     private final CreateOrganizationUseCase createOrganizationUseCase;
     private final GetOrganizationUseCase getOrganizationUseCase;
+    private final DeleteOrganizationUseCase deleteORganizationUseCase;
     private final CommandMapper commandMapper;
 
     @PostMapping
@@ -46,5 +49,11 @@ public class OrganizationController {
             @RequestParam(defaultValue = "10") int size
     ){
         return ResponseEntity.ok(ApiResponseData.success(getOrganizationUseCase.execute(page, size)));
+    }
+
+    @DeleteMapping("/{organizationTrackingId}")
+    public ResponseEntity<ApiResponseData<String>> deleteOrganization(@PathVariable String organizationTrackingId) {
+        deleteORganizationUseCase.execute("68926367-c01f-4f88-8f10-4c9797b77f8e",organizationTrackingId); //todo- userTrackingId는
+        return ResponseEntity.ok(ApiResponseData.success(null));
     }
 }

@@ -24,8 +24,8 @@ public class OrganizationRepositoryImpl implements OrganizationRepository {
     }
 
     @Override
-    public Optional<Organization> findByTrackingId(UUID organizationUUID) {
-        return jpaRepository.findByTrackingId(organizationUUID);
+    public Optional<Organization> findByTrackingId(String organizationTrackingId) {
+        return jpaRepository.findByTrackingId(UUID.fromString(organizationTrackingId));
     }
 
     @Override

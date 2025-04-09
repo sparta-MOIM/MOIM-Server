@@ -25,6 +25,9 @@ public enum Code {
    * ORGANIZATION
    */
   ORGANIZATION_CANNOT_FIND_ORGANIZATION(HttpStatus.BAD_REQUEST, 40000 , "모임을 찾을 수 없습니다."),
+  ORGANIZATION_CANNOT_FIND_ORGANIZATION_MEMBER(HttpStatus.FORBIDDEN, 40001 , "모임 구성원이 아닙니다."),
+  ORGANIZATION_NOT_MASTER(HttpStatus.FORBIDDEN, 40002 , "모임의 MASTER가 아닙니다."),
+  ORGANIZATION_NOT_MANAGER(HttpStatus.FORBIDDEN, 40003 , "모임의 MANAGER가 아닙니다."),
   ;
 
   private final HttpStatus status;

@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public interface OrganizationRepository {
     Organization save(Organization organization);
-    Optional<Organization> findByTrackingId(UUID organizationUUID);
+    Optional<Organization> findByTrackingId(String organizationTrackingId);
     Pagination<Organization> findAll(int page, int size);
+
 }

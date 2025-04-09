@@ -25,7 +25,7 @@ public class GetOrganizationService implements GetOrganizationUseCase {
 
     @Override
     public GetOrganizationResponse execute(String organizationUuid) {
-        Organization organization = organizationRepository.findByTrackingId(UUID.fromString(organizationUuid)).orElseThrow(CannotFindOrganization::new);
+        Organization organization = organizationRepository.findByTrackingId(organizationUuid).orElseThrow(CannotFindOrganization::new);
         return responseMapper.toResponse(GetOrganizationQuery.from(organization));
     }
 
