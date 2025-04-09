@@ -69,6 +69,7 @@ class SessionControllerTest {
         .organizationId(organizationId)
         .publisher(request.publisher())
         .title(request.title())
+        .status(SessionStatus.OPEN)
         .openTime(request.openTime())
         .closeTime(request.closeTime())
         .count(request.count())
