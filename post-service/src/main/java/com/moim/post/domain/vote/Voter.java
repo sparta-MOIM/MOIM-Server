@@ -1,23 +1,13 @@
 package com.moim.post.domain.vote;
 
 import com.sparta.moim.common.utils.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import java.sql.Types;
-import java.util.UUID;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
+
+import java.sql.Types;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -26,25 +16,26 @@ import org.hibernate.annotations.UuidGenerator;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Voter extends BaseEntity {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
 
-  @UuidGenerator
-  @JdbcTypeCode(Types.VARCHAR)
-  @Column(name = "tracking_id", length = 36, nullable = false, unique = true)
-  private UUID trackingId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @JdbcTypeCode(Types.VARCHAR)
-  @Column(name = "post_id", length = 36, nullable = false, unique = true)
-  private UUID postId;
+    @UuidGenerator
+    @JdbcTypeCode(Types.VARCHAR)
+    @Column(name = "tracking_id", length = 36, nullable = false, unique = true)
+    private UUID trackingId;
 
-  @JdbcTypeCode(Types.VARCHAR)
-  @Column(name = "user_id", length = 36, nullable = false, unique = true)
-  private UUID userId;
+    @JdbcTypeCode(Types.VARCHAR)
+    @Column(name = "post_id", length = 36, nullable = false, unique = true)
+    private UUID postId;
 
-  @Enumerated(EnumType.STRING)
-  @Column(name = "status", nullable = false)
-  private VoteStatus status;
+    @JdbcTypeCode(Types.VARCHAR)
+    @Column(name = "user_id", length = 36, nullable = false, unique = true)
+    private UUID userId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private VoteStatus status;
 
 }
