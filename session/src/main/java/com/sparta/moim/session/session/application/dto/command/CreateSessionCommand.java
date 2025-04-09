@@ -8,7 +8,7 @@ import lombok.Builder;
 @Builder
 public record CreateSessionCommand(
     String organizationId,
-    String name,
+    String title,
     int count,
     String status,
     LocalDateTime openTime,
@@ -19,7 +19,7 @@ public record CreateSessionCommand(
   public Session toDomain() {
     return Session.builder()
         .organizationId(organizationId)
-        .name(name)
+        .title(title)
         .count(count)
         .status(SessionStatus.valueOf(status))
         .openTime(openTime)

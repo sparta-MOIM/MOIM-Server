@@ -11,7 +11,7 @@ public record CreateSessionResult(
     String organizationId,
     UUID sessionId,
     String publisher,
-    String name,
+    String title,
     int count,
     SessionStatus status,
     LocalDateTime openTime,
@@ -22,7 +22,7 @@ public record CreateSessionResult(
         .organizationId(session.getOrganizationId())
         .sessionId(session.getTrackingId())
         .publisher(session.getPublisher())
-        .name(session.getName())
+        .title(session.getTitle())
         .count(session.getCount())
         .status(session.getStatus())
         .openTime(session.getOpenTime())

@@ -10,7 +10,7 @@ public record CreateSessionResponse(
     String organizationId,
     UUID sessionId,
     String publisher,
-    String name,
+    String title,
     int count,
     String status,
     LocalDateTime openTime,
@@ -21,7 +21,7 @@ public record CreateSessionResponse(
         .organizationId(result.organizationId())
         .sessionId(result.sessionId())
         .publisher(result.publisher())
-        .name(result.name())
+        .title(result.title())
         .count(result.count())
         .status(result.status().name())
         .openTime(result.openTime())

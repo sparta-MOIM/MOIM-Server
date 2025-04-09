@@ -37,8 +37,8 @@ public class Session {
   @Column(nullable = false, length = 100)
   private String organizationId;
 
-  @Column(nullable = false, columnDefinition = "TEXT")
-  private String name;
+  @Column(nullable = false)
+  private String title;
 
   @Column(nullable = false, length = 100)
   private String publisher;

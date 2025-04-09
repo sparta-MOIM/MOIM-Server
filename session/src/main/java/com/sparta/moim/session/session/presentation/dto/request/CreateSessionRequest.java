@@ -8,7 +8,7 @@ import lombok.Builder;
 public record CreateSessionRequest(
     String organizationId,
     String publisher,
-    String name,
+    String title,
     int count,
     String status,
     LocalDateTime openTime,
@@ -18,7 +18,7 @@ public record CreateSessionRequest(
   public CreateSessionCommand toCommand(String userId, String role) {
     return CreateSessionCommand.builder()
         .organizationId(organizationId)
-        .name(name)
+        .title(title)
         .count(count)
         .status(role.equals("USER") ? "READY" : status)
         .openTime(openTime)
