@@ -1,14 +1,23 @@
 package com.moim.post.domain.feed;
 
 import com.sparta.moim.common.utils.BaseEntity;
-import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.UuidGenerator;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.sql.Types;
 import java.util.List;
 import java.util.UUID;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
 
 @Entity
 @Getter
@@ -43,4 +52,20 @@ public class Feed extends BaseEntity {
   @JdbcTypeCode(Types.VARCHAR)
   @Column(name = "tagged_user_ids", nullable = false)
   private List<UUID> taggedUserIds;
+
+  public static Feed create(
+      UUID organizationId,
+      String title,
+      String context,
+      String imageUrl,
+      List<UUID> taggedUserIds
+  ) {
+      return Feed.builder()
+          .organizationId(organizationId)
+          .title(title)
+          .context(context)
+          .imageUrl(imageUrl)
+          .taggedUserIds(taggedUserIds)
+          .build();
+  }
 }
