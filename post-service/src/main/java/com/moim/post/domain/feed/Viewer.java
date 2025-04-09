@@ -17,21 +17,21 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Viewer extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @UuidGenerator
-    @JdbcTypeCode(Types.VARCHAR)
-    @Column(name = "tracking_id", length = 36, nullable = false, unique = true)
-    private UUID trackingId;
+  @UuidGenerator
+  @JdbcTypeCode(Types.VARCHAR)
+  @Column(name = "tracking_id", length = 36, nullable = false, unique = true)
+  private UUID trackingId;
 
-    @JdbcTypeCode(Types.VARCHAR)
-    @Column(name = "post_id", length = 36, nullable = false, unique = true)
-    private UUID postId;
+  @JdbcTypeCode(Types.VARCHAR)
+  @Column(name = "post_id", length = 36, nullable = false, unique = true)
+  private UUID postId;
 
-    @JdbcTypeCode(Types.VARCHAR)
-    @Column(name = "user_id", length = 36, nullable = false, unique = true)
-    private UUID userId;
+  @JdbcTypeCode(Types.VARCHAR)
+  @Column(name = "user_id", length = 36, nullable = false, unique = true)
+  private UUID userId;
 
 }

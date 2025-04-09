@@ -18,29 +18,29 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Feed extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @UuidGenerator
-    @JdbcTypeCode(Types.VARCHAR)
-    @Column(name = "tracking_id", length = 36, nullable = false, unique = true)
-    private UUID trackingId;
+  @UuidGenerator
+  @JdbcTypeCode(Types.VARCHAR)
+  @Column(name = "tracking_id", length = 36, nullable = false, unique = true)
+  private UUID trackingId;
 
-    @Column(name = "organization_id", nullable = false)
-    private UUID organizationId;
+  @Column(name = "organization_id", nullable = false)
+  private UUID organizationId;
 
-    @Column(name = "title", nullable = false)
-    private String title;
+  @Column(name = "title", nullable = false)
+  private String title;
 
-    @Column(name = "context", nullable = false)
-    private String context;
+  @Column(name = "context", nullable = false)
+  private String context;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+  @Column(name = "image_url")
+  private String imageUrl;
 
-    @ElementCollection
-    @JdbcTypeCode(Types.VARCHAR)
-    @Column(name = "tagged_user_ids", nullable = false)
-    private List<UUID> taggedUserIds;
+  @ElementCollection
+  @JdbcTypeCode(Types.VARCHAR)
+  @Column(name = "tagged_user_ids", nullable = false)
+  private List<UUID> taggedUserIds;
 }

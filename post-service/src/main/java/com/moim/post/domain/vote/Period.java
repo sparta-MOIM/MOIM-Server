@@ -13,14 +13,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Period {
 
-    @Column(name = "start", nullable = false)
-    private LocalDateTime start;
+  @Column(name = "start", nullable = false)
+  private LocalDateTime start;
 
-    @Column(name = "end", nullable = false)
-    private LocalDateTime end;
+  @Column(name = "end", nullable = false)
+  private LocalDateTime end;
 
-    public Period(LocalDateTime start, LocalDateTime end) {
-        this.start = start;
-        this.end = end;
-    }
+  public Period(LocalDateTime start, LocalDateTime end) {
+    this.start = start;
+    this.end = end;
+  }
 }
