@@ -37,7 +37,7 @@ public class PostQueryController {
   }
 
   @GetMapping("/feeds")
-  public ResponseEntity<ApiResponseData<Page<FeedResponse>>> searchDeliveries(
+  public ResponseEntity<ApiResponseData<Page<FeedResponse>>> searchFeeds(
       @ModelAttribute final SearchFeedRequest request,
       @RequestParam(defaultValue = "0") final int page,
       @RequestParam(defaultValue = "10") final int size,
