@@ -60,7 +60,7 @@ public class OrganizationController {
         return ResponseEntity.ok(ApiResponseData.success(null));
     }
 
-    @PutMapping("{/organizationTrackingId}")
+    @PutMapping("{organizationTrackingId}")
     public ResponseEntity<ApiResponseData<String>> updateOrganization(@PathVariable String organizationTrackingId, @RequestBody @Valid UpdateOrganizationRequest request) {
         updateOrganizationUseCase.execute(organizationTrackingId,"68926367-c01f-4f88-8f10-4c9797b77f8e",commandMapper.toCommand(request));
         return ResponseEntity.ok(ApiResponseData.success(null));

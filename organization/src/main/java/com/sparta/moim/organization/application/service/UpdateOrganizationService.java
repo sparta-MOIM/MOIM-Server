@@ -3,9 +3,7 @@ package com.sparta.moim.organization.application.service;
 import com.sparta.moim.organization.application.dto.command.UpdateOrganizationCommand;
 import com.sparta.moim.organization.application.exception.CannotFindOrganization;
 import com.sparta.moim.organization.application.usecase.UpdateOrganizationUseCase;
-import com.sparta.moim.organization.application.util.CheckRole;
 import com.sparta.moim.organization.domain.entity.Organization;
-import com.sparta.moim.organization.domain.repository.OrganizationMemberRepository;
 import com.sparta.moim.organization.domain.repository.OrganizationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,14 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class UpdateOrganizationService implements UpdateOrganizationUseCase {
 
     private final OrganizationRepository organizationRepository;
-    private final CheckRole checkRole;
+    private final CheckRoleService checkRoleService;
 
     @Override
     @Transactional
     public void execute(String organizationTrackingId, String userTrackingId, UpdateOrganizationCommand updateOrganizationCommand) {
         Organization organization = organizationRepository.findByTrackingId(organizationTrackingId).orElseThrow(
                 CannotFindOrganization::new);
-        checkRole.checkMaster(userTrackingId, organizationTrackingId);
+        checkRoleService.checkMaster(userTrackingId, organizationTrackingId);
         organization.updateFrom(updateOrganizationCommand);
         organizationRepository.save(organization);
     }
