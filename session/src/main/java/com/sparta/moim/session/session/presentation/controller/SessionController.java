@@ -1,13 +1,19 @@
 package com.sparta.moim.session.session.presentation.controller;
 
+import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.session.session.application.service.SessionService;
+
+import com.sparta.moim.session.session.presentation.dto.request.CreateSessionRequest;
+import com.sparta.moim.session.session.presentation.dto.response.CreateSessionResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,9 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class SessionController {
   private final SessionService sessionService;
+
   @PostMapping
-  public void createSession() {
-    sessionService.createSession();
+  public CreateSessionResponse createSession(@RequestBody CreateSessionRequest request,
+                                             @AuthenticationPrincipal CustomUserDetails details) {
+    return CreateSessionResponse.create(sessionService.createSession(request.toCommand(details.getUsername(), details.getRole())));
   }
 
 
@@ -52,7 +60,6 @@ public class SessionController {
   public void applySession(@PathVariable String sessionId) {
     sessionService.applySession();
   }
-
 
 
 }

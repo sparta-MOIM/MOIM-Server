@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -24,6 +25,7 @@ import org.hibernate.annotations.UuidGenerator;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @Getter
+@Builder
 @Table(name = "p_session")
 public class Session {
 
@@ -36,7 +38,7 @@ public class Session {
   private String organizationId;
 
   @Column(nullable = false, columnDefinition = "TEXT")
-  private String title;
+  private String name;
 
   @Column(nullable = false, length = 100)
   private String publisher;
