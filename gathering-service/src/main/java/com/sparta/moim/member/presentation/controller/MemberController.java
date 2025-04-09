@@ -2,6 +2,7 @@ package com.sparta.moim.member.presentation.controller;
 
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.member.application.dto.command.JoinGatheringCommand;
+import com.sparta.moim.member.application.dto.command.LeaveGatheringCommand;
 import com.sparta.moim.member.application.service.MemberService;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +24,9 @@ public class MemberController {
     recruitService.joinGathering(new JoinGatheringCommand(gatheringId, userInfo));
   }
 
-  @DeleteMapping("/leave")
-  public void leaveGathering() {
-    recruitService.leaveGathering();
+  @DeleteMapping("/{gatheringId}/leave")
+  public void leaveGathering(@PathVariable UUID gatheringId, @AuthenticationPrincipal CustomUserDetails userInfo) {
+    recruitService.leaveGathering(new LeaveGatheringCommand(gatheringId, userInfo));
   }
 
   // 주인만 삭제가능
@@ -33,9 +34,6 @@ public class MemberController {
   public void removeGathering() {
     recruitService.removeGathering();
   }
-
-
-
 
 
 }
