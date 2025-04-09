@@ -2,8 +2,10 @@ package com.moim.post.presentation;
 
 import com.moim.post.application.usecase.PostUseCase;
 import com.moim.post.domain.feed.Feed;
+import com.moim.post.domain.vote.Vote;
 import com.moim.post.presentation.mapper.PostPresentationMapper;
 import com.moim.post.presentation.request.CreateFeedRequest;
+import com.moim.post.presentation.request.CreateVoteRequest;
 import com.moim.post.presentation.response.FeedResponse;
 import com.sparta.moim.common.response.ApiResponseData;
 import jakarta.validation.Valid;
@@ -24,7 +26,7 @@ public class PostCommandController {
   private final PostUseCase useCase;
   private final PostPresentationMapper mapper;
 
-  @PostMapping
+  @PostMapping("/feeds")
   public ResponseEntity<ApiResponseData<FeedResponse>> createFeed(
       @Valid @RequestBody CreateFeedRequest request
   ) {
@@ -32,6 +34,17 @@ public class PostCommandController {
     Feed feed = useCase.createFeed(mapper.toCommand(request));
     FeedResponse response = mapper.toResponse(feed);
     log.info("Feed 생성 및 저장 완료: {}", response.id().toString());
+    return ResponseEntity.ok().body(ApiResponseData.success(response));
+  }
+
+  @PostMapping("/votes")
+  public ResponseEntity<ApiResponseData<FeedResponse>> createVotes(
+      @Valid @RequestBody CreateVoteRequest request
+  ) {
+    log.info("Vote 생성 요청: {}", request.toString());
+    Vote vote = useCase.createVote(mapper.toCommand(request));
+    FeedResponse response = mapper.toResponse(feed);
+    log.info("Vote 생성 및 저장 완료: {}", response.id().toString());
     return ResponseEntity.ok().body(ApiResponseData.success(response));
   }
 

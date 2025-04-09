@@ -1,13 +1,23 @@
 package com.moim.post.domain.vote;
 
 import com.sparta.moim.common.utils.BaseEntity;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import java.sql.Types;
+import java.time.LocalDateTime;
+import java.util.UUID;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
-
-import java.sql.Types;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -41,5 +51,22 @@ public class Vote extends BaseEntity {
 
   @Column(name = "total_voter", nullable = false)
   private Integer totalVoter;
+
+  public static Vote create(
+    UUID organizationId,
+    String title,
+    String content,
+    LocalDateTime start,
+    LocalDateTime end,
+    Integer totalVoter
+  ) {
+    return Vote.builder()
+        .organizationId(organizationId)
+        .title(title)
+        .content(content)
+        .period(new Period(start, end))
+        .totalVoter(totalVoter)
+        .build();
+  }
 
 }
