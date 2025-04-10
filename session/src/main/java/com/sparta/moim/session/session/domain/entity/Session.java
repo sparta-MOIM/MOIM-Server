@@ -70,4 +70,8 @@ public class Session {
     this.count = updateSessionInfo.count == null ? this.count : updateSessionInfo.count;
     this.status = updateSessionInfo.status == null ? this.status : updateSessionInfo.status;
   }
+
+  public void stateChange(SessionStatus sessionStatus) {
+    this.status = sessionStatus;
+  }
 }

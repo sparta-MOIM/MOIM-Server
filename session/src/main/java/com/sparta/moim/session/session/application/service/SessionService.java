@@ -2,13 +2,14 @@ package com.sparta.moim.session.session.application.service;
 
 import com.sparta.moim.session.session.application.dto.command.CreateSessionCommand;
 import com.sparta.moim.session.session.application.dto.command.UpdateSessionCommand;
+import com.sparta.moim.session.session.application.dto.command.UpdateStateStateCommand;
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import com.sparta.moim.session.session.domain.entity.Session;
+import com.sparta.moim.session.session.domain.enums.SessionStatus;
 import com.sparta.moim.session.session.domain.repository.SessionRepository;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,8 +41,12 @@ public class SessionService {
     session.update(command.toDomain());
   }
 
-  public void statusUpdateSession() {
-
+  @Transactional
+  public void statusUpdateSession(UpdateStateStateCommand command) {
+    //TODO READY인 상태에서는 변경이 불가합니다.
+    Session session = sessionRepository.findByTrackingId(command.sessionId())
+        .orElseThrow(() -> new IllegalArgumentException("Session not found"));
+    session.stateChange(SessionStatus.valueOf(command.status()));
   }
 
   public void deleteSession() {
