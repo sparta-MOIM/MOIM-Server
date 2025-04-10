@@ -5,14 +5,12 @@ import java.util.UUID;
 
 public record UpdateSessionRequest(
     String title,
-    int count,
-    String status
+    int count
 ) {
   public UpdateSessionCommand toCommand(UUID sessionId) {
     return UpdateSessionCommand.builder()
         .sessionId(sessionId)
         .title(title)
-        .count(count)
-        .status(status).build();
+        .count(count).build();
   }
 }
