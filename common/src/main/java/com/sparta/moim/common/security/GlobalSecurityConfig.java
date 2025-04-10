@@ -25,7 +25,6 @@ public class GlobalSecurityConfig {
 
   private final ObjectMapper objectMapper;
   private final GlobalSecurityContextFilter globalSecurityContextFilter;
-
   @Bean
   public SecurityFilterChain globalSecurityFilterChain(HttpSecurity http) throws Exception {
     http
@@ -33,10 +32,10 @@ public class GlobalSecurityConfig {
         .formLogin(AbstractHttpConfigurer::disable)  // 로그인 페이지 비활성화
         .httpBasic(AbstractHttpConfigurer::disable)  // HTTP 기본 인증 비활성화
         .logout(AbstractHttpConfigurer::disable)  // 로그아웃 기능 비활성화
+        .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
         .exceptionHandling(exception -> exception
             .authenticationEntryPoint((unauthorizedHandler())) // 인증 실패 시 401 반환
             .accessDeniedHandler(forbiddenHandler())) // 권한 없을 시 403 반환
-        .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
         .sessionManagement(session -> session
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .addFilterBefore(globalSecurityContextFilter, UsernamePasswordAuthenticationFilter.class);

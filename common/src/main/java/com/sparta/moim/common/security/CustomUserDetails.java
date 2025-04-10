@@ -13,18 +13,18 @@ public class CustomUserDetails implements UserDetails {
 
   private final String username;
   private final String role;
-  private final UUID id;
+  private final UUID trackingId;
 
-  public CustomUserDetails(String username, String role, UUID id) {
+  public CustomUserDetails(String username, String role, UUID trackingId) {
     this.username = username;
     this.role = role;
-    this.id = id;
+    this.trackingId = trackingId;
   }
 
   // 필수 메서드 구현
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return Collections.singletonList(new SimpleGrantedAuthority(role));
+    return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
   }
 
   // 사용하지 않음
