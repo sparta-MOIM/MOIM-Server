@@ -1,5 +1,6 @@
 rootProject.name = 'moim'
-include 'gathering'
+include 'gathering-service'
 include 'session'
 include 'common'
 include 'user'
+include 'post-service'

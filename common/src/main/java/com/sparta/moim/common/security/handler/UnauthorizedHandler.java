@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -24,9 +25,9 @@ public class UnauthorizedHandler implements AuthenticationEntryPoint {
   public void commence(HttpServletRequest request, HttpServletResponse response,
       AuthenticationException authException) throws IOException, ServletException {
     ApiResponseData<String> apiResponse = ApiResponseData.failure(
-        UNAUTHORIZED.value(), UNAUTHORIZED_ERROR_MESSAGE);
+        UNAUTHORIZED.getReasonPhrase(), UNAUTHORIZED_ERROR_MESSAGE);
 
-    response.setStatus(apiResponse.getCode());
+    response.setStatus(HttpStatus.UNAUTHORIZED.value());
     response.setContentType(APPLICATION_JSON_VALUE);
 
     String jsonResponse = objectMapper.writeValueAsString(apiResponse);

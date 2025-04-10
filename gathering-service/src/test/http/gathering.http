@@ -1,0 +1,90 @@
+### 게더링 생성
+POST http://localhost:19101/api/v1/gathering
+Content-Type: application/json
+X-User-Name: 사용자이름
+X-User-Role: USER
+X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76
+
+{
+  "organizationId": "org123",
+  "name": "모임 이름5",
+  "owner": "주인장",
+  "count": 10,
+  "status": true
+}
+
+
+###
+POST http://localhost:19101/api/v1/gathering/member/39ad3059-aba2-4de9-97cf-5dcb4c5f65b3
+X-User-Name: stem
+X-User-Role: USER
+X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c70
+Content-Type: application/x-www-form-urlencoded
+
+
+###
+DELETE http://localhost:19101/api/v1/gathering/member/6b8b2388-9a7c-4b46-834c-fa72f4a85601/leave
+X-User-Name: 사용자이름7
+X-User-Role: USER
+X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c75
+Content-Type: application/x-www-form-urlencoded
+
+###
+DELETE http://localhost:19101/api/v1/gathering/member/39ad3059-aba2-4de9-97cf-5dcb4c5f65b3/remove
+X-User-Name: 사용자이름7
+X-User-Role: USER
+X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c79
+Content-Type: application/json
+
+{
+  "users": ["james","stem"]
+}
+
+### 게더링 생성 (모집인원이 0이하)
+POST http://localhost:19101/api/v1/gathering
+Content-Type: application/json
+X-User-Name: 사용자이름
+X-User-Role: USER
+X-User-ID: 550e8400-e29b-41d4-a716-446655440000
+
+{
+  "organizationId": "org123",
+  "name": "모임 이름5",
+  "count": 0,
+  "status": true
+}
+
+
+### 게더링 수정
+PUT http://localhost:19101/api/v1/gathering/7af12059-8279-4000-82c2-358083f9e8f6
+Content-Type: application/json
+X-User-Name: 사용자이름
+X-User-Role: USER
+X-User-ID: 550e8400-e29b-41d4-a716-446655440000
+
+{
+  "status": false
+}
+
+
+### 게더링 조회
+GET http://localhost:19101/api/v1/gathering/88cd4965-9cb3-4a66-8a73-04b360e56da1
+Content-Type: application/json
+X-User-Name: 사용자이름
+X-User-Role: USER
+X-User-ID: 550e8400-e29b-41d4-a716-446655440000
+
+
+### 게더링 삭제
+DELETE http://localhost:19101/api/v1/gathering/7af12059-8279-4000-82c2-358083f9e8f6
+Content-Type: application/json
+X-User-Name: 사용자이름
+X-User-Role: USER
+X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76
+
+
+### 게더링 검색
+GET http://localhost:19101/api/v1/gathering?status=true
+X-User-Name: 테스트유저
+X-User-Role: USER
+X-User-ID: 550e8400-e29b-41d4-a716-446655440000
