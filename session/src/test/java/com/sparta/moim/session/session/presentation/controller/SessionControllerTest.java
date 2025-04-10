@@ -3,6 +3,7 @@ package com.sparta.moim.session.session.presentation.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -17,6 +18,7 @@ import com.sparta.moim.session.session.domain.enums.SessionStatus;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionApplyRequest;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionRequest;
 import com.sparta.moim.session.session.presentation.dto.request.UpdateSessionRequest;
+import com.sparta.moim.session.session.presentation.dto.request.UpdateStateRequest;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
@@ -151,6 +153,23 @@ class SessionControllerTest {
 
     // when & then
     mockMvc.perform(put("/api/v1/session/{sessionId}", sessionId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(request))
+            .header("X-User-Name", "테스트유저")
+            .header("X-User-Role", "USER")
+            .header("X-User-ID", UUID.randomUUID().toString()))
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  @DisplayName("세션 상태변경 성공")
+  void updateStateSession_success() throws Exception {
+    // given
+    UUID sessionId = UUID.randomUUID();
+    UpdateStateRequest request = new UpdateStateRequest("CLOSE");
+
+    // when & then
+    mockMvc.perform(patch("/api/v1/session/{sessionId}/state", sessionId)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request))
             .header("X-User-Name", "테스트유저")

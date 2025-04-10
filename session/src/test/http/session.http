@@ -40,3 +40,13 @@ Content-Type: application/json
   "title": "변경된 타이틀",
   "count": 20
 }
+### 세션 상태 수정 - 성공
+PATCH {{baseUrl}}/api/v1/session/12f4c20e-7fe6-44e2-9793-9e49c3c3f267/state
+Content-Type: application/json
+X-User-Name: {{username}}
+X-User-Role: {{role}}
+X-User-ID: {{userId}}
+
+{
+  "status": "CLOSED"
+}
