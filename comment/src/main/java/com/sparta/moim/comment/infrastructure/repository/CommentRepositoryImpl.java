@@ -24,12 +24,14 @@ public class CommentRepositoryImpl implements CommentRepository {
   }
 
   @Override
-  public List<Comment> findCommentAll(Long organizationId, Long postId) {return jpaCommentRepository.findByOrganizationIdAndPostIdAndDeletedByIsNullOrderByCreatedAtAsc(organizationId, postId);}
+  public List<Comment> findCommentAll(Long postId) {return jpaCommentRepository.findByPostIdAndDeletedByIsNullOrderByCreatedAtAsc(postId);}
 
   @Override
-  public Optional<Comment> findComment(Long organizationId, Long postId, Long commentId) {return Optional.ofNullable(
-      jpaCommentRepository.findByOrganizationIdAndPostIdAndIdAndDeletedByIsNull(organizationId, postId, commentId)
-          .orElseThrow(() -> new BaseException(Code.INTERNAL_SERVER_ERROR)));}
+  public Optional<Comment> findComment(Long postId, Long commentId) {
+    return Optional.ofNullable(
+      jpaCommentRepository.findByPostIdAndIdAndDeletedByIsNull(postId, commentId)
+          .orElseThrow(() -> new BaseException(Code.INTERNAL_SERVER_ERROR)));
+  }
 
   @Override
   public List<Comment> searchComment(Long postId, String comment){

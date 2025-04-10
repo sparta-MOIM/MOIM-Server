@@ -36,8 +36,6 @@ public class Comment extends BaseEntity {
   @Column(nullable = false)
   private Long postId;
 
-  private Long organizationId;
-
   @Column(nullable = false)
   private Integer commentClass;
 
@@ -55,7 +53,6 @@ public class Comment extends BaseEntity {
     return Comment.builder()
         .comment(commentRequestDTO.getComment())
         .postId(commentRequestDTO.getPostId())
-        .organizationId(commentRequestDTO.getOrganizationId())
         .commentClass(commentRequestDTO.getCommentClass())
         .parentId(commentRequestDTO.getParentId())
         .userId(commentRequestDTO.getUserId())

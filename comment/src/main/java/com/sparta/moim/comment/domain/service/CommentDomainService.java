@@ -25,8 +25,8 @@ public class CommentDomainService {
   }
 
   //특정 모임의 특정 게시물 댓글 전체 조회
-  public List<CommentResponseDTO> readAllComment(Long organizationId, Long postId){
-    List<Comment> comments = commentRepository.findCommentAll(organizationId,postId);
+  public List<CommentResponseDTO> readAllComment(Long postId){
+    List<Comment> comments = commentRepository.findCommentAll(postId);
     List<CommentResponseDTO> commentResponseDTOS = new ArrayList<>();
 
     for(Comment comment : comments){
@@ -36,8 +36,8 @@ public class CommentDomainService {
   }
 
   //특정 모임, 특정 게시글, 특정 댓글 수정
-  public CommentResponseDTO updateComment(Long organizationId, Long postId, Long commentId, CommentUpdateRequestDTO commentUpdateRequestDTO){
-    Comment comment = commentRepository.findComment(organizationId,postId,commentId).orElseThrow(()->new BaseException("해당 댓글을 찾을 수 없습니다."));
+  public CommentResponseDTO updateComment(Long postId, Long commentId, CommentUpdateRequestDTO commentUpdateRequestDTO){
+    Comment comment = commentRepository.findComment(postId,commentId).orElseThrow(()->new BaseException("해당 댓글을 찾을 수 없습니다."));
     comment.setComment(commentUpdateRequestDTO.getComment());
     commentRepository.save(comment);
 
@@ -45,8 +45,8 @@ public class CommentDomainService {
   }
 
   //특정 모임, 특정 게시글, 특정 댓글 삭제
-  public void deleteComment(Long organizationId, Long postId, Long commentId){
-    Comment comment = commentRepository.findComment(organizationId,postId,commentId).get();
+  public void deleteComment(Long postId, Long commentId){
+    Comment comment = commentRepository.findComment(postId,commentId).get();
     comment.softDelete("testUsername");
     commentRepository.save(comment);
 

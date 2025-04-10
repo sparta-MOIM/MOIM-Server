@@ -33,25 +33,22 @@ public class CommentController {
     return ResponseEntity.ok().body(ApiResponseData.success(null, "댓글을 성공적으로 등록하였습니다."));
   }
 
-  @GetMapping("/{organization}/{post}")
-  public ResponseEntity<ApiResponseData<List<CommentResponseDTO>>> getComments(@PathVariable("organization") Long organizationId,
-                                                                               @PathVariable("post") Long postId){
-    return ResponseEntity.ok().body(ApiResponseData.of(Code.SUCCESS.getCode(), "댓글을 성공적으로 조회하였습니다.", commentDomainService.readAllComment(organizationId,postId)));
+  @GetMapping("/{post_id}")
+  public ResponseEntity<ApiResponseData<List<CommentResponseDTO>>> getComments(@PathVariable("post_id") Long postId){
+    return ResponseEntity.ok().body(ApiResponseData.of(Code.SUCCESS.getCode(), "댓글을 성공적으로 조회하였습니다.", commentDomainService.readAllComment(postId)));
   }
 
-  @PutMapping("/{organization}/{post}/{comment_id}")
-  public ResponseEntity<ApiResponseData<CommentResponseDTO>> updateComment(@PathVariable("organization") Long organizationId,
-                                                                           @PathVariable("post") Long postId,
+  @PutMapping("/{post_id}/{comment_id}")
+  public ResponseEntity<ApiResponseData<CommentResponseDTO>> updateComment(@PathVariable("post_id") Long postId,
                                                                            @PathVariable("comment_id") Long commentId,
                                                                            @RequestBody CommentUpdateRequestDTO commentUpdateRequestDTO){
-    return ResponseEntity.ok().body(ApiResponseData.of(Code.SUCCESS.getCode(), "댓글을 성공적으로 수정하였습니다.", commentDomainService.updateComment(organizationId,postId,commentId,commentUpdateRequestDTO)));
+    return ResponseEntity.ok().body(ApiResponseData.of(Code.SUCCESS.getCode(), "댓글을 성공적으로 수정하였습니다.", commentDomainService.updateComment(postId,commentId,commentUpdateRequestDTO)));
   }
 
-  @DeleteMapping("/{organization}/{post}/{comment_id}")
-  public ResponseEntity<ApiResponseData<String>> deleteComment(@PathVariable("organization") Long organizationId,
-                                                               @PathVariable("post") Long postId,
+  @DeleteMapping("/{post}/{comment_id}")
+  public ResponseEntity<ApiResponseData<String>> deleteComment(@PathVariable("post") Long postId,
                                                                @PathVariable("comment_id") Long commentId){
-    commentDomainService.deleteComment(organizationId, postId, commentId);
+    commentDomainService.deleteComment(postId, commentId);
     return ResponseEntity.ok().body(ApiResponseData.of(Code.SUCCESS.getCode(),"댓글을 성공적으로 삭제하였습니다.", null));
   }
 

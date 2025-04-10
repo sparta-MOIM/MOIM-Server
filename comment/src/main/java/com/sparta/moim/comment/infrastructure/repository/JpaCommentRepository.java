@@ -7,7 +7,7 @@ import org.hibernate.type.descriptor.converter.spi.JpaAttributeConverter;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface JpaCommentRepository extends JpaRepository<Comment, Long> {
-  List<Comment> findByOrganizationIdAndPostIdAndDeletedByIsNullOrderByCreatedAtAsc(Long organizationId, Long postId);
+  List<Comment> findByPostIdAndDeletedByIsNullOrderByCreatedAtAsc(Long postId);
 
-  Optional<Comment> findByOrganizationIdAndPostIdAndIdAndDeletedByIsNull(Long organizationId, Long postId, Long id);
+  Optional<Comment> findByPostIdAndIdAndDeletedByIsNull(Long postId, Long id);
 }

@@ -6,7 +6,6 @@ import lombok.Getter;
 public class CommentRequestDTO {
   private String comment;
   private Long postId;
-  private Long organizationId;
   private Integer commentClass;
   private Long parentId;
   private Long userId;
