@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
@@ -24,9 +25,9 @@ public class ForbiddenHandler implements AccessDeniedHandler {
   public void handle(HttpServletRequest request, HttpServletResponse response,
       AccessDeniedException accessDeniedException) throws IOException, ServletException {
     ApiResponseData<String> apiResponse = ApiResponseData.failure(
-        FORBIDDEN.value(), FORBIDDEN_ERROR_MESSAGE);
+        FORBIDDEN.getReasonPhrase(), FORBIDDEN_ERROR_MESSAGE);
 
-    response.setStatus(apiResponse.getCode());
+    response.setStatus(HttpStatus.FORBIDDEN.value());
     response.setContentType(APPLICATION_JSON_VALUE);
 
     String jsonResponse = objectMapper.writeValueAsString(apiResponse);
