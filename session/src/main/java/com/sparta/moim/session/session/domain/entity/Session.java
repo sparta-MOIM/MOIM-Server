@@ -1,5 +1,6 @@
 package com.sparta.moim.session.session.domain.entity;
 
+import com.sparta.moim.common.utils.BaseEntity;
 import com.sparta.moim.session.session.domain.enums.SessionStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,7 +28,7 @@ import org.hibernate.annotations.UuidGenerator;
 @Getter
 @Builder
 @Table(name = "p_session")
-public class Session {
+public class Session extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,5 +74,10 @@ public class Session {
 
   public void stateChange(SessionStatus sessionStatus) {
     this.status = sessionStatus;
+  }
+
+  public void confirm() {
+    this.confirmTime = LocalDateTime.now();
+    this.status = SessionStatus.OPEN;
   }
 }

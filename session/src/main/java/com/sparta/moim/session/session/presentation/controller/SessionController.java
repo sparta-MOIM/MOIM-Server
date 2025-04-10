@@ -1,6 +1,7 @@
 package com.sparta.moim.session.session.presentation.controller;
 
 import com.sparta.moim.common.security.CustomUserDetails;
+import com.sparta.moim.session.session.application.dto.DeleteSessionCommand;
 import com.sparta.moim.session.session.application.service.SessionService;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionRequest;
 import com.sparta.moim.session.session.presentation.dto.request.UpdateSessionRequest;
@@ -55,13 +56,13 @@ public class SessionController {
   }
 
   @DeleteMapping("/{sessionId}")
-  public void deleteSession(@PathVariable String sessionId) {
-    sessionService.deleteSession();
+  public void deleteSession(@PathVariable UUID sessionId, @AuthenticationPrincipal CustomUserDetails details) {
+    sessionService.deleteSession(new DeleteSessionCommand(sessionId, details.getUsername()));
   }
 
   @PatchMapping("/{sessionId}/apply")
-  public void applySession(@PathVariable String sessionId) {
-    sessionService.applySession();
+  public void applySession(@PathVariable UUID sessionId) {
+    sessionService.applySession(sessionId);
   }
 
 

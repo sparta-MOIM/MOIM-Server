@@ -1,5 +1,6 @@
 package com.sparta.moim.session.session.application.service;
 
+import com.sparta.moim.session.session.application.dto.DeleteSessionCommand;
 import com.sparta.moim.session.session.application.dto.command.CreateSessionCommand;
 import com.sparta.moim.session.session.application.dto.command.UpdateSessionCommand;
 import com.sparta.moim.session.session.application.dto.command.UpdateStateStateCommand;
@@ -49,10 +50,19 @@ public class SessionService {
     session.stateChange(SessionStatus.valueOf(command.status()));
   }
 
-  public void deleteSession() {
+  @Transactional
+  public void deleteSession(DeleteSessionCommand command) {
+    Session session = sessionRepository.findByTrackingId(command.sessionId())
+        .orElseThrow(() -> new IllegalArgumentException("Session not found"));
+    session.softDelete(command.username());
   }
 
-  public void applySession() {
+  @Transactional
+  public void applySession(UUID sessionId) {
+    //TODO 레디인 상태에서만 승인을 할 수 가 있다.
+    Session session = sessionRepository.findByTrackingId(sessionId)
+        .orElseThrow(() -> new IllegalArgumentException("Session not found"));
+    session.confirm();
 
   }
 }
