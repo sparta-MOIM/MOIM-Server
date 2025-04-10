@@ -49,7 +49,7 @@ public class SessionController {
     sessionService.updateSession(request.toCommand(sessionId));
   }
 
-  @PatchMapping("/{sessionId}")
+  @PatchMapping("/{sessionId}/state")
   public void updateStateSession(@PathVariable UUID sessionId, @RequestBody UpdateStateRequest request) {
     sessionService.statusUpdateSession(request.toCommand(sessionId));
   }
