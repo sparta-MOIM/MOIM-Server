@@ -8,6 +8,7 @@ import com.sparta.moim.session.session.presentation.dto.request.UpdateSessionReq
 import com.sparta.moim.session.session.presentation.dto.request.UpdateStateRequest;
 import com.sparta.moim.session.session.presentation.dto.response.CreateSessionResponse;
 import com.sparta.moim.session.session.presentation.dto.response.GetSessionResponse;
+import com.sparta.moim.session.session.presentation.dto.response.SearchSessionResponse;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -40,8 +41,8 @@ public class SessionController {
   }
 
   @GetMapping
-  public void searchSession() {
-    sessionService.searchSession();
+  public SearchSessionResponse searchSession() {
+    return SearchSessionResponse.search(sessionService.searchSession());
   }
 
 

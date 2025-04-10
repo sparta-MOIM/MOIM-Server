@@ -6,9 +6,12 @@ import com.sparta.moim.session.session.application.dto.command.UpdateSessionComm
 import com.sparta.moim.session.session.application.dto.command.UpdateStateStateCommand;
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
+import com.sparta.moim.session.session.application.dto.result.SearchSessionListResult;
+import com.sparta.moim.session.session.application.dto.result.SearchSessionResult;
 import com.sparta.moim.session.session.domain.entity.Session;
 import com.sparta.moim.session.session.domain.enums.SessionStatus;
 import com.sparta.moim.session.session.domain.repository.SessionRepository;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,8 +34,10 @@ public class SessionService {
         .orElseThrow(() -> new IllegalArgumentException("Session not found")));
   }
 
-  public void searchSession() {
-
+  @Transactional(readOnly = true)
+  public SearchSessionResult searchSession() {
+    List<Session> sessions = sessionRepository.findAll();
+    return SearchSessionResult.search(sessions, 0, 0, 0);
   }
 
   @Transactional
