@@ -2,6 +2,7 @@ package com.sparta.moim.session.session.presentation.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -172,6 +173,42 @@ class SessionControllerTest {
     mockMvc.perform(patch("/api/v1/session/{sessionId}/state", sessionId)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request))
+            .header("X-User-Name", "테스트유저")
+            .header("X-User-Role", "USER")
+            .header("X-User-ID", UUID.randomUUID().toString()))
+        .andExpect(status().isOk());
+  }
+
+
+  @Test
+  @DisplayName("세션 삭제 성공")
+  void deleteSession_success() throws Exception {
+    // given
+    UUID sessionId = UUID.randomUUID();
+    UUID userId = UUID.randomUUID();
+    String username = "테스트유저";
+    String role = "USER";
+    CustomUserDetails customUserDetails = new CustomUserDetails(username, role, userId);
+    SecurityContextHolder.getContext().setAuthentication(
+        new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities())
+    );
+    // when & then
+    mockMvc.perform(delete("/api/v1/session/{sessionId}", sessionId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .header("X-User-Name", "테스트유저")
+            .header("X-User-Role", "USER")
+            .header("X-User-ID", UUID.randomUUID().toString()))
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  @DisplayName("세션 허용 성공")
+  void applySession_success() throws Exception {
+    // given
+    UUID sessionId = UUID.randomUUID();
+    // when & then
+    mockMvc.perform(patch("/api/v1/session/{sessionId}/apply", sessionId)
+            .contentType(MediaType.APPLICATION_JSON)
             .header("X-User-Name", "테스트유저")
             .header("X-User-Role", "USER")
             .header("X-User-ID", UUID.randomUUID().toString()))
