@@ -6,5 +6,5 @@ import java.util.UUID;
 
 public interface SessionRepository {
   Session save(Session session);
-  Optional<Session> findByTrackingId(UUID id);
+  Optional<Session> findByTrackingIdAndDeletedAtIsNull(UUID id);
 }

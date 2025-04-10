@@ -27,7 +27,7 @@ public class SessionService {
 
   @Transactional(readOnly = true)
   public GetSessionResult getSession(UUID sessionId) {
-    return GetSessionResult.get(sessionRepository.findByTrackingId(sessionId)
+    return GetSessionResult.get(sessionRepository.findByTrackingIdAndDeletedAtIsNull(sessionId)
         .orElseThrow(() -> new IllegalArgumentException("Session not found")));
   }
 
@@ -37,7 +37,7 @@ public class SessionService {
 
   @Transactional
   public void updateSession(UpdateSessionCommand command) {
-    Session session = sessionRepository.findByTrackingId(command.sessionId())
+    Session session = sessionRepository.findByTrackingIdAndDeletedAtIsNull(command.sessionId())
         .orElseThrow(() -> new IllegalArgumentException("Session not found"));
     session.update(command.toDomain());
   }
@@ -45,14 +45,14 @@ public class SessionService {
   @Transactional
   public void statusUpdateSession(UpdateStateStateCommand command) {
     //TODO READY인 상태에서는 변경이 불가합니다.
-    Session session = sessionRepository.findByTrackingId(command.sessionId())
+    Session session = sessionRepository.findByTrackingIdAndDeletedAtIsNull(command.sessionId())
         .orElseThrow(() -> new IllegalArgumentException("Session not found"));
     session.stateChange(SessionStatus.valueOf(command.status()));
   }
 
   @Transactional
   public void deleteSession(DeleteSessionCommand command) {
-    Session session = sessionRepository.findByTrackingId(command.sessionId())
+    Session session = sessionRepository.findByTrackingIdAndDeletedAtIsNull(command.sessionId())
         .orElseThrow(() -> new IllegalArgumentException("Session not found"));
     session.softDelete(command.username());
   }
@@ -60,7 +60,7 @@ public class SessionService {
   @Transactional
   public void applySession(UUID sessionId) {
     //TODO 레디인 상태에서만 승인을 할 수 가 있다.
-    Session session = sessionRepository.findByTrackingId(sessionId)
+    Session session = sessionRepository.findByTrackingIdAndDeletedAtIsNull(sessionId)
         .orElseThrow(() -> new IllegalArgumentException("Session not found"));
     session.confirm();
 
