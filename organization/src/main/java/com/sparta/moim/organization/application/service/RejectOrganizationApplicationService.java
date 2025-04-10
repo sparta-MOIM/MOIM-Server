@@ -1,6 +1,7 @@
 package com.sparta.moim.organization.application.service;
 
 import com.sparta.moim.organization.application.exception.CannotFindOrganizationApplication;
+import com.sparta.moim.organization.application.exception.MemberAccessDeniedException;
 import com.sparta.moim.organization.application.usecase.RejectOrganizationApplicationUseCase;
 import com.sparta.moim.organization.domain.entity.OrganizationApplication;
 import com.sparta.moim.organization.domain.enums.OrganizationMemberRole;
@@ -22,7 +23,10 @@ public class RejectOrganizationApplicationService implements RejectOrganizationA
     @Transactional
     public void execute(String organizationTrackingId, String applicationTrackingId, String managerTrackingId) {
 
-        checkRoleService.checkRole(managerTrackingId, organizationTrackingId, List.of(OrganizationMemberRole.MASTER, OrganizationMemberRole.MANAGER));
+        if(checkRoleService.checkRole(managerTrackingId, organizationTrackingId, List.of(OrganizationMemberRole.MASTER, OrganizationMemberRole.MANAGER))){
+            throw new MemberAccessDeniedException();
+        }
+
         OrganizationApplication organizationApplication = organizationApplicationRepository.findByApplicationTrackingIdAndOrganizationTrackingId(applicationTrackingId, organizationTrackingId)
                 .orElseThrow(CannotFindOrganizationApplication::new);
 

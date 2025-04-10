@@ -1,10 +1,10 @@
 package com.sparta.moim.organization.application.exception;
 
 import com.sparta.moim.common.exception.BaseException;
-import com.sparta.moim.common.response.Code;
+import com.sparta.moim.organization.presentation.code.OrganizationCode;
 
 public class CannotFindOrganizationMember extends BaseException {
     public CannotFindOrganizationMember() {
-      super(Code.ORGANIZATION_CANNOT_FIND_ORGANIZATION_MEMBER);
+      super(OrganizationCode.CANNOT_FIND_ORGANIZATION_MEMBER);
     }
 }
