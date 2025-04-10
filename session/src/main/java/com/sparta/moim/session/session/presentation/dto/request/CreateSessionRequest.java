@@ -1,17 +1,19 @@
 package com.sparta.moim.session.session.presentation.dto.request;
 
 import com.sparta.moim.session.session.application.dto.command.CreateSessionCommand;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import lombok.Builder;
 
 @Builder
 public record CreateSessionRequest(
-    String organizationId,
-    String publisher,
-    String title,
-    int count,
-    LocalDateTime openTime,
-    LocalDateTime closeTime,
+    @NotNull String organizationId,
+    @NotNull String publisher,
+    @NotNull String title,
+    @PositiveOrZero int count,
+    @NotNull LocalDateTime openTime,
+    @NotNull LocalDateTime closeTime,
     CreateSessionApplyRequest applyInfo
 ) {
   public CreateSessionCommand toCommand(String userId, String role) {

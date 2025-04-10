@@ -10,6 +10,7 @@ import com.sparta.moim.session.session.presentation.dto.request.UpdateStateReque
 import com.sparta.moim.session.session.presentation.dto.response.CreateSessionResponse;
 import com.sparta.moim.session.session.presentation.dto.response.GetSessionResponse;
 import com.sparta.moim.session.session.presentation.dto.response.SearchSessionResponse;
+import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,7 +32,7 @@ public class SessionController {
   private final SessionService sessionService;
 
   @PostMapping
-  public CreateSessionResponse createSession(@RequestBody CreateSessionRequest request,
+  public CreateSessionResponse createSession(@RequestBody @Valid CreateSessionRequest request,
                                              @AuthenticationPrincipal CustomUserDetails details) {
     return CreateSessionResponse.create(sessionService.createSession(request.toCommand(details.getUsername(), details.getRole())));
   }
@@ -49,12 +50,12 @@ public class SessionController {
 
 
   @PutMapping("/{sessionId}")
-  public void updateSession(@PathVariable UUID sessionId, @RequestBody UpdateSessionRequest request) {
+  public void updateSession(@PathVariable UUID sessionId, @RequestBody @Valid UpdateSessionRequest request) {
     sessionService.updateSession(request.toCommand(sessionId));
   }
 
   @PatchMapping("/{sessionId}/state")
-  public void updateStateSession(@PathVariable UUID sessionId, @RequestBody UpdateStateRequest request) {
+  public void updateStateSession(@PathVariable UUID sessionId, @RequestBody @Valid UpdateStateRequest request) {
     sessionService.statusUpdateSession(request.toCommand(sessionId));
   }
 
