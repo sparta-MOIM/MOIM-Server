@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -15,6 +16,7 @@ import com.sparta.moim.session.session.application.service.SessionService;
 import com.sparta.moim.session.session.domain.enums.SessionStatus;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionApplyRequest;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionRequest;
+import com.sparta.moim.session.session.presentation.dto.request.UpdateSessionRequest;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
@@ -135,5 +137,25 @@ class SessionControllerTest {
         .andExpect(jsonPath("$.applyInfo.applyTime").exists())
         .andExpect(jsonPath("$.applyInfo.confirmTime").exists())
         .andExpect(jsonPath("$.applyInfo.reason").value("test"));
+  }
+
+  @Test
+  @DisplayName("세션 수정 성공")
+  void updateSession_success() throws Exception {
+    // given
+    UUID sessionId = UUID.randomUUID();
+    UpdateSessionRequest request = UpdateSessionRequest.builder()
+        .count(10)
+        .title("test")
+        .build();
+
+    // when & then
+    mockMvc.perform(put("/api/v1/session/{sessionId}", sessionId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(request))
+            .header("X-User-Name", "테스트유저")
+            .header("X-User-Role", "USER")
+            .header("X-User-ID", UUID.randomUUID().toString()))
+        .andExpect(status().isOk());
   }
 }

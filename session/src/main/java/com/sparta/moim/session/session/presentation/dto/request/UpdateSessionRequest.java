@@ -2,7 +2,9 @@ package com.sparta.moim.session.session.presentation.dto.request;
 
 import com.sparta.moim.session.session.application.dto.command.UpdateSessionCommand;
 import java.util.UUID;
+import lombok.Builder;
 
+@Builder
 public record UpdateSessionRequest(
     String title,
     int count

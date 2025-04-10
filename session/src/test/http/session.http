@@ -30,3 +30,13 @@ Content-Type: application/json
 X-User-Name: {{username}}
 X-User-Role: {{role}}
 X-User-ID: {{userId}}
+
+
+### 세션 수정 - 성공
+PUT {{baseUrl}}/api/v1/session/b2ae29d4-ad9f-4f24-929a-11f6cf880dbc
+Content-Type: application/json
+
+{
+  "title": "변경된 타이틀",
+  "count": 20
+}
