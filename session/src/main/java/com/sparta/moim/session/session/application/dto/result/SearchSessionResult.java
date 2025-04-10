@@ -11,7 +11,7 @@ public record SearchSessionResult(
     int page,
     int content
 ) {
-  public static SearchSessionResult search(List<Session> sessions, int total, int page, int content) {
+  public static SearchSessionResult search(List<Session> sessions, long total, int page, int content) {
     return SearchSessionResult.builder()
         .sessions(
             sessions.stream().map(session ->

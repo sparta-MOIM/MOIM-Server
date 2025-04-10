@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.common.security.CustomUserDetails;
+import com.sparta.moim.session.session.application.dto.command.SearchSessionCommand;
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionListResult;
@@ -219,8 +220,8 @@ class SessionControllerTest {
   }
 
   @Test
-  @DisplayName("게더링 검색 성공")
-  void searchGathering_success() throws Exception {
+  @DisplayName("세션 검색 성공")
+  void searchSession_success() throws Exception {
     // given
     UUID userId = UUID.randomUUID();
     String username = "테스트유저";
@@ -246,7 +247,7 @@ class SessionControllerTest {
         .total(1)
         .build();
 
-    when(sessionService.searchSession())
+    when(sessionService.searchSession(any()))
         .thenReturn(response);
 
     // when & then

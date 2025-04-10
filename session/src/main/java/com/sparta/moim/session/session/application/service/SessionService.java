@@ -1,17 +1,18 @@
 package com.sparta.moim.session.session.application.service;
 
+import com.sparta.moim.common.page.Pagination;
 import com.sparta.moim.session.session.application.dto.DeleteSessionCommand;
 import com.sparta.moim.session.session.application.dto.command.CreateSessionCommand;
+import com.sparta.moim.session.session.application.dto.command.SearchSessionCommand;
 import com.sparta.moim.session.session.application.dto.command.UpdateSessionCommand;
 import com.sparta.moim.session.session.application.dto.command.UpdateStateStateCommand;
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
-import com.sparta.moim.session.session.application.dto.result.SearchSessionListResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionResult;
 import com.sparta.moim.session.session.domain.entity.Session;
 import com.sparta.moim.session.session.domain.enums.SessionStatus;
+import com.sparta.moim.session.session.domain.repository.SessionCustomRepository;
 import com.sparta.moim.session.session.domain.repository.SessionRepository;
-import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SessionService {
   private final SessionRepository sessionRepository;
+  private final SessionCustomRepository sessionCustomRepository;
 
   public CreateSessionResult createSession(CreateSessionCommand command) {
     //TODO 이름은 중복이 될 수 없습니다.
@@ -35,9 +37,12 @@ public class SessionService {
   }
 
   @Transactional(readOnly = true)
-  public SearchSessionResult searchSession() {
-    List<Session> sessions = sessionRepository.findAll();
-    return SearchSessionResult.search(sessions, 0, 0, 0);
+  public SearchSessionResult searchSession(SearchSessionCommand command) {
+    Pagination<Session> sessions = sessionCustomRepository.searchSession(command.toCriteria());
+    return SearchSessionResult.search(sessions.getContent(),
+        sessions.getTotal(),
+        sessions.getPage(),
+        sessions.getSize());
   }
 
   @Transactional
