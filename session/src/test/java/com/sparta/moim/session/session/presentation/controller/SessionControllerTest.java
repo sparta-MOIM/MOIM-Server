@@ -14,6 +14,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
+import com.sparta.moim.session.session.application.dto.result.SearchSessionListResult;
+import com.sparta.moim.session.session.application.dto.result.SearchSessionResult;
 import com.sparta.moim.session.session.application.service.SessionService;
 import com.sparta.moim.session.session.domain.enums.SessionStatus;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionApplyRequest;
@@ -21,6 +23,7 @@ import com.sparta.moim.session.session.presentation.dto.request.CreateSessionReq
 import com.sparta.moim.session.session.presentation.dto.request.UpdateSessionRequest;
 import com.sparta.moim.session.session.presentation.dto.request.UpdateStateRequest;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -213,5 +216,51 @@ class SessionControllerTest {
             .header("X-User-Role", "USER")
             .header("X-User-ID", UUID.randomUUID().toString()))
         .andExpect(status().isOk());
+  }
+
+  @Test
+  @DisplayName("게더링 검색 성공")
+  void searchGathering_success() throws Exception {
+    // given
+    UUID userId = UUID.randomUUID();
+    String username = "테스트유저";
+    String role = "USER";
+
+    // SecurityContext에 인증 정보 설정
+    CustomUserDetails customUserDetails = new CustomUserDetails(username, role, userId);
+    SecurityContextHolder.getContext().setAuthentication(
+        new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities())
+    );
+
+    List<SearchSessionListResult> sessions = List.of(
+        SearchSessionListResult.builder()
+            .title("title")
+            .publisher("publisher")
+            .build()
+    );
+
+    SearchSessionResult response = SearchSessionResult.builder()
+        .sessions(sessions)
+        .page(0)
+        .content(1)
+        .total(1)
+        .build();
+
+    when(sessionService.searchSession())
+        .thenReturn(response);
+
+    // when & then
+    mockMvc.perform(get("/api/v1/session")
+            .header("X-User-Name", username)
+            .header("X-User-Role", role)
+            .header("X-User-ID", userId.toString()))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.sessions").isArray())
+        .andExpect(jsonPath("$.sessions.length()").value(1))
+        .andExpect(jsonPath("$.sessions[0].title").value("title"))
+        .andExpect(jsonPath("$.sessions[0].publisher").value("publisher"))
+        .andExpect(jsonPath("$.page").value(0))
+        .andExpect(jsonPath("$.content").value(1))
+        .andExpect(jsonPath("$.total").value(1));
   }
 }
