@@ -1,6 +1,7 @@
 package com.sparta.moim.organization.domain.entity;
 
 import com.sparta.moim.common.utils.BaseEntity;
+import com.sparta.moim.organization.application.dto.command.UpdateMemberInfoCommand;
 import com.sparta.moim.organization.domain.enums.OrganizationMemberRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -71,5 +72,9 @@ public class OrganizationMember extends BaseEntity {
                 .role(OrganizationMemberRole.MEMBER)
                 .organization(organization)
                 .build();
+    }
+
+    public void updateInfo(UpdateMemberInfoCommand command) {
+        this.nickname = command.getNickname();
     }
 }

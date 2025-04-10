@@ -15,4 +15,6 @@ public interface OrganizationMemberRepository {
     List<OrganizationMember> findAllByOrganization(Organization organization);
 
     void saveAll(List<OrganizationMember> members);
+
+    Optional<OrganizationMember> findByOrganizationAndNickname(Organization organization, String nickaname);
 }

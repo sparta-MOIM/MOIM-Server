@@ -34,4 +34,11 @@ public class OrganizationMemberRepositoryImpl implements OrganizationMemberRepos
     public void saveAll(List<OrganizationMember> members) {
         jpaRepository.saveAll(members);
     }
+
+    @Override
+    public Optional<OrganizationMember> findByOrganizationAndNickname(Organization organization, String nickaname) {
+        return jpaRepository.findByOrganizationAndNickname(organization, nickaname);
+    }
+
+
 }

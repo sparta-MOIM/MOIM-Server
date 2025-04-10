@@ -30,7 +30,7 @@ public enum Code implements BaseError {
   ORGANIZATION_NOT_MANAGER(HttpStatus.FORBIDDEN, 40003 , "모임의 MANAGER가 아닙니다."),
   ORGANIZATION_ALREADY_MEMBER(HttpStatus.BAD_REQUEST,40004 ,"이미 모임의 멤버입니다." ),
   ORGANIZATION_CANNOT_FIND_ORGANIZATION_APPLICATION(HttpStatus.BAD_REQUEST,40005 , "모임 신청을 찾을 수 없습니다." ),
-  ;
+  ORGANIZATION_ALREADY_USED_NICKNAME(HttpStatus.BAD_REQUEST,40006 ,"이미 사용중인 닉네임입니다." );
 
   private final HttpStatus status;
   private final Integer code;
