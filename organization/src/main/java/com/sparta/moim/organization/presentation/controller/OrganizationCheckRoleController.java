@@ -19,7 +19,7 @@ public class OrganizationCheckRoleController {
 
     private final OrganizationCheckRoleUseCase organizationCheckRoleUseCase;
 
-    @GetMapping("{organizationTrackingId}/members/{userTrackingId}/has-role")
+    @GetMapping("/{organizationTrackingId}/members/{userTrackingId}/has-role")
     public ResponseEntity<ApiResponseData<Boolean>> checkRole(
             @PathVariable String organizationTrackingId,
             @PathVariable String userTrackingId,
