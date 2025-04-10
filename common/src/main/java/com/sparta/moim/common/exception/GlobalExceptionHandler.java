@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(BaseException.class)
   public ResponseEntity<ApiResponseData<String>> handleBaseException(BaseException e) {
     return ResponseEntity.status(BAD_REQUEST)
-        .body(ApiResponseData.failure(e.getBaseError().getCode(), e.getBaseError().getMessage()));
+        .body(ApiResponseData.failure(e.getCode().getCode(), e.getCode().getMessage()));
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -46,6 +46,6 @@ public class GlobalExceptionHandler {
     }
 
     String errorMessages = sb.toString();
-    return ResponseEntity.status(BAD_REQUEST).body(ApiResponseData.failure(0, errorMessages));
+    return ResponseEntity.status(BAD_REQUEST).body(ApiResponseData.failure("0", errorMessages));
   }
 }
