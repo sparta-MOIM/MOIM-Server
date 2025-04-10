@@ -1,5 +1,5 @@
 rootProject.name = 'moim'
 include 'gathering-service'
-include 'session'
+include 'session-service'
 include 'common'
 include 'post-service'
