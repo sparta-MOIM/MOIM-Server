@@ -19,6 +19,7 @@ public class MemberService {
 
   @Transactional
   public void joinMember(JoinMemberCommand command) {
+    // CLOSE가 된 세션은 참여가 불가능합니다.
     memberRepository.save(Member.builder()
         .sessionId(command.sessionId())
         .type(MemberType.GENERAL)
