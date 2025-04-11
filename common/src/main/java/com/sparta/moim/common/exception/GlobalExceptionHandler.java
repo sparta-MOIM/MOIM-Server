@@ -51,6 +51,14 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(BAD_REQUEST).body(ApiResponseData.failure("0", errorMessages));
   }
 
+  /**
+   * 접근 권한이 없을 경우 발생하는 {@code AccessDeniedException}을 처리합니다.
+   * 
+   * 이 메서드는 HTTP 403(FORBIDDEN) 상태와 함께, 상태 이름(문자열 "FORBIDDEN")과 "접근 권한이 없습니다." 메시지를 포함한 실패 응답 데이터를 반환합니다.
+   *
+   * @param e 접근 권한이 없음을 나타내는 예외
+   * @return 403 상태 및 관련 실패 응답 데이터를 포함하는 ResponseEntity
+   */
   @ExceptionHandler(AccessDeniedException.class)
   public ResponseEntity<ApiResponseData<Object>> handleAccessDeniedException(AccessDeniedException e) {
     return ResponseEntity.status(FORBIDDEN).body(
