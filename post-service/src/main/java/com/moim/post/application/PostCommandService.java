@@ -57,7 +57,6 @@ public class PostCommandService implements PostCommandUseCase {
     command.title().ifPresent(feed::updateTitle);
     command.content().ifPresent(feed::updateContent);
     command.imageUrl().ifPresent(feed::updateImageUrl);
-//    command.taggedUserIds().ifPresent(feed::updateTaggedUserIds);
     command.taggedUserIds().ifPresent(
         userIds ->
             feedEntityManager.updateTaggedUserIds(feed.getId(), userIds)
