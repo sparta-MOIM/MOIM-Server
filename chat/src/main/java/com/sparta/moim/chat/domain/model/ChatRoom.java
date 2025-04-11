@@ -32,7 +32,11 @@ public class ChatRoom extends BaseEntity {
   @Setter
   private String chatRoom;
 
-  private Long organizationId;
+  //채팅방이 속한 모임 trackingId
+  private String organizationId;
+
+  //채팅방을 생성한 사람
+  private String createUser;
 
   @UuidGenerator
   @JdbcTypeCode(Types.VARCHAR)
@@ -41,8 +45,9 @@ public class ChatRoom extends BaseEntity {
 
   public static ChatRoom from(ChatRoomRequestDTO chatRoomRequestDTO){
     return ChatRoom.builder()
-        .chatRoom(chatRoomRequestDTO.getChat_room())
-        .organizationId(chatRoomRequestDTO.getOrganization_id())
+        .chatRoom(chatRoomRequestDTO.getChatRoom())
+        .organizationId(chatRoomRequestDTO.getOrganizationId())
+        .createUser(chatRoomRequestDTO.getCreateUser())
         .build();
   }
 

@@ -16,7 +16,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@
+    Builder
 public class Chat{
 
   @Id

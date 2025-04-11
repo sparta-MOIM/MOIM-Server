@@ -19,7 +19,7 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
   }
 
   @Override
-  public List<ChatRoom> readChatRooms(Long organization_id){
+  public List<ChatRoom> readChatRooms(String organization_id){
     return jpaChatRoomRepository.findAllByOrganizationIdAndDeletedByIsNullOrderByCreatedAt(organization_id);
   }
 

@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface ChatRoomRepository {
   Optional<ChatRoom> save(ChatRoom chatRoom);
-  List<ChatRoom> readChatRooms(Long organization_id);
+  List<ChatRoom> readChatRooms(String organization_id);
 
   Optional<ChatRoom> findById(Long chat_room_id);
 }

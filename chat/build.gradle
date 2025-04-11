@@ -50,6 +50,7 @@ dependencies {
 
     //kafka
     implementation 'org.springframework.kafka:spring-kafka'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
 
     //add guava for using ImmutableMap
     //Kafka Consumer setting value must not be changeable

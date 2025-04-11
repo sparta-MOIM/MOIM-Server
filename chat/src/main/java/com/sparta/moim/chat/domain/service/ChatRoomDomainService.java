@@ -24,8 +24,8 @@ public class ChatRoomDomainService {
   }
 
   // 채팅방 조회
-  public List<ChatRoomResponseDTO> readChatRooms(Long organization_id){
-    List<ChatRoom> chatRooms = chatRoomRepository.readChatRooms(organization_id);
+  public List<ChatRoomResponseDTO> readChatRooms(String organizationId){
+    List<ChatRoom> chatRooms = chatRoomRepository.readChatRooms(organizationId);
     List<ChatRoomResponseDTO> chatRoomResponseDTOS = new ArrayList<>();
 
     for(ChatRoom chatRoom : chatRooms){
@@ -38,7 +38,7 @@ public class ChatRoomDomainService {
   // 채팅방 수정
   public void updateChatRoom(Long chat_room_id, ChatRoomRequestDTO chatRoomRequestDTO){
     ChatRoom chatRoom = chatRoomRepository.findById(chat_room_id).orElseThrow(()->new BaseException("해당 채팅방이 존재하지 않습니다."));
-    chatRoom.setChatRoom(chatRoomRequestDTO.getChat_room());
+    chatRoom.setChatRoom(chatRoomRequestDTO.getChatRoom());
     chatRoomRepository.save(chatRoom).orElseThrow(()->new BaseException("채팅방 수정에 실패하였습니다."));
   }
 
