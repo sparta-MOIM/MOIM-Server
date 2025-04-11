@@ -1,4 +1,4 @@
-package com.sparta.moim.session.member.presentation.controller;
+package com.sparta.moim.session.member.presentation.controller.external;
 
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.session.member.application.MemberService;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/session")
 @RequiredArgsConstructor
-public class MemberController {
+public class ExternalMemberController {
   private final MemberService memberService;
 
   @PostMapping("/{sessionId}/join")

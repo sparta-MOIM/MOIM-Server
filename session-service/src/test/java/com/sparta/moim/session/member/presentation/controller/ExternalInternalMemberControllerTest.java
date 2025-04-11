@@ -1,22 +1,14 @@
 package com.sparta.moim.session.member.presentation.controller;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.session.member.application.MemberService;
+import com.sparta.moim.session.member.presentation.controller.external.ExternalMemberController;
 import com.sparta.moim.session.member.presentation.dto.request.RemoveMemberRequest;
-import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
-import com.sparta.moim.session.session.application.service.SessionService;
-import com.sparta.moim.session.session.domain.enums.SessionStatus;
-import com.sparta.moim.session.session.presentation.dto.request.CreateSessionApplyRequest;
-import com.sparta.moim.session.session.presentation.dto.request.CreateSessionRequest;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
@@ -30,9 +22,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(MemberController.class)
+@WebMvcTest(ExternalMemberController.class)
 @AutoConfigureMockMvc(addFilters = false)
-class MemberControllerTest {
+class ExternalInternalMemberControllerTest {
 
   @Autowired
   private MockMvc mockMvc;

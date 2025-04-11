@@ -1,13 +1,15 @@
 package com.sparta.moim.session.member.application;
 
+import com.sparta.moim.session.member.application.dto.command.GetMemberCommand;
 import com.sparta.moim.session.member.application.dto.command.JoinMemberCommand;
 import com.sparta.moim.session.member.application.dto.command.LeaveMemberCommand;
 import com.sparta.moim.session.member.application.dto.command.RemoveMemberCommand;
+import com.sparta.moim.session.member.application.dto.result.GetMemberListResult;
+import com.sparta.moim.session.member.application.dto.result.GetMemberResult;
 import com.sparta.moim.session.member.domain.entity.Member;
 import com.sparta.moim.session.member.domain.enums.MemberType;
 import com.sparta.moim.session.member.domain.repository.MemberRepository;
 import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,5 +40,10 @@ public class MemberService {
   @Transactional
   public void removeMember(RemoveMemberCommand command) {
     memberRepository.removeMembers(command.sessionId(), command.members());
+  }
+
+  @Transactional(readOnly = true)
+  public GetMemberResult getMember(GetMemberCommand command) {
+    return GetMemberResult.get(memberRepository.findAllBySessionId(command.sessionId()));
   }
 }
