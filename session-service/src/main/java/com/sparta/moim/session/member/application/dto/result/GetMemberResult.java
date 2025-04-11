@@ -7,6 +7,9 @@ public record GetMemberResult(
     List<GetMemberListResult> member
 ) {
   public static GetMemberResult get(List<Member> memberList) {
+    if (memberList == null) {
+      return new GetMemberResult(List.of());
+    }
     return new GetMemberResult(memberList.stream().map(GetMemberListResult::new).toList());
   }
 }

@@ -10,7 +10,7 @@ import com.sparta.moim.session.session.application.dto.result.CreateSessionResul
 import com.sparta.moim.session.session.application.dto.result.GetSessionMemberListResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionResult;
-import com.sparta.moim.session.session.application.event.feigin.MemberInternalService;
+import com.sparta.moim.session.session.application.event.feign.MemberInternalService;
 import com.sparta.moim.session.session.application.event.publisher.MemberPublisher;
 import com.sparta.moim.session.session.application.exception.SessionException;
 import com.sparta.moim.session.session.domain.entity.Session;
