@@ -12,6 +12,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.server.Cookie.SameSite;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -40,8 +41,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     ResponseCookie accessTokenCookie = createAccessTokenCookie(accessToken);
     ResponseCookie refreshTokenCookie = createRefreshTokenCookie(refreshToken);
 
-    response.addHeader(accessTokenCookie.getName(), accessToken);
-    response.addHeader(refreshTokenCookie.getName(), refreshToken);
+    response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
+    response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
   }
 
   private static ResponseCookie createRefreshTokenCookie(String refreshToken) {
