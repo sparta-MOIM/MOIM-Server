@@ -42,9 +42,9 @@ public class Member {
 
   public static Member from(SharedSessionMember sharedSessionMember) {
     return Member.builder()
-        .memberName(sharedSessionMember.getMemberName())
-        .sessionId(sharedSessionMember.getSessionId())
-        .type(MemberType.valueOf(sharedSessionMember.getType()))
+        .memberName(sharedSessionMember.memberName())
+        .sessionId(sharedSessionMember.sessionId())
+        .type(MemberType.valueOf(sharedSessionMember.type()))
         .build();
   }
 }

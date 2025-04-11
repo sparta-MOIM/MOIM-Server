@@ -16,7 +16,7 @@ public class SaveMember {
 
   @EventListener
   public void save(SharedSessionMember sharedSessionMember) {
-    log.info("Saving publisher {}", sharedSessionMember.getMemberName());
+    log.info("Saving publisher {}", sharedSessionMember.memberName());
     memberRepository.save(Member.from(sharedSessionMember));
   }
 }
