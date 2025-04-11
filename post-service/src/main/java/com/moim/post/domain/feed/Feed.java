@@ -48,6 +48,9 @@ public class Feed extends BaseEntity {
   @Column(name = "image_url")
   private String imageUrl;
 
+  @Column(name = "is_deleted",nullable = false)
+  private Boolean isDeleted;
+
   @ElementCollection
   @JdbcTypeCode(Types.VARCHAR)
   @Column(name = "tagged_user_ids", nullable = false)
@@ -60,12 +63,29 @@ public class Feed extends BaseEntity {
       String imageUrl,
       List<UUID> taggedUserIds
   ) {
-      return Feed.builder()
-          .organizationId(organizationId)
-          .title(title)
-          .content(content)
-          .imageUrl(imageUrl)
-          .taggedUserIds(taggedUserIds)
-          .build();
+    return Feed.builder()
+        .organizationId(organizationId)
+        .title(title)
+        .content(content)
+        .imageUrl(imageUrl)
+        .isDeleted(false)
+        .taggedUserIds(taggedUserIds)
+        .build();
+  }
+
+  public void updateTitle(String title) {
+    this.title = title;
+  }
+
+  public void updateContent(String content) {
+    this.content = content;
+  }
+
+  public void updateImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+  }
+
+  public void delete(){
+    this.isDeleted = true;
   }
 }

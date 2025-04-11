@@ -1,4 +1,4 @@
-package com.moim.post.infrastructure.persistence.repository.QueryDsl;
+package com.moim.post.infrastructure.persistence.repository.querydsl;
 
 import com.moim.post.domain.feed.Feed;
 import com.moim.post.domain.feed.QFeed;
