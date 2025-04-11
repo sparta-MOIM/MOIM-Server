@@ -2,20 +2,26 @@ package com.moim.post.application;
 
 import com.moim.post.application.command.CreateFeedCommand;
 import com.moim.post.application.command.CreateVoteCommand;
+import com.moim.post.application.command.UpdateFeedCommand;
 import com.moim.post.application.usecase.PostCommandUseCase;
 import com.moim.post.domain.feed.Feed;
 import com.moim.post.domain.repository.command.FeedCommandRepository;
 import com.moim.post.domain.repository.command.VoteCommandRepository;
+import com.moim.post.domain.repository.command.entitymanager.FeedEntityManager;
 import com.moim.post.domain.vote.Vote;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class PostCommandService implements PostCommandUseCase {
 
   private final FeedCommandRepository feedRepository;
   private final VoteCommandRepository voteRepository;
+  private final FeedEntityManager feedEntityManager;
 
   @Override
   public Feed createFeed(CreateFeedCommand command) {
@@ -41,4 +47,20 @@ public class PostCommandService implements PostCommandUseCase {
     );
     return voteRepository.save(vote);
   }
+
+  @Override
+  public Feed updateFeed(UUID id, UpdateFeedCommand command) {
+    // todo : 예외처리
+    Feed feed = feedRepository.findByTrackingId(id).orElseThrow(null);
+    command.title().ifPresent(feed::updateTitle);
+    command.content().ifPresent(feed::updateContent);
+    command.imageUrl().ifPresent(feed::updateImageUrl);
+//    command.taggedUserIds().ifPresent(feed::updateTaggedUserIds);
+    command.taggedUserIds().ifPresent(
+        userIds ->
+            feedEntityManager.updateTaggedUserIds(feed.getId(), userIds)
+    );
+    return feed;
+  }
 }
+

@@ -2,6 +2,7 @@ package com.moim.post.presentation.mapper;
 
 import com.moim.post.application.command.CreateFeedCommand;
 import com.moim.post.application.command.CreateVoteCommand;
+import com.moim.post.application.command.UpdateFeedCommand;
 import com.moim.post.application.query.FindQuery;
 import com.moim.post.application.query.SearchFeedQuery;
 import com.moim.post.application.query.SearchVoteQuery;
@@ -11,6 +12,7 @@ import com.moim.post.presentation.request.CreateFeedRequest;
 import com.moim.post.presentation.request.CreateVoteRequest;
 import com.moim.post.presentation.request.SearchFeedRequest;
 import com.moim.post.presentation.request.SearchVoteRequest;
+import com.moim.post.presentation.request.UpdateFeedRequest;
 import com.moim.post.presentation.response.FeedResponse;
 import com.moim.post.presentation.response.VoteResponse;
 import java.util.UUID;
@@ -36,4 +38,6 @@ public interface PostPresentationMapper {
   SearchFeedQuery toQuery(SearchFeedRequest request);
 
   SearchVoteQuery toQuery(SearchVoteRequest request);
+
+  UpdateFeedCommand toCommand(UpdateFeedRequest request);
 }

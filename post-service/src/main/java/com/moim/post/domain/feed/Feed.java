@@ -60,12 +60,24 @@ public class Feed extends BaseEntity {
       String imageUrl,
       List<UUID> taggedUserIds
   ) {
-      return Feed.builder()
-          .organizationId(organizationId)
-          .title(title)
-          .content(content)
-          .imageUrl(imageUrl)
-          .taggedUserIds(taggedUserIds)
-          .build();
+    return Feed.builder()
+        .organizationId(organizationId)
+        .title(title)
+        .content(content)
+        .imageUrl(imageUrl)
+        .taggedUserIds(taggedUserIds)
+        .build();
+  }
+
+  public void updateTitle(String title) {
+    this.title = title;
+  }
+
+  public void updateContent(String content) {
+    this.content = content;
+  }
+
+  public void updateImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
   }
 }
