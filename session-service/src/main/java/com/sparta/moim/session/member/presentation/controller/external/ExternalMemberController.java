@@ -5,6 +5,7 @@ import com.sparta.moim.session.member.application.MemberService;
 import com.sparta.moim.session.member.application.dto.command.JoinMemberCommand;
 import com.sparta.moim.session.member.application.dto.command.LeaveMemberCommand;
 import com.sparta.moim.session.member.presentation.dto.request.RemoveMemberRequest;
+import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -32,7 +33,7 @@ public class ExternalMemberController {
   }
 
   @DeleteMapping("/{sessionId}/remove")
-  public void removeMembers(@PathVariable UUID sessionId, @RequestBody RemoveMemberRequest request) {
+  public void removeMembers(@PathVariable UUID sessionId, @RequestBody @Valid RemoveMemberRequest request) {
     memberService.removeMember(request.toCommand(sessionId));
   }
 
