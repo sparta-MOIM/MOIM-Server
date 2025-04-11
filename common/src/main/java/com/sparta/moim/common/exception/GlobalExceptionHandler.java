@@ -1,11 +1,13 @@
 package com.sparta.moim.common.exception;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 import com.sparta.moim.common.response.ApiResponseData;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -47,5 +49,11 @@ public class GlobalExceptionHandler {
 
     String errorMessages = sb.toString();
     return ResponseEntity.status(BAD_REQUEST).body(ApiResponseData.failure("0", errorMessages));
+  }
+
+  @ExceptionHandler(AccessDeniedException.class)
+  public ResponseEntity<ApiResponseData<Object>> handleAccessDeniedException(AccessDeniedException e) {
+    return ResponseEntity.status(FORBIDDEN).body(
+        ApiResponseData.failure(FORBIDDEN.value(), "접근 권한이 없습니다."));
   }
 }
