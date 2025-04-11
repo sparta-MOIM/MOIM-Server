@@ -7,7 +7,11 @@ import java.util.UUID;
 
 public interface SessionRepository {
   Session save(Session session);
+
   Optional<Session> findByTrackingIdAndDeletedAtIsNull(UUID id);
 
-  List<Session> findAll();
+  boolean existsByTitleAndDeletedByIsNull(String title);
+
+  boolean existsByTitleAndDeletedByIsNullAndTrackingIdNot(String title, UUID sessionId);
+
 }

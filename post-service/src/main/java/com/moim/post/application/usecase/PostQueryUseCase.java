@@ -25,4 +25,6 @@ public interface PostQueryUseCase {
       int size,
       String sortType
   );
+
+  Boolean isValidFeed(FindQuery query);
 }

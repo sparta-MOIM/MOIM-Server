@@ -15,8 +15,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PostQueryService implements PostQueryUseCase {
 
@@ -60,5 +62,12 @@ public class PostQueryService implements PostQueryUseCase {
         query.end(),
         pageable
     );
+  }
+
+  @Override
+  public Boolean isValidFeed(FindQuery query) {
+    return feedRepository.findFeed(query.id())
+        .filter(feed -> !feed.getIsDeleted())
+        .isPresent();
   }
 }
