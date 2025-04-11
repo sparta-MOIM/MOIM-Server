@@ -9,6 +9,6 @@ public record DeleteGatheringCommand(UUID gatheringId,
                                      UUID id
 ) {
   public DeleteGatheringCommand(UUID gatheringId, CustomUserDetails details) {
-    this(gatheringId, details.getUsername(), details.getRole(), details.getId());
+    this(gatheringId, details.getUsername(), details.getRole(), details.getTrackingId());
   }
 }
