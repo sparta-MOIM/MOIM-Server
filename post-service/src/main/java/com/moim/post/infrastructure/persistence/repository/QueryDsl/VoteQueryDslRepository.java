@@ -1,4 +1,4 @@
-package com.moim.post.infrastructure.persistence.repository.QueryDsl;
+package com.moim.post.infrastructure.persistence.repository.querydsl;
 
 import com.moim.post.domain.repository.query.VoteQueryRepository;
 import com.moim.post.domain.vote.QVote;
