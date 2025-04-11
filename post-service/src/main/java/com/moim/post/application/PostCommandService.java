@@ -3,6 +3,7 @@ package com.moim.post.application;
 import com.moim.post.application.command.CreateFeedCommand;
 import com.moim.post.application.command.CreateVoteCommand;
 import com.moim.post.application.command.UpdateFeedCommand;
+import com.moim.post.application.command.UpdateVoteCommand;
 import com.moim.post.application.usecase.PostCommandUseCase;
 import com.moim.post.domain.feed.Feed;
 import com.moim.post.domain.repository.command.FeedCommandRepository;
@@ -61,6 +62,18 @@ public class PostCommandService implements PostCommandUseCase {
             feedEntityManager.updateTaggedUserIds(feed.getId(), userIds)
     );
     return feed;
+  }
+
+  @Override
+  public Vote updateVote(UUID id, UpdateVoteCommand command) {
+    // todo : 예외처리
+    Vote vote = voteRepository.findByTrackingId(id).orElseThrow(null);
+    command.title().ifPresent(vote::updateTitle);
+    command.content().ifPresent(vote::updateContent);
+    command.start().ifPresent(vote::updateStart);
+    command.end().ifPresent(vote::updateEnd);
+    command.totalVoter().ifPresent(vote::updateTotalVoter);
+    return vote;
   }
 }
 

@@ -7,6 +7,7 @@ import com.moim.post.presentation.mapper.PostPresentationMapper;
 import com.moim.post.presentation.request.CreateFeedRequest;
 import com.moim.post.presentation.request.CreateVoteRequest;
 import com.moim.post.presentation.request.UpdateFeedRequest;
+import com.moim.post.presentation.request.UpdateVoteRequest;
 import com.moim.post.presentation.response.FeedResponse;
 import com.moim.post.presentation.response.VoteResponse;
 import com.sparta.moim.common.response.ApiResponseData;
@@ -65,6 +66,17 @@ public class PostCommandController {
     return ResponseEntity.ok().body(ApiResponseData.success(response));
   }
 
-
+  @PostMapping("/votes/{id}")
+  public ResponseEntity<ApiResponseData<VoteResponse>> updateVote(
+      @PathVariable final String id,
+      @RequestBody UpdateVoteRequest request
+  ) {
+    log.info("Vote 업데이트 요청: {}", id);
+    log.info("Vote 업데이트 내역: {}", request.toString());
+    Vote vote = useCase.updateVote(UUID.fromString(id), mapper.toCommand(request));
+    VoteResponse response = mapper.toResponse(vote);
+    log.info("Vote 업데이트 완료");
+    return ResponseEntity.ok().body(ApiResponseData.success(response));
+  }
 
 }
