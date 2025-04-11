@@ -29,7 +29,7 @@ public record SearchGatheringRequest(
         .endTime(endTime)
         .username(details.getUsername())
         .role(details.getRole())
-        .userId(details.getId())
+        .userId(details.getTrackingId())
         .page(page)
         .size(size)
         .sort(sort)
