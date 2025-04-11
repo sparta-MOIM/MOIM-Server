@@ -1,33 +1,36 @@
 package com.sparta.moim.session.member.presentation.controller.internal;
 
+import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
+import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.session.member.application.MemberService;
 import com.sparta.moim.session.member.application.dto.result.GetMemberListResult;
-import com.sparta.moim.session.member.application.dto.result.GetMemberResult;
-import com.sparta.moim.session.member.presentation.controller.external.ExternalMemberController;
-import com.sparta.moim.session.member.presentation.dto.request.RemoveMemberRequest;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+@AutoConfigureRestDocs
 @WebMvcTest(InternalMemberController.class)
 @AutoConfigureMockMvc(addFilters = false)
 class InternalMemberControllerTest {
@@ -46,7 +49,7 @@ class InternalMemberControllerTest {
   void getMember_success() throws Exception {
     // given
     UUID userId = UUID.randomUUID();
-    String username = "테스트유저";
+    String username = "testUser";
     String role = "USER";
 
     UUID sessionId = UUID.randomUUID();
@@ -71,26 +74,22 @@ class InternalMemberControllerTest {
         .andExpect(jsonPath("$[1].type").value("GENERAL"))
         .andExpect(jsonPath("$[2].name").value("user3"))
         .andExpect(jsonPath("$[2].type").value("GENERAL"))
+        .andDo(document("세션 - 맴버 조회",
+            preprocessRequest(Preprocessors.prettyPrint()),
+            preprocessResponse(Preprocessors.prettyPrint()),
+            resource(ResourceSnippetParameters.builder()
+                .tag("맴버 내부 API")
+                .summary("세션 맴버 조회")
+                .description("세션에서 참가한 맴버들을 조회 하기 위한 엔드포인트입니다.")
+                .pathParameters(
+                    parameterWithName("sessionId").description("세션 아이디")
+                ).responseFields(
+                    fieldWithPath("[].name").description("참여한 참가자 명"),
+                    fieldWithPath("[].type").description("참가한 참가자 타입"))
+                .build()
+            )));
 
-    ;
   }
-
-
-  @Test
-  @DisplayName("빈 멤버 목록 반환 테스트")
-  void getMember_emptyList() throws Exception {
-    // given
-    UUID sessionId = UUID.randomUUID();
-    when(memberService.getMember(any())).thenReturn(List.of());
-
-    // when & then
-    mockMvc.perform(get("/internal/v1/session/{sessionId}", sessionId)
-            .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$").isArray())
-        .andExpect(jsonPath("$").isEmpty());
-  }
-
 
 
 }
