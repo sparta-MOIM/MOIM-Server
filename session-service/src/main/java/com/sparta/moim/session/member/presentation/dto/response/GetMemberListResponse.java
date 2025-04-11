@@ -7,6 +7,6 @@ public record GetMemberListResponse(
     String type
 ) {
   public GetMemberListResponse(GetMemberListResult member) {
-    this(member.memberName(), member.type());
+    this(member.name(), member.type());
   }
 }

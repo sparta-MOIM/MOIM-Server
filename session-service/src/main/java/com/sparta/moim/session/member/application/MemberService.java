@@ -10,6 +10,8 @@ import com.sparta.moim.session.member.domain.entity.Member;
 import com.sparta.moim.session.member.domain.enums.MemberType;
 import com.sparta.moim.session.member.domain.repository.MemberRepository;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,7 +46,12 @@ public class MemberService {
   }
 
   @Transactional(readOnly = true)
-  public GetMemberResult getMember(GetMemberCommand command) {
-    return GetMemberResult.get(memberRepository.findAllBySessionId(command.sessionId()));
+  public List<GetMemberListResult> getMember(GetMemberCommand command) {
+    return getMemberRepositoryAllBySessionId(command.sessionId()).stream().map(GetMemberListResult::new)
+        .collect(Collectors.toList());
+  }
+
+  private List<Member> getMemberRepositoryAllBySessionId(UUID sessionId) {
+    return memberRepository.findAllBySessionId(sessionId);
   }
 }

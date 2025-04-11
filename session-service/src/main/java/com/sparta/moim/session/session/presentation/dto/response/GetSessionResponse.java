@@ -1,7 +1,9 @@
 package com.sparta.moim.session.session.presentation.dto.response;
 
+import com.sparta.moim.session.session.application.dto.result.GetSessionMemberListResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import lombok.Builder;
 
@@ -12,6 +14,7 @@ public record GetSessionResponse(
     String title,
     String publisher,
     int count,
+    List<GetSessionMemberListResponse> member,
     LocalDateTime openTime,
     LocalDateTime closeTime,
     String status,
@@ -24,6 +27,7 @@ public record GetSessionResponse(
         .title(result.title())
         .publisher(result.publisher())
         .count(result.count())
+        .member(result.members().stream().map(GetSessionMemberListResponse::new).toList())
         .openTime(result.openTime())
         .closeTime(result.closeTime())
         .status(result.status().name())

@@ -7,8 +7,10 @@ import com.sparta.moim.session.session.application.dto.command.SearchSessionComm
 import com.sparta.moim.session.session.application.dto.command.UpdateSessionCommand;
 import com.sparta.moim.session.session.application.dto.command.UpdateStateStateCommand;
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
+import com.sparta.moim.session.session.application.dto.result.GetSessionMemberListResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionResult;
+import com.sparta.moim.session.session.application.event.feigin.MemberInternalService;
 import com.sparta.moim.session.session.application.event.publisher.MemberPublisher;
 import com.sparta.moim.session.session.application.exception.SessionException;
 import com.sparta.moim.session.session.domain.entity.Session;
@@ -16,6 +18,7 @@ import com.sparta.moim.session.session.domain.enums.SessionStatus;
 import com.sparta.moim.session.session.domain.error.code.SessionCode;
 import com.sparta.moim.session.session.domain.repository.SessionCustomRepository;
 import com.sparta.moim.session.session.domain.repository.SessionRepository;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,7 @@ public class SessionService {
   private final SessionRepository sessionRepository;
   private final SessionCustomRepository sessionCustomRepository;
   private final MemberPublisher memberPublisher;
+  private final MemberInternalService memberService;
 
   public CreateSessionResult createSession(CreateSessionCommand command) {
     if (sessionRepository.existsByTitleAndDeletedByIsNull(command.title())) {
@@ -39,8 +43,9 @@ public class SessionService {
 
   @Transactional(readOnly = true)
   public GetSessionResult getSession(UUID sessionId) {
+    List<GetSessionMemberListResult> members = memberService.getMembers(sessionId);
     return GetSessionResult.get(sessionRepository.findByTrackingIdAndDeletedAtIsNull(sessionId)
-        .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION)));
+        .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION)),members);
   }
 
   @Transactional(readOnly = true)
