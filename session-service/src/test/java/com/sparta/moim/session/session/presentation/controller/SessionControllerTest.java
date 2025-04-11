@@ -12,7 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.common.security.CustomUserDetails;
-import com.sparta.moim.session.session.application.dto.command.SearchSessionCommand;
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionListResult;
