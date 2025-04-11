@@ -9,6 +9,7 @@ import com.sparta.moim.session.session.application.dto.command.UpdateStateStateC
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionResult;
+import com.sparta.moim.session.session.application.event.publisher.MemberPublisher;
 import com.sparta.moim.session.session.application.exception.SessionException;
 import com.sparta.moim.session.session.domain.entity.Session;
 import com.sparta.moim.session.session.domain.enums.SessionStatus;
@@ -25,12 +26,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class SessionService {
   private final SessionRepository sessionRepository;
   private final SessionCustomRepository sessionCustomRepository;
+  private final MemberPublisher memberPublisher;
 
   public CreateSessionResult createSession(CreateSessionCommand command) {
     if (sessionRepository.existsByTitleAndDeletedByIsNull(command.title())) {
       throw new SessionException(SessionCode.EXITS_TITLE_SESSION);
     }
-    return CreateSessionResult.create(sessionRepository.save(command.toDomain()));
+    Session createSession = sessionRepository.save(command.toDomain());
+    memberPublisher.add(createSession,command.publisher());
+    return CreateSessionResult.create(createSession);
   }
 
   @Transactional(readOnly = true)
