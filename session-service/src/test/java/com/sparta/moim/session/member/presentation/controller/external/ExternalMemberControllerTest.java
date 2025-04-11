@@ -1,4 +1,4 @@
-package com.sparta.moim.session.member.presentation.controller;
+package com.sparta.moim.session.member.presentation.controller.external;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -7,7 +7,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.session.member.application.MemberService;
-import com.sparta.moim.session.member.presentation.controller.external.ExternalMemberController;
 import com.sparta.moim.session.member.presentation.dto.request.RemoveMemberRequest;
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(ExternalMemberController.class)
 @AutoConfigureMockMvc(addFilters = false)
-class ExternalInternalMemberControllerTest {
+class ExternalMemberControllerTest {
 
   @Autowired
   private MockMvc mockMvc;

@@ -73,3 +73,5 @@ X-User-Name: {{username}}
 X-User-Role: {{role}}
 X-User-ID: {{userId}}
 
+###
+GET http://localhost:8089/internal/v1/session/efea8606-9c4b-4693-89e2-489189eaa4e3
