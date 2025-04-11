@@ -13,15 +13,15 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ApiResponseData<T> {
 
-    private Integer code; // 응답 코드
+    private String code; // 응답 코드
     private String message; // 응답 메시지
     private T data; // 응답 데이터
 
     // 성공 응답을 위한 메서드
     public static <T> ApiResponseData<T> success(T data) {
         return ApiResponseData.<T>builder()
-                .code(Code.SUCCESS.getCode())
-                .message(Code.SUCCESS.getMessage())
+                .code(CommonCode.SUCCESS.getCode())
+                .message(CommonCode.SUCCESS.getMessage())
                 .data(data)
                 .build();
     }
@@ -29,14 +29,14 @@ public class ApiResponseData<T> {
     // 성공 응답을 위한 메시지 포함 메서드
     public static <T> ApiResponseData<T> success(T data, String message) {
         return ApiResponseData.<T>builder()
-                .code(Code.SUCCESS.getCode())
+                .code(CommonCode.SUCCESS.getCode())
                 .message(message)
                 .data(data)
                 .build();
     }
 
     // 실패 응답을 위한 메서드
-    public static <T> ApiResponseData<T> failure(Integer code, String message) {
+    public static <T> ApiResponseData<T> failure(String code, String message) {
         return ApiResponseData.<T>builder()
                 .code(code)
                 .message(message)
@@ -45,7 +45,7 @@ public class ApiResponseData<T> {
     }
 
     // of 메서드를 사용하여 ApiResponseData 객체를 생성하는 메서드
-    public static <T> ApiResponseData<T> of(Integer code, String message, T data) {
+    public static <T> ApiResponseData<T> of(String code, String message, T data) {
         return ApiResponseData.<T>builder()
                 .code(code)
                 .message(message)

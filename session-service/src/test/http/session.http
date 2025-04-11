@@ -1,0 +1,77 @@
+### 환경 변수 설정
+@baseUrl = http://localhost:8089
+@userId = d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76
+@username = 테스트유저
+@role = USER
+
+### 세션 생성 - 성공
+POST {{baseUrl}}/api/v1/session
+Content-Type: application/json
+X-User-Name: {{username}}
+X-User-Role: {{role}}
+X-User-ID: {{userId}}
+
+{
+  "organizationId": "org123",
+  "publisher": "{{username}}",
+  "title": "스파르타 세션",
+  "count": 15,
+  "status": "READY",
+  "openTime": "2024-03-20T10:00:00",
+  "closeTime": "2024-03-20T12:00:00",
+   "applyInfo": {
+   "reason": "hello"
+  }
+}
+
+### 세션 조회 - 성공
+GET {{baseUrl}}/api/v1/session/e0beff07-710e-407b-bb8f-59d7998b98e9
+Content-Type: application/json
+X-User-Name: {{username}}
+X-User-Role: {{role}}
+X-User-ID: {{userId}}
+
+
+### 세션 검색 - 성공
+GET {{baseUrl}}/api/v1/session
+Content-Type: application/json
+X-User-Name: {{username}}
+X-User-Role: {{role}}
+X-User-ID: {{userId}}
+
+### 세션 수정 - 성공
+PUT {{baseUrl}}/api/v1/session/b2ae29d4-ad9f-4f24-929a-11f6cf880dbc
+Content-Type: application/json
+
+{
+  "title": "변경된 타이틀",
+  "count": 20
+}
+### 세션 상태 수정 - 성공
+PATCH {{baseUrl}}/api/v1/session/12f4c20e-7fe6-44e2-9793-9e49c3c3f267/status
+Content-Type: application/json
+X-User-Name: {{username}}
+X-User-Role: {{role}}
+X-User-ID: {{userId}}
+
+{
+  "status": "CLOSED"
+}
+
+
+### 세션 삭제
+DELETE http://localhost:8089/api/v1/session/e9c40764-5f82-45eb-b0e7-911fc775c51c
+Content-Type: application/json
+X-User-Name: {{username}}
+X-User-Role: {{role}}
+X-User-ID: {{userId}}
+
+### 세션 승인
+PATCH http://localhost:8089/api/v1/session/d0effb8c-ad19-4c9e-a098-14ed86a3ea16/apply
+Content-Type: application/json
+X-User-Name: {{username}}
+X-User-Role: {{role}}
+X-User-ID: {{userId}}
+
+###
+GET http://localhost:8089/internal/v1/session/e0beff07-710e-407b-bb8f-59d7998b98e9
