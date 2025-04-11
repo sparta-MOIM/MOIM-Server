@@ -66,6 +66,8 @@ public class PostQueryService implements PostQueryUseCase {
 
   @Override
   public Boolean isValidFeed(FindQuery query) {
-    return feedRepository.findFeed(query.id()).isPresent();
+    return feedRepository.findFeed(query.id())
+        .filter(feed -> !feed.getIsDeleted())
+        .isPresent();
   }
 }
