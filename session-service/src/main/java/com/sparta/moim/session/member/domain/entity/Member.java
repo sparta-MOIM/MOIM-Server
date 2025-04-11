@@ -1,6 +1,7 @@
 package com.sparta.moim.session.member.domain.entity;
 
 import com.sparta.moim.session.member.domain.enums.MemberType;
+import com.sparta.moim.session.shared.dto.SharedSessionMember;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -38,4 +39,12 @@ public class Member {
 
   @Enumerated(EnumType.STRING)
   private MemberType type;
+
+  public static Member from(SharedSessionMember sharedSessionMember) {
+    return Member.builder()
+        .memberName(sharedSessionMember.getMemberName())
+        .sessionId(sharedSessionMember.getSessionId())
+        .type(MemberType.valueOf(sharedSessionMember.getType()))
+        .build();
+  }
 }
