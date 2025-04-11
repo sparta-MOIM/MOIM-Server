@@ -20,6 +20,7 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
+import com.sparta.moim.session.session.application.dto.result.GetSessionMemberListResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionListResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionResult;
@@ -155,6 +156,10 @@ class SessionControllerTest {
         .sessionId(sessionId)
         .status(SessionStatus.OPEN)
         .title("test")
+        .member(List.of(
+            new GetSessionMemberListResult("user1","PUBLISHER"),
+            new GetSessionMemberListResult("user2","GENERAL")
+        ))
         .openTime(LocalDateTime.now())
         .applyTime(LocalDateTime.now())
         .closeTime(LocalDateTime.now().plusHours(10))
@@ -180,6 +185,11 @@ class SessionControllerTest {
         .andExpect(jsonPath("$.openTime").exists())
         .andExpect(jsonPath("$.closeTime").exists())
         .andExpect(jsonPath("$.count").value(10))
+        .andExpect(jsonPath("$.member").isArray())
+        .andExpect(jsonPath("$.member[0].name").value("user1"))
+        .andExpect(jsonPath("$.member[0].type").value("PUBLISHER"))
+        .andExpect(jsonPath("$.member[1].name").value("user2"))
+        .andExpect(jsonPath("$.member[1].type").value("GENERAL"))
         .andExpect(jsonPath("$.publisher").value("test"))
         .andExpect(jsonPath("$.applyInfo.applyTime").exists())
         .andExpect(jsonPath("$.applyInfo.confirmTime").exists())
