@@ -16,7 +16,13 @@ public class SaveMember {
 
   @EventListener
   public void save(SharedSessionMember sharedSessionMember) {
-    log.info("Saving publisher {}", sharedSessionMember.memberName());
-    memberRepository.save(Member.from(sharedSessionMember));
+    try {
+      log.info("Saving publisher {}", sharedSessionMember.memberName());
+      memberRepository.save(Member.from(sharedSessionMember));
+      log.info("Successfully saved publisher {}", sharedSessionMember.memberName());
+    } catch (Exception e) {
+      log.error("Failed to save publisher {}: {}", sharedSessionMember.memberName(), e.getMessage(), e);
+      //TODO 보상 트랜잭션 적용
+    }
   }
 }
