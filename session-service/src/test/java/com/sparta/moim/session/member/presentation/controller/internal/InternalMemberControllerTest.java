@@ -65,11 +65,11 @@ class InternalMemberControllerTest {
             .header("X-User-Role", role)
             .header("X-User-ID", userId.toString()))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$[0].memberName").value("user1"))
+        .andExpect(jsonPath("$[0].name").value("user1"))
         .andExpect(jsonPath("$[0].type").value("PUBLISHER"))
-        .andExpect(jsonPath("$[1].memberName").value("user2"))
+        .andExpect(jsonPath("$[1].name").value("user2"))
         .andExpect(jsonPath("$[1].type").value("GENERAL"))
-        .andExpect(jsonPath("$[2].memberName").value("user3"))
+        .andExpect(jsonPath("$[2].name").value("user3"))
         .andExpect(jsonPath("$[2].type").value("GENERAL"))
 
     ;

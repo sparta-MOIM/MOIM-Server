@@ -7,6 +7,6 @@ public record GetSessionMemberListResponse(
     String type
 ) {
   public GetSessionMemberListResponse(GetSessionMemberListResult member) {
-    this(member.memberName(), member.type());
+    this(member.name(), member.type());
   }
 }
