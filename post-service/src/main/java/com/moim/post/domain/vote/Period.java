@@ -23,4 +23,12 @@ public class Period {
     this.start = start;
     this.end = end;
   }
+
+  public void updateStart(LocalDateTime start) {
+    this.start = start;
+  }
+
+  public void updateEnd(LocalDateTime end) {
+    this.end = end;
+  }
 }

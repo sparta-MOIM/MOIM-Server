@@ -52,6 +52,9 @@ public class Vote extends BaseEntity {
   @Column(name = "total_voter", nullable = false)
   private Integer totalVoter;
 
+  @Column(name = "is_deleted", nullable = false)
+  private Boolean isDeleted;
+
   public static Vote create(
     UUID organizationId,
     String title,
@@ -65,8 +68,36 @@ public class Vote extends BaseEntity {
         .title(title)
         .content(content)
         .period(new Period(start, end))
+        .isDeleted(false)
         .totalVoter(totalVoter)
         .build();
   }
 
+  public void updateTitle(String title){
+    this.title = title;
+  }
+
+  public void updateContent(String content){
+    this.content = content;
+  }
+
+  public void updateStart(LocalDateTime start){
+    period.updateStart(start);
+  }
+
+  public void updateEnd(LocalDateTime end){
+    period.updateEnd(end);
+  }
+
+  public void updateTotalVoter(Integer totalVoter){
+    this.totalVoter = totalVoter;
+  }
+
+  public void delete(){
+    isDeleted = true;
+  }
+
+  public void undelete(){
+    isDeleted = false;
+  }
 }

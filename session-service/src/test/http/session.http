@@ -48,7 +48,7 @@ Content-Type: application/json
   "count": 20
 }
 ### 세션 상태 수정 - 성공
-PATCH {{baseUrl}}/api/v1/session/12f4c20e-7fe6-44e2-9793-9e49c3c3f267/state
+PATCH {{baseUrl}}/api/v1/session/12f4c20e-7fe6-44e2-9793-9e49c3c3f267/status
 Content-Type: application/json
 X-User-Name: {{username}}
 X-User-Role: {{role}}
