@@ -54,6 +54,6 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(AccessDeniedException.class)
   public ResponseEntity<ApiResponseData<Object>> handleAccessDeniedException(AccessDeniedException e) {
     return ResponseEntity.status(FORBIDDEN).body(
-        ApiResponseData.failure(FORBIDDEN.name(), "접근 권한이 없습니다."));
+        ApiResponseData.failure("U403", "접근 권한이 없습니다."));
   }
 }

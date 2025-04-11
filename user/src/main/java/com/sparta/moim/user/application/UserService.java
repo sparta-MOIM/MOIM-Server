@@ -1,6 +1,6 @@
 package com.sparta.moim.user.application;
 
-import static com.sparta.moim.common.response.Code.ALREADY_EXISTS_USERNAME;
+import static com.sparta.moim.user.application.exception.UserErrorCode.ALREADY_EXISTS_USERNAME;
 
 import com.sparta.moim.user.application.dto.ProcessSignupCommand;
 import com.sparta.moim.user.application.dto.SignupUserResult;
@@ -29,7 +29,7 @@ public class UserService {
 
     String encodedPassword = passwordEncoder.encode(command.password());
     User savedUser = userRepository.save(
-        userDataAccessMapper.userToSignupCommand(command, encodedPassword));
-    return userDataAccessMapper.signupInfoToUser(savedUser);
+        userDataAccessMapper.userFromSignupCommand(command, encodedPassword));
+    return userDataAccessMapper.signupUserResultFromUser(savedUser);
   }
 }

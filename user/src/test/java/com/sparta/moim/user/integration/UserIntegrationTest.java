@@ -1,5 +1,7 @@
 package com.sparta.moim.user.integration;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -10,6 +12,7 @@ import com.sparta.moim.user.domain.model.User;
 import com.sparta.moim.user.domain.repository.UserRepository;
 import com.sparta.moim.user.presentation.dto.LoginRequest;
 import com.sparta.moim.user.presentation.dto.SignupUserRequest;
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -57,8 +60,8 @@ public class UserIntegrationTest extends IntegrationTest {
               .contentType(MediaType.APPLICATION_JSON)
               .content(objectMapper.writeValueAsString(request)))
           .andExpect(status().isBadRequest())
-          .andExpect(jsonPath("$.code").value(30001))
-          .andExpect(jsonPath("$.message").value("이미 존재하는 username 입니다."))
+          .andExpect(jsonPath("$.code").value("U001"))
+          .andExpect(jsonPath("$.message").value("이미 사용 중인 username 입니다."))
           .andExpect(jsonPath("$.data").isEmpty());
     }
 
@@ -96,8 +99,17 @@ public class UserIntegrationTest extends IntegrationTest {
               .contentType(MediaType.APPLICATION_JSON)
               .content(objectMapper.writeValueAsString(request)))
           .andExpect(status().isOk())
-          .andExpect(header().exists("accessToken"))
-          .andExpect(header().exists("refreshToken"));
+          .andExpect(result -> {
+            Cookie accessToken = result.getResponse().getCookie("accessToken");
+            assertNotNull(accessToken);
+            assertThat(accessToken.isHttpOnly()).isTrue();
+            assertThat(accessToken.getSecure()).isTrue();
+
+            Cookie refreshToken = result.getResponse().getCookie("refreshToken");
+            assertNotNull(refreshToken);
+            assertThat(refreshToken.isHttpOnly()).isTrue();
+            assertThat(refreshToken.getSecure()).isTrue();
+          });
     }
   }
 }
