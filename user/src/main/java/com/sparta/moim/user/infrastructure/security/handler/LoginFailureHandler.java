@@ -6,6 +6,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.common.response.ApiResponseData;
+import com.sparta.moim.user.application.exception.UserErrorCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,9 +25,9 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
   @Override
   public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                       AuthenticationException exception) throws IOException, ServletException {
-    log.info("로그인 실패");
-
-    ApiResponseData<Object> apiResponse = ApiResponseData.failure(400, "아이디 혹은 비밀번호를 확인해주세요.");
+    UserErrorCode errorCode = UserErrorCode.LOGIN_FAILED;
+    ApiResponseData<Object> apiResponse = ApiResponseData.failure(errorCode.getCode(), errorCode.getMessage());
+    log.error("로그인 실패={}", errorCode.getMessage());
     response.setContentType(APPLICATION_JSON_VALUE);
     response.setCharacterEncoding(UTF_8.name());
     response.setStatus(BAD_REQUEST.value());
