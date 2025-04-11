@@ -22,6 +22,7 @@ public class FeedQueryDslRepository implements FeedQueryRepository {
   private final JPAQueryFactory jpaQueryFactory;
   private final QFeed feed = QFeed.feed;
 
+  @Override
   public Optional<Feed> findFeed(UUID id) {
     return Optional.ofNullable(
         jpaQueryFactory
@@ -31,6 +32,7 @@ public class FeedQueryDslRepository implements FeedQueryRepository {
     );
   }
 
+  @Override
   public Page<Feed> searchFeed(
       Optional<UUID> organizationId,
       Optional<String> word,
