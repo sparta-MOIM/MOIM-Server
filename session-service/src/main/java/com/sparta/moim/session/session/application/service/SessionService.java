@@ -33,7 +33,7 @@ public class SessionService {
       throw new SessionException(SessionCode.EXITS_TITLE_SESSION);
     }
     Session createSession = sessionRepository.save(command.toDomain());
-    memberPublisher.add(createSession,command.publisher());
+    memberPublisher.add(createSession.getTrackingId(),command.publisher());
     return CreateSessionResult.create(createSession);
   }
 

@@ -3,7 +3,7 @@ package com.sparta.moim.session.session.infrastructure.event.publisher;
 import com.sparta.moim.session.member.domain.entity.Member;
 import com.sparta.moim.session.member.domain.enums.MemberType;
 import com.sparta.moim.session.session.application.event.publisher.MemberPublisher;
-import com.sparta.moim.session.session.domain.entity.Session;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 public class MemberPublisherImpl implements MemberPublisher {
   private final ApplicationEventPublisher publisher;
 
-  public void add(Session session, String memberName) {
+  public void add(UUID sessionId, String memberName) {
     publisher.publishEvent(Member.builder()
-        .session(session)
+        .sessionId(sessionId)
         .memberName(memberName)
         .type(MemberType.PUBLISHER)
         .build());
