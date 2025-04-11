@@ -9,7 +9,6 @@ public record ScheduleResponse(
     String title,
     String content,
     LocalDateTime start,
-    LocalDateTime end,
-    Integer totalVoter
+    LocalDateTime end
 ) {
 }
