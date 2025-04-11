@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserDataAccessMapper {
 
-  public User userToSignupCommand(ProcessSignupCommand command, String encodedPassword) {
+  public User userFromSignupCommand(ProcessSignupCommand command, String encodedPassword) {
     return User.createUser(command.username(), encodedPassword, command.name());
   }
 
-  public SignupUserResult signupInfoToUser(User user) {
+  public SignupUserResult signupUserResultFromUser(User user) {
     return new SignupUserResult(user.getTrackingId());
   }
 }
