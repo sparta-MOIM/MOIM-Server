@@ -9,8 +9,10 @@ import com.sparta.moim.session.session.application.dto.command.UpdateStateStateC
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionResult;
+import com.sparta.moim.session.session.application.exception.SessionException;
 import com.sparta.moim.session.session.domain.entity.Session;
 import com.sparta.moim.session.session.domain.enums.SessionStatus;
+import com.sparta.moim.session.session.domain.error.code.SessionCode;
 import com.sparta.moim.session.session.domain.repository.SessionCustomRepository;
 import com.sparta.moim.session.session.domain.repository.SessionRepository;
 import java.util.UUID;
@@ -25,15 +27,16 @@ public class SessionService {
   private final SessionCustomRepository sessionCustomRepository;
 
   public CreateSessionResult createSession(CreateSessionCommand command) {
-    //TODO 이름은 중복이 될 수 없습니다.
-    //TODO reason은 공백이 될 수 없습니다. // 관리자가 생성하면 자동으로 생성되어집니다.
+    if (sessionRepository.existsByTitleAndDeletedByIsNull(command.title())) {
+      throw new SessionException(SessionCode.EXITS_TITLE_SESSION);
+    }
     return CreateSessionResult.create(sessionRepository.save(command.toDomain()));
   }
 
   @Transactional(readOnly = true)
   public GetSessionResult getSession(UUID sessionId) {
     return GetSessionResult.get(sessionRepository.findByTrackingIdAndDeletedAtIsNull(sessionId)
-        .orElseThrow(() -> new IllegalArgumentException("Session not found")));
+        .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION)));
   }
 
   @Transactional(readOnly = true)
@@ -47,32 +50,56 @@ public class SessionService {
 
   @Transactional
   public void updateSession(UpdateSessionCommand command) {
+    if (duplicateSessionTitle(command.title(), command.sessionId())) {
+      throw new SessionException(SessionCode.EXITS_TITLE_SESSION);
+    }
+
     Session session = sessionRepository.findByTrackingIdAndDeletedAtIsNull(command.sessionId())
-        .orElseThrow(() -> new IllegalArgumentException("Session not found"));
+        .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION));
+
+    validationStatusIsNotReady(session.getStatus());
+
     session.update(command.toDomain());
+  }
+
+
+  private boolean duplicateSessionTitle(String title, UUID sessionId) {
+    if(title == null) {
+      return false;
+    }
+    return sessionRepository.existsByTitleAndDeletedByIsNullAndTrackingIdNot(title, sessionId);
   }
 
   @Transactional
   public void statusUpdateSession(UpdateStateStateCommand command) {
-    //TODO READY인 상태에서는 변경이 불가합니다.
     Session session = sessionRepository.findByTrackingIdAndDeletedAtIsNull(command.sessionId())
-        .orElseThrow(() -> new IllegalArgumentException("Session not found"));
+        .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION));
+
+    validationStatusIsNotReady(session.getStatus());
+
     session.stateChange(SessionStatus.valueOf(command.status()));
   }
 
   @Transactional
   public void deleteSession(DeleteSessionCommand command) {
     Session session = sessionRepository.findByTrackingIdAndDeletedAtIsNull(command.sessionId())
-        .orElseThrow(() -> new IllegalArgumentException("Session not found"));
+        .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION));
     session.softDelete(command.username());
   }
 
   @Transactional
   public void applySession(UUID sessionId) {
-    //TODO 레디인 상태에서만 승인을 할 수 가 있다.
     Session session = sessionRepository.findByTrackingIdAndDeletedAtIsNull(sessionId)
-        .orElseThrow(() -> new IllegalArgumentException("Session not found"));
+        .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION));
+    validationStatusIsNotReady(session.getStatus());
     session.confirm();
 
   }
+
+  private void validationStatusIsNotReady(SessionStatus status) {
+    if(status != SessionStatus.READY) {
+      throw new SessionException(SessionCode.STATUS_NOT_READY_SESSION);
+    }
+  }
+
 }
