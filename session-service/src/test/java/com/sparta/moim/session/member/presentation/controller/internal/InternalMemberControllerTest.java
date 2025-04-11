@@ -76,5 +76,21 @@ class InternalMemberControllerTest {
   }
 
 
+  @Test
+  @DisplayName("빈 멤버 목록 반환 테스트")
+  void getMember_emptyList() throws Exception {
+    // given
+    UUID sessionId = UUID.randomUUID();
+    when(memberService.getMember(any())).thenReturn(List.of());
+
+    // when & then
+    mockMvc.perform(get("/internal/v1/session/{sessionId}", sessionId)
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$").isArray())
+        .andExpect(jsonPath("$").isEmpty());
+  }
+
+
 
 }
