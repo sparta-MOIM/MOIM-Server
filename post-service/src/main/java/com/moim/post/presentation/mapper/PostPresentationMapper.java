@@ -17,6 +17,7 @@ import com.moim.post.presentation.request.SearchVoteRequest;
 import com.moim.post.presentation.request.UpdateFeedRequest;
 import com.moim.post.presentation.request.UpdateVoteRequest;
 import com.moim.post.presentation.response.FeedResponse;
+import com.moim.post.presentation.response.ValidationResponse;
 import com.moim.post.presentation.response.VoteResponse;
 import java.util.UUID;
 import org.mapstruct.Mapper;
@@ -47,4 +48,6 @@ public interface PostPresentationMapper {
   UpdateVoteCommand toCommand(UpdateVoteRequest request);
 
   DeleteCommand toCommand(UUID id);
+
+  ValidationResponse toResponse(Boolean result);
 }

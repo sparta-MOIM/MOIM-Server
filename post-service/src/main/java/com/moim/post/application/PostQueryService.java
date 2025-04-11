@@ -63,4 +63,9 @@ public class PostQueryService implements PostQueryUseCase {
         pageable
     );
   }
+
+  @Override
+  public Boolean isValidFeed(FindQuery query) {
+    return feedRepository.findFeed(query.id()).isPresent();
+  }
 }
