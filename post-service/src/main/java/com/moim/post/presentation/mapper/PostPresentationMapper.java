@@ -2,6 +2,7 @@ package com.moim.post.presentation.mapper;
 
 import com.moim.post.application.command.CreateFeedCommand;
 import com.moim.post.application.command.CreateVoteCommand;
+import com.moim.post.application.command.DeleteCommand;
 import com.moim.post.application.command.UpdateFeedCommand;
 import com.moim.post.application.command.UpdateVoteCommand;
 import com.moim.post.application.query.FindQuery;
@@ -44,4 +45,6 @@ public interface PostPresentationMapper {
   UpdateFeedCommand toCommand(UpdateFeedRequest request);
 
   UpdateVoteCommand toCommand(UpdateVoteRequest request);
+
+  DeleteCommand toCommand(UUID id);
 }

@@ -2,6 +2,7 @@ package com.moim.post.application;
 
 import com.moim.post.application.command.CreateFeedCommand;
 import com.moim.post.application.command.CreateVoteCommand;
+import com.moim.post.application.command.DeleteCommand;
 import com.moim.post.application.command.UpdateFeedCommand;
 import com.moim.post.application.command.UpdateVoteCommand;
 import com.moim.post.application.usecase.PostCommandUseCase;
@@ -74,6 +75,21 @@ public class PostCommandService implements PostCommandUseCase {
     command.end().ifPresent(vote::updateEnd);
     command.totalVoter().ifPresent(vote::updateTotalVoter);
     return vote;
+  }
+
+  @Override
+  public void deleteFeed(DeleteCommand command) {
+    // todo: 예외처리
+    Feed feed = feedRepository.findByTrackingId(command.id()).orElseThrow(null);
+    feed.delete();
+    // todo: 댓글 도메인에 삭제 이벤트 발행
+  }
+
+  @Override
+  public void deleteVote(DeleteCommand command) {
+    // todo: 예외처리
+    Vote vote = voteRepository.findByTrackingId(command.id()).orElseThrow(null);
+    vote.delete();
   }
 }
 

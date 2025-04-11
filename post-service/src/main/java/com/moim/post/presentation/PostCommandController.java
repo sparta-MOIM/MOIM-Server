@@ -16,6 +16,7 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -77,6 +78,22 @@ public class PostCommandController {
     VoteResponse response = mapper.toResponse(vote);
     log.info("Vote 업데이트 완료");
     return ResponseEntity.ok().body(ApiResponseData.success(response));
+  }
+
+  @DeleteMapping("/feeds/{id}")
+  public ResponseEntity<ApiResponseData> deleteFeed(@PathVariable final String id) {
+    log.info("Feed 삭제 요청: {}", id);
+    useCase.deleteFeed(mapper.toCommand(UUID.fromString(id)));
+    log.info("Feed 삭제 완료");
+    return ResponseEntity.ok().body(ApiResponseData.success(null));
+  }
+
+  @DeleteMapping("/votes/{id}")
+  public ResponseEntity<ApiResponseData> deleteVote(@PathVariable final String id) {
+    log.info("Vote 삭제 요청: {}", id);
+    useCase.deleteVote(mapper.toCommand(UUID.fromString(id)));
+    log.info("Vote 삭제 완료");
+    return ResponseEntity.ok().body(ApiResponseData.success(null));
   }
 
 }
