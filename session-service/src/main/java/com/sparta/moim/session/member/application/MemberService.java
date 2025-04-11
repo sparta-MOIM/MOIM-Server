@@ -47,6 +47,7 @@ public class MemberService {
 
   @Transactional(readOnly = true)
   public List<GetMemberListResult> getMember(GetMemberCommand command) {
+    //TODO 존재하지 않는 세션에서 맴버를 조회하는 경우 예외처리
     return getMemberRepositoryAllBySessionId(command.sessionId()).stream().map(GetMemberListResult::new)
         .collect(Collectors.toList());
   }
