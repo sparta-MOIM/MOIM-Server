@@ -115,7 +115,7 @@ class SessionControllerTest {
         .sessionId(sessionId)
         .status(SessionStatus.OPEN)
         .title("test")
-        .members(List.of(
+        .member(List.of(
             new GetSessionMemberListResult("user1","PUBLISHER"),
             new GetSessionMemberListResult("user2","GENERAL")
         ))
@@ -144,6 +144,7 @@ class SessionControllerTest {
         .andExpect(jsonPath("$.openTime").exists())
         .andExpect(jsonPath("$.closeTime").exists())
         .andExpect(jsonPath("$.count").value(10))
+        .andExpect(jsonPath("$.member").isArray())
         .andExpect(jsonPath("$.member[0].name").value("user1"))
         .andExpect(jsonPath("$.member[0].type").value("PUBLISHER"))
         .andExpect(jsonPath("$.member[1].name").value("user2"))

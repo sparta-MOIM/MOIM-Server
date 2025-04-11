@@ -27,7 +27,7 @@ public record GetSessionResponse(
         .title(result.title())
         .publisher(result.publisher())
         .count(result.count())
-        .member(result.members().stream().map(GetSessionMemberListResponse::new).toList())
+        .member(result.member().stream().map(GetSessionMemberListResponse::new).toList())
         .openTime(result.openTime())
         .closeTime(result.closeTime())
         .status(result.status().name())
