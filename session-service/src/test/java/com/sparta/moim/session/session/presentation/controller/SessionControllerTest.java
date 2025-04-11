@@ -12,7 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.common.security.CustomUserDetails;
-import com.sparta.moim.session.session.application.dto.command.SearchSessionCommand;
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionListResult;
@@ -174,7 +173,7 @@ class SessionControllerTest {
     UpdateStateRequest request = new UpdateStateRequest("CLOSE");
 
     // when & then
-    mockMvc.perform(patch("/api/v1/session/{sessionId}/state", sessionId)
+    mockMvc.perform(patch("/api/v1/session/{sessionId}/status", sessionId)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request))
             .header("X-User-Name", "테스트유저")

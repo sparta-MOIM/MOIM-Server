@@ -54,7 +54,7 @@ public class SessionController {
     sessionService.updateSession(request.toCommand(sessionId));
   }
 
-  @PatchMapping("/{sessionId}/state")
+  @PatchMapping("/{sessionId}/status")
   public void updateStateSession(@PathVariable UUID sessionId, @RequestBody @Valid UpdateStateRequest request) {
     sessionService.statusUpdateSession(request.toCommand(sessionId));
   }
