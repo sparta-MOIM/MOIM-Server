@@ -1,4 +1,4 @@
-package com.sparta.moim.session.session.application.event.feigin;
+package com.sparta.moim.session.session.application.event.feign;
 
 import com.sparta.moim.session.session.application.dto.result.GetSessionMemberListResult;
 import java.util.List;
