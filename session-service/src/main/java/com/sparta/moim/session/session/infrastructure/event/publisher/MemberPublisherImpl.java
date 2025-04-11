@@ -2,6 +2,7 @@ package com.sparta.moim.session.session.infrastructure.event.publisher;
 
 import com.sparta.moim.session.session.application.event.publisher.MemberPublisher;
 import com.sparta.moim.session.shared.dto.SharedSessionMember;
+import com.sparta.moim.session.shared.enums.MemberType;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -16,7 +17,7 @@ public class MemberPublisherImpl implements MemberPublisher {
     publisher.publishEvent(SharedSessionMember.builder()
         .sessionId(sessionId)
         .memberName(memberName)
-        .type("PUBLISHER")
+        .type(MemberType.PUBLISHER.name())
         .build());
   }
 }
