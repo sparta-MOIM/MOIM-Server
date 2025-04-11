@@ -51,12 +51,10 @@ class InternalMemberControllerTest {
 
     UUID sessionId = UUID.randomUUID();
 
-    GetMemberResult result = new GetMemberResult(
-      List.of(
-          new GetMemberListResult("user1","PUBLISHER"),
-          new GetMemberListResult("user2","GENERAL"),
-          new GetMemberListResult("user3","GENERAL")
-      )
+    List<GetMemberListResult> result = List.of(
+        new GetMemberListResult("user1", "PUBLISHER"),
+        new GetMemberListResult("user2", "GENERAL"),
+        new GetMemberListResult("user3", "GENERAL")
     );
     when(memberService.getMember(any())).thenReturn(result);
 
@@ -67,13 +65,12 @@ class InternalMemberControllerTest {
             .header("X-User-Role", role)
             .header("X-User-ID", userId.toString()))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.member").exists())
-        .andExpect(jsonPath("$.member[0].memberName").value("user1"))
-        .andExpect(jsonPath("$.member[0].type").value("PUBLISHER"))
-        .andExpect(jsonPath("$.member[1].memberName").value("user2"))
-        .andExpect(jsonPath("$.member[1].type").value("GENERAL"))
-        .andExpect(jsonPath("$.member[2].memberName").value("user3"))
-        .andExpect(jsonPath("$.member[2].type").value("GENERAL"))
+        .andExpect(jsonPath("$[0].memberName").value("user1"))
+        .andExpect(jsonPath("$[0].type").value("PUBLISHER"))
+        .andExpect(jsonPath("$[1].memberName").value("user2"))
+        .andExpect(jsonPath("$[1].type").value("GENERAL"))
+        .andExpect(jsonPath("$[2].memberName").value("user3"))
+        .andExpect(jsonPath("$[2].type").value("GENERAL"))
 
     ;
   }
