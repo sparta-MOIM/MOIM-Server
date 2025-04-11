@@ -74,8 +74,7 @@ public class Session extends BaseEntity {
   private UUID trackingId;
 
 
-  @OneToMany(fetch = FetchType.LAZY)
-  @JoinColumn(name = "session_id")
+  @OneToMany(mappedBy = "session", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
   private List<Member> members;
 
   public void update(Session updateSessionInfo) {
