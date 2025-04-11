@@ -174,7 +174,7 @@ class SessionControllerTest {
     UpdateStateRequest request = new UpdateStateRequest("CLOSE");
 
     // when & then
-    mockMvc.perform(patch("/api/v1/session/{sessionId}/state", sessionId)
+    mockMvc.perform(patch("/api/v1/session/{sessionId}/status", sessionId)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request))
             .header("X-User-Name", "테스트유저")
