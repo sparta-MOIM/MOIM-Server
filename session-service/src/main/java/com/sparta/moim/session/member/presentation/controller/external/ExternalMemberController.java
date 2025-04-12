@@ -24,8 +24,9 @@ public class ExternalMemberController {
   private final MemberService memberService;
 
   @PostMapping("/{sessionId}/join")
-  public void joinMember(@PathVariable UUID sessionId, @AuthenticationPrincipal CustomUserDetails user) {
-    memberService.joinMember(new JoinMemberCommand(sessionId, user.getUsername()));
+  public void joinMember(@PathVariable UUID sessionId,
+                         @AuthenticationPrincipal CustomUserDetails details) {
+    memberService.joinMember(new JoinMemberCommand(sessionId, details.getUsername()));
   }
 
   @DeleteMapping("/{sessionId}/leave")

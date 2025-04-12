@@ -71,11 +71,14 @@ class ExternalMemberControllerTest {
             resource(ResourceSnippetParameters.builder()
                 .tag("맴버 외부 API")
                 .summary("세션 참가")
-                .description("세션에서 참가 기능을 위한 엔드포인트입니다.")
+                .description("세션에 참가를 하기 위한 엔드포인트입니다.")
+                .requestHeaders(
+                    headerWithName("X-User-Name").description("로그인 계정 명"),
+                    headerWithName("X-User-Role").description("로그인 계정 역할").optional(),
+                    headerWithName("X-User-ID").description("로그인 계정 아이디").optional())
                 .build()
             )));
   }
-
 
 
   @Test
@@ -107,6 +110,10 @@ class ExternalMemberControllerTest {
                 .tag("맴버 외부 API")
                 .summary("세션 나가기")
                 .description("세션에서 나가기 기능을 위한 엔드포인트입니다.")
+                .requestHeaders(
+                    headerWithName("X-User-Name").description("로그인 계정 명"),
+                    headerWithName("X-User-Role").description("로그인 계정 역할").optional(),
+                    headerWithName("X-User-ID").description("로그인 계정 아이디").optional())
                 .build()
             )));
   }
@@ -128,7 +135,6 @@ class ExternalMemberControllerTest {
     UUID sessionId = UUID.randomUUID();
 
     RemoveMemberRequest request = new RemoveMemberRequest(List.of("member1", "member2", "member3"));
-
 
     // when & then
     mockMvc.perform(delete("/api/v1/session/{sessionId}/remove", sessionId)
