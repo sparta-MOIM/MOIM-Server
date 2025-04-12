@@ -1,6 +1,6 @@
 package com.sparta.moim.session.session.infrastructure.event.publisher;
 
-import com.sparta.moim.session.session.application.event.publisher.MemberPublisher;
+import com.sparta.moim.session.session.application.event.publisher.AddMemberPublisher;
 import com.sparta.moim.session.shared.dto.SharedSessionMember;
 import com.sparta.moim.session.shared.enums.MemberType;
 import java.util.UUID;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MemberPublisherImpl implements MemberPublisher {
+public class AddMemberPublisherImpl implements AddMemberPublisher {
   private final ApplicationEventPublisher publisher;
 
   public void add(UUID sessionId, String memberName) {

@@ -90,14 +90,14 @@ public class Session extends BaseEntity {
   }
 
   private void openTimeBeforeCloseTimeValidate() {
-    if(closeTime.isBefore(openTime)){
+    if(openTime.isAfter(closeTime)){
       throw new IllegalArgumentException("Session close time is after open time");
     }
   }
 
   private void openTimeValidate(LocalDateTime now) {
-    if(openTime.isBefore(now)){
-      throw new IllegalArgumentException("Session open time is after open time");
+    if(openTime.isAfter(now)){
+      throw new IllegalArgumentException("Session open time is after current time");
     }
   }
 }

@@ -11,7 +11,9 @@ import com.sparta.moim.session.session.application.dto.result.GetSessionMemberLi
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionResult;
 import com.sparta.moim.session.session.application.event.feign.MemberInternalService;
-import com.sparta.moim.session.session.application.event.publisher.MemberPublisher;
+import com.sparta.moim.session.session.application.event.publisher.AddMemberPublisher;
+import com.sparta.moim.session.session.application.event.publisher.RemoveMemberPublisher;
+import com.sparta.moim.session.shared.dto.SharedRemoveSession;
 import com.sparta.moim.session.shared.error.exception.SessionException;
 import com.sparta.moim.session.session.domain.entity.Session;
 import com.sparta.moim.session.shared.enums.SessionStatus;
@@ -29,7 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class SessionService {
   private final SessionRepository sessionRepository;
   private final SessionCustomRepository sessionCustomRepository;
-  private final MemberPublisher memberPublisher;
+  private final AddMemberPublisher addMemberPublisher;
+  private final RemoveMemberPublisher removeMemberPublisher;
   private final MemberInternalService memberService;
 
   @Transactional
@@ -39,7 +42,7 @@ public class SessionService {
     }
     Session createSession = sessionRepository.save(command.toDomain());
     createSession.timeValidate();
-    memberPublisher.add(createSession.getTrackingId(), command.publisher());
+    addMemberPublisher.add(createSession.getTrackingId(), command.publisher());
     return CreateSessionResult.create(createSession);
   }
 
@@ -94,6 +97,7 @@ public class SessionService {
     Session session = sessionRepository.findByTrackingIdAndDeletedAtIsNull(command.sessionId())
         .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION));
     session.softDelete(command.username());
+    removeMemberPublisher.remove(new SharedRemoveSession(session.getTrackingId()));
   }
 
   @Transactional

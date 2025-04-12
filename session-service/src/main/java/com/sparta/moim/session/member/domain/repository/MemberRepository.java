@@ -12,4 +12,5 @@ public interface MemberRepository {
   List<Member> findAllBySessionId(UUID sessionId);
   boolean existsBySessionIdAndMemberName(UUID sessionId, String memberName);
 
+  void deleteAllBySessionId(UUID sessionId);
 }
