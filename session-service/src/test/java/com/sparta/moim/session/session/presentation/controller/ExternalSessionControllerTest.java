@@ -26,7 +26,8 @@ import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionListResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionResult;
 import com.sparta.moim.session.session.application.service.SessionService;
-import com.sparta.moim.session.session.domain.enums.SessionStatus;
+import com.sparta.moim.session.session.presentation.controller.external.ExternalSessionController;
+import com.sparta.moim.session.shared.enums.SessionStatus;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionApplyRequest;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionRequest;
 import com.sparta.moim.session.session.presentation.dto.request.SearchSessionRequest;
@@ -50,10 +51,10 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureRestDocs
-@WebMvcTest(SessionController.class)
+@WebMvcTest(ExternalSessionController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("test")
-class SessionControllerTest {
+class ExternalSessionControllerTest {
   @Autowired
   private MockMvc mockMvc;
 

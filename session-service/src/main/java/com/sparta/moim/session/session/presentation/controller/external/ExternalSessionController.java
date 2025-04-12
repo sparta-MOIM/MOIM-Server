@@ -1,4 +1,4 @@
-package com.sparta.moim.session.session.presentation.controller;
+package com.sparta.moim.session.session.presentation.controller.external;
 
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.session.session.application.dto.DeleteSessionCommand;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/session")
 @RequiredArgsConstructor
-public class SessionController {
+public class ExternalSessionController {
   private final SessionService sessionService;
 
   @PostMapping
