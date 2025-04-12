@@ -6,6 +6,7 @@ import com.sparta.moim.session.member.application.dto.command.LeaveMemberCommand
 import com.sparta.moim.session.member.application.dto.command.RemoveMemberCommand;
 import com.sparta.moim.session.member.application.dto.result.GetMemberListResult;
 import com.sparta.moim.session.member.application.event.feign.SessionInternalService;
+import com.sparta.moim.session.member.application.event.publisher.HandleSessionMemberCountPublisher;
 import com.sparta.moim.session.member.domain.entity.Member;
 import com.sparta.moim.session.member.domain.enums.MemberType;
 import com.sparta.moim.session.member.domain.repository.MemberRepository;
@@ -23,22 +24,24 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
   private final MemberRepository memberRepository;
   private final SessionInternalService sessionService;
+  private final HandleSessionMemberCountPublisher handleSessionMemberCountPublisher;
 
   @Transactional
   public void joinMember(JoinMemberCommand command) {
-    joinValidate(command.sessionId(),command.username());
+    joinValidate(command.sessionId(), command.username());
     memberRepository.save(Member.builder()
         .sessionId(command.sessionId())
         .type(MemberType.GENERAL)
         .memberName(command.username())
         .build());
+    handleSessionMemberCountPublisher.increase(command.sessionId(), command.username());
   }
 
   private void joinValidate(UUID sessionId, String memberName) {
     sessionService.getSessionValidate(sessionId);
     sessionService.getSessionValidateTime(sessionId);
     sessionService.getSessionValidateOpenStatus(sessionId);
-    isAlreadyParticipation(sessionId,memberName);
+    isAlreadyParticipation(sessionId, memberName);
 
   }
 
@@ -51,10 +54,13 @@ public class MemberService {
   @Transactional
   public void leaveMember(LeaveMemberCommand command) {
     memberRepository.deleteMemberBySessionId(command.sessionId(), command.username());
+    handleSessionMemberCountPublisher.decrease(command.sessionId(), command.username());
   }
 
   @Transactional
   public void removeMember(RemoveMemberCommand command) {
+    long count = memberRepository.countMembersUnpublishable(command.sessionId(), command.members());
+    handleSessionMemberCountPublisher.remove(command.sessionId(), count);
     memberRepository.removeMembers(command.sessionId(), command.members());
   }
 

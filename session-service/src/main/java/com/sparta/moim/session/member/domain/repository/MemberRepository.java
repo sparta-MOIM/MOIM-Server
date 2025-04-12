@@ -13,4 +13,6 @@ public interface MemberRepository {
   boolean existsBySessionIdAndMemberName(UUID sessionId, String memberName);
 
   void deleteAllBySessionId(UUID sessionId);
+
+  long countMembersUnpublishable(UUID uuid, List<String> members);
 }

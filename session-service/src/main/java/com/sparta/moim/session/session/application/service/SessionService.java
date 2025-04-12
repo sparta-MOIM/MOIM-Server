@@ -116,7 +116,7 @@ public class SessionService {
   }
 
   public void isValidateSessionTimeCheck(UUID sessionId) {
-    boolean isCollectJoinSession = sessionRepository.checkOpenTimeByTrackingId(sessionId).isEmpty();
+    boolean isCollectJoinSession = sessionRepository.checkOpenTimeByTrackingId(sessionId).isPresent();
 
     if (isCollectJoinSession) {
       throw new SessionException(SessionCode.TIME_OUT_SESSION);

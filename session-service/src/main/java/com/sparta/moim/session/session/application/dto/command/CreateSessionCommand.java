@@ -9,7 +9,7 @@ import lombok.Builder;
 public record CreateSessionCommand(
     String organizationId,
     String title,
-    int count,
+    int totalCount,
     String status,
     LocalDateTime openTime,
     LocalDateTime closeTime,
@@ -21,9 +21,10 @@ public record CreateSessionCommand(
     return Session.builder()
         .organizationId(organizationId)
         .title(title)
-        .count(count)
+        .totalCount(totalCount)
         .status(SessionStatus.valueOf(status))
         .openTime(openTime)
+        .currentCount(1)
         .closeTime(closeTime)
         .applyTime(LocalDateTime.now())
         .confirmTime(role.equals("USER") ? null : LocalDateTime.now())

@@ -16,6 +16,6 @@ public record UpdateSessionRequest(
     return UpdateSessionCommand.builder()
         .sessionId(sessionId)
         .title(title)
-        .count(count).build();
+        .totalCount(count).build();
   }
 }
