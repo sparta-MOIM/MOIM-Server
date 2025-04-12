@@ -17,4 +17,10 @@ public interface JpaMemberRepository extends JpaRepository<Member, Long>, Member
   @Modifying
   @Query("delete from Member m where m.sessionId = :id and m.memberName IN (:members) and m.type <> 'PUBLISHER'")
   void removeMembers(UUID id, List<String> members);
+
+
+  @Query("""
+        select count(m) from Member m where m.sessionId = :sessionId and m.memberName IN (:members) and m.type <> "PUBLISHER"
+        """)
+  long countMembersUnpublishable(UUID sessionId, List<String> members);
 }

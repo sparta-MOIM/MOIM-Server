@@ -82,6 +82,7 @@ public class Session extends BaseEntity {
     this.confirmTime = LocalDateTime.now();
     this.status = SessionStatus.OPEN;
   }
+
   // open,close 시간은 현재시간보다 이전일 수 없다
   // close는 open보다 이전일 수 없습니다.
   public void timeValidate() {
@@ -91,14 +92,35 @@ public class Session extends BaseEntity {
   }
 
   private void openTimeBeforeCloseTimeValidate() {
-    if(openTime.isAfter(closeTime)){
+    if (openTime.isAfter(closeTime)) {
       throw new IllegalArgumentException("Session close time is after open time");
     }
   }
 
   private void openTimeValidate(LocalDateTime now) {
-    if(openTime.isAfter(now)){
+    if (openTime.isAfter(now)) {
       throw new IllegalArgumentException("Session open time is after current time");
     }
+  }
+
+  public void increase() {
+    if (totalCount < ++currentCount) {
+      throw new IllegalArgumentException("Session total count is less than current count");
+    }
+  }
+
+  public void decrease() {
+    if (0 > --currentCount) {
+      throw new IllegalArgumentException("Session current count is over than zero");
+    }
+
+  }
+
+  public void remove(long count) {
+    int result = (int) (currentCount - count);
+    if (0 > result) {
+      throw new IllegalArgumentException("Session current count is over than zero");
+    }
+    this.currentCount = result;
   }
 }

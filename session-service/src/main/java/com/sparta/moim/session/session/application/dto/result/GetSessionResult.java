@@ -14,6 +14,7 @@ public record GetSessionResult(
     String title,
     String publisher,
     int totalCount,
+    int currentCount,
     List<GetSessionMemberListResult> member,
     LocalDateTime openTime,
     LocalDateTime closeTime,
@@ -29,6 +30,7 @@ public record GetSessionResult(
         .publisher(session.getPublisher())
         .title(session.getTitle())
         .totalCount(session.getTotalCount())
+        .currentCount(session.getCurrentCount())
         .member(members)
         .status(session.getStatus())
         .openTime(session.getOpenTime())

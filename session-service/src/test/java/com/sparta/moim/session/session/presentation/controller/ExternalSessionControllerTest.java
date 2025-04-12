@@ -28,6 +28,7 @@ import com.sparta.moim.session.session.application.dto.result.SearchSessionListR
 import com.sparta.moim.session.session.application.dto.result.SearchSessionResult;
 import com.sparta.moim.session.session.application.service.SessionService;
 import com.sparta.moim.session.session.presentation.controller.external.ExternalSessionController;
+import com.sparta.moim.session.session.presentation.dto.response.GetMemberCountResponse;
 import com.sparta.moim.session.shared.enums.SessionStatus;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionApplyRequest;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionRequest;
@@ -177,6 +178,7 @@ class ExternalSessionControllerTest {
         .confirmTime(LocalDateTime.now().plusHours(10))
         .reason("test")
         .totalCount(10)
+        .currentCount(2)
         .publisher("test")
         .build();
 
@@ -195,7 +197,8 @@ class ExternalSessionControllerTest {
         .andExpect(jsonPath("$.data.title").value("test"))
         .andExpect(jsonPath("$.data.openTime").exists())
         .andExpect(jsonPath("$.data.closeTime").exists())
-        .andExpect(jsonPath("$.data.totalCount").value(10))
+        .andExpect(jsonPath("$.data.memberCount.total").value(10))
+        .andExpect(jsonPath("$.data.memberCount.current").value(2))
         .andExpect(jsonPath("$.data.member").isArray())
         .andExpect(jsonPath("$.data.member[0].name").value("user1"))
         .andExpect(jsonPath("$.data.member[0].type").value("PUBLISHER"))
@@ -222,7 +225,8 @@ class ExternalSessionControllerTest {
                     fieldWithPath("data.sessionId").description("세션 아이디"),
                     fieldWithPath("data.publisher").description("발표자"),
                     fieldWithPath("data.title").description("세션 제목"),
-                    fieldWithPath("data.totalCount").description("모집 인원"),
+                    fieldWithPath("data.memberCount.total").description("모집 인원"),
+                    fieldWithPath("data.memberCount.current").description("현재 참여 인원"),
                     fieldWithPath("data.status").description("모집 상태"),
                     fieldWithPath("data.openTime").description("오픈 시간"),
                     fieldWithPath("data.closeTime").description("마감 시간"),
