@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sparta.moim.common.response.ApiResponseData;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionMemberListResult;
@@ -111,13 +112,13 @@ class ExternalSessionControllerTest {
             .header("X-User-Role", role)
             .header("X-User-ID", userId.toString()))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.sessionId").exists())
-        .andExpect(jsonPath("$.title").value(request.title()))
-        .andExpect(jsonPath("$.count").value(request.count()))
-        .andExpect(jsonPath("$.status").exists())
-        .andExpect(jsonPath("$.applyTime").exists())
-        .andExpect(jsonPath("$.openTime").exists())
-        .andExpect(jsonPath("$.closeTime").exists())
+        .andExpect(jsonPath("$.data.sessionId").exists())
+        .andExpect(jsonPath("$.data.title").value(request.title()))
+        .andExpect(jsonPath("$.data.count").value(request.count()))
+        .andExpect(jsonPath("$.data.status").exists())
+        .andExpect(jsonPath("$.data.applyTime").exists())
+        .andExpect(jsonPath("$.data.openTime").exists())
+        .andExpect(jsonPath("$.data.closeTime").exists())
         .andDo(document("세션 - 생성",
             preprocessRequest(Preprocessors.prettyPrint()),
             preprocessResponse(Preprocessors.prettyPrint()),
@@ -141,22 +142,24 @@ class ExternalSessionControllerTest {
                     fieldWithPath("applyInfo.reason").description("신청 사유")
                 )
                 .responseFields(
-                    fieldWithPath("organizationId").description("모임 아이디"),
-                    fieldWithPath("sessionId").description("세션 아이디"),
-                    fieldWithPath("publisher").description("발표자"),
-                    fieldWithPath("title").description("세션 제목"),
-                    fieldWithPath("count").description("모집 인원"),
-                    fieldWithPath("status").description("모집 상태"),
-                    fieldWithPath("openTime").description("오픈 시간"),
-                    fieldWithPath("closeTime").description("마감 시간"),
-                    fieldWithPath("applyTime").description("싱청 시간"))
+                    fieldWithPath("code").description("코드"),
+                    fieldWithPath("message").description("성공메시지"),
+                    fieldWithPath("data.organizationId").description("모임 아이디"),
+                    fieldWithPath("data.sessionId").description("세션 아이디"),
+                    fieldWithPath("data.publisher").description("발표자"),
+                    fieldWithPath("data.title").description("세션 제목"),
+                    fieldWithPath("data.count").description("모집 인원"),
+                    fieldWithPath("data.status").description("모집 상태"),
+                    fieldWithPath("data.openTime").description("오픈 시간"),
+                    fieldWithPath("data.closeTime").description("마감 시간"),
+                    fieldWithPath("data.applyTime").description("싱청 시간"))
                 .build()
             )));
   }
 
   @Test
   @DisplayName("세션 단일 조회 성공")
-  void getGathering_success() throws Exception {
+  void getSession_success() throws Exception {
     // given
     UUID sessionId = UUID.randomUUID();
     GetSessionResult response = GetSessionResult.builder()
@@ -186,22 +189,22 @@ class ExternalSessionControllerTest {
             .header("X-User-Role", "USER")
             .header("X-User-ID", UUID.randomUUID().toString()))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.organizationId").value("org123"))
-        .andExpect(jsonPath("$.sessionId").value(sessionId.toString()))
-        .andExpect(jsonPath("$.status").value(SessionStatus.OPEN.toString()))
-        .andExpect(jsonPath("$.title").value("test"))
-        .andExpect(jsonPath("$.openTime").exists())
-        .andExpect(jsonPath("$.closeTime").exists())
-        .andExpect(jsonPath("$.count").value(10))
-        .andExpect(jsonPath("$.member").isArray())
-        .andExpect(jsonPath("$.member[0].name").value("user1"))
-        .andExpect(jsonPath("$.member[0].type").value("PUBLISHER"))
-        .andExpect(jsonPath("$.member[1].name").value("user2"))
-        .andExpect(jsonPath("$.member[1].type").value("GENERAL"))
-        .andExpect(jsonPath("$.publisher").value("test"))
-        .andExpect(jsonPath("$.applyInfo.applyTime").exists())
-        .andExpect(jsonPath("$.applyInfo.confirmTime").exists())
-        .andExpect(jsonPath("$.applyInfo.reason").value("test"))
+        .andExpect(jsonPath("$.data.organizationId").value("org123"))
+        .andExpect(jsonPath("$.data.sessionId").value(sessionId.toString()))
+        .andExpect(jsonPath("$.data.status").value(SessionStatus.OPEN.toString()))
+        .andExpect(jsonPath("$.data.title").value("test"))
+        .andExpect(jsonPath("$.data.openTime").exists())
+        .andExpect(jsonPath("$.data.closeTime").exists())
+        .andExpect(jsonPath("$.data.count").value(10))
+        .andExpect(jsonPath("$.data.member").isArray())
+        .andExpect(jsonPath("$.data.member[0].name").value("user1"))
+        .andExpect(jsonPath("$.data.member[0].type").value("PUBLISHER"))
+        .andExpect(jsonPath("$.data.member[1].name").value("user2"))
+        .andExpect(jsonPath("$.data.member[1].type").value("GENERAL"))
+        .andExpect(jsonPath("$.data.publisher").value("test"))
+        .andExpect(jsonPath("$.data.applyInfo.applyTime").exists())
+        .andExpect(jsonPath("$.data.applyInfo.confirmTime").exists())
+        .andExpect(jsonPath("$.data.applyInfo.reason").value("test"))
         .andDo(document("세션 - 단일 조회",
             preprocessRequest(Preprocessors.prettyPrint()),
             preprocessResponse(Preprocessors.prettyPrint()),
@@ -213,20 +216,22 @@ class ExternalSessionControllerTest {
                     parameterWithName("sessionId").description("세션 아이디")
                 )
                 .responseFields(
-                    fieldWithPath("organizationId").description("모임 아이디"),
-                    fieldWithPath("sessionId").description("세션 아이디"),
-                    fieldWithPath("publisher").description("발표자"),
-                    fieldWithPath("title").description("세션 제목"),
-                    fieldWithPath("count").description("모집 인원"),
-                    fieldWithPath("status").description("모집 상태"),
-                    fieldWithPath("openTime").description("오픈 시간"),
-                    fieldWithPath("closeTime").description("마감 시간"),
-                    fieldWithPath("applyInfo").description("신청 정보"),
-                    fieldWithPath("applyInfo.applyTime").description("신청 시간"),
-                    fieldWithPath("applyInfo.confirmTime").description("승인 시간"),
-                    fieldWithPath("applyInfo.reason").description("신청 사유"),
-                    fieldWithPath("member[].name").description("참가자 명"),
-                    fieldWithPath("member[].type").description("참가자 타입")
+                    fieldWithPath("code").description("코드"),
+                    fieldWithPath("message").description("성공메시지"),
+                    fieldWithPath("data.organizationId").description("모임 아이디"),
+                    fieldWithPath("data.sessionId").description("세션 아이디"),
+                    fieldWithPath("data.publisher").description("발표자"),
+                    fieldWithPath("data.title").description("세션 제목"),
+                    fieldWithPath("data.count").description("모집 인원"),
+                    fieldWithPath("data.status").description("모집 상태"),
+                    fieldWithPath("data.openTime").description("오픈 시간"),
+                    fieldWithPath("data.closeTime").description("마감 시간"),
+                    fieldWithPath("data.applyInfo").description("신청 정보"),
+                    fieldWithPath("data.applyInfo.applyTime").description("신청 시간"),
+                    fieldWithPath("data.applyInfo.confirmTime").description("승인 시간"),
+                    fieldWithPath("data.applyInfo.reason").description("신청 사유"),
+                    fieldWithPath("data.member[].name").description("참가자 명"),
+                    fieldWithPath("data.member[].type").description("참가자 타입")
                 )
                 .build()
             )));
@@ -427,13 +432,13 @@ class ExternalSessionControllerTest {
             .param("size", String.valueOf(request.size()))
             .param("sort", request.sort()))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.sessions").isArray())
-        .andExpect(jsonPath("$.sessions.length()").value(1))
-        .andExpect(jsonPath("$.sessions[0].title").value("title"))
-        .andExpect(jsonPath("$.sessions[0].publisher").value("publisher"))
-        .andExpect(jsonPath("$.page").value(0))
-        .andExpect(jsonPath("$.content").value(1))
-        .andExpect(jsonPath("$.total").value(1))
+        .andExpect(jsonPath("$.data.sessions").isArray())
+        .andExpect(jsonPath("$.data.sessions.length()").value(1))
+        .andExpect(jsonPath("$.data.sessions[0].title").value("title"))
+        .andExpect(jsonPath("$.data.sessions[0].publisher").value("publisher"))
+        .andExpect(jsonPath("$.data.page").value(0))
+        .andExpect(jsonPath("$.data.content").value(1))
+        .andExpect(jsonPath("$.data.total").value(1))
         .andDo(document("세션 - 검색",
             preprocessRequest(Preprocessors.prettyPrint()),
             preprocessResponse(Preprocessors.prettyPrint()),
@@ -461,12 +466,14 @@ class ExternalSessionControllerTest {
                     parameterWithName("status").description("세션 상태").optional()
                 )
                 .responseFields(
-                    fieldWithPath("sessions").description("세션 리스트"),
-                    fieldWithPath("sessions[].title").description("세션 제목"),
-                    fieldWithPath("sessions[].publisher").description("발표자"),
-                    fieldWithPath("total").description("전체 갯수"),
-                    fieldWithPath("page").description("페이지 수"),
-                    fieldWithPath("content").description("현재 페이지에서 보여주는 아이템 수"))
+                    fieldWithPath("code").description("코드"),
+                    fieldWithPath("message").description("성공메시지"),
+                    fieldWithPath("data.sessions").description("세션 리스트"),
+                    fieldWithPath("data.sessions[].title").description("세션 제목"),
+                    fieldWithPath("data.sessions[].publisher").description("발표자"),
+                    fieldWithPath("data.total").description("전체 갯수"),
+                    fieldWithPath("data.page").description("페이지 수"),
+                    fieldWithPath("data.content").description("현재 페이지에서 보여주는 아이템 수"))
                 .build()
             )));
   }
