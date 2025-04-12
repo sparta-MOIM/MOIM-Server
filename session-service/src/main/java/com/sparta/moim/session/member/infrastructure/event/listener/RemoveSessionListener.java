@@ -22,11 +22,11 @@ public class RemoveSessionListener {
   public void remove(SharedRemoveSession sharedRemoveSession) {
     UUID sessionId = sharedRemoveSession.sessionId();
     try {
-      log.info("Saving publisher {}", sessionId);
+      log.info("Starting to delete members for session {}", sessionId);
       memberRepository.deleteAllBySessionId(sessionId);
-      log.info("Removing publisher {}", sessionId);
+      log.info("Successfully deleted all members for session {}", sessionId);
     } catch (Exception e) {
-      log.error("Error while removing publisher {}", sessionId, e);
+      log.error("Error while deleting members for session {}", sessionId, e);
       //TODO 보상 트랜잭션 적용
     }
   }
