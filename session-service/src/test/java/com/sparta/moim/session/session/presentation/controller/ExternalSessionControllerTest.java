@@ -83,7 +83,7 @@ class ExternalSessionControllerTest {
         .organizationId(organizationId)
         .publisher(username)
         .title("스파르타 세션")
-        .count(15)
+        .totalCount(15)
         .openTime(LocalDateTime.now())
         .closeTime(LocalDateTime.now().plusHours(10))
         .applyInfo(new CreateSessionApplyRequest("test"))
@@ -97,7 +97,7 @@ class ExternalSessionControllerTest {
         .status(SessionStatus.OPEN)
         .openTime(request.openTime())
         .closeTime(request.closeTime())
-        .count(request.count())
+        .totalCount(request.totalCount())
         .applyTime(LocalDateTime.now())
         .build();
 
@@ -114,7 +114,7 @@ class ExternalSessionControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.data.sessionId").exists())
         .andExpect(jsonPath("$.data.title").value(request.title()))
-        .andExpect(jsonPath("$.data.count").value(request.count()))
+        .andExpect(jsonPath("$.data.totalCount").value(request.totalCount()))
         .andExpect(jsonPath("$.data.status").exists())
         .andExpect(jsonPath("$.data.applyTime").exists())
         .andExpect(jsonPath("$.data.openTime").exists())
@@ -135,7 +135,7 @@ class ExternalSessionControllerTest {
                     fieldWithPath("organizationId").description("모임 아이디"),
                     fieldWithPath("publisher").description("발표자"),
                     fieldWithPath("title").description("발표 제목"),
-                    fieldWithPath("count").description("모집 인원"),
+                    fieldWithPath("totalCount").description("모집 인원"),
                     fieldWithPath("openTime").description("오픈 시간"),
                     fieldWithPath("closeTime").description("마감 시간"),
                     fieldWithPath("applyInfo").description("신청 여부"),
@@ -148,7 +148,7 @@ class ExternalSessionControllerTest {
                     fieldWithPath("data.sessionId").description("세션 아이디"),
                     fieldWithPath("data.publisher").description("발표자"),
                     fieldWithPath("data.title").description("세션 제목"),
-                    fieldWithPath("data.count").description("모집 인원"),
+                    fieldWithPath("data.totalCount").description("모집 인원"),
                     fieldWithPath("data.status").description("모집 상태"),
                     fieldWithPath("data.openTime").description("오픈 시간"),
                     fieldWithPath("data.closeTime").description("마감 시간"),
@@ -176,7 +176,7 @@ class ExternalSessionControllerTest {
         .closeTime(LocalDateTime.now().plusHours(10))
         .confirmTime(LocalDateTime.now().plusHours(10))
         .reason("test")
-        .count(10)
+        .totalCount(10)
         .publisher("test")
         .build();
 
@@ -195,7 +195,7 @@ class ExternalSessionControllerTest {
         .andExpect(jsonPath("$.data.title").value("test"))
         .andExpect(jsonPath("$.data.openTime").exists())
         .andExpect(jsonPath("$.data.closeTime").exists())
-        .andExpect(jsonPath("$.data.count").value(10))
+        .andExpect(jsonPath("$.data.totalCount").value(10))
         .andExpect(jsonPath("$.data.member").isArray())
         .andExpect(jsonPath("$.data.member[0].name").value("user1"))
         .andExpect(jsonPath("$.data.member[0].type").value("PUBLISHER"))
@@ -222,7 +222,7 @@ class ExternalSessionControllerTest {
                     fieldWithPath("data.sessionId").description("세션 아이디"),
                     fieldWithPath("data.publisher").description("발표자"),
                     fieldWithPath("data.title").description("세션 제목"),
-                    fieldWithPath("data.count").description("모집 인원"),
+                    fieldWithPath("data.totalCount").description("모집 인원"),
                     fieldWithPath("data.status").description("모집 상태"),
                     fieldWithPath("data.openTime").description("오픈 시간"),
                     fieldWithPath("data.closeTime").description("마감 시간"),

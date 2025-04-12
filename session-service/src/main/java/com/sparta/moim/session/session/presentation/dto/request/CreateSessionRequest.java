@@ -11,7 +11,7 @@ public record CreateSessionRequest(
     @NotNull String organizationId,
     @NotNull String publisher,
     @NotNull String title,
-    @PositiveOrZero int count,
+    @PositiveOrZero int totalCount,
     @NotNull LocalDateTime openTime,
     @NotNull LocalDateTime closeTime,
     CreateSessionApplyRequest applyInfo
@@ -20,7 +20,7 @@ public record CreateSessionRequest(
     return CreateSessionCommand.builder()
         .organizationId(organizationId)
         .title(title)
-        .count(count)
+        .totalCount(totalCount)
         .status(role.equals("USER") ? "READY" : "OPEN")
         .openTime(openTime)
         .closeTime(closeTime)

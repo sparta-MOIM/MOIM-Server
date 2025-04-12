@@ -13,7 +13,7 @@ public record GetSessionResult(
     UUID sessionId,
     String title,
     String publisher,
-    int count,
+    int totalCount,
     List<GetSessionMemberListResult> member,
     LocalDateTime openTime,
     LocalDateTime closeTime,
@@ -28,7 +28,7 @@ public record GetSessionResult(
         .sessionId(session.getTrackingId())
         .publisher(session.getPublisher())
         .title(session.getTitle())
-        .count(session.getCount())
+        .totalCount(session.getTotalCount())
         .member(members)
         .status(session.getStatus())
         .openTime(session.getOpenTime())

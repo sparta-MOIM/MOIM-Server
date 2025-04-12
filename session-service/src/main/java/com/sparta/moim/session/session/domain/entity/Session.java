@@ -44,7 +44,8 @@ public class Session extends BaseEntity {
   @Column(nullable = false, length = 100)
   private String publisher;
 
-  private Integer count;
+  private Integer totalCount;
+  private Integer currentCount;
 
   private LocalDateTime openTime;
 
@@ -69,7 +70,7 @@ public class Session extends BaseEntity {
 
   public void update(Session updateSessionInfo) {
     this.title = updateSessionInfo.title == null ? this.title : updateSessionInfo.title;
-    this.count = updateSessionInfo.count == null ? this.count : updateSessionInfo.count;
+    this.totalCount = updateSessionInfo.totalCount == null ? this.totalCount : updateSessionInfo.totalCount;
     this.status = updateSessionInfo.status == null ? this.status : updateSessionInfo.status;
   }
 
