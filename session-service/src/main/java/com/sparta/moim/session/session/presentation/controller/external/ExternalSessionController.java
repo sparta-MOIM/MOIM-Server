@@ -72,9 +72,9 @@ public class ExternalSessionController {
   }
 
   @PatchMapping("/{sessionId}/apply")
-  public ApiResponseData<Void> applySession(@PathVariable UUID sessionId) {
+  public ResponseEntity<ApiResponseData<Void>> applySession(@PathVariable UUID sessionId) {
     sessionService.applySession(sessionId);
-    return ApiResponseData.success(null);
+    return ResponseEntity.ok(ApiResponseData.success(null));
   }
 
 
