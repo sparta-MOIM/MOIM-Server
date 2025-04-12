@@ -1,10 +1,10 @@
-package com.sparta.moim.session;
+package com.sparta.moim.eureka;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SessionApplicationTests {
+class EurekaApplicationTests {
 
 	@Test
 	void contextLoads() {

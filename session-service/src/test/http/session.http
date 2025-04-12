@@ -25,7 +25,7 @@ X-User-ID: {{userId}}
 }
 
 ### 세션 조회 - 성공
-GET {{baseUrl}}/api/v1/session/d0effb8c-ad19-4c9e-a098-14ed86a3ea16
+GET {{baseUrl}}/api/v1/session/e0beff07-710e-407b-bb8f-59d7998b98e9
 Content-Type: application/json
 X-User-Name: {{username}}
 X-User-Role: {{role}}
@@ -73,3 +73,12 @@ X-User-Name: {{username}}
 X-User-Role: {{role}}
 X-User-ID: {{userId}}
 
+### 세션에 참가한 맴버 조회 (내부용)
+GET http://localhost:8089/internal/v1/session/e0beff07-710e-407b-bb8f-59d7998b98e9
+
+### 세션 참가
+POST http://localhost:8089/api/v1/session/20832dd3-5787-4835-92cb-25dea8a49274/join
+Content-Type: application/json
+X-User-Name: {{username}}
+X-User-Role: {{role}}
+X-User-ID: {{userId}}

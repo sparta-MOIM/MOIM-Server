@@ -4,6 +4,7 @@ import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.docume
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -20,6 +21,7 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
+import com.sparta.moim.session.session.application.dto.result.GetSessionMemberListResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionListResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionResult;
@@ -27,6 +29,7 @@ import com.sparta.moim.session.session.application.service.SessionService;
 import com.sparta.moim.session.session.domain.enums.SessionStatus;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionApplyRequest;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionRequest;
+import com.sparta.moim.session.session.presentation.dto.request.SearchSessionRequest;
 import com.sparta.moim.session.session.presentation.dto.request.UpdateSessionRequest;
 import com.sparta.moim.session.session.presentation.dto.request.UpdateStateRequest;
 import java.time.LocalDateTime;
@@ -65,7 +68,7 @@ class SessionControllerTest {
   void createSession_success() throws Exception {
     // given
     UUID userId = UUID.randomUUID();
-    String username = "테스트유저";
+    String username = "testUser";
     String role = "USER";
     String organizationId = UUID.randomUUID().toString();
 
@@ -81,7 +84,7 @@ class SessionControllerTest {
         .count(15)
         .openTime(LocalDateTime.now())
         .closeTime(LocalDateTime.now().plusHours(10))
-        .applyInfo(new CreateSessionApplyRequest(null))
+        .applyInfo(new CreateSessionApplyRequest("test"))
         .build();
 
     CreateSessionResult response = CreateSessionResult.builder()
@@ -118,9 +121,14 @@ class SessionControllerTest {
             preprocessRequest(Preprocessors.prettyPrint()),
             preprocessResponse(Preprocessors.prettyPrint()),
             resource(ResourceSnippetParameters.builder()
-                .tag("Session-External")
+                .tag("세션 외부 API")
                 .summary("세션 생성")
                 .description("세션을 생성하기 위한 엔드포인트입니다.")
+                .requestHeaders(
+                    headerWithName("X-User-Name").description("로그인 계정 명"),
+                    headerWithName("X-User-Role").description("로그인 계정 타입"),
+                    headerWithName("X-User-ID").description("로그인 계정 아이디").optional()
+                )
                 .requestFields(
                     fieldWithPath("organizationId").description("모임 아이디"),
                     fieldWithPath("publisher").description("발표자"),
@@ -155,6 +163,10 @@ class SessionControllerTest {
         .sessionId(sessionId)
         .status(SessionStatus.OPEN)
         .title("test")
+        .member(List.of(
+            new GetSessionMemberListResult("user1", "PUBLISHER"),
+            new GetSessionMemberListResult("user2", "GENERAL")
+        ))
         .openTime(LocalDateTime.now())
         .applyTime(LocalDateTime.now())
         .closeTime(LocalDateTime.now().plusHours(10))
@@ -169,7 +181,7 @@ class SessionControllerTest {
 
     // when & then
     mockMvc.perform(get("/api/v1/session/{sessionId}", sessionId)
-            .header("X-User-Name", "테스트유저")
+            .header("X-User-Name", "testUser")
             .header("X-User-Role", "USER")
             .header("X-User-ID", UUID.randomUUID().toString()))
         .andExpect(status().isOk())
@@ -180,6 +192,11 @@ class SessionControllerTest {
         .andExpect(jsonPath("$.openTime").exists())
         .andExpect(jsonPath("$.closeTime").exists())
         .andExpect(jsonPath("$.count").value(10))
+        .andExpect(jsonPath("$.member").isArray())
+        .andExpect(jsonPath("$.member[0].name").value("user1"))
+        .andExpect(jsonPath("$.member[0].type").value("PUBLISHER"))
+        .andExpect(jsonPath("$.member[1].name").value("user2"))
+        .andExpect(jsonPath("$.member[1].type").value("GENERAL"))
         .andExpect(jsonPath("$.publisher").value("test"))
         .andExpect(jsonPath("$.applyInfo.applyTime").exists())
         .andExpect(jsonPath("$.applyInfo.confirmTime").exists())
@@ -188,7 +205,7 @@ class SessionControllerTest {
             preprocessRequest(Preprocessors.prettyPrint()),
             preprocessResponse(Preprocessors.prettyPrint()),
             resource(ResourceSnippetParameters.builder()
-                .tag("Session-External")
+                .tag("세션 외부 API")
                 .summary("세션 단일 조회")
                 .description("세션 단일조회 위한 엔드포인트입니다.")
                 .pathParameters(
@@ -206,7 +223,9 @@ class SessionControllerTest {
                     fieldWithPath("applyInfo").description("신청 정보"),
                     fieldWithPath("applyInfo.applyTime").description("신청 시간"),
                     fieldWithPath("applyInfo.confirmTime").description("승인 시간"),
-                    fieldWithPath("applyInfo.reason").description("신청 사유")
+                    fieldWithPath("applyInfo.reason").description("신청 사유"),
+                    fieldWithPath("member[].name").description("참가자 명"),
+                    fieldWithPath("member[].type").description("참가자 타입")
                 )
                 .build()
             )));
@@ -226,7 +245,7 @@ class SessionControllerTest {
     mockMvc.perform(put("/api/v1/session/{sessionId}", sessionId)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request))
-            .header("X-User-Name", "테스트유저")
+            .header("X-User-Name", "testUser")
             .header("X-User-Role", "USER")
             .header("X-User-ID", UUID.randomUUID().toString()))
         .andExpect(status().isOk())
@@ -234,7 +253,7 @@ class SessionControllerTest {
             preprocessRequest(Preprocessors.prettyPrint()),
             preprocessResponse(Preprocessors.prettyPrint()),
             resource(ResourceSnippetParameters.builder()
-                .tag("Session-External")
+                .tag("세션 외부 API")
                 .summary("세션 수정")
                 .description("세션을 수정하기 위한 엔드포인트입니다.")
                 .pathParameters(
@@ -258,7 +277,7 @@ class SessionControllerTest {
     mockMvc.perform(patch("/api/v1/session/{sessionId}/status", sessionId)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request))
-            .header("X-User-Name", "테스트유저")
+            .header("X-User-Name", "testUser")
             .header("X-User-Role", "USER")
             .header("X-User-ID", UUID.randomUUID().toString()))
         .andExpect(status().isOk())
@@ -266,7 +285,7 @@ class SessionControllerTest {
             preprocessRequest(Preprocessors.prettyPrint()),
             preprocessResponse(Preprocessors.prettyPrint()),
             resource(ResourceSnippetParameters.builder()
-                .tag("Session-External")
+                .tag("세션 외부 API")
                 .summary("세션 상태 변경")
                 .description("세션의 상태를 변경하기 위한 엔드포인트입니다.")
                 .pathParameters(
@@ -285,7 +304,7 @@ class SessionControllerTest {
     // given
     UUID sessionId = UUID.randomUUID();
     UUID userId = UUID.randomUUID();
-    String username = "테스트유저";
+    String username = "testUser";
     String role = "USER";
     CustomUserDetails customUserDetails = new CustomUserDetails(username, role, userId);
     SecurityContextHolder.getContext().setAuthentication(
@@ -294,7 +313,7 @@ class SessionControllerTest {
     // when & then
     mockMvc.perform(delete("/api/v1/session/{sessionId}", sessionId)
             .contentType(MediaType.APPLICATION_JSON)
-            .header("X-User-Name", "테스트유저")
+            .header("X-User-Name", "testUser")
             .header("X-User-Role", "USER")
             .header("X-User-ID", UUID.randomUUID().toString()))
         .andExpect(status().isOk())
@@ -302,9 +321,14 @@ class SessionControllerTest {
             preprocessRequest(Preprocessors.prettyPrint()),
             preprocessResponse(Preprocessors.prettyPrint()),
             resource(ResourceSnippetParameters.builder()
-                .tag("Session-External")
+                .tag("세션 외부 API")
                 .summary("세션 삭제")
                 .description("세션삭제를 위한 엔드포인트입니다.")
+                .requestHeaders(
+                    headerWithName("X-User-Name").description("로그인 계정 명"),
+                    headerWithName("X-User-Role").description("로그인 계정 타입").optional(),
+                    headerWithName("X-User-ID").description("로그인 계정 아이디").optional()
+                )
                 .pathParameters(
                     parameterWithName("sessionId").description("세션 아이디")
                 )
@@ -320,7 +344,7 @@ class SessionControllerTest {
     // when & then
     mockMvc.perform(patch("/api/v1/session/{sessionId}/apply", sessionId)
             .contentType(MediaType.APPLICATION_JSON)
-            .header("X-User-Name", "테스트유저")
+            .header("X-User-Name", "testUser")
             .header("X-User-Role", "USER")
             .header("X-User-ID", UUID.randomUUID().toString()))
         .andExpect(status().isOk())
@@ -328,7 +352,7 @@ class SessionControllerTest {
             preprocessRequest(Preprocessors.prettyPrint()),
             preprocessResponse(Preprocessors.prettyPrint()),
             resource(ResourceSnippetParameters.builder()
-                .tag("Session-External")
+                .tag("세션 외부 API")
                 .summary("세션 승인")
                 .description("세션 승인을 위한 엔드포인트입니다.")
                 .pathParameters(
@@ -343,8 +367,23 @@ class SessionControllerTest {
   void searchSession_success() throws Exception {
     // given
     UUID userId = UUID.randomUUID();
-    String username = "테스트유저";
+    String username = "testUser";
     String role = "USER";
+
+    SearchSessionRequest request = SearchSessionRequest.builder()
+        .title("title")
+        .publisher("publisher")
+        .status("OPEN")
+        .reason("reason")
+        .openTime(LocalDateTime.now())
+        .closeTime(LocalDateTime.now())
+        .applyTime(LocalDateTime.now())
+        .isDeleted(false)
+        .confirmTime(LocalDateTime.now())
+        .page(1)
+        .size(10)
+        .sort("createdAt")
+        .build();
 
     // SecurityContext에 인증 정보 설정
     CustomUserDetails customUserDetails = new CustomUserDetails(username, role, userId);
@@ -373,7 +412,19 @@ class SessionControllerTest {
     mockMvc.perform(get("/api/v1/session")
             .header("X-User-Name", username)
             .header("X-User-Role", role)
-            .header("X-User-ID", userId.toString()))
+            .header("X-User-ID", userId.toString())
+            .param("title", request.title())
+            .param("publisher", request.publisher())
+            .param("status", request.status())
+            .param("reason", request.reason())
+            .param("openTime", String.valueOf(request.openTime()))
+            .param("closeTime", String.valueOf(request.closeTime()))
+            .param("applyTime", String.valueOf(request.applyTime()))
+            .param("isDeleted", String.valueOf(request.isDeleted()))
+            .param("confirmTime", String.valueOf(request.confirmTime()))
+            .param("page", String.valueOf(request.page()))
+            .param("size", String.valueOf(request.size()))
+            .param("sort", request.sort()))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.sessions").isArray())
         .andExpect(jsonPath("$.sessions.length()").value(1))
@@ -386,23 +437,28 @@ class SessionControllerTest {
             preprocessRequest(Preprocessors.prettyPrint()),
             preprocessResponse(Preprocessors.prettyPrint()),
             resource(ResourceSnippetParameters.builder()
-                .tag("Session-External")
+                .tag("세션 외부 API")
                 .summary("세션 검색")
                 .description("세션 검색을 위한 엔드포인트입니다.")
-//                .queryParameters(
-//                    parameterWithName("reason").description("승인 사유"),
-//                    parameterWithName("confirmTime").description("승인 시간"),
-//                    parameterWithName("sort").description("정렬 방법"),
-//                    parameterWithName("title").description("세션 제목"),
-//                    parameterWithName("isDeleted").description("삭제 여부"),
-//                    parameterWithName("size").description("가져올 데이터 수"),
-//                    parameterWithName("closeTime").description("마감 시간"),
-//                    parameterWithName("publisher").description("발표자"),
-//                    parameterWithName("page").description("페이지 수"),
-//                    parameterWithName("openTime").description("오픈 시간"),
-//                    parameterWithName("applyTime").description("신청 시간"),
-//                    parameterWithName("status").description("세션 상태")
-//                )
+                .requestHeaders(
+                    headerWithName("X-User-Name").description("로그인 계정 명").optional(),
+                    headerWithName("X-User-Role").description("로그인 계정 타입"),
+                    headerWithName("X-User-ID").description("로그인 계정 아이디").optional()
+                )
+                .queryParameters(
+                    parameterWithName("reason").description("승인 사유").optional(),
+                    parameterWithName("confirmTime").description("승인 시간").optional(),
+                    parameterWithName("sort").description("정렬 방법").optional(),
+                    parameterWithName("title").description("세션 제목").optional(),
+                    parameterWithName("isDeleted").description("삭제 여부").optional(),
+                    parameterWithName("size").description("가져올 데이터 수").optional(),
+                    parameterWithName("closeTime").description("마감 시간").optional(),
+                    parameterWithName("publisher").description("발표자").optional(),
+                    parameterWithName("page").description("페이지 수").optional(),
+                    parameterWithName("openTime").description("오픈 시간").optional(),
+                    parameterWithName("applyTime").description("신청 시간").optional(),
+                    parameterWithName("status").description("세션 상태").optional()
+                )
                 .responseFields(
                     fieldWithPath("sessions").description("세션 리스트"),
                     fieldWithPath("sessions[].title").description("세션 제목"),

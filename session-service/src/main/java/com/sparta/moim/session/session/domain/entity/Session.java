@@ -66,6 +66,7 @@ public class Session extends BaseEntity {
   @Column(length = 36, nullable = false, unique = true)
   private UUID trackingId;
 
+
   public void update(Session updateSessionInfo) {
     this.title = updateSessionInfo.title == null ? this.title : updateSessionInfo.title;
     this.count = updateSessionInfo.count == null ? this.count : updateSessionInfo.count;
