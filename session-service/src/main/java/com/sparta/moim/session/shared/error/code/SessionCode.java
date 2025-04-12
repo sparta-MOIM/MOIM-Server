@@ -13,6 +13,9 @@ public enum SessionCode implements Code {
   EXITS_TITLE_SESSION(HttpStatus.BAD_REQUEST, "S002", "Session title is exits"),
   STATUS_READY_SESSION(HttpStatus.BAD_REQUEST, "S003", "Session status is ready"),
   STATUS_NOT_READY_SESSION(HttpStatus.BAD_REQUEST, "S004", "Session status is not ready"),
+  TIME_OUT_SESSION(HttpStatus.BAD_REQUEST, "S005", "현재시간으로 세션에 참여하실 수 없습니다."),
+  ALREADY_PARTICIPATE_SESSION(HttpStatus.BAD_REQUEST, "S006", "this session is already participate"),
+  NOT_OPEN_SESSION(HttpStatus.BAD_REQUEST, "S007", "this session is not open"),
 
   ;
 

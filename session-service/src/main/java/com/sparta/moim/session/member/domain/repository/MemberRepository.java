@@ -10,5 +10,6 @@ public interface MemberRepository {
   void removeMembers(UUID uuid, List<String> members);
 
   List<Member> findAllBySessionId(UUID sessionId);
+  boolean existsBySessionIdAndMemberName(UUID sessionId, String memberName);
 
 }

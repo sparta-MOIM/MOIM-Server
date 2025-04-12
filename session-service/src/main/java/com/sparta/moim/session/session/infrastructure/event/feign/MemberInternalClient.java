@@ -1,4 +1,4 @@
-package com.sparta.moim.session.session.infrastructure.event.fegin;
+package com.sparta.moim.session.session.infrastructure.event.feign;
 
 import com.sparta.moim.session.session.application.dto.result.GetSessionMemberListResult;
 import com.sparta.moim.session.session.application.event.feign.MemberInternalService;

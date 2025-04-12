@@ -83,9 +83,7 @@ public class SessionService {
   public void statusUpdateSession(UpdateStateStateCommand command) {
     Session session = sessionRepository.findByTrackingIdAndDeletedAtIsNull(command.sessionId())
         .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION));
-
-    validationStatusIsNotReady(session.getStatus());
-
+    validationStatusIsReady(session.getStatus());
     session.stateChange(SessionStatus.valueOf(command.status()));
   }
 
@@ -105,9 +103,35 @@ public class SessionService {
 
   }
 
+  public void isValidateSession(UUID sessionId) {
+    sessionRepository.findByTrackingIdAndDeletedAtIsNull(sessionId)
+        .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION));
+
+  }
+
+  public void isValidateTimeSession(UUID sessionId) {
+    boolean isCollectJoinSession = sessionRepository.checkOpenTimeByTrackingId(sessionId).isEmpty();
+
+    if (isCollectJoinSession) {
+      throw new SessionException(SessionCode.TIME_OUT_SESSION);
+    }
+  }
+
+  public void isValidateSessionStatus(UUID sessionId) {
+    if (sessionRepository.checkSessionIdAndStatusOpen(sessionId).isPresent()) {
+      throw new SessionException(SessionCode.NOT_OPEN_SESSION);
+    }
+  }
+
   private void validationStatusIsNotReady(SessionStatus status) {
     if (status != SessionStatus.READY) {
       throw new SessionException(SessionCode.STATUS_NOT_READY_SESSION);
+    }
+  }
+
+  private void validationStatusIsReady(SessionStatus status) {
+    if (status == SessionStatus.READY) {
+      throw new SessionException(SessionCode.STATUS_READY_SESSION);
     }
   }
 

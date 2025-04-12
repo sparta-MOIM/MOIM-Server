@@ -5,10 +5,12 @@ import com.sparta.moim.session.member.application.dto.command.JoinMemberCommand;
 import com.sparta.moim.session.member.application.dto.command.LeaveMemberCommand;
 import com.sparta.moim.session.member.application.dto.command.RemoveMemberCommand;
 import com.sparta.moim.session.member.application.dto.result.GetMemberListResult;
-import com.sparta.moim.session.member.application.dto.result.GetMemberResult;
+import com.sparta.moim.session.member.application.event.feign.SessionInternalService;
 import com.sparta.moim.session.member.domain.entity.Member;
 import com.sparta.moim.session.member.domain.enums.MemberType;
 import com.sparta.moim.session.member.domain.repository.MemberRepository;
+import com.sparta.moim.session.shared.error.code.SessionCode;
+import com.sparta.moim.session.shared.error.exception.SessionException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -20,16 +22,30 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MemberService {
   private final MemberRepository memberRepository;
+  private final SessionInternalService sessionService;
 
   @Transactional
   public void joinMember(JoinMemberCommand command) {
-    // CLOSE가 된 세션은 참여가 불가능합니다.
-    // 이미 참여한 계정은 재 참여가 불가능합니다.
+    joinValidate(command.sessionId(),command.username());
     memberRepository.save(Member.builder()
         .sessionId(command.sessionId())
         .type(MemberType.GENERAL)
         .memberName(command.username())
         .build());
+  }
+
+  private void joinValidate(UUID sessionId, String memberName) {
+    sessionService.getSessionValidate(sessionId);
+    sessionService.getSessionValidateTime(sessionId);
+    sessionService.getSessionValidateOpenStatus(sessionId);
+    isAlreadyParticipation(sessionId,memberName);
+
+  }
+
+  private void isAlreadyParticipation(UUID sessionId, String username) {
+    if (memberRepository.existsBySessionIdAndMemberName(sessionId, username)) {
+      throw new SessionException(SessionCode.ALREADY_PARTICIPATE_SESSION);
+    }
   }
 
   @Transactional
@@ -44,7 +60,7 @@ public class MemberService {
 
   @Transactional(readOnly = true)
   public List<GetMemberListResult> getMember(GetMemberCommand command) {
-    //TODO 존재하지 않는 세션에서 맴버를 조회하는 경우 예외처리
+    sessionService.getSessionValidate(command.sessionId());
     return getMemberRepositoryAllBySessionId(command.sessionId()).stream().map(GetMemberListResult::new)
         .collect(Collectors.toList());
   }
