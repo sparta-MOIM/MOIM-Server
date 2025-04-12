@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface MemberRepository {
   Member save(Member member);
-  void delete(Member member);
+  void deleteMemberBySessionId(UUID sessionId, String memberName);
   void removeMembers(UUID uuid, List<String> members);
 
   List<Member> findAllBySessionId(UUID sessionId);

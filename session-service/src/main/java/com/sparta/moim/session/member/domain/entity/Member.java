@@ -34,7 +34,7 @@ public class Member {
   private String memberName;
 
   @JdbcTypeCode(Types.VARCHAR)
-  @Column(length = 36, nullable = false, unique = true)
+  @Column(length = 36, nullable = false)
   private UUID sessionId;
 
   @Enumerated(EnumType.STRING)
