@@ -1,8 +1,8 @@
-package com.moim.post.infrastructure.persistence.repository.querydsl;
+package com.moim.schedule.infrastructure.persistence.repository.QueryDsl;
 
-import com.moim.post.domain.repository.query.VoteQueryRepository;
-import com.moim.post.domain.vote.QVote;
-import com.moim.post.domain.vote.Vote;
+import com.moim.schedule.domain.QSchedule;
+import com.moim.schedule.domain.Schedule;
+import com.moim.schedule.domain.repository.query.ScheduleQueryRepository;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -19,31 +19,31 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class VoteQueryDslRepository implements VoteQueryRepository {
+public class ScheduleQueryDslRepository implements ScheduleQueryRepository {
 
   private final JPAQueryFactory jpaQueryFactory;
-  private final QVote vote = QVote.vote;
+  private final QSchedule schedule = QSchedule.schedule;
 
   @Override
-  public Optional<Vote> findVote(UUID id) {
+  public Optional<Schedule> findSchedule(UUID id) {
     return Optional.ofNullable(
         jpaQueryFactory
-            .selectFrom(vote)
-            .where(vote.trackingId.eq(id))
+            .selectFrom(schedule)
+            .where(schedule.trackingId.eq(id))
             .fetchOne()
     );
   }
 
   @Override
-  public Page<Vote> searchVote(
+  public Page<Schedule> searchSchedule(
       Optional<UUID> organizationId,
       Optional<String> word,
       Optional<LocalDateTime> start,
       Optional<LocalDateTime> end,
       Pageable pageable
   ) {
-    QueryResults<Vote> results = jpaQueryFactory
-        .selectFrom(vote)
+    QueryResults<Schedule> results = jpaQueryFactory
+        .selectFrom(schedule)
         .where(
             organizationIdFilter(organizationId),
             wordFilter(word),
@@ -52,7 +52,7 @@ public class VoteQueryDslRepository implements VoteQueryRepository {
         .offset(pageable.getOffset())
         .limit(pageable.getPageSize())
         .orderBy(pageable.getSort().stream()
-            .map(order -> order.isAscending() ? vote.createdAt.asc() : vote.createdAt.desc())
+            .map(order -> order.isAscending() ? schedule.createdAt.asc() : schedule.createdAt.desc())
             .toArray(OrderSpecifier[]::new))
         .fetchResults();
 
@@ -60,17 +60,17 @@ public class VoteQueryDslRepository implements VoteQueryRepository {
   }
 
   private BooleanExpression organizationIdFilter(Optional<UUID> organizationId) {
-    return organizationId.map(vote.organizationId::eq).orElse(null);
+    return organizationId.map(schedule.organizationId::eq).orElse(null);
   }
 
   private BooleanExpression wordFilter(Optional<String> word) {
     return word.map(w ->
-        vote.title.containsIgnoreCase(w).or(vote.content.containsIgnoreCase(w))
+        schedule.title.containsIgnoreCase(w).or(schedule.content.containsIgnoreCase(w))
     ).orElse(null);
   }
 
   private BooleanExpression periodFilter(Optional<LocalDateTime> start, Optional<LocalDateTime> end) {
-    return Objects.requireNonNull(start.map(vote.period.end::goe).orElse(null)).and(end.map(vote.period.start::loe).orElse(null));
+    return Objects.requireNonNull(start.map(schedule.period.end::goe).orElse(null)).and(end.map(schedule.period.start::loe).orElse(null));
   }
 
 }
