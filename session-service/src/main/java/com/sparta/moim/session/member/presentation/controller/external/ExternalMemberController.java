@@ -1,5 +1,6 @@
 package com.sparta.moim.session.member.presentation.controller.external;
 
+import com.sparta.moim.common.response.ApiResponseData;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.session.member.application.MemberService;
 import com.sparta.moim.session.member.application.dto.command.JoinMemberCommand;
@@ -24,19 +25,22 @@ public class ExternalMemberController {
   private final MemberService memberService;
 
   @PostMapping("/{sessionId}/join")
-  public void joinMember(@PathVariable UUID sessionId,
-                         @AuthenticationPrincipal CustomUserDetails details) {
+  public ApiResponseData<Void> joinMember(@PathVariable UUID sessionId,
+                                    @AuthenticationPrincipal CustomUserDetails details) {
     memberService.joinMember(new JoinMemberCommand(sessionId, details.getUsername()));
+    return ApiResponseData.success(null);
   }
 
   @DeleteMapping("/{sessionId}/leave")
-  public void leaveMember(@PathVariable UUID sessionId, @AuthenticationPrincipal CustomUserDetails user) {
+  public ApiResponseData<Void> leaveMember(@PathVariable UUID sessionId, @AuthenticationPrincipal CustomUserDetails user) {
     memberService.leaveMember(new LeaveMemberCommand(sessionId, user.getUsername()));
+    return ApiResponseData.success(null);
   }
 
   @DeleteMapping("/{sessionId}/remove")
-  public void removeMembers(@PathVariable UUID sessionId, @RequestBody @Valid RemoveMemberRequest request) {
+  public ApiResponseData<Void> removeMembers(@PathVariable UUID sessionId, @RequestBody @Valid RemoveMemberRequest request) {
     memberService.removeMember(request.toCommand(sessionId));
+    return ApiResponseData.success(null);
   }
 
 
