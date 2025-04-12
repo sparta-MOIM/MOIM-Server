@@ -73,8 +73,12 @@ X-User-Name: {{username}}
 X-User-Role: {{role}}
 X-User-ID: {{userId}}
 
-###
+### 세션에 참가한 맴버 조회 (내부용)
 GET http://localhost:8089/internal/v1/session/e0beff07-710e-407b-bb8f-59d7998b98e9
 
-###
-POST http://localhost:8089/api/v1/session/20832dd3-5787-4835-92cb-25dea8a49274/join?userName=abc2
+### 세션 참가
+POST http://localhost:8089/api/v1/session/20832dd3-5787-4835-92cb-25dea8a49274/join
+Content-Type: application/json
+X-User-Name: {{username}}
+X-User-Role: {{role}}
+X-User-ID: {{userId}}
