@@ -26,6 +26,6 @@ public class ValidationSessionController {
 
   @PostMapping("/{sessionId}/validate/time")
   public void isValidateSessionTimeCheck(@PathVariable UUID sessionId) {
-    sessionService.isValidateTimeSession(sessionId);
+    sessionService.isValidateSessionTimeCheck(sessionId);
   }
 }
