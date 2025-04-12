@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class SaveMember {
+public class SaveMemberListener {
   private final MemberRepository memberRepository;
 
   @EventListener
