@@ -37,7 +37,7 @@ public class SessionService {
       throw new SessionException(SessionCode.EXITS_TITLE_SESSION);
     }
     Session createSession = sessionRepository.save(command.toDomain());
-    memberPublisher.add(createSession.getTrackingId(),command.publisher());
+    memberPublisher.add(createSession.getTrackingId(), command.publisher());
     return CreateSessionResult.create(createSession);
   }
 
@@ -45,7 +45,7 @@ public class SessionService {
   public GetSessionResult getSession(UUID sessionId) {
     List<GetSessionMemberListResult> members = memberService.getMembers(sessionId);
     return GetSessionResult.get(sessionRepository.findByTrackingIdAndDeletedAtIsNull(sessionId)
-        .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION)),members);
+        .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION)), members);
   }
 
   @Transactional(readOnly = true)
@@ -73,7 +73,7 @@ public class SessionService {
 
 
   private boolean duplicateSessionTitle(String title, UUID sessionId) {
-    if(title == null) {
+    if (title == null) {
       return false;
     }
     return sessionRepository.existsByTitleAndDeletedByIsNullAndTrackingIdNot(title, sessionId);
@@ -106,7 +106,7 @@ public class SessionService {
   }
 
   private void validationStatusIsNotReady(SessionStatus status) {
-    if(status != SessionStatus.READY) {
+    if (status != SessionStatus.READY) {
       throw new SessionException(SessionCode.STATUS_NOT_READY_SESSION);
     }
   }
