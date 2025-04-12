@@ -12,6 +12,6 @@ public interface ScheduleQueryUseCase {
       SearchScheduleQuery query,
       int page,
       int size,
-      String sortTypesortType
+      String sortType
   );
 }
