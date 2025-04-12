@@ -159,7 +159,7 @@ class ExternalSessionControllerTest {
 
   @Test
   @DisplayName("세션 단일 조회 성공")
-  void getGathering_success() throws Exception {
+  void getSession_success() throws Exception {
     // given
     UUID sessionId = UUID.randomUUID();
     GetSessionResult response = GetSessionResult.builder()
