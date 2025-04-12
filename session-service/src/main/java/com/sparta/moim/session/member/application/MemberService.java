@@ -34,10 +34,7 @@ public class MemberService {
 
   @Transactional
   public void leaveMember(LeaveMemberCommand command) {
-    memberRepository.delete(Member.builder()
-        .sessionId(command.sessionId())
-        .memberName(command.username())
-        .build());
+    memberRepository.deleteMemberBySessionId(command.sessionId(), command.username());
   }
 
   @Transactional
