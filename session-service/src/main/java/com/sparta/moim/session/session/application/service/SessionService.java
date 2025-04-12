@@ -32,11 +32,13 @@ public class SessionService {
   private final MemberPublisher memberPublisher;
   private final MemberInternalService memberService;
 
+  @Transactional
   public CreateSessionResult createSession(CreateSessionCommand command) {
     if (sessionRepository.existsByTitleAndDeletedByIsNull(command.title())) {
       throw new SessionException(SessionCode.EXITS_TITLE_SESSION);
     }
     Session createSession = sessionRepository.save(command.toDomain());
+    createSession.timeValidate();
     memberPublisher.add(createSession.getTrackingId(), command.publisher());
     return CreateSessionResult.create(createSession);
   }
