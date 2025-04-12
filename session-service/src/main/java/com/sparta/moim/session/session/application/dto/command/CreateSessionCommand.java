@@ -1,7 +1,7 @@
 package com.sparta.moim.session.session.application.dto.command;
 
 import com.sparta.moim.session.session.domain.entity.Session;
-import com.sparta.moim.session.session.domain.enums.SessionStatus;
+import com.sparta.moim.session.shared.enums.SessionStatus;
 import java.time.LocalDateTime;
 import lombok.Builder;
 

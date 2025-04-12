@@ -1,7 +1,7 @@
-package com.sparta.moim.session.session.application.exception;
+package com.sparta.moim.session.shared.error.exception;
 
 import com.sparta.moim.common.exception.BaseException;
-import com.sparta.moim.session.session.domain.error.code.SessionCode;
+import com.sparta.moim.session.shared.error.code.SessionCode;
 
 public class SessionException extends BaseException {
   public SessionException(SessionCode code) {

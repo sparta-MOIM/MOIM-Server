@@ -1,4 +1,4 @@
-package com.sparta.moim.session.session.domain.error.code;
+package com.sparta.moim.session.shared.error.code;
 
 import com.sparta.moim.common.response.Code;
 import lombok.Getter;

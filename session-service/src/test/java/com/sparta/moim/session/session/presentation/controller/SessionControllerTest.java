@@ -26,7 +26,7 @@ import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionListResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionResult;
 import com.sparta.moim.session.session.application.service.SessionService;
-import com.sparta.moim.session.session.domain.enums.SessionStatus;
+import com.sparta.moim.session.shared.enums.SessionStatus;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionApplyRequest;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionRequest;
 import com.sparta.moim.session.session.presentation.dto.request.SearchSessionRequest;
