@@ -53,8 +53,8 @@ public class MemberService {
 
   @Transactional
   public void leaveMember(LeaveMemberCommand command) {
-    handleSessionMemberCountPublisher.decrease(command.sessionId(), command.username());
     memberRepository.deleteMemberBySessionId(command.sessionId(), command.username());
+    handleSessionMemberCountPublisher.decrease(command.sessionId(), command.username());
   }
 
   @Transactional
