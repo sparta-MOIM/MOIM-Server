@@ -9,6 +9,7 @@ import com.sparta.moim.session.member.presentation.dto.request.RemoveMemberReque
 import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,22 +26,22 @@ public class ExternalMemberController {
   private final MemberService memberService;
 
   @PostMapping("/{sessionId}/join")
-  public ApiResponseData<Void> joinMember(@PathVariable UUID sessionId,
-                                    @AuthenticationPrincipal CustomUserDetails details) {
+  public ResponseEntity<ApiResponseData<Void>> joinMember(@PathVariable UUID sessionId,
+                                                         @AuthenticationPrincipal CustomUserDetails details) {
     memberService.joinMember(new JoinMemberCommand(sessionId, details.getUsername()));
-    return ApiResponseData.success(null);
+    return ResponseEntity.ok(ApiResponseData.success(null));
   }
 
   @DeleteMapping("/{sessionId}/leave")
-  public ApiResponseData<Void> leaveMember(@PathVariable UUID sessionId, @AuthenticationPrincipal CustomUserDetails user) {
+  public ResponseEntity<ApiResponseData<Void>> leaveMember(@PathVariable UUID sessionId, @AuthenticationPrincipal CustomUserDetails user) {
     memberService.leaveMember(new LeaveMemberCommand(sessionId, user.getUsername()));
-    return ApiResponseData.success(null);
+    return ResponseEntity.ok(ApiResponseData.success(null));
   }
 
   @DeleteMapping("/{sessionId}/remove")
-  public ApiResponseData<Void> removeMembers(@PathVariable UUID sessionId, @RequestBody @Valid RemoveMemberRequest request) {
+  public ResponseEntity<ApiResponseData<Void>> removeMembers(@PathVariable UUID sessionId, @RequestBody @Valid RemoveMemberRequest request) {
     memberService.removeMember(request.toCommand(sessionId));
-    return ApiResponseData.success(null);
+    return ResponseEntity.ok(ApiResponseData.success(null));
   }
 
 
