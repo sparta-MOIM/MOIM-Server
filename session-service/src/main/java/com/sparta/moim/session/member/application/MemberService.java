@@ -29,12 +29,12 @@ public class MemberService {
   @Transactional
   public void joinMember(JoinMemberCommand command) {
     joinValidate(command.sessionId(), command.username());
-    handleSessionMemberCountPublisher.increase(command.sessionId(), command.username());
     memberRepository.save(Member.builder()
         .sessionId(command.sessionId())
         .type(MemberType.GENERAL)
         .memberName(command.username())
         .build());
+    handleSessionMemberCountPublisher.increase(command.sessionId(), command.username());
   }
 
   private void joinValidate(UUID sessionId, String memberName) {
