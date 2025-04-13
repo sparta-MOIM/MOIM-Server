@@ -73,8 +73,8 @@ public class KafkaProducerConfig {
     }
 
     // 구체화 시키고
-//    @Bean
-//    public KafkaTemplate<String, DemoCreateEvent> demoCreateEventKafkaTemplate() {
-//        return kafkaTemplate(producerFactory());
-//    }
+    @Bean
+    public KafkaTemplate<String, Object> sendObjectToKafka() {
+        return kafkaTemplate(producerFactory());
+    }
 }

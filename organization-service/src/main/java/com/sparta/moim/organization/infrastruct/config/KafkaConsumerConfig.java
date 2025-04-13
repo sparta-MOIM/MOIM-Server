@@ -47,9 +47,9 @@ public class KafkaConsumerConfig {
         return factory;
     }
 
-//    // 구체화
-//    @Bean
-//    public ConcurrentKafkaListenerContainerFactory<String, CreateOrderEvent> containerFactory() {
-//        return consumerCommonFiled();
-//    }
+    // 구체화
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, Object> containerObjectFactory() {
+        return consumerCommonFiled();
+    }
 }
