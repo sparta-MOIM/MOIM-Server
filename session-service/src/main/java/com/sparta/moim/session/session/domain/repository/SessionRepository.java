@@ -14,4 +14,7 @@ public interface SessionRepository {
 
   boolean existsByTitleAndDeletedByIsNullAndTrackingIdNot(String title, UUID sessionId);
 
+  Optional<Session> checkOpenTimeByTrackingId(UUID sessionId);
+
+  Optional<Session> checkSessionIdAndStatusOpen(UUID sessionId);
 }

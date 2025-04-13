@@ -73,7 +73,4 @@ public class VoteQueryDslRepository implements VoteQueryRepository {
     return Objects.requireNonNull(start.map(vote.period.end::goe).orElse(null)).and(end.map(vote.period.start::loe).orElse(null));
   }
 
-
-
-
 }
