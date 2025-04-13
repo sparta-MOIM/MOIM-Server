@@ -27,6 +27,8 @@ public class KafkaConsumerConfig {
     // 아래 두개는 등록하지 않아도 정상적으로 구동은 되어짐
     consumerConfig.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
     consumerConfig.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+    consumerConfig.put(JsonDeserializer.TRUSTED_PACKAGES, "com.sparta.moim.*");
+
     return new DefaultKafkaConsumerFactory<>(consumerConfig);
   }
 
