@@ -16,8 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@
-    Builder
+@Builder
 public class Chat{
 
   @Id
@@ -29,7 +28,7 @@ public class Chat{
   private String contentType;
 
   @Column(nullable = false)
-  private Long senderId;
+  private String senderId;
 
   @Column(nullable = false)
   private Integer chatRoomNo;

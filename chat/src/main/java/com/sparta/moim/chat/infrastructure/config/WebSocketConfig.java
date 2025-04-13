@@ -18,16 +18,21 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
   @Override
   public void configureMessageBroker(MessageBrokerRegistry registry) {
-    registry.setApplicationDestinationPrefixes("/send");       //클라이언트에서 보낸 메세지를 받을 prefix
-    registry.enableSimpleBroker("/room");    //해당 주소를 구독하고 있는 클라이언트들에게 메세지 전달
+    //해당 주소를 구독하고 있는 클라이언트들에게 메세지 전달
+    // /room/{chatNo}로 주제 구독 가능
+    registry.enableSimpleBroker("/room");
+
+    //클라이언트에서 보낸 메세지를 받을 prefix
+    // /send/message로 메세지 전송 컨트롤러 라우팅 기능
+    registry.setApplicationDestinationPrefixes("/send");
   }
 
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
-    registry.addEndpoint("/ws-stomp")   //SockJS 연결 주소, STOMP 엔드포인트 설정
-        .setAllowedOriginPatterns("*")// 모든 Origin 허용 -> 배포시에는 보안을 위해 Origin을 정확히 지정
-        .withSockJS(); //버전 낮은 브라우저에서도 적용 가능
-    // 주소 : ws://localhost:8080/ws-stomp
+    registry.addEndpoint("/chat")   //SockJS 연결 주소, STOMP 엔드포인트 설정
+        .setAllowedOriginPatterns("*");// 모든 Origin 허용 -> 배포시에는 보안을 위해 Origin을 정확히 지정
+        //.withSockJS(); //버전 낮은 브라우저에서도 적용 가능
+    // 주소 : ws://localhost:8087/chat
   }
 
   // 클라이언트 인바운드 채널을 구성하는 메서드

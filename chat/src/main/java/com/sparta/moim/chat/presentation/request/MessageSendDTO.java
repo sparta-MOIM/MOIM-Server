@@ -19,7 +19,6 @@ import org.jetbrains.annotations.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MessageSendDTO implements Serializable {
-  private String id;
 
   @NotNull
   private Integer chatNo;
@@ -32,26 +31,22 @@ public class MessageSendDTO implements Serializable {
 
   private String senderName;
 
-  private Integer senderNo;
-
-  @NotNull
-  private Integer saleNo;
+  private String senderId;
 
   private long sendTime;
   private Integer readCount;
-  private String senderEmail;
 
-  public void setSendTimeAndSender(LocalDateTime sendTime, Integer senderNo, String senderName, Integer readCount) {
+  public void setSendTimeAndSender(LocalDateTime sendTime, String senderId, String senderName) {
     this.senderName = senderName;
     this.sendTime = sendTime.atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli();
-    this.senderNo = senderNo;
-    this.readCount = readCount;
+    this.senderId = senderId;
+    //this.readCount = readCount;
   }
 
   public Chat convertEntity() {
     return Chat.builder()
         .senderName(senderName)
-        .senderNo(senderNo)
+        .senderId(senderId)
         .chatRoomNo(chatNo)
         .contentType(contentType)
         .content(content)
