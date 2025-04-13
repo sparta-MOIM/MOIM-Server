@@ -18,4 +18,19 @@ public class ApplyOrganizationNotificationMessage {
     private String organizationName;
     private String userTrackingId;
     private String username;
+
+    public static ApplyOrganizationNotificationMessage of(
+            NotificationType notificationType,
+            String organizationTrackingId,
+            String organizationName,
+            String userTrackingId,
+            String username) {
+        return ApplyOrganizationNotificationMessage.builder()
+                .notificationType(notificationType)
+                .organizationTrackingId(organizationTrackingId)
+                .organizationName(organizationName)
+                .userTrackingId(userTrackingId)
+                .username(username)
+                .build();
+    }
 }
