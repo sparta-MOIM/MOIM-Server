@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(access = AccessLevel.PRIVATE)
-public class OrganizationApplyNotificationEvent {
+public class ApplyOrganizationNotificationMessage {
 
     private NotificationType notificationType;
     private String organizationTrackingId;
