@@ -1,5 +1,6 @@
 package com.sparata.moim.gathering.member.presentation.controller;
 
+import com.sparta.moim.common.response.ApiResponseData;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparata.moim.gathering.member.application.dto.command.JoinGatheringCommand;
 import com.sparata.moim.gathering.member.application.dto.command.LeaveGatheringCommand;
@@ -23,19 +24,22 @@ public class MemberController {
   private final MemberService memberService;
 
   @PostMapping("/{gatheringId}")
-  public void joinGathering(@PathVariable UUID gatheringId, @AuthenticationPrincipal CustomUserDetails userInfo) {
+  public ApiResponseData<Void> joinGathering(@PathVariable UUID gatheringId, @AuthenticationPrincipal CustomUserDetails userInfo) {
     memberService.joinGathering(new JoinGatheringCommand(gatheringId, userInfo));
+    return ApiResponseData.success(null);
   }
 
   @DeleteMapping("/{gatheringId}/leave")
-  public void leaveGathering(@PathVariable UUID gatheringId, @AuthenticationPrincipal CustomUserDetails userInfo) {
+  public ApiResponseData<Void> leaveGathering(@PathVariable UUID gatheringId, @AuthenticationPrincipal CustomUserDetails userInfo) {
     memberService.leaveGathering(new LeaveGatheringCommand(gatheringId, userInfo));
+    return ApiResponseData.success(null);
   }
 
   // 주인만 삭제가능
   @DeleteMapping("/{gatheringId}/remove")
-  public void removeGathering(@PathVariable UUID gatheringId, @RequestBody @Valid RemoveGatheringRequest request) {
+  public ApiResponseData<Void> removeGathering(@PathVariable UUID gatheringId, @RequestBody @Valid RemoveGatheringRequest request) {
     memberService.removeGathering(request.toCommand(gatheringId));
+    return ApiResponseData.success(null);
   }
 
 

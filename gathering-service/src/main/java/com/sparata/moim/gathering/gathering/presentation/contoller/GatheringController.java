@@ -1,6 +1,5 @@
 package com.sparata.moim.gathering.gathering.presentation.contoller;
 
-import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparata.moim.gathering.gathering.application.dto.command.DeleteGatheringCommand;
 import com.sparata.moim.gathering.gathering.application.service.GatheringService;
 import com.sparata.moim.gathering.gathering.presentation.dto.request.CreateGatheringRequest;
@@ -9,6 +8,8 @@ import com.sparata.moim.gathering.gathering.presentation.dto.request.UpdateGathe
 import com.sparata.moim.gathering.gathering.presentation.dto.response.CreateGatheringResponse;
 import com.sparata.moim.gathering.gathering.presentation.dto.response.GetGatheringResponse;
 import com.sparata.moim.gathering.gathering.presentation.dto.response.SearchGatheringResponse;
+import com.sparta.moim.common.response.ApiResponseData;
+import com.sparta.moim.common.security.CustomUserDetails;
 import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -30,29 +31,33 @@ public class GatheringController {
   private final GatheringService gatheringService;
 
   @PostMapping()
-  public CreateGatheringResponse createGathering(@RequestBody @Valid CreateGatheringRequest request) {
-    return CreateGatheringResponse.create(gatheringService.createGathering(request.toCommand()));
+  public ApiResponseData<CreateGatheringResponse> createGathering(@RequestBody @Valid CreateGatheringRequest request) {
+    return ApiResponseData.success(
+        CreateGatheringResponse.create(gatheringService.createGathering(request.toCommand())));
   }
 
   @GetMapping
-  public SearchGatheringResponse searchGathering(@ModelAttribute SearchGatheringRequest request, @AuthenticationPrincipal CustomUserDetails details) {
-    return SearchGatheringResponse.search(gatheringService.searchGathering(request.toCommand(details)));
+  public ApiResponseData<SearchGatheringResponse> searchGathering(@ModelAttribute SearchGatheringRequest request, @AuthenticationPrincipal CustomUserDetails details) {
+    return ApiResponseData.success(
+        SearchGatheringResponse.search(gatheringService.searchGathering(request.toCommand(details))));
   }
 
   @GetMapping("/{gatheringId}")
-  public GetGatheringResponse getGathering(@PathVariable UUID gatheringId) {
-    return GetGatheringResponse.get(gatheringService.getGathering(gatheringId));
+  public ApiResponseData<GetGatheringResponse> getGathering(@PathVariable UUID gatheringId) {
+    return ApiResponseData.success(GetGatheringResponse.get(gatheringService.getGathering(gatheringId)));
   }
 
 
   @PutMapping("/{gatheringId}")
-  public void updateGathering(@PathVariable UUID gatheringId, @RequestBody @Valid UpdateGatheringRequest request) {
+  public ApiResponseData<Void> updateGathering(@PathVariable UUID gatheringId, @RequestBody @Valid UpdateGatheringRequest request) {
     gatheringService.updateGathering(request.toCommand(gatheringId));
+    return ApiResponseData.success(null);
   }
 
   @DeleteMapping("/{gatheringId}")
-  public void deleteGathering(@PathVariable UUID gatheringId,
+  public ApiResponseData<Void> deleteGathering(@PathVariable UUID gatheringId,
                               @AuthenticationPrincipal CustomUserDetails customUserDetails) {
     gatheringService.deleteGathering(new DeleteGatheringCommand(gatheringId, customUserDetails));
+    return ApiResponseData.success(null);
   }
 }
