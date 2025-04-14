@@ -1,10 +1,13 @@
 package com.sparta.moim.comment.infrastructure.repository;
 
+import static com.sparta.moim.comment.infrastructure.response.CommentCode.*;
+
 import com.querydsl.core.QueryFactory;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sparta.moim.comment.domain.model.Comment;
 import com.sparta.moim.comment.domain.model.QComment;
 import com.sparta.moim.comment.domain.repository.CommentRepository;
+import com.sparta.moim.comment.infrastructure.response.CommentCode;
 import com.sparta.moim.common.exception.BaseException;
 import com.sparta.moim.common.response.Code;
 import java.util.List;
@@ -31,7 +34,7 @@ public class CommentRepositoryImpl implements CommentRepository {
   public Optional<Comment> findComment(String postId, UUID commentId) {
     return Optional.ofNullable(
       jpaCommentRepository.findByPostIdAndTrackingIdAndDeletedByIsNull(postId, commentId)
-          .orElseThrow(() -> new BaseException(Code.INTERNAL_SERVER_ERROR)));
+          .orElseThrow(() -> new BaseException(COMMENT_NOT_FOUND)));
   }
 
   @Override

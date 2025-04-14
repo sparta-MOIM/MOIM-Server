@@ -1,8 +1,10 @@
 package com.sparta.moim.comment.presentation.controller;
 
+import static com.sparta.moim.comment.infrastructure.response.CommentCode.*;
+
 import com.sparta.moim.comment.application.dto.CommentResponseDTO;
-import com.sparta.moim.comment.domain.model.Comment;
 import com.sparta.moim.comment.domain.service.CommentDomainService;
+import com.sparta.moim.comment.infrastructure.response.CommentCode;
 import com.sparta.moim.comment.presentation.request.CommentRequestDTO;
 import com.sparta.moim.comment.presentation.request.CommentUpdateRequestDTO;
 import com.sparta.moim.common.response.ApiResponseData;
@@ -38,21 +40,21 @@ public class CommentController {
 
   @GetMapping("/{post_id}")
   public ResponseEntity<ApiResponseData<List<CommentResponseDTO>>> getComments(@PathVariable("post_id") String postId){
-    return ResponseEntity.ok().body(ApiResponseData.of(Code.SUCCESS.getCode(), "댓글을 성공적으로 조회하였습니다.", commentDomainService.readAllComment(postId)));
+    return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_FOUND.getCode(),  COMMENT_FOUND.getMessage(), commentDomainService.readAllComment(postId)));
   }
 
   @PutMapping("/{post_id}/{comment_id}")
   public ResponseEntity<ApiResponseData<CommentResponseDTO>> updateComment(@PathVariable("post_id") String postId,
                                                                            @PathVariable("comment_id") UUID commentId,
                                                                            @RequestBody CommentUpdateRequestDTO commentUpdateRequestDTO){
-    return ResponseEntity.ok().body(ApiResponseData.of(Code.SUCCESS.getCode(), "댓글을 성공적으로 수정하였습니다.", commentDomainService.updateComment(postId,commentId,commentUpdateRequestDTO)));
+    return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_UPDATE.getCode(), COMMENT_UPDATE.getMessage(), commentDomainService.updateComment(postId,commentId,commentUpdateRequestDTO)));
   }
 
   @DeleteMapping("/{post}/{comment_id}")
   public ResponseEntity<ApiResponseData<String>> deleteComment(@PathVariable("post") String postId,
                                                                @PathVariable("comment_id") UUID commentId){
     commentDomainService.deleteComment(postId, commentId);
-    return ResponseEntity.ok().body(ApiResponseData.of(Code.SUCCESS.getCode(),"댓글을 성공적으로 삭제하였습니다.", null));
+    return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_DELETE.getCode(),COMMENT_DELETE.getMessage(), null));
   }
 
 
@@ -60,7 +62,7 @@ public class CommentController {
   public  ResponseEntity<ApiResponseData<List<CommentResponseDTO>>> searchComment(@PathVariable("post_id") String postId,
                                                                        @RequestParam("comment") String comment){
 
-    return ResponseEntity.ok().body(ApiResponseData.of(Code.SUCCESS.getCode(),"댓글을 성공적으로 조회하였습니다.", commentDomainService.searchComment(postId,comment)));
+    return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_FOUND.getCode(), COMMENT_FOUND.getMessage(), commentDomainService.searchComment(postId,comment)));
   }
 
 }
