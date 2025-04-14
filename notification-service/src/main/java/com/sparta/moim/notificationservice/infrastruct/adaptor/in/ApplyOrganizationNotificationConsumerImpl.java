@@ -17,7 +17,6 @@ public class ApplyOrganizationNotificationConsumerImpl implements ApplyOrganizat
 
     private final ApplyOrganizationNotificationService applyOrganizationNotificationService;
     private final CommandMapper commandMapper;
-    private final ObjectMapper objectMapper;
 
     @Override
     @KafkaListener(topics = "organization-apply-notification", groupId = "notification-group")

@@ -50,7 +50,7 @@ public class ApplyOrganizationService implements ApplyOrganizationUseCase {
                         organizationTrackingId,
                         organization.getOrganizationName(),
                         userTrackingId,
-                        null //todo - username을 헤더에서 꺼내서 보내줌.
+                        "테스터" //todo - username을 헤더에서 꺼내서 보내줌.
                 )
         );
 

@@ -44,7 +44,6 @@ public class KafkaConsumerConfig {
     public <T> ConcurrentKafkaListenerContainerFactory<String, T> consumerCommonFiled() {
         ConcurrentKafkaListenerContainerFactory<String, T> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(kafkaConsumer());
-        factory.setRecordMessageConverter(null);
         return factory;
     }
 
