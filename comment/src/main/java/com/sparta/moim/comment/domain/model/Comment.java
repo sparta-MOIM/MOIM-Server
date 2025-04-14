@@ -33,16 +33,17 @@ public class Comment extends BaseEntity {
   @Column(columnDefinition = "TEXT", nullable = false)
   private String comment;
 
-  @Column(nullable = false)
-  private Long postId;
+  @Column(length = 36, nullable = false, unique = true)
+  private String postId;
 
   @Column(nullable = false)
   private Integer commentClass;
 
   private Long parentId;
 
-  @Column(nullable = false)
-  private Long userId;
+  @Setter
+  @Column(length = 36, nullable = false, unique = true)
+  private String userId;
 
   @UuidGenerator
   @JdbcTypeCode(Types.VARCHAR)
@@ -55,7 +56,6 @@ public class Comment extends BaseEntity {
         .postId(commentRequestDTO.getPostId())
         .commentClass(commentRequestDTO.getCommentClass())
         .parentId(commentRequestDTO.getParentId())
-        .userId(commentRequestDTO.getUserId())
         .build();
   }
 

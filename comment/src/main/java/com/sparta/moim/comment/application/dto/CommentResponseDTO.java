@@ -9,10 +9,10 @@ import lombok.Getter;
 public class CommentResponseDTO {
   private Long id;
   private String comment;
-  private Long postId;
+  private String postId;
   private Integer commentClass;
   private Long parentId;
-  private Long userId;
+  private String userId;
 
   public static CommentResponseDTO from(Comment comment){
     return CommentResponseDTO.builder()

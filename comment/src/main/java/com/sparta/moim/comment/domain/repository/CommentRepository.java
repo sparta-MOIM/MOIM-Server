@@ -3,14 +3,15 @@ package com.sparta.moim.comment.domain.repository;
 import com.sparta.moim.comment.domain.model.Comment;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface CommentRepository {
   Optional<Comment> save(Comment comment);
 
-  List<Comment> findCommentAll(Long postId);
+  List<Comment> findCommentAll(String postId);
 
-  Optional<Comment> findComment(Long postId,Long commentId);
+  Optional<Comment> findComment(String postId, UUID commentId);
 
-  List<Comment> searchComment(Long postId, String comment);
+  List<Comment> searchComment(String postId, String comment);
 }
 

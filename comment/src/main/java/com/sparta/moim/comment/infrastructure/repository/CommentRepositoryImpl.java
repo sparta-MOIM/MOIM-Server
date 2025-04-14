@@ -9,6 +9,7 @@ import com.sparta.moim.common.exception.BaseException;
 import com.sparta.moim.common.response.Code;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -24,17 +25,17 @@ public class CommentRepositoryImpl implements CommentRepository {
   }
 
   @Override
-  public List<Comment> findCommentAll(Long postId) {return jpaCommentRepository.findByPostIdAndDeletedByIsNullOrderByCreatedAtAsc(postId);}
+  public List<Comment> findCommentAll(String postId) {return jpaCommentRepository.findByPostIdAndDeletedByIsNullOrderByCreatedAtAsc(postId);}
 
   @Override
-  public Optional<Comment> findComment(Long postId, Long commentId) {
+  public Optional<Comment> findComment(String postId, UUID commentId) {
     return Optional.ofNullable(
-      jpaCommentRepository.findByPostIdAndIdAndDeletedByIsNull(postId, commentId)
+      jpaCommentRepository.findByPostIdAndTrackingIdAndDeletedByIsNull(postId, commentId)
           .orElseThrow(() -> new BaseException(Code.INTERNAL_SERVER_ERROR)));
   }
 
   @Override
-  public List<Comment> searchComment(Long postId, String comment){
+  public List<Comment> searchComment(String postId, String comment){
     QComment qComment = QComment.comment1;
     return jpaQueryFactory.selectFrom(qComment)
         .where(qComment.postId.eq(postId)

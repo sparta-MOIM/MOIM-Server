@@ -9,6 +9,7 @@ import com.sparta.moim.common.exception.BaseException;
 import com.sparta.moim.common.response.Code;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +20,14 @@ public class CommentDomainService {
   private final CommentRepository commentRepository;
 
   //댓글 달기
-  public void commentService(CommentRequestDTO commentRequestDTO){
+  public void commentService(CommentRequestDTO commentRequestDTO, String userId){
     Comment comment = Comment.from(commentRequestDTO);
+    comment.setUserId("test user Id");
     commentRepository.save(comment);
   }
 
   //특정 모임의 특정 게시물 댓글 전체 조회
-  public List<CommentResponseDTO> readAllComment(Long postId){
+  public List<CommentResponseDTO> readAllComment(String postId){
     List<Comment> comments = commentRepository.findCommentAll(postId);
     List<CommentResponseDTO> commentResponseDTOS = new ArrayList<>();
 
@@ -36,7 +38,7 @@ public class CommentDomainService {
   }
 
   //특정 모임, 특정 게시글, 특정 댓글 수정
-  public CommentResponseDTO updateComment(Long postId, Long commentId, CommentUpdateRequestDTO commentUpdateRequestDTO){
+  public CommentResponseDTO updateComment(String postId, UUID commentId, CommentUpdateRequestDTO commentUpdateRequestDTO){
     Comment comment = commentRepository.findComment(postId,commentId).orElseThrow(()->new BaseException("해당 댓글을 찾을 수 없습니다."));
     comment.setComment(commentUpdateRequestDTO.getComment());
     commentRepository.save(comment);
@@ -45,7 +47,7 @@ public class CommentDomainService {
   }
 
   //특정 모임, 특정 게시글, 특정 댓글 삭제
-  public void deleteComment(Long postId, Long commentId){
+  public void deleteComment(String postId, UUID commentId){
     Comment comment = commentRepository.findComment(postId,commentId).get();
     comment.softDelete("testUsername");
     commentRepository.save(comment);
@@ -53,7 +55,7 @@ public class CommentDomainService {
   }
 
   //특정 댓글 내용 바탕으로 댓글 검색
-  public List<CommentResponseDTO> searchComment(Long postId, String comment){
+  public List<CommentResponseDTO> searchComment(String postId, String comment){
     List<Comment> comments = commentRepository.searchComment(postId, comment);
     List<CommentResponseDTO> commentResponseDTOS = new ArrayList<>();
     for(Comment originComment : comments){
