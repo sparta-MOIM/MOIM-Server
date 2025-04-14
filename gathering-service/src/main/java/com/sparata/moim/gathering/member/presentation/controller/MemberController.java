@@ -9,6 +9,7 @@ import com.sparata.moim.gathering.member.presentation.dto.request.RemoveGatherin
 import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,22 +25,22 @@ public class MemberController {
   private final MemberService memberService;
 
   @PostMapping("/{gatheringId}")
-  public ApiResponseData<Void> joinGathering(@PathVariable UUID gatheringId, @AuthenticationPrincipal CustomUserDetails userInfo) {
+  public ResponseEntity<ApiResponseData<Void>> joinGathering(@PathVariable UUID gatheringId, @AuthenticationPrincipal CustomUserDetails userInfo) {
     memberService.joinGathering(new JoinGatheringCommand(gatheringId, userInfo));
-    return ApiResponseData.success(null);
+    return ResponseEntity.ok(ApiResponseData.success(null));
   }
 
   @DeleteMapping("/{gatheringId}/leave")
-  public ApiResponseData<Void> leaveGathering(@PathVariable UUID gatheringId, @AuthenticationPrincipal CustomUserDetails userInfo) {
+  public ResponseEntity<ApiResponseData<Void>> leaveGathering(@PathVariable UUID gatheringId, @AuthenticationPrincipal CustomUserDetails userInfo) {
     memberService.leaveGathering(new LeaveGatheringCommand(gatheringId, userInfo));
-    return ApiResponseData.success(null);
+    return ResponseEntity.ok(ApiResponseData.success(null));
   }
 
   // 주인만 삭제가능
   @DeleteMapping("/{gatheringId}/remove")
-  public ApiResponseData<Void> removeGathering(@PathVariable UUID gatheringId, @RequestBody @Valid RemoveGatheringRequest request) {
+  public ResponseEntity<ApiResponseData<Void>> removeGathering(@PathVariable UUID gatheringId, @RequestBody @Valid RemoveGatheringRequest request) {
     memberService.removeGathering(request.toCommand(gatheringId));
-    return ApiResponseData.success(null);
+    return ResponseEntity.ok(ApiResponseData.success(null));
   }
 
 

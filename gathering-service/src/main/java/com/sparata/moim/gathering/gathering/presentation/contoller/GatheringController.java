@@ -13,6 +13,7 @@ import com.sparta.moim.common.security.CustomUserDetails;
 import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,33 +32,34 @@ public class GatheringController {
   private final GatheringService gatheringService;
 
   @PostMapping()
-  public ApiResponseData<CreateGatheringResponse> createGathering(@RequestBody @Valid CreateGatheringRequest request) {
-    return ApiResponseData.success(
-        CreateGatheringResponse.create(gatheringService.createGathering(request.toCommand())));
+  public ResponseEntity<ApiResponseData<CreateGatheringResponse>> createGathering(@RequestBody @Valid CreateGatheringRequest request) {
+    return ResponseEntity.ok(ApiResponseData.success(
+        CreateGatheringResponse.create(gatheringService.createGathering(request.toCommand()))));
   }
 
   @GetMapping
-  public ApiResponseData<SearchGatheringResponse> searchGathering(@ModelAttribute SearchGatheringRequest request, @AuthenticationPrincipal CustomUserDetails details) {
-    return ApiResponseData.success(
-        SearchGatheringResponse.search(gatheringService.searchGathering(request.toCommand(details))));
+  public ResponseEntity<ApiResponseData<SearchGatheringResponse>> searchGathering(@ModelAttribute SearchGatheringRequest request, @AuthenticationPrincipal CustomUserDetails details) {
+    return ResponseEntity.ok(ApiResponseData.success(
+        SearchGatheringResponse.search(gatheringService.searchGathering(request.toCommand(details)))));
   }
 
   @GetMapping("/{gatheringId}")
-  public ApiResponseData<GetGatheringResponse> getGathering(@PathVariable UUID gatheringId) {
-    return ApiResponseData.success(GetGatheringResponse.get(gatheringService.getGathering(gatheringId)));
+  public ResponseEntity<ApiResponseData<GetGatheringResponse>> getGathering(@PathVariable UUID gatheringId) {
+    return ResponseEntity.ok(
+        ApiResponseData.success(GetGatheringResponse.get(gatheringService.getGathering(gatheringId))));
   }
 
 
   @PutMapping("/{gatheringId}")
-  public ApiResponseData<Void> updateGathering(@PathVariable UUID gatheringId, @RequestBody @Valid UpdateGatheringRequest request) {
+  public ResponseEntity<ApiResponseData<Void>> updateGathering(@PathVariable UUID gatheringId, @RequestBody @Valid UpdateGatheringRequest request) {
     gatheringService.updateGathering(request.toCommand(gatheringId));
-    return ApiResponseData.success(null);
+    return ResponseEntity.ok(ApiResponseData.success(null));
   }
 
   @DeleteMapping("/{gatheringId}")
-  public ApiResponseData<Void> deleteGathering(@PathVariable UUID gatheringId,
+  public ResponseEntity<ApiResponseData<Void>> deleteGathering(@PathVariable UUID gatheringId,
                               @AuthenticationPrincipal CustomUserDetails customUserDetails) {
     gatheringService.deleteGathering(new DeleteGatheringCommand(gatheringId, customUserDetails));
-    return ApiResponseData.success(null);
+    return ResponseEntity.ok(ApiResponseData.success(null));
   }
 }
