@@ -5,7 +5,7 @@ import com.sparta.moim.user.application.UserService;
 import com.sparta.moim.user.application.dto.SignupUserResult;
 import com.sparta.moim.user.presentation.dto.SignupUserRequest;
 import com.sparta.moim.user.presentation.dto.SignupUserResponse;
-import com.sparta.moim.user.presentation.mapper.UserCommandMapper;
+import com.sparta.moim.user.presentation.mapper.UserPresentationMapper;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.UUID;
@@ -23,15 +23,15 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class UserController {
 
   private final UserService userService;
-  private final UserCommandMapper userCommandMapper;
+  private final UserPresentationMapper userPresentationMapper;
 
   @PostMapping("/signup")
   public ResponseEntity<ApiResponseData<SignupUserResponse>> signup(@RequestBody @Valid SignupUserRequest request) {
-    SignupUserResult result = userService.signup(userCommandMapper.toSignupCommand(request));
+    SignupUserResult result = userService.signup(userPresentationMapper.toSignupCommand(request));
 
     UUID trackingId = result.trackingId();
     URI uri = UriComponentsBuilder.fromUriString("/api/v1/users/{trackingId}")
         .buildAndExpand(trackingId).toUri();
-    return ResponseEntity.created(uri).body(ApiResponseData.success(userCommandMapper.toSignupResult(result)));
+    return ResponseEntity.created(uri).body(ApiResponseData.success(userPresentationMapper.toSignupResult(result)));
   }
 }
