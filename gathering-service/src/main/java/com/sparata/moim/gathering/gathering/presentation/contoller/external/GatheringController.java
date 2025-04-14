@@ -1,4 +1,4 @@
-package com.sparata.moim.gathering.gathering.presentation.contoller;
+package com.sparata.moim.gathering.gathering.presentation.contoller.external;
 
 import com.sparata.moim.gathering.gathering.application.dto.command.DeleteGatheringCommand;
 import com.sparata.moim.gathering.gathering.application.service.GatheringService;
