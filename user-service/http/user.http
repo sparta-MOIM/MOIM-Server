@@ -1,0 +1,24 @@
+### signup
+POST http://localhost:8082/api/v1/users/signup
+Content-Type: application/json
+
+{
+  "username": "username",
+  "password": "1q2w3e4rR!",
+  "name": "홍길동"
+}
+
+### login
+POST http://localhost:8082/api/v1/users/login
+Content-Type: application/json
+
+{
+  "username": "username",
+  "password": "1q2w3e4rR!"
+}
+
+### logout
+POST http://localhost:8082/api/v1/users/logout
+
+### 유저 조회 by TrackingId
+GET http://localhost:8082/internal/v1/users/69207ff8-c757-477a-89a3-b79bab50f696
