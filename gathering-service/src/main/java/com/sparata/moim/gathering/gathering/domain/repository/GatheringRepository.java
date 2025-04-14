@@ -6,5 +6,10 @@ import java.util.UUID;
 
 public interface GatheringRepository {
   Gathering save(Gathering gathering);
-  Optional<Gathering> findByTrackingId(UUID id);
+
+  Optional<Gathering> findByTrackingIdAndDeletedAtIsNull(UUID id);
+
+  boolean existsByNameAndDeletedByIsNull(String name);
+
+  boolean existsByNameAndDeletedByIsNullAndTrackingIdNot(String name, UUID trackingId);
 }

@@ -7,7 +7,7 @@ X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76
 
 {
   "organizationId": "org123",
-  "name": "모임 이름5",
+  "name": "모임 이름",
   "owner": "주인장",
   "count": 10,
   "status": true
@@ -56,14 +56,14 @@ X-User-ID: 550e8400-e29b-41d4-a716-446655440000
 
 
 ### 게더링 수정
-PUT http://localhost:19101/api/v1/gathering/7af12059-8279-4000-82c2-358083f9e8f6
+PUT http://localhost:19101/api/v1/gathering/41463232-faad-41e7-bfae-3387a092c9b0
 Content-Type: application/json
 X-User-Name: 사용자이름
 X-User-Role: USER
 X-User-ID: 550e8400-e29b-41d4-a716-446655440000
 
 {
-  "status": false
+  "name": "모임 이름5"
 }
 
 
