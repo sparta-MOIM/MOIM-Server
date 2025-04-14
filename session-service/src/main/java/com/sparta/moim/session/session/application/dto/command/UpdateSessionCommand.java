@@ -7,12 +7,12 @@ import lombok.Builder;
 @Builder
 public record UpdateSessionCommand(UUID sessionId,
                                    String title,
-                                   int count) {
+                                   int totalCount) {
   public Session toDomain() {
     return Session.builder()
         .trackingId(sessionId)
         .title(title)
-        .count(count)
+        .totalCount(totalCount)
         .build();
   }
 }
