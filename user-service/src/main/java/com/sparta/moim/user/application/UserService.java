@@ -7,6 +7,8 @@ import com.sparta.moim.user.application.dto.AccessTokenRefreshResult;
 import com.sparta.moim.user.application.dto.GetUserResult;
 import com.sparta.moim.user.application.dto.ProcessSignupCommand;
 import com.sparta.moim.user.application.dto.SignupUserResult;
+import com.sparta.moim.user.application.dto.UpdateUserCommand;
+import com.sparta.moim.user.application.dto.UpdateUserResult;
 import com.sparta.moim.user.application.exception.AlreadyExistsUsernameException;
 import com.sparta.moim.user.application.exception.UserNotFoundException;
 import com.sparta.moim.user.application.mapper.UserDataAccessMapper;
@@ -68,5 +70,21 @@ public class UserService {
     ResponseCookie accessTokenCookie = jwtUtil.createAccessTokenCookie(accessToken);
 
     return new AccessTokenRefreshResult(accessTokenCookie);
+  }
+
+  @Transactional
+  public UpdateUserResult updateUser(UpdateUserCommand command) {
+    User user = userRepository.findByTrackingIdAndDeletedAtIsNull(command.trackingId())
+        .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+    user.updateUser(command.name());
+    return userDataAccessMapper.updateUserResultFromUser(user);
+  }
+
+  @Transactional
+  public void deleteUser(UUID trackingId) {
+    User user = userRepository.findByTrackingIdAndDeletedAtIsNull(trackingId)
+        .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+
+    user.softDelete(user.getUsername());
   }
 }
