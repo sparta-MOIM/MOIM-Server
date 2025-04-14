@@ -50,7 +50,7 @@ public class UserController {
       HttpServletResponse response
   ) {
     Cookie refreshToken = WebUtils.getCookie(request, "refreshToken");
-    if (refreshToken == null) {
+    if (refreshToken == null || refreshToken.getValue() == null || refreshToken.getValue().isEmpty()) {
       throw new RefreshTokenNotFoundException(REFRESH_TOKEN_NOT_FOUND);
     }
     AccessTokenRefreshResult result = userService.refreshAccessToken(refreshToken.getValue());
