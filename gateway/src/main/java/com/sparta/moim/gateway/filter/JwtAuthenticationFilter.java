@@ -40,13 +40,13 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<Object
   }
 
   private ServerWebExchange addPassportToHeader(ServerWebExchange exchange, Claims claims) {
-    String username = claims.getSubject();
-    String trackingId = claims.get("trackingId", String.class);
+    String trackingId = claims.getSubject();
+    String username = claims.get("username", String.class);
     String role = claims.get("role", String.class);
 
     ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
-        .header(X_USER_NAME.name(), username)
         .header(X_USER_ID.name(), trackingId)
+        .header(X_USER_NAME.name(), username)
         .header(X_USER_ROLE.name(), role)
         .build();
 
