@@ -49,7 +49,7 @@ public class SecurityConfig {
         .httpBasic(AbstractHttpConfigurer::disable)  // HTTP 기본 인증 비활성화
         .logout(AbstractHttpConfigurer::disable)  // 로그아웃 기능 비활성화
         .authorizeHttpRequests(auth -> auth.requestMatchers(
-            "/api/v1/users/**", "/api/v1/auth/**").permitAll().anyRequest().authenticated())
+            "/api/v1/users/**", "/api/v1/auth/**", "/internal/v1/users/**").permitAll().anyRequest().authenticated())
         .sessionManagement(session -> session
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class)
