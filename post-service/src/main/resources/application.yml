@@ -1,0 +1,9 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: post-service
+  config:
+    import:
+      - "application-database.yml"

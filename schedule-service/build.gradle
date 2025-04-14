@@ -1,11 +1,9 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.4.4'
-	id 'io.spring.dependency-management' version '1.1.7'
+	id 'com.palantir.docker' version "0.35.0"
 }
 
-group = 'com.moim'
-version = '0.0.1-SNAPSHOT'
+group = 'com.moim.schedule'
+version = '1.0.0'
 
 java {
 	toolchain {
@@ -58,3 +56,11 @@ tasks.named('test') {
 }
 
 tasks.register("prepareKotlinBuildScriptModel"){}
+
+docker {
+	println(tasks.bootJar.outputs.files)
+	name rootProject.name+'-'+project.name + ":" + version
+	dockerfile file('../Dockerfile')
+	files tasks.bootJar.outputs.files
+	buildArgs(['JAR_FILE': tasks.bootJar.outputs.files.singleFile.name])
+}
