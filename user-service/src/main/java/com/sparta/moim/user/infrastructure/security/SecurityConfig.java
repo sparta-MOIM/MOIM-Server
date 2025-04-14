@@ -5,6 +5,7 @@ import com.sparta.moim.common.security.filter.GlobalSecurityContextFilter;
 import com.sparta.moim.user.domain.repository.UserRepository;
 import com.sparta.moim.user.infrastructure.jwt.JwtUtil;
 import com.sparta.moim.user.infrastructure.security.filter.LoginFilter;
+import com.sparta.moim.user.infrastructure.security.handler.CustomLogoutSuccessHandler;
 import com.sparta.moim.user.infrastructure.security.handler.LoginFailureHandler;
 import com.sparta.moim.user.infrastructure.security.handler.LoginSuccessHandler;
 import com.sparta.moim.user.infrastructure.service.CustomUserDetailsService;
@@ -40,6 +41,9 @@ public class SecurityConfig {
   private final AntPathRequestMatcher loginMatcher = new AntPathRequestMatcher(
       "/api/v1/users/login", "POST");
 
+  private final AntPathRequestMatcher logoutMatcher = new AntPathRequestMatcher(
+      "/api/v1/users/logout", "POST");
+
   @Bean
   public SecurityFilterChain userSecurityFilterChain(HttpSecurity http) throws Exception {
     http
@@ -47,7 +51,11 @@ public class SecurityConfig {
         .csrf(AbstractHttpConfigurer::disable)
         .formLogin(AbstractHttpConfigurer::disable)  // 로그인 페이지 비활성화
         .httpBasic(AbstractHttpConfigurer::disable)  // HTTP 기본 인증 비활성화
-        .logout(AbstractHttpConfigurer::disable)  // 로그아웃 기능 비활성화
+        .logout(
+            (configurer) -> configurer
+                .logoutRequestMatcher(logoutMatcher)
+                .deleteCookies("accessToken", "refreshToken")
+                .logoutSuccessHandler(new CustomLogoutSuccessHandler()))
         .authorizeHttpRequests(auth -> auth.requestMatchers(
             "/api/v1/users/**", "/api/v1/auth/**", "/internal/v1/users/**").permitAll().anyRequest().authenticated())
         .sessionManagement(session -> session
