@@ -1,6 +1,7 @@
 package com.sparta.moim.comment.application.dto;
 
 import com.sparta.moim.comment.domain.model.Comment;
+import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,7 +13,7 @@ public class CommentResponseDTO {
   private String postId;
   private Integer commentClass;
   private Long parentId;
-  private String userId;
+  private UUID userId;
 
   public static CommentResponseDTO from(Comment comment){
     return CommentResponseDTO.builder()

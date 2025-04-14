@@ -43,7 +43,7 @@ public class Comment extends BaseEntity {
 
   @Setter
   @Column(length = 36, nullable = false, unique = true)
-  private String userId;
+  private UUID userId;
 
   @UuidGenerator
   @JdbcTypeCode(Types.VARCHAR)

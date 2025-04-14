@@ -9,11 +9,13 @@ import com.sparta.moim.comment.presentation.request.CommentRequestDTO;
 import com.sparta.moim.comment.presentation.request.CommentUpdateRequestDTO;
 import com.sparta.moim.common.response.ApiResponseData;
 import com.sparta.moim.common.response.Code;
+import com.sparta.moim.common.security.CustomUserDetails;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,8 +35,8 @@ public class CommentController {
   private final CommentDomainService commentDomainService;
 
   @PostMapping("")
-  public ResponseEntity<ApiResponseData<String>> postComment(@RequestBody @Valid CommentRequestDTO commentRequestDTO, @RequestHeader("X-User-ID") String userId){
-    commentDomainService.commentService(commentRequestDTO,userId);
+  public ResponseEntity<ApiResponseData<String>> postComment(@RequestBody @Valid CommentRequestDTO commentRequestDTO, @AuthenticationPrincipal CustomUserDetails customUserDetails){
+    commentDomainService.commentService(commentRequestDTO,customUserDetails);
     return ResponseEntity.ok().body(ApiResponseData.success(null, "댓글을 성공적으로 등록하였습니다."));
   }
 
