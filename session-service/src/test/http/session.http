@@ -15,17 +15,17 @@ X-User-ID: {{userId}}
   "organizationId": "org123",
   "publisher": "{{username}}",
   "title": "스파르타 세션",
-  "count": 15,
+  "totalCount": 2,
   "status": "READY",
-  "openTime": "2024-03-20T10:00:00",
-  "closeTime": "2024-03-20T12:00:00",
+  "openTime": "2024-04-13T10:00:00",
+  "closeTime": "2024-04-20T12:00:00",
    "applyInfo": {
    "reason": "hello"
   }
 }
 
 ### 세션 조회 - 성공
-GET {{baseUrl}}/api/v1/session/e0beff07-710e-407b-bb8f-59d7998b98e9
+GET {{baseUrl}}/api/v1/session/aca003fb-9a13-48b5-aaa1-7e9b6dc68eee
 Content-Type: application/json
 X-User-Name: {{username}}
 X-User-Role: {{role}}
@@ -73,5 +73,30 @@ X-User-Name: {{username}}
 X-User-Role: {{role}}
 X-User-ID: {{userId}}
 
-###
-GET http://localhost:8089/internal/v1/session/e0beff07-710e-407b-bb8f-59d7998b98e9
+### 세션에 참가한 맴버 조회 (내부용)
+GET http://localhost:8089/internal/v1/session/74df0a24-5589-475a-8925-01b4a900404c
+
+### 세션 참가
+POST http://localhost:8089/api/v1/session/62c6cacc-86a3-4c77-87ba-a1648bcd770e/join
+Content-Type: application/json
+X-User-Name: test3
+X-User-Role: {{role}}
+X-User-ID: {{userId}}
+
+### 세션 나가기
+DELETE http://localhost:8089/api/v1/session/b4ac9c28-3f9c-432f-bdbf-7eef7f41b625/leave
+Content-Type: application/json
+X-User-Name: test3
+X-User-Role: {{role}}
+X-User-ID: {{userId}}
+
+### 세션 강퇴
+DELETE http://localhost:8089/api/v1/session/62c6cacc-86a3-4c77-87ba-a1648bcd770e/remove
+Content-Type: application/json
+X-User-Name: test2
+X-User-Role: {{role}}
+X-User-ID: {{userId}}
+
+{
+  "members": ["test3"]
+}

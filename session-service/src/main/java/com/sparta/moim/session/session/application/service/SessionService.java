@@ -11,11 +11,13 @@ import com.sparta.moim.session.session.application.dto.result.GetSessionMemberLi
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionResult;
 import com.sparta.moim.session.session.application.event.feign.MemberInternalService;
-import com.sparta.moim.session.session.application.event.publisher.MemberPublisher;
-import com.sparta.moim.session.session.application.exception.SessionException;
+import com.sparta.moim.session.session.application.event.publisher.AddMemberPublisher;
+import com.sparta.moim.session.session.application.event.publisher.RemoveMemberPublisher;
+import com.sparta.moim.session.shared.dto.SharedRemoveSession;
+import com.sparta.moim.session.shared.error.exception.SessionException;
 import com.sparta.moim.session.session.domain.entity.Session;
-import com.sparta.moim.session.session.domain.enums.SessionStatus;
-import com.sparta.moim.session.session.domain.error.code.SessionCode;
+import com.sparta.moim.session.shared.enums.SessionStatus;
+import com.sparta.moim.session.shared.error.code.SessionCode;
 import com.sparta.moim.session.session.domain.repository.SessionCustomRepository;
 import com.sparta.moim.session.session.domain.repository.SessionRepository;
 import java.util.List;
@@ -29,15 +31,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class SessionService {
   private final SessionRepository sessionRepository;
   private final SessionCustomRepository sessionCustomRepository;
-  private final MemberPublisher memberPublisher;
+  private final AddMemberPublisher addMemberPublisher;
+  private final RemoveMemberPublisher removeMemberPublisher;
   private final MemberInternalService memberService;
 
+  @Transactional
   public CreateSessionResult createSession(CreateSessionCommand command) {
     if (sessionRepository.existsByTitleAndDeletedByIsNull(command.title())) {
       throw new SessionException(SessionCode.EXITS_TITLE_SESSION);
     }
     Session createSession = sessionRepository.save(command.toDomain());
-    memberPublisher.add(createSession.getTrackingId(),command.publisher());
+    createSession.timeValidate();
+    addMemberPublisher.add(createSession.getTrackingId(), command.publisher());
     return CreateSessionResult.create(createSession);
   }
 
@@ -45,7 +50,7 @@ public class SessionService {
   public GetSessionResult getSession(UUID sessionId) {
     List<GetSessionMemberListResult> members = memberService.getMembers(sessionId);
     return GetSessionResult.get(sessionRepository.findByTrackingIdAndDeletedAtIsNull(sessionId)
-        .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION)),members);
+        .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION)), members);
   }
 
   @Transactional(readOnly = true)
@@ -73,7 +78,7 @@ public class SessionService {
 
 
   private boolean duplicateSessionTitle(String title, UUID sessionId) {
-    if(title == null) {
+    if (title == null) {
       return false;
     }
     return sessionRepository.existsByTitleAndDeletedByIsNullAndTrackingIdNot(title, sessionId);
@@ -83,9 +88,7 @@ public class SessionService {
   public void statusUpdateSession(UpdateStateStateCommand command) {
     Session session = sessionRepository.findByTrackingIdAndDeletedAtIsNull(command.sessionId())
         .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION));
-
-    validationStatusIsNotReady(session.getStatus());
-
+    validationStatusIsReady(session.getStatus());
     session.stateChange(SessionStatus.valueOf(command.status()));
   }
 
@@ -94,6 +97,7 @@ public class SessionService {
     Session session = sessionRepository.findByTrackingIdAndDeletedAtIsNull(command.sessionId())
         .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION));
     session.softDelete(command.username());
+    removeMemberPublisher.remove(new SharedRemoveSession(session.getTrackingId()));
   }
 
   @Transactional
@@ -105,9 +109,35 @@ public class SessionService {
 
   }
 
+  public void isValidateSession(UUID sessionId) {
+    sessionRepository.findByTrackingIdAndDeletedAtIsNull(sessionId)
+        .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION));
+
+  }
+
+  public void isValidateSessionTimeCheck(UUID sessionId) {
+    boolean isCollectJoinSession = sessionRepository.checkOpenTimeByTrackingId(sessionId).isPresent();
+
+    if (isCollectJoinSession) {
+      throw new SessionException(SessionCode.TIME_OUT_SESSION);
+    }
+  }
+
+  public void isValidateSessionStatus(UUID sessionId) {
+    if (sessionRepository.checkSessionIdAndStatusOpen(sessionId).isPresent()) {
+      throw new SessionException(SessionCode.NOT_OPEN_SESSION);
+    }
+  }
+
   private void validationStatusIsNotReady(SessionStatus status) {
-    if(status != SessionStatus.READY) {
+    if (status != SessionStatus.READY) {
       throw new SessionException(SessionCode.STATUS_NOT_READY_SESSION);
+    }
+  }
+
+  private void validationStatusIsReady(SessionStatus status) {
+    if (status == SessionStatus.READY) {
+      throw new SessionException(SessionCode.STATUS_READY_SESSION);
     }
   }
 

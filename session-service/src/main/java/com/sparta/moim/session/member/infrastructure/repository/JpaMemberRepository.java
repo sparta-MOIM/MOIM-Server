@@ -10,7 +10,17 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface JpaMemberRepository extends JpaRepository<Member, Long>, MemberRepository {
 
+
+  @Modifying
+  @Query("DELETE FROM Member m where m.sessionId =:sessionId and m.memberName =:memberName and m.type <> 'PUBLISHER'")
+  void deleteMemberBySessionId(UUID sessionId, String memberName);
   @Modifying
   @Query("delete from Member m where m.sessionId = :id and m.memberName IN (:members) and m.type <> 'PUBLISHER'")
   void removeMembers(UUID id, List<String> members);
+
+
+  @Query("""
+        select count(m) from Member m where m.sessionId = :sessionId and m.memberName IN (:members) and m.type <> "PUBLISHER"
+        """)
+  long countMembersUnpublishable(UUID sessionId, List<String> members);
 }
