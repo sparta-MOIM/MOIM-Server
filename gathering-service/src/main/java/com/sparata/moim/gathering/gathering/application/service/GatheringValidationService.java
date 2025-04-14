@@ -1,6 +1,5 @@
 package com.sparata.moim.gathering.gathering.application.service;
 
-import com.sparata.moim.gathering.gathering.domain.repository.GatheringRepository;
 import com.sparata.moim.gathering.gathering.domain.repository.GatheringValidationRepository;
 import com.sparata.moim.gathering.shared.error.code.GatheringCode;
 import com.sparata.moim.gathering.shared.error.exception.GatheringException;

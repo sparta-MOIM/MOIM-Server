@@ -1,7 +1,7 @@
 package com.sparata.moim.gathering.member.application.dto.command;
 
-import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparata.moim.gathering.member.domain.Member;
+import com.sparta.moim.common.security.CustomUserDetails;
 import java.time.LocalDateTime;
 import java.util.UUID;
 

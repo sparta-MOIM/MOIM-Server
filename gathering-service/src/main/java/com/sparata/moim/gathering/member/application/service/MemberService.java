@@ -1,6 +1,5 @@
 package com.sparata.moim.gathering.member.application.service;
 
-import com.sparata.moim.gathering.gathering.domain.repository.GatheringValidationRepository;
 import com.sparata.moim.gathering.member.application.dto.command.JoinGatheringCommand;
 import com.sparata.moim.gathering.member.application.dto.command.LeaveGatheringCommand;
 import com.sparata.moim.gathering.member.application.dto.command.RemoveGatheringCommand;
