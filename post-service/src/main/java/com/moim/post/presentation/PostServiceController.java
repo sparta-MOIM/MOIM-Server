@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/internal/v1/posts/feeds/{id}")
+@RequestMapping("/internal/v1/posts")
 public class PostServiceController {
 
   private final PostQueryUseCase useCase;
