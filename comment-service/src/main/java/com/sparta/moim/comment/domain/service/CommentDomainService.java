@@ -21,6 +21,9 @@ public class CommentDomainService {
 
   //댓글 달기
   public void commentService(CommentRequestDTO commentRequestDTO, String userId){
+
+    //postId가 실제로 존재하는 게시글인지 검사필요. (feignClient)
+
     Comment comment = Comment.from(commentRequestDTO);
     comment.setUserId("test user Id");
     commentRepository.save(comment);
@@ -28,6 +31,9 @@ public class CommentDomainService {
 
   //특정 모임의 특정 게시물 댓글 전체 조회
   public List<CommentResponseDTO> readAllComment(String postId){
+
+    //postId가 실제로 존재하는 게시글인지 검사필요. (feignClient)
+
     List<Comment> comments = commentRepository.findCommentAll(postId);
     List<CommentResponseDTO> commentResponseDTOS = new ArrayList<>();
 
