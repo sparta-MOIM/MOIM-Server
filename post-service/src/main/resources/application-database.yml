@@ -1,0 +1,21 @@
+spring:
+  # MySQL
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/moim
+    username: root
+    password:
+  # JPA
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+  # Redis 필요시
+#  data:
+#    redis:
+#      host: localhost
+#      port: 6379
