@@ -32,18 +32,19 @@ public class KafkaConsumerConfig {
         consumerConfig.put(ConsumerConfig.REQUEST_TIMEOUT_MS_CONFIG, 40000);
         return new DefaultKafkaConsumerFactory<>(consumerConfig);
     }
-
-    // 이거 없으면 json으로 역직렬화가 안됨
-    @Bean
-    public StringJsonMessageConverter jsonConverter() {
-        return new StringJsonMessageConverter();
-    }
+//
+//    // 이거 없으면 json으로 역직렬화가 안됨
+//    @Bean
+//    public StringJsonMessageConverter jsonConverter() {
+//        return new StringJsonMessageConverter();
+//    }
 
     // container 등록
     @Bean
     public <T> ConcurrentKafkaListenerContainerFactory<String, T> consumerCommonFiled() {
         ConcurrentKafkaListenerContainerFactory<String, T> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(kafkaConsumer());
+        factory.setRecordMessageConverter(null);
         return factory;
     }
 

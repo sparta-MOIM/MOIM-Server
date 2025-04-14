@@ -48,7 +48,12 @@ dependencies {
     // Kafka 의존성
     implementation 'org.springframework.kafka:spring-kafka'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
+
+    //Avro
+    implementation 'org.apache.avro:avro:1.7.6-cdh5.4.2.1.1'
+    implementation 'io.confluent:kafka-avro-serializer:6.1.0'
 }
+
 
 dependencyManagement {
     imports {

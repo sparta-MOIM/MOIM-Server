@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.support.serializer.JsonSerializer;
 
 @Configuration
 public class KafkaProducerConfig {
@@ -27,7 +28,7 @@ public class KafkaProducerConfig {
 
         // 메시지의 Value 직렬화 클래스 설정 (여기서는 JSON 직렬화)
         // 객체를 JSON 형식으로 직렬화해 Kafka로 전송
-        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, org.springframework.kafka.support.serializer.JsonSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
         // 메시지 전송 시 브로커로부터 ACK(응답)를 받을 조건 설정
         // "all": 모든 리플리카가 메시지를 저장해야 ACK (가장 높은 신뢰성)
