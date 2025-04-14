@@ -12,7 +12,7 @@ import com.sparta.moim.organization.domain.entity.OrganizationMember;
 import com.sparta.moim.organization.domain.repository.OrganizationApplicationRepository;
 import com.sparta.moim.organization.domain.repository.OrganizationMemberRepository;
 import com.sparta.moim.organization.domain.repository.OrganizationRepository;
-import com.sparta.moim.organization.infrastruct.event.ApplyOrganizationNotificationProducer;
+import com.sparta.moim.organization.infrastruct.adaptor.out.ApplyOrganizationNotificationProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
