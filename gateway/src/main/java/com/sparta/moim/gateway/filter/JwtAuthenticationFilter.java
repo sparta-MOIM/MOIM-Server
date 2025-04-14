@@ -45,9 +45,9 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<Object
     String role = claims.get("role", String.class);
 
     ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
-        .header(X_USER_ID.name(), trackingId)
-        .header(X_USER_NAME.name(), username)
-        .header(X_USER_ROLE.name(), role)
+        .header(X_USER_ID.getValue(), trackingId)
+        .header(X_USER_NAME.getValue(), username)
+        .header(X_USER_ROLE.getValue(), role)
         .build();
 
     return exchange.mutate().request(mutatedRequest).build();

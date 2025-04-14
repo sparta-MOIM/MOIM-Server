@@ -3,6 +3,7 @@ package com.sparta.moim.user.application.mapper;
 import com.sparta.moim.user.application.dto.GetUserResult;
 import com.sparta.moim.user.application.dto.ProcessSignupCommand;
 import com.sparta.moim.user.application.dto.SignupUserResult;
+import com.sparta.moim.user.application.dto.UpdateUserResult;
 import com.sparta.moim.user.domain.model.User;
 import org.springframework.stereotype.Component;
 
@@ -19,5 +20,9 @@ public class UserDataAccessMapper {
 
   public GetUserResult getUserResultFromUser(User findUser) {
     return new GetUserResult(findUser.getTrackingId(), findUser.getUsername(), findUser.getName());
+  }
+
+  public UpdateUserResult updateUserResultFromUser(User user) {
+    return new UpdateUserResult(user.getTrackingId(), user.getName());
   }
 }

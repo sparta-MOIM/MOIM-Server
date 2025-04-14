@@ -9,6 +9,9 @@ import com.sparta.moim.user.application.dto.SignupUserResult;
 import com.sparta.moim.user.application.exception.RefreshTokenNotFoundException;
 import com.sparta.moim.user.presentation.dto.SignupUserRequest;
 import com.sparta.moim.user.presentation.dto.SignupUserResponse;
+import com.sparta.moim.user.presentation.dto.UpdateUserRequest;
+import com.sparta.moim.user.presentation.dto.UpdateUserResponse;
+import com.sparta.moim.user.application.dto.UpdateUserResult;
 import com.sparta.moim.user.presentation.mapper.UserPresentationMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +22,10 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,5 +62,23 @@ public class UserController {
     AccessTokenRefreshResult result = userService.refreshAccessToken(refreshToken.getValue());
     response.addHeader(HttpHeaders.SET_COOKIE, result.accessTokenCookie().toString());
     return ResponseEntity.ok().body(ApiResponseData.success(null, "액세스 토큰 재발급 완료"));
+  }
+
+  @PutMapping("/{trackingId}")
+  public ResponseEntity<ApiResponseData<UpdateUserResponse>> updateUser(
+      @PathVariable UUID trackingId,
+      @RequestBody UpdateUserRequest request
+  ) {
+    UpdateUserResult result = userService.updateUser(userPresentationMapper.toUpdateCommand(trackingId, request));
+    return ResponseEntity.ok().body(
+        ApiResponseData.success(userPresentationMapper.toUpdateUserResponse(result), "회원 수정 완료"));
+  }
+
+  @DeleteMapping("/{trackingId}")
+  public ResponseEntity<ApiResponseData<Void>> deleteUser(
+      @PathVariable UUID trackingId
+  ) {
+    userService.deleteUser(trackingId);
+    return ResponseEntity.ok().body(ApiResponseData.success(null, "회원 탈퇴 완료"));
   }
 }
