@@ -101,6 +101,7 @@ $RECYCLE.BIN/
 src/main/resources/credentials.json
 src/main/resources/log4j2.xml
 !gradle/wrapper/gradle-wrapper.properties
+!**/src/main/resources/application.yml
 
 ### QueryDSL ###
 **/src/main/generated

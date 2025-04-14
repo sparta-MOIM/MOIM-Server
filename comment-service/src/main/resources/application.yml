@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: comment-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${COMMENT_DATASOURCE_URL}
+    username: ${COMMENT_DATASOURCE_USERNAME}
+    password: ${COMMENT_DATASOURCE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        transaction:
+          jta:
+            platform: org.hibernate.service.jta.JtaPlatform
+        format_sql: true
+        show_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER}
+    register-with-eureka: true
+    fetch-registry: true
+server:
+  port: 8083
