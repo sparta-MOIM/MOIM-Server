@@ -1,5 +1,7 @@
 package com.sparata.moim.gathering.gathering.application.service;
 
+import com.sparata.moim.gathering.shared.error.code.GatheringCode;
+import com.sparata.moim.gathering.shared.error.exception.GatheringException;
 import com.sparta.moim.common.page.Pagination;
 import com.sparata.moim.gathering.gathering.application.dto.command.CreateGatheringCommand;
 import com.sparata.moim.gathering.gathering.application.dto.command.DeleteGatheringCommand;
@@ -31,14 +33,14 @@ public class GatheringService {
   public void updateGathering(UpdateGatheringCommand command) {
     UUID id = command.gatheringId();
     Gathering gathering = gatheringRepository.findByTrackingId(id)
-        .orElseThrow(() -> new IllegalArgumentException("Gathering with id " + id + " not found"));
+        .orElseThrow(() -> new GatheringException(GatheringCode.NOT_FOUND_GATHERING));
     gathering.change(command.toDomain());
   }
 
   @Transactional(readOnly = true)
   public GetGatheringResult getGathering(UUID gatheringId) {
     Gathering gathering = gatheringRepository.findByTrackingId(gatheringId)
-        .orElseThrow(() -> new IllegalArgumentException("Gathering with id " + gatheringId + " not found"));
+        .orElseThrow(() -> new GatheringException(GatheringCode.NOT_FOUND_GATHERING));
     return GetGatheringResult.get(gathering);
   }
 
@@ -46,7 +48,7 @@ public class GatheringService {
   public void deleteGathering(DeleteGatheringCommand command) {
     UUID gatheringId = command.gatheringId();
     Gathering gathering = gatheringRepository.findByTrackingId(gatheringId)
-        .orElseThrow(() -> new IllegalArgumentException("Gathering with id " + gatheringId + " not found"));
+        .orElseThrow(() -> new GatheringException(GatheringCode.NOT_FOUND_GATHERING));
     gathering.softDelete(command.username());
   }
 
