@@ -15,7 +15,7 @@ X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76
 
 
 ###
-POST http://localhost:19101/api/v1/gathering/member/39ad3059-aba2-4de9-97cf-5dcb4c5f65b3
+POST http://localhost:19101/api/v1/gathering/member/16fbfdfd-3901-455e-8ae3-07f2efa5ec17
 X-User-Name: stem
 X-User-Role: USER
 X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c70
@@ -63,7 +63,7 @@ X-User-Role: USER
 X-User-ID: 550e8400-e29b-41d4-a716-446655440000
 
 {
-  "name": "모임 이름5"
+  "name": "모임이름5"
 }
 
 

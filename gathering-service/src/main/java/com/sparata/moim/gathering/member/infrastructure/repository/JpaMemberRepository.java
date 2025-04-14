@@ -1,4 +1,4 @@
-package com.sparata.moim.gathering.member.repository;
+package com.sparata.moim.gathering.member.infrastructure.repository;
 
 import com.sparata.moim.gathering.member.domain.Member;
 import com.sparata.moim.gathering.member.domain.repository.MemberRepository;

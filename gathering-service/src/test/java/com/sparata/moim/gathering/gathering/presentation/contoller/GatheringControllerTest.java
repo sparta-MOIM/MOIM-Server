@@ -23,6 +23,7 @@ import com.sparata.moim.gathering.gathering.application.dto.result.GetGatheringR
 import com.sparata.moim.gathering.gathering.application.dto.result.SearchGatheringListResult;
 import com.sparata.moim.gathering.gathering.application.dto.result.SearchGatheringResult;
 import com.sparata.moim.gathering.gathering.application.service.GatheringService;
+import com.sparata.moim.gathering.gathering.presentation.contoller.external.GatheringController;
 import com.sparata.moim.gathering.gathering.presentation.dto.request.UpdateGatheringRequest;
 import com.sparta.moim.common.security.CustomUserDetails;
 import java.time.LocalDateTime;
