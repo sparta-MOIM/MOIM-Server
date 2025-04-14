@@ -87,12 +87,12 @@ class GatheringControllerTest {
             .header("X-User-Role", "USER")
             .header("X-User-ID", UUID.randomUUID().toString()))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.gatheringId").value(gatheringId.toString()))
-        .andExpect(jsonPath("$.organizationId").value("org123"))
-        .andExpect(jsonPath("$.name").value("테스트 모임"))
-        .andExpect(jsonPath("$.owner").value("주인장"))
-        .andExpect(jsonPath("$.count").value(10))
-        .andExpect(jsonPath("$.status").value(true))
+        .andExpect(jsonPath("$.data.gatheringId").value(gatheringId.toString()))
+        .andExpect(jsonPath("$.data.organizationId").value("org123"))
+        .andExpect(jsonPath("$.data.name").value("테스트 모임"))
+        .andExpect(jsonPath("$.data.owner").value("주인장"))
+        .andExpect(jsonPath("$.data.count").value(10))
+        .andExpect(jsonPath("$.data.status").value(true))
         .andDo(document("소모임 - 생성",
             preprocessRequest(Preprocessors.prettyPrint()),
             preprocessResponse(Preprocessors.prettyPrint()),
@@ -107,12 +107,14 @@ class GatheringControllerTest {
                     fieldWithPath("count").description("모집 인원"),
                     fieldWithPath("status").description("모집 상태"))
                 .responseFields(
-                    fieldWithPath("gatheringId").description("소모임 아이디"),
-                    fieldWithPath("organizationId").description("모임 아이디"),
-                    fieldWithPath("name").description("소모임 명"),
-                    fieldWithPath("owner").description("소유자 명"),
-                    fieldWithPath("count").description("모집 인원"),
-                    fieldWithPath("status").description("모집 상태")
+                    fieldWithPath("data.gatheringId").description("소모임 아이디"),
+                    fieldWithPath("data.organizationId").description("모임 아이디"),
+                    fieldWithPath("data.name").description("소모임 명"),
+                    fieldWithPath("data.owner").description("소유자 명"),
+                    fieldWithPath("data.count").description("모집 인원"),
+                    fieldWithPath("data.status").description("모집 상태"),
+                    fieldWithPath("code").description("코드"),
+                    fieldWithPath("message").description("성공메시지")
                 )
                 .build()
             )));
@@ -182,12 +184,12 @@ class GatheringControllerTest {
             .header("X-User-Role", "USER")
             .header("X-User-ID", UUID.randomUUID().toString()))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.gatheringId").value(gatheringId.toString()))
-        .andExpect(jsonPath("$.organizationId").value("org123"))
-        .andExpect(jsonPath("$.name").value("테스트 모임"))
-        .andExpect(jsonPath("$.owner").value("테스트유저"))
-        .andExpect(jsonPath("$.count").value(10))
-        .andExpect(jsonPath("$.status").value(true))
+        .andExpect(jsonPath("$.data.gatheringId").value(gatheringId.toString()))
+        .andExpect(jsonPath("$.data.organizationId").value("org123"))
+        .andExpect(jsonPath("$.data.name").value("테스트 모임"))
+        .andExpect(jsonPath("$.data.owner").value("테스트유저"))
+        .andExpect(jsonPath("$.data.count").value(10))
+        .andExpect(jsonPath("$.data.status").value(true))
         .andDo(document("소모임 - 단일 조회",
             preprocessRequest(Preprocessors.prettyPrint()),
             preprocessResponse(Preprocessors.prettyPrint()),
@@ -199,16 +201,18 @@ class GatheringControllerTest {
                     parameterWithName("gatheringId").description("소모임 아이디")
                 )
                 .responseFields(
-                    fieldWithPath("gatheringId").description("소모임 아이디"),
-                    fieldWithPath("organizationId").description("모임 아이디"),
-                    fieldWithPath("name").description("소모임 명"),
-                    fieldWithPath("owner").description("소유자 명"),
-                    fieldWithPath("count").description("모집 인원"),
-                    fieldWithPath("status").description("모집 상태"),
-                    fieldWithPath("createAt").description("생성시간"),
-                    fieldWithPath("createBy").description("생성자"),
-                    fieldWithPath("updateAt").description("수정시간"),
-                    fieldWithPath("updateBy").description("수정자")
+                    fieldWithPath("data.gatheringId").description("소모임 아이디"),
+                    fieldWithPath("data.organizationId").description("모임 아이디"),
+                    fieldWithPath("data.name").description("소모임 명"),
+                    fieldWithPath("data.owner").description("소유자 명"),
+                    fieldWithPath("data.count").description("모집 인원"),
+                    fieldWithPath("data.status").description("모집 상태"),
+                    fieldWithPath("data.createAt").description("생성시간"),
+                    fieldWithPath("data.createBy").description("생성자"),
+                    fieldWithPath("data.updateAt").description("수정시간"),
+                    fieldWithPath("data.updateBy").description("수정자"),
+                    fieldWithPath("code").description("코드"),
+                    fieldWithPath("message").description("성공메시지")
                 )
                 .build()
             )));
@@ -296,13 +300,13 @@ class GatheringControllerTest {
             .header("X-User-Role", role)
             .header("X-User-ID", userId.toString()))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.gatherings").isArray())
-        .andExpect(jsonPath("$.gatherings.length()").value(1))
-        .andExpect(jsonPath("$.gatherings[0].organizationId").value("org123"))
-        .andExpect(jsonPath("$.gatherings[0].name").value("스파르타 모임"))
-        .andExpect(jsonPath("$.page").value(0))
-        .andExpect(jsonPath("$.content").value(1))
-        .andExpect(jsonPath("$.total").value(1))
+        .andExpect(jsonPath("$.data.gatherings").isArray())
+        .andExpect(jsonPath("$.data.gatherings.length()").value(1))
+        .andExpect(jsonPath("$.data.gatherings[0].organizationId").value("org123"))
+        .andExpect(jsonPath("$.data.gatherings[0].name").value("스파르타 모임"))
+        .andExpect(jsonPath("$.data.page").value(0))
+        .andExpect(jsonPath("$.data.content").value(1))
+        .andExpect(jsonPath("$.data.total").value(1))
         .andDo(document("소모임 - 기본 조회",
             preprocessRequest(Preprocessors.prettyPrint()),
             preprocessResponse(Preprocessors.prettyPrint()),
