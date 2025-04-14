@@ -1,4 +1,4 @@
-package com.sparta.moim.organization.application.dto.event;
+package com.sparta.moim.organization.application.dto.message;
 
 import com.sparta.moim.organization.application.enums.NotificationType;
 import lombok.AccessLevel;

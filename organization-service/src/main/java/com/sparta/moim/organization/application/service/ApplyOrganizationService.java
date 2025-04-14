@@ -1,7 +1,7 @@
 package com.sparta.moim.organization.application.service;
 
 import com.sparta.moim.organization.application.dto.command.ApplyOrganizationCommand;
-import com.sparta.moim.organization.application.dto.event.ApplyOrganizationNotificationMessage;
+import com.sparta.moim.organization.application.dto.message.ApplyOrganizationNotificationMessage;
 import com.sparta.moim.organization.application.enums.NotificationType;
 import com.sparta.moim.organization.application.exception.AlreadyOrganizationMember;
 import com.sparta.moim.organization.application.exception.CannotFindOrganization;

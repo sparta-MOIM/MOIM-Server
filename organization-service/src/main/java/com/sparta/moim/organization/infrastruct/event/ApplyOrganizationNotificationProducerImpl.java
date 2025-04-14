@@ -1,6 +1,6 @@
 package com.sparta.moim.organization.infrastruct.event;
 
-import com.sparta.moim.organization.application.dto.event.ApplyOrganizationNotificationMessage;
+import com.sparta.moim.organization.application.dto.message.ApplyOrganizationNotificationMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
