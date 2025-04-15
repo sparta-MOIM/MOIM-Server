@@ -46,7 +46,7 @@ public class MemberService {
     MemberType memberType = memberRepository.findMemberType(command.gatheringId(), command.memberId());
 
     if(memberType == MemberType.GENERAL) {
-      throw new GatheringException(GatheringCode.NOT_ALLOW_ROLE_GATHERING);
+      throw new GatheringException(GatheringCode.ROLE_NOT_ALLOWED_GATHERING);
     }
 
     validateGatheringExists(command.gatheringId());
