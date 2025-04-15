@@ -57,8 +57,6 @@ dependencies {
 	testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.19.2'
 
 	runtimeOnly 'com.h2database:h2'
-
-	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 }
 
 def querydslSrcDir = 'src/main/generated'
