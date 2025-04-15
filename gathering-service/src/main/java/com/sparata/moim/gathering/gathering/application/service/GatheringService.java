@@ -6,14 +6,17 @@ import com.sparata.moim.gathering.gathering.application.dto.command.SearchGather
 import com.sparata.moim.gathering.gathering.application.dto.command.UpdateGatheringCommand;
 import com.sparata.moim.gathering.gathering.application.dto.result.CreateGatheringResult;
 import com.sparata.moim.gathering.gathering.application.dto.result.GetGatheringResult;
+import com.sparata.moim.gathering.gathering.application.dto.result.GetGatheringMemberListResult;
 import com.sparata.moim.gathering.gathering.application.dto.result.SearchGatheringListResult;
 import com.sparata.moim.gathering.gathering.application.dto.result.SearchGatheringResult;
+import com.sparata.moim.gathering.gathering.application.event.feign.MemberService;
 import com.sparata.moim.gathering.gathering.domain.entity.Gathering;
 import com.sparata.moim.gathering.gathering.domain.repository.GatheringRepository;
 import com.sparata.moim.gathering.gathering.domain.repository.GatheringRepositoryCustom;
 import com.sparata.moim.gathering.shared.error.code.GatheringCode;
 import com.sparata.moim.gathering.shared.error.exception.GatheringException;
 import com.sparta.moim.common.page.Pagination;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class GatheringService {
   private final GatheringRepository gatheringRepository;
   private final GatheringRepositoryCustom gatheringRepositoryCustom;
+  private final MemberService memberService;
 
   public CreateGatheringResult createGathering(CreateGatheringCommand command) {
     if (gatheringRepository.existsByNameAndDeletedByIsNull(command.name())) {
@@ -53,9 +57,10 @@ public class GatheringService {
 
   @Transactional(readOnly = true)
   public GetGatheringResult getGathering(UUID gatheringId) {
+    List<GetGatheringMemberListResult> members = memberService.findMembers(gatheringId);
     Gathering gathering = gatheringRepository.findByTrackingIdAndDeletedAtIsNull(gatheringId)
         .orElseThrow(() -> new GatheringException(GatheringCode.NOT_FOUND_GATHERING));
-    return GetGatheringResult.get(gathering);
+    return GetGatheringResult.get(gathering, members);
   }
 
   @Transactional

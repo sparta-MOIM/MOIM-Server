@@ -1,7 +1,9 @@
 package com.sparata.moim.gathering.gathering.application.dto.result;
 
 import com.sparata.moim.gathering.gathering.domain.entity.Gathering;
+import com.sparata.moim.gathering.gathering.presentation.dto.response.GetGatheringMemberListResponse;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public record GetGatheringResult(
@@ -11,12 +13,13 @@ public record GetGatheringResult(
     String owner,
     int count,
     boolean status,
+    List<GetGatheringMemberListResult> members,
     LocalDateTime createAt,
     String createBy,
     LocalDateTime updateAt,
     String updateBy
 ) {
-  public static GetGatheringResult get(Gathering gathering) {
+  public static GetGatheringResult get(Gathering gathering, List<GetGatheringMemberListResult> members) {
     return new GetGatheringResult(
         gathering.getTrackingId(),
         gathering.getOrganizationId(),
@@ -24,10 +27,11 @@ public record GetGatheringResult(
         gathering.getOwner(),
         gathering.getCount(),
         gathering.getStatus(),
-        null,
-        null,
-        null,
-        null
+        members,
+        gathering.getCreatedAt(),
+        gathering.getCreatedBy(),
+        gathering.getModifiedAt(),
+        gathering.getModifiedBy()
     );
   }
 }

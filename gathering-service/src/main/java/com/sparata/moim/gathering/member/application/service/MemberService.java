@@ -3,7 +3,7 @@ package com.sparata.moim.gathering.member.application.service;
 import com.sparata.moim.gathering.member.application.dto.command.JoinGatheringCommand;
 import com.sparata.moim.gathering.member.application.dto.command.LeaveGatheringCommand;
 import com.sparata.moim.gathering.member.application.dto.command.RemoveGatheringCommand;
-import com.sparata.moim.gathering.member.application.event.feign.GatheringService;
+import com.sparata.moim.gathering.member.application.event.feign.InternalGatheringService;
 import com.sparata.moim.gathering.member.domain.repository.MemberRepository;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MemberService {
   private final MemberRepository memberRepository;
-  private final GatheringService gatheringService;
+  private final InternalGatheringService internalGatheringService;
 
   public void joinGathering(JoinGatheringCommand command) {
     isExitsValidate(command.gatheringId());
@@ -23,7 +23,7 @@ public class MemberService {
   }
 
   private void statusTrueValidate(JoinGatheringCommand command) {
-    gatheringService.isGatheringStatusOpen(command.gatheringId());
+    internalGatheringService.isGatheringStatusOpen(command.gatheringId());
   }
 
 
@@ -40,6 +40,6 @@ public class MemberService {
   }
 
   private void isExitsValidate(UUID id) {
-    gatheringService.isExitsGathering(id);
+    internalGatheringService.isExitsGathering(id);
   }
 }

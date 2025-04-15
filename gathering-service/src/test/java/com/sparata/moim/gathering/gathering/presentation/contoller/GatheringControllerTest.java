@@ -19,12 +19,14 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparata.moim.gathering.gathering.application.dto.command.CreateGatheringCommand;
 import com.sparata.moim.gathering.gathering.application.dto.result.CreateGatheringResult;
+import com.sparata.moim.gathering.gathering.application.dto.result.GetGatheringMemberListResult;
 import com.sparata.moim.gathering.gathering.application.dto.result.GetGatheringResult;
 import com.sparata.moim.gathering.gathering.application.dto.result.SearchGatheringListResult;
 import com.sparata.moim.gathering.gathering.application.dto.result.SearchGatheringResult;
 import com.sparata.moim.gathering.gathering.application.service.GatheringService;
 import com.sparata.moim.gathering.gathering.presentation.contoller.external.GatheringController;
 import com.sparata.moim.gathering.gathering.presentation.dto.request.UpdateGatheringRequest;
+import com.sparata.moim.gathering.gathering.presentation.dto.response.GetGatheringMemberListResponse;
 import com.sparta.moim.common.security.CustomUserDetails;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -163,6 +165,10 @@ class GatheringControllerTest {
   void getGathering_success() throws Exception {
     // given
     UUID gatheringId = UUID.randomUUID();
+
+    List<GetGatheringMemberListResult> members = List.of(
+        new GetGatheringMemberListResult("abc", "ADMIN"));
+
     GetGatheringResult response = new GetGatheringResult(
         gatheringId,
         "org123",
@@ -170,6 +176,7 @@ class GatheringControllerTest {
         "테스트유저",
         10,
         true,
+        members,
         LocalDateTime.now(),
         "아이디",
         LocalDateTime.now(),
@@ -188,6 +195,8 @@ class GatheringControllerTest {
         .andExpect(jsonPath("$.data.gatheringId").value(gatheringId.toString()))
         .andExpect(jsonPath("$.data.organizationId").value("org123"))
         .andExpect(jsonPath("$.data.name").value("테스트 모임"))
+        .andExpect(jsonPath("$.data.member[0].memberId").value("abc"))
+        .andExpect(jsonPath("$.data.member[0].type").value("ADMIN"))
         .andExpect(jsonPath("$.data.owner").value("테스트유저"))
         .andExpect(jsonPath("$.data.count").value(10))
         .andExpect(jsonPath("$.data.status").value(true))
@@ -212,6 +221,9 @@ class GatheringControllerTest {
                     fieldWithPath("data.createBy").description("생성자"),
                     fieldWithPath("data.updateAt").description("수정시간"),
                     fieldWithPath("data.updateBy").description("수정자"),
+                    fieldWithPath("data.member[].memberId").description("멤버 명"),
+                    fieldWithPath("data.member[].type").description("멤버 타입"),
+
                     fieldWithPath("code").description("코드"),
                     fieldWithPath("message").description("성공메시지")
                 )
