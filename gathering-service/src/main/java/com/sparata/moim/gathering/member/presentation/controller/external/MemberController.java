@@ -25,21 +25,25 @@ public class MemberController {
   private final MemberService memberService;
 
   @PostMapping("/{gatheringId}")
-  public ResponseEntity<ApiResponseData<Void>> joinGathering(@PathVariable UUID gatheringId, @AuthenticationPrincipal CustomUserDetails userInfo) {
+  public ResponseEntity<ApiResponseData<Void>> joinGathering(@PathVariable UUID gatheringId,
+                                                             @AuthenticationPrincipal CustomUserDetails userInfo) {
     memberService.joinGathering(new JoinGatheringCommand(gatheringId, userInfo));
     return ResponseEntity.ok(ApiResponseData.success(null));
   }
 
   @DeleteMapping("/{gatheringId}/leave")
-  public ResponseEntity<ApiResponseData<Void>> leaveGathering(@PathVariable UUID gatheringId, @AuthenticationPrincipal CustomUserDetails userInfo) {
+  public ResponseEntity<ApiResponseData<Void>> leaveGathering(@PathVariable UUID gatheringId,
+                                                              @AuthenticationPrincipal CustomUserDetails userInfo) {
     memberService.leaveGathering(new LeaveGatheringCommand(gatheringId, userInfo));
     return ResponseEntity.ok(ApiResponseData.success(null));
   }
 
   // 주인만 삭제가능
   @DeleteMapping("/{gatheringId}/remove")
-  public ResponseEntity<ApiResponseData<Void>> removeGathering(@PathVariable UUID gatheringId, @RequestBody @Valid RemoveGatheringRequest request) {
-    memberService.removeGathering(request.toCommand(gatheringId));
+  public ResponseEntity<ApiResponseData<Void>> removeGathering(@PathVariable UUID gatheringId,
+                                                               @RequestBody @Valid RemoveGatheringRequest request,
+                                                               @AuthenticationPrincipal CustomUserDetails details) {
+    memberService.removeGathering(request.toCommand(gatheringId, details.getUsername()));
     return ResponseEntity.ok(ApiResponseData.success(null));
   }
 

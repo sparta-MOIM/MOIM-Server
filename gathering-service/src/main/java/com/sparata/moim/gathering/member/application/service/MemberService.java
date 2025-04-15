@@ -4,6 +4,7 @@ import com.sparata.moim.gathering.member.application.dto.command.JoinGatheringCo
 import com.sparata.moim.gathering.member.application.dto.command.LeaveGatheringCommand;
 import com.sparata.moim.gathering.member.application.dto.command.RemoveGatheringCommand;
 import com.sparata.moim.gathering.member.application.event.feign.InternalGatheringService;
+import com.sparata.moim.gathering.member.domain.enums.MemberType;
 import com.sparata.moim.gathering.member.domain.repository.MemberRepository;
 import com.sparata.moim.gathering.shared.error.code.GatheringCode;
 import com.sparata.moim.gathering.shared.error.exception.GatheringException;
@@ -42,6 +43,12 @@ public class MemberService {
 
   @Transactional
   public void removeGathering(RemoveGatheringCommand command) {
+    MemberType memberType = memberRepository.findMemberType(command.gatheringId(), command.memberId());
+
+    if(memberType == MemberType.GENERAL) {
+      throw new GatheringException(GatheringCode.NOT_ALLOW_ROLE_GATHERING);
+    }
+
     isExitsValidate(command.gatheringId());
     memberRepository.deleteAllByGatheringIdAndMembers(command.gatheringId(), command.users());
   }

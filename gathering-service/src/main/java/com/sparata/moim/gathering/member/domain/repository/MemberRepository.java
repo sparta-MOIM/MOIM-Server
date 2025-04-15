@@ -1,8 +1,10 @@
 package com.sparata.moim.gathering.member.domain.repository;
 
 import com.sparata.moim.gathering.member.domain.Member;
+import com.sparata.moim.gathering.member.domain.enums.MemberType;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.repository.query.Param;
 
 public interface MemberRepository {
   Member save(Member member);
@@ -12,4 +14,6 @@ public interface MemberRepository {
   List<Member> findMembers(UUID gatheringId);
 
   boolean existsByMemberId(String memberId);
+
+  MemberType findMemberType(@Param("gatheringId") UUID gatheringId, @Param("memberId") String memberId);
 }

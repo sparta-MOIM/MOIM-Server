@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public record RemoveGatheringCommand(
     UUID gatheringId,
-    List<String> users
+    List<String> users,
+    String memberId
 ) {
 }
