@@ -22,7 +22,7 @@ public class ValidateGatheringController {
   
   @PostMapping("/{gatheringId}/status")
   public void exitsOpenStatusGathering(@PathVariable UUID gatheringId) {
-    gatheringValidationService.exitsOpenStatusGathering(gatheringId);
+    gatheringValidationService.existsOpenStatusGathering(gatheringId);
   }
 
 }
