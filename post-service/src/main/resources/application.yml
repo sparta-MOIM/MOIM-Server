@@ -7,3 +7,9 @@ spring:
   config:
     import:
       - "application-database.yml"
+      - "application-external.yml"
+  security:
+    user:
+      name: user
+      password: 1234
+

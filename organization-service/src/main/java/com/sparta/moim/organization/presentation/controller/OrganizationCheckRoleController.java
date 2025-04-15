@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/organizations")
+@RequestMapping("/internal/v1/organizations")
 @RequiredArgsConstructor
 public class OrganizationCheckRoleController {
 
     private final OrganizationCheckRoleUseCase organizationCheckRoleUseCase;
 
     @GetMapping("/{organizationTrackingId}/members/{userTrackingId}/has-role")
-    public ResponseEntity<ApiResponseData<Boolean>> checkRole(
+    public ApiResponseData<Boolean> checkRole(
             @PathVariable String organizationTrackingId,
             @PathVariable String userTrackingId,
             @RequestParam List<OrganizationMemberRole> roles){
-        return ResponseEntity.ok(ApiResponseData.success(organizationCheckRoleUseCase.execute(organizationTrackingId,userTrackingId, roles)));
+        return ApiResponseData.success(organizationCheckRoleUseCase.execute(organizationTrackingId,userTrackingId, roles));
     }
 }
