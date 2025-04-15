@@ -10,9 +10,11 @@ import com.sparata.moim.gathering.gathering.application.dto.result.GetGatheringM
 import com.sparata.moim.gathering.gathering.application.dto.result.SearchGatheringListResult;
 import com.sparata.moim.gathering.gathering.application.dto.result.SearchGatheringResult;
 import com.sparata.moim.gathering.gathering.application.event.feign.MemberService;
+import com.sparata.moim.gathering.gathering.application.event.publisher.AddMemberPublisher;
 import com.sparata.moim.gathering.gathering.domain.entity.Gathering;
 import com.sparata.moim.gathering.gathering.domain.repository.GatheringRepository;
 import com.sparata.moim.gathering.gathering.domain.repository.GatheringRepositoryCustom;
+import com.sparata.moim.gathering.member.domain.repository.MemberRepository;
 import com.sparata.moim.gathering.shared.error.code.GatheringCode;
 import com.sparata.moim.gathering.shared.error.exception.GatheringException;
 import com.sparta.moim.common.page.Pagination;
@@ -28,12 +30,15 @@ public class GatheringService {
   private final GatheringRepository gatheringRepository;
   private final GatheringRepositoryCustom gatheringRepositoryCustom;
   private final MemberService memberService;
+  private final AddMemberPublisher addMemberPublisher;
 
   public CreateGatheringResult createGathering(CreateGatheringCommand command) {
     if (gatheringRepository.existsByNameAndDeletedByIsNull(command.name())) {
       throw new GatheringException(GatheringCode.EXITS_NAME_GATHERING);
     }
-    return CreateGatheringResult.create(gatheringRepository.save(command.toEntity()));
+    Gathering savedGathering = gatheringRepository.save(command.toEntity());
+    addMemberPublisher.add(savedGathering.getTrackingId(), savedGathering.getOwner());
+    return CreateGatheringResult.create(savedGathering);
   }
 
   @Transactional

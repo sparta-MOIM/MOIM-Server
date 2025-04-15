@@ -1,6 +1,7 @@
 package com.sparata.moim.gathering.member.domain;
 
 import com.sparata.moim.gathering.member.domain.enums.MemberType;
+import com.sparata.moim.gathering.shared.dto.SharedGatheringMember;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,4 +40,12 @@ public class Member {
   private MemberType type;
 
   private LocalDateTime joinTime;
+
+  public static Member from(SharedGatheringMember sharedGatheringMember) {
+    return Member.builder()
+        .gatheringId(sharedGatheringMember.gatheringId())
+        .memberId(sharedGatheringMember.memberName())
+        .type(MemberType.valueOf(sharedGatheringMember.type()))
+        .build();
+  }
 }
