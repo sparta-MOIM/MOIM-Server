@@ -1,0 +1,42 @@
+spring:
+  security:
+    user:
+      name: user
+      password: 1234
+  application:
+    name: gathering
+
+  datasource:
+    url: jdbc:mysql://localhost:3311/gathering_db
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:19090
+
+
+server:
+  port: 8085
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /docs
+    url: /springdoc/openapi3-gathering-service.json
+    operations-sorter: method
+    tags-sorter: alpha
+  api-docs:
+    enabled: true
+    path: /api-docs-gathering-service
+
