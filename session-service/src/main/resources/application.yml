@@ -31,7 +31,7 @@ feign:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:19090
+      defaultZone: http://localhost:19090/eureka/
 
 springdoc:
   swagger-ui:
