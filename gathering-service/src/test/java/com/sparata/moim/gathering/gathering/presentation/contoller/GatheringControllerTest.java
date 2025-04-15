@@ -17,16 +17,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparata.moim.gathering.gathering.application.dto.command.CreateGatheringCommand;
-import com.sparata.moim.gathering.gathering.application.dto.result.CreateGatheringResult;
-import com.sparata.moim.gathering.gathering.application.dto.result.GetGatheringMemberListResult;
-import com.sparata.moim.gathering.gathering.application.dto.result.GetGatheringResult;
-import com.sparata.moim.gathering.gathering.application.dto.result.SearchGatheringListResult;
-import com.sparata.moim.gathering.gathering.application.dto.result.SearchGatheringResult;
-import com.sparata.moim.gathering.gathering.application.service.GatheringService;
-import com.sparata.moim.gathering.gathering.presentation.contoller.external.GatheringController;
-import com.sparata.moim.gathering.gathering.presentation.dto.request.UpdateGatheringRequest;
-import com.sparata.moim.gathering.gathering.presentation.dto.response.GetGatheringMemberListResponse;
+import com.sparta.moim.gathering.gathering.application.dto.command.CreateGatheringCommand;
+import com.sparta.moim.gathering.gathering.application.dto.result.CreateGatheringResult;
+import com.sparta.moim.gathering.gathering.application.dto.result.GetGatheringMemberListResult;
+import com.sparta.moim.gathering.gathering.application.dto.result.GetGatheringResult;
+import com.sparta.moim.gathering.gathering.application.dto.result.SearchGatheringListResult;
+import com.sparta.moim.gathering.gathering.application.dto.result.SearchGatheringResult;
+import com.sparta.moim.gathering.gathering.application.service.GatheringService;
+import com.sparta.moim.gathering.gathering.presentation.contoller.external.GatheringController;
+import com.sparta.moim.gathering.gathering.presentation.dto.request.UpdateGatheringRequest;
 import com.sparta.moim.common.security.CustomUserDetails;
 import java.time.LocalDateTime;
 import java.util.List;
