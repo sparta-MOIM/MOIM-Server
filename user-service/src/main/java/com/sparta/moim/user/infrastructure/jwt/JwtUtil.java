@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.UUID;
 import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.server.Cookie.SameSite;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -29,9 +31,9 @@ public class JwtUtil {
   public String createAccessToken(String username, String role, UUID trackingId, ZonedDateTime now) {
     Date expiration = Date.from(now.plusSeconds(ACCESS_TOKEN_EXPIRY_SECOND).toInstant());
     return Jwts.builder()
-        .setSubject(username)
+        .setSubject(trackingId.toString())
+        .claim("username", username)
         .claim("role", role)
-        .claim("trackingId", trackingId)
         .setIssuer(issuer)
         .setIssuedAt(Date.from(now.toInstant()))
         .setExpiration(expiration)
@@ -42,8 +44,8 @@ public class JwtUtil {
   public String createRefreshToken(String username, UUID trackingId, ZonedDateTime now) {
     Date expiration = Date.from(now.plusSeconds(REFRESH_TOKEN_EXPIRY_SECOND).toInstant());
     return Jwts.builder()
-        .setSubject(username)
-        .claim("trackingId", trackingId)
+        .setSubject(trackingId.toString())
+        .claim("username", username)
         .setIssuer(issuer)
         .setIssuedAt(Date.from(now.toInstant()))
         .setExpiration(expiration)
@@ -57,5 +59,25 @@ public class JwtUtil {
         .build()
         .parseClaimsJws(token)
         .getBody();
+  }
+
+  public ResponseCookie createRefreshTokenCookie(String refreshToken) {
+    return ResponseCookie.from("refreshToken", refreshToken)
+        .path("/api/v1/auth/refresh")
+        .httpOnly(true)
+        .secure(true)
+        .sameSite(SameSite.STRICT.name())
+        .maxAge(JwtUtil.REFRESH_TOKEN_EXPIRY_SECOND)
+        .build();
+  }
+
+  public ResponseCookie createAccessTokenCookie(String accessToken) {
+    return ResponseCookie.from("accessToken", accessToken)
+        .path("/")
+        .httpOnly(true)
+        .secure(true)
+        .sameSite(SameSite.LAX.name())
+        .maxAge(JwtUtil.ACCESS_TOKEN_EXPIRY_SECOND)
+        .build();
   }
 }

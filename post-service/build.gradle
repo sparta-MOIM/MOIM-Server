@@ -57,6 +57,13 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
 
+    //spring cloud - feign
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+}
+
+ext {
+    set('springCloudVersion', "2024.0.0")
 }
 
 dependencyManagement {

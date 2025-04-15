@@ -22,54 +22,54 @@ spring:
           enabled: true
       routes:
         - id: notification-service
-          uri: http://localhost:8081
+          uri: lb://notification-service
           predicates:
             - Path=/api/v1/notifications/**
           filters:
             - JwtAuthenticationFilter
 
         - id: user-service
-          uri: http://localhost:8082
+          uri: lb://user-service
           predicates:
             - Path=/api/v1/users/**
 
         - id: user-service
-          uri: http://localhost:8082
+          uri: lb://user-service
           predicates:
             - Path=/api/v1/users/logout
           filters:
             - JwtAuthenticationFilter
 
         - id: comment-service
-          uri: http://localhost:8083
+          uri: lb://comment-service
           predicates:
             - Path=/api/v1/comment/**
           filters:
             - JwtAuthenticationFilter
 
         - id: organization-service
-          uri: http://localhost:8084
+          uri: lb://organization-service
           predicates:
             - Path=/api/v1/organizations/**
           filters:
             - JwtAuthenticationFilter
 
         - id: gathering-service
-          uri: http://localhost:8085
+          uri: lb://gathering-service
           predicates:
             - Path=/api/v1/gathering/**
           filters:
             - JwtAuthenticationFilter
 
         - id: schedule-service
-          uri: http://localhost:8086
+          uri: lb://schedule-service
           predicates:
             - Path=/api/v1/schedules/**
           filters:
             - JwtAuthenticationFilter
 
         - id: chat-service
-          uri: http://localhost:8087
+          uri: lb://chat-service
           predicates:
             - Path=/api/v1/chat/**
             - Path=/api/v1/chat_room/**
@@ -84,7 +84,7 @@ spring:
             - JwtAuthenticationFilter
 
         - id: session-service
-          uri: http://localhost:8089
+          uri: lb://session-service
           predicates:
             - Path=/api/v1/session/**
           filters:

@@ -1,5 +1,5 @@
 ### signup
-POST http://localhost:8082/api/v1/users/signup
+POST http://localhost:19091/api/v1/users/signup
 Content-Type: application/json
 
 {
@@ -22,3 +22,19 @@ POST http://localhost:8082/api/v1/users/logout
 
 ### 유저 조회 by TrackingId
 GET http://localhost:8082/internal/v1/users/69207ff8-c757-477a-89a3-b79bab50f696
+
+### 액세스토큰 재발급
+POST http://localhost:19091/api/v1/users/refresh
+Content-Type: application/json
+Cookie: refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjNjU3NTk0OS1jNjFjLTQ3NDItODEzZS00MmVmYWNkZjZmOTEiLCJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaXNzIjoiaHR0cHM6Ly9tb2ltLmNvbSIsImlhdCI6MTc0NDY0NzU2NiwiZXhwIjoxNzQ1MjUyMzY2fQ.BZvrRywdTLgjvNK1vtaBzVx4Wibc_PPLODSQ6TVIQ44
+
+### 회원 업데이트
+PUT http://localhost:8082/api/v1/users/1ee56098-5cb4-4a95-bb8d-71035f11665e
+Content-Type: application/json
+
+{
+  "name": "이순신"
+}
+
+### 회원 탈퇴(삭제)
+DELETE http://localhost:8082/api/v1/users/1ee56098-5cb4-4a95-bb8d-71035f11665e
