@@ -38,3 +38,11 @@ Content-Type: application/json
 
 ### 회원 탈퇴(삭제)
 DELETE http://localhost:8082/api/v1/users/1ee56098-5cb4-4a95-bb8d-71035f11665e
+
+### 회원 검색
+GET http://localhost:8082/api/v1/users?
+    page={{$random.integer(100)}}&
+    size={{$random.integer(100)}}
+
+### 회원 검색
+GET http://localhost:19091/api/v1/users?page=1&size=10
