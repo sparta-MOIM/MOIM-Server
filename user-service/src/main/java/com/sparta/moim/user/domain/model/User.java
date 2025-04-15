@@ -59,6 +59,16 @@ public class User extends BaseEntity {
         .build();
   }
 
+  public void updateUser(String name) {
+    this.name = name;
+  }
+
+  @Override
+  public void softDelete(String username) {
+    super.softDelete(username);
+    this.username = "deactivatedUser" + "#" + this.id;
+  }
+
   @Builder
   private User(
       String username,
