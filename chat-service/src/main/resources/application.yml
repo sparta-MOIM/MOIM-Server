@@ -1,6 +1,6 @@
 spring:
   application:
-    name: chat
+    name: chat-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${CHAT_DATASOURCE_URL}
@@ -39,6 +39,11 @@ spring:
 
   main:
     allow-bean-definition-overriding: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_DISCOVERY}
 
 server:
   port: 8087
