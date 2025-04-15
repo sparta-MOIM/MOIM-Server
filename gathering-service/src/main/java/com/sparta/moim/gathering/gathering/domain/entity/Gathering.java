@@ -57,9 +57,10 @@ public class Gathering extends BaseEntity {
 
   }
 
-  public static Gathering update(UUID gatheringId, String name, int count, Boolean status) {
+  public static Gathering update(UUID gatheringId, String owner, String name, int count, Boolean status) {
     return Gathering.builder()
         .count(count)
+        .owner(owner)
         .name(name)
         .trackingId(gatheringId)
         .status(status)

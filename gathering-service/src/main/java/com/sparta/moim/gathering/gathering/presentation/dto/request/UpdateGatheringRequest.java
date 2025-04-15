@@ -8,10 +8,11 @@ import java.util.UUID;
 
 public record UpdateGatheringRequest(
     @Nullable String name,
+    @Nullable String owner,
     @PositiveOrZero int count,
     @Nullable Boolean status
 ) {
   public UpdateGatheringCommand toCommand(UUID gatheringId) {
-    return new UpdateGatheringCommand(gatheringId, name, count, status);
+    return new UpdateGatheringCommand(gatheringId, owner, name, count, status);
   }
 }
