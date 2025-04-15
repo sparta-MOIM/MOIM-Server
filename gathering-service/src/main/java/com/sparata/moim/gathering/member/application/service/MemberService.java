@@ -30,13 +30,13 @@ public class MemberService {
   @Transactional
   public void leaveGathering(LeaveGatheringCommand command) {
     isExitsValidate(command.gatheringId());
-    memberRepository.deleteByGatheringIdAndMemberId(command.gatheringId().toString(), command.username());
+    memberRepository.deleteByGatheringIdAndMemberId(command.gatheringId(), command.username());
   }
 
   @Transactional
   public void removeGathering(RemoveGatheringCommand command) {
     isExitsValidate(command.gatheringId());
-    memberRepository.deleteAllByGatheringIdAndMembers(command.gatheringId().toString(), command.users());
+    memberRepository.deleteAllByGatheringIdAndMembers(command.gatheringId(), command.users());
   }
 
   private void isExitsValidate(UUID id) {

@@ -1,6 +1,7 @@
 package com.sparata.moim.gathering.member.application.dto.command;
 
 import com.sparata.moim.gathering.member.domain.Member;
+import com.sparata.moim.gathering.member.domain.enums.MemberType;
 import com.sparta.moim.common.security.CustomUserDetails;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -13,8 +14,9 @@ public record JoinGatheringCommand(UUID gatheringId, String username) {
 
   public Member toDomain() {
     return Member.builder()
-        .gatheringId(gatheringId.toString())
+        .gatheringId(gatheringId)
         .memberId(username)
+        .type(MemberType.GENERAL)
         .joinTime(LocalDateTime.now())
         .build();
   }

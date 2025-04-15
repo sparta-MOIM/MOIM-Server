@@ -1,4 +1,4 @@
-package com.sparata.moim.gathering.member.presentation.controller;
+package com.sparata.moim.gathering.member.presentation.controller.external;
 
 import com.sparata.moim.gathering.member.application.dto.command.JoinGatheringCommand;
 import com.sparata.moim.gathering.member.application.dto.command.LeaveGatheringCommand;
