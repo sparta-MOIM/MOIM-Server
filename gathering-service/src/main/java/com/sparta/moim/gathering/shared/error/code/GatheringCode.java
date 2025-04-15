@@ -14,7 +14,7 @@ public enum GatheringCode implements Code {
   TIME_OUT_GATHERING(HttpStatus.BAD_REQUEST, "G003", "You cannot join the session at the current time"),
   ALREADY_PARTICIPATE_GATHERING(HttpStatus.BAD_REQUEST, "G004", "You are already participating in this gathering"),
   NOT_OPEN_GATHERING(HttpStatus.BAD_REQUEST, "G005", "This gathering is not open"),
-  ;
+  NOT_ALLOW_ROLE_GATHERING(HttpStatus.BAD_REQUEST,"G006" , "You are not allowed to gather this role" ),;
 
 
   private final HttpStatus status;
