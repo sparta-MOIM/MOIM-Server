@@ -18,10 +18,8 @@ public enum GatheringCode implements Code {
   NOT_FOUND_GATHERING_MEMBER(HttpStatus.NOT_FOUND,"G007", "The gathering member could not be found"),
   ;
 
-
   private final HttpStatus status;
   private final String code;
   private final String message;
-
 
 }
