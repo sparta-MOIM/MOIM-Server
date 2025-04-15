@@ -19,7 +19,7 @@ public class GatheringValidationService {
   }
 
   public void exitsOpenStatusGathering(UUID gatheringId) {
-    boolean status = gatheringRepository.findByGatheringStatus(gatheringId);
+    boolean status = gatheringRepository.isGatheringOpen(gatheringId);
 
     if (!status) {
       throw new GatheringException(GatheringCode.NOT_OPEN_GATHERING);

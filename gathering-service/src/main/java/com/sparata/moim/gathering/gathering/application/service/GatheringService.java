@@ -33,7 +33,7 @@ public class GatheringService {
   private final AddMemberPublisher addMemberPublisher;
 
   public CreateGatheringResult createGathering(CreateGatheringCommand command) {
-    if (gatheringRepository.existsByNameAndDeletedByIsNull(command.name())) {
+    if (gatheringRepository.existsByNameAndDeletedAtIsNull(command.name())) {
       throw new GatheringException(GatheringCode.EXITS_NAME_GATHERING);
     }
     Gathering savedGathering = gatheringRepository.save(command.toEntity());
@@ -57,7 +57,7 @@ public class GatheringService {
     if (name == null) {
       return false;
     }
-    return gatheringRepository.existsByNameAndDeletedByIsNullAndTrackingIdNot(name, id);
+    return gatheringRepository.existsByNameAndDeletedAtIsNullAndTrackingIdNot(name, id);
   }
 
   @Transactional(readOnly = true)

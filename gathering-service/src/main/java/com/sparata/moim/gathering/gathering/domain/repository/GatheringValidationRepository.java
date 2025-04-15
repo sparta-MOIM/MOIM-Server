@@ -5,6 +5,6 @@ import java.util.UUID;
 public interface GatheringValidationRepository {
   boolean existsByTrackingIdAndDeletedAtNull(UUID trackingId);
 
-  boolean findByGatheringStatus(UUID trackingId);
+  boolean isGatheringOpen(UUID trackingId);
 
 }

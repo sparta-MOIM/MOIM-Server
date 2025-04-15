@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 public interface JpaGatheringValidationRepository extends JpaRepository<Gathering,Long>, GatheringValidationRepository {
 
   @Query("select g.status from Gathering g where g.trackingId = :trackingId and g.deletedAt is null ")
-  boolean findByGatheringStatus(UUID trackingId);
+  boolean isGatheringOpen(UUID trackingId);
 
 }

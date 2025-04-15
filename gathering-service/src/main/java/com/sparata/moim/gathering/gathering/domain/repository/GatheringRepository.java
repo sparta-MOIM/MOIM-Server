@@ -9,7 +9,7 @@ public interface GatheringRepository {
 
   Optional<Gathering> findByTrackingIdAndDeletedAtIsNull(UUID id);
 
-  boolean existsByNameAndDeletedByIsNull(String name);
+  boolean existsByNameAndDeletedAtIsNull(String name);
 
-  boolean existsByNameAndDeletedByIsNullAndTrackingIdNot(String name, UUID trackingId);
+  boolean existsByNameAndDeletedAtIsNullAndTrackingIdNot(String name, UUID trackingId);
 }
