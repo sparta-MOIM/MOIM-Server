@@ -3,12 +3,15 @@ package com.sparta.moim.user.application;
 import static com.sparta.moim.user.application.exception.UserErrorCode.ALREADY_EXISTS_USERNAME;
 import static com.sparta.moim.user.application.exception.UserErrorCode.USER_NOT_FOUND;
 
+import com.sparta.moim.common.page.Pagination;
 import com.sparta.moim.user.application.dto.AccessTokenRefreshResult;
 import com.sparta.moim.user.application.dto.GetUserResult;
 import com.sparta.moim.user.application.dto.ProcessSignupCommand;
 import com.sparta.moim.user.application.dto.SignupUserResult;
 import com.sparta.moim.user.application.dto.UpdateUserCommand;
 import com.sparta.moim.user.application.dto.UpdateUserResult;
+import com.sparta.moim.user.application.dto.UserSummaryResult;
+import com.sparta.moim.user.application.dto.UserSummaryQuery;
 import com.sparta.moim.user.application.exception.AlreadyExistsUsernameException;
 import com.sparta.moim.user.application.exception.UserNotFoundException;
 import com.sparta.moim.user.application.mapper.UserDataAccessMapper;
@@ -20,6 +23,9 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -86,5 +92,12 @@ public class UserService {
         .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
     user.softDelete(user.getUsername());
+  }
+
+  @Transactional(readOnly = true)
+  public Pagination<UserSummaryResult> getUserSummary(UserSummaryQuery query) {
+    Pageable pageable = PageRequest.of(query.page(), query.size());
+    Page<User> userPage = userRepository.findAllByDeletedAtIsNull(pageable);
+    return userDataAccessMapper.paginationFromUser(userPage);
   }
 }

@@ -2,16 +2,19 @@ package com.sparta.moim.user.presentation;
 
 import static com.sparta.moim.user.application.exception.UserErrorCode.REFRESH_TOKEN_NOT_FOUND;
 
+import com.sparta.moim.common.page.Pagination;
 import com.sparta.moim.common.response.ApiResponseData;
 import com.sparta.moim.user.application.UserService;
 import com.sparta.moim.user.application.dto.AccessTokenRefreshResult;
 import com.sparta.moim.user.application.dto.SignupUserResult;
+import com.sparta.moim.user.application.dto.UpdateUserResult;
+import com.sparta.moim.user.application.dto.UserSummaryResult;
+import com.sparta.moim.user.application.dto.UserSummaryQuery;
 import com.sparta.moim.user.application.exception.RefreshTokenNotFoundException;
 import com.sparta.moim.user.presentation.dto.SignupUserRequest;
 import com.sparta.moim.user.presentation.dto.SignupUserResponse;
 import com.sparta.moim.user.presentation.dto.UpdateUserRequest;
 import com.sparta.moim.user.presentation.dto.UpdateUserResponse;
-import com.sparta.moim.user.application.dto.UpdateUserResult;
 import com.sparta.moim.user.presentation.mapper.UserPresentationMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,11 +26,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.WebUtils;
@@ -80,5 +85,15 @@ public class UserController {
   ) {
     userService.deleteUser(trackingId);
     return ResponseEntity.ok().body(ApiResponseData.success(null, "회원 탈퇴 완료"));
+  }
+
+  @GetMapping
+  public ResponseEntity<ApiResponseData<Pagination<UserSummaryResult>>> getUserSummary(
+      @RequestParam(defaultValue = "1") int page,
+      @RequestParam(defaultValue = "10") int size
+  ) {
+    UserSummaryQuery query = userPresentationMapper.toUserSummaryQuery(page - 1, size);
+    Pagination<UserSummaryResult> result = userService.getUserSummary(query);
+    return ResponseEntity.ok(ApiResponseData.success(result));
   }
 }
