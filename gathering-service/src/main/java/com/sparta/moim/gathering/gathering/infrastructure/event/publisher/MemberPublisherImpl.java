@@ -25,7 +25,7 @@ public class MemberPublisherImpl implements MemberPublisher {
   public void revoke(UUID gatheringId, String owner) {
     publisher.publishEvent(SharedGatheringRevokeMember.builder()
         .gatheringId(gatheringId)
-        .memberName(owner)
+        .ownerName(owner)
         .build());
   }
 

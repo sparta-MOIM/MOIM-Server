@@ -4,5 +4,5 @@ import java.util.UUID;
 import lombok.Builder;
 
 @Builder
-public record SharedGatheringRevokeMember(UUID gatheringId, String memberName) {
+public record SharedGatheringRevokeMember(UUID gatheringId, String ownerName) {
 }

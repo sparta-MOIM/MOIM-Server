@@ -21,14 +21,14 @@ public class RevokeGatheringMemberListener {
   @Transactional
   public void revoke(SharedGatheringRevokeMember revokeMember) {
     try {
-      log.info("소모임 멤버 저장 시작: {}", revokeMember.memberName());
+      log.info("소모임 멤버 저장 시작: {}", revokeMember.ownerName());
 
-      Member member = memberRepository.findByMemberStatusOwner(revokeMember.gatheringId(), revokeMember.memberName())
+      Member member = memberRepository.findByMemberStatusOwner(revokeMember.gatheringId(), revokeMember.ownerName())
           .orElseThrow(() -> new GatheringException(GatheringCode.NOT_FOUND_GATHERING_MEMBER));
-      member.changeOwner(revokeMember.memberName());
-      log.info("소모임 관리자 수정 완료: {}", revokeMember.memberName());
+      member.changeOwner(revokeMember.ownerName());
+      log.info("소모임 관리자 수정 완료: {}", revokeMember.ownerName());
     } catch (RuntimeException e) {
-      log.error("소모임 멤버 저장 실패: {}: {}", revokeMember.memberName(), e.getMessage(), e);
+      log.error("소모임 멤버 저장 실패: {}: {}", revokeMember.ownerName(), e.getMessage(), e);
       //TODO 보상 트랜잭션 적용
     }
   }
