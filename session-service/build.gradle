@@ -32,6 +32,7 @@ dependencyManagement {
 
 dependencies {
 	implementation project (":common")
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
 	//QUERY DSL
 	implementation "com.querydsl:querydsl-jpa:${querydslVersion}:jakarta"
@@ -41,7 +42,6 @@ dependencies {
 
 	// openfeign
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -57,8 +57,6 @@ dependencies {
 	testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.19.2'
 
 	runtimeOnly 'com.h2database:h2'
-
-	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 }
 
 def querydslSrcDir = 'src/main/generated'
