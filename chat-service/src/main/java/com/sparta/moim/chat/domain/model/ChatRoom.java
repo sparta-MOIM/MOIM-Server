@@ -30,7 +30,7 @@ public class ChatRoom extends BaseEntity {
   private Long id;
 
   @Setter
-  private String chatRoom;
+  private String chatRoom; //채팅방 제목
 
   //채팅방이 속한 모임 trackingId
   private String organizationId;

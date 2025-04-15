@@ -40,5 +40,10 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_DISCOVERY}
+
 server:
   port: 8087

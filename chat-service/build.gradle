@@ -17,6 +17,10 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    set('springCloudVersion', "2024.0.1")
+}
+
 dependencies {
 
     //spring boot starter
@@ -57,8 +61,18 @@ dependencies {
     //So, u using설정값은 일반적으로 애플리케이션 실행 중에 변경되지 않아야 하는 고정된 구성값이어서 ImmutableMap을 사용해야 함
     implementation 'com.google.guava:guava:33.1.0-jre'
 
+    //eureka client
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
 
 }
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
 
 tasks.register("prepareKotlinBuildScriptModel"){}
 
