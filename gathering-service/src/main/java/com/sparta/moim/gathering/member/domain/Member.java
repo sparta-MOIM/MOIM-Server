@@ -46,6 +46,7 @@ public class Member {
         .gatheringId(sharedGatheringMember.gatheringId())
         .memberId(sharedGatheringMember.memberName())
         .type(MemberType.valueOf(sharedGatheringMember.type()))
+        .joinTime(LocalDateTime.now())
         .build();
   }
 }
