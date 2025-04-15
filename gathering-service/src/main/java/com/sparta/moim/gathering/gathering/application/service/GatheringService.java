@@ -33,7 +33,7 @@ public class GatheringService {
 
   public CreateGatheringResult createGathering(CreateGatheringCommand command) {
     if (gatheringRepository.existsByNameAndDeletedAtIsNull(command.name())) {
-      throw new GatheringException(GatheringCode.EXITS_NAME_GATHERING);
+      throw new GatheringException(GatheringCode.EXISTS_NAME_GATHERING);
     }
     Gathering savedGathering = gatheringRepository.save(command.toEntity());
     addMemberPublisher.add(savedGathering.getTrackingId(), savedGathering.getOwner());
@@ -44,7 +44,7 @@ public class GatheringService {
   public void updateGathering(UpdateGatheringCommand command) {
     UUID id = command.gatheringId();
     if (duplicateGatheringName(command.name(), id)) {
-      throw new GatheringException(GatheringCode.EXITS_NAME_GATHERING);
+      throw new GatheringException(GatheringCode.EXISTS_NAME_GATHERING);
     }
 
     Gathering gathering = gatheringRepository.findByTrackingIdAndDeletedAtIsNull(id)
