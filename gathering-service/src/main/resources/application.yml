@@ -4,7 +4,7 @@ spring:
       name: user
       password: 1234
   application:
-    name: gathering
+    name: gathering-service
 
   datasource:
     url: jdbc:mysql://localhost:3311/gathering_db
