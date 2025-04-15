@@ -20,7 +20,7 @@ public class MemberService {
   private final InternalGatheringService internalGatheringService;
 
   public void joinGathering(JoinGatheringCommand command) {
-    isExistsValidate(command.gatheringId());
+    validateGatheringExists(command.gatheringId());
     statusTrueValidate(command);
 
     if(memberRepository.existsByMemberId(command.username())) {
@@ -31,13 +31,13 @@ public class MemberService {
   }
 
   private void statusTrueValidate(JoinGatheringCommand command) {
-    internalGatheringService.isGatheringStatusOpen(command.gatheringId());
+    internalGatheringService.validateGatheringStatusOpen(command.gatheringId());
   }
 
 
   @Transactional
   public void leaveGathering(LeaveGatheringCommand command) {
-    isExistsValidate(command.gatheringId());
+    validateGatheringExists(command.gatheringId());
     memberRepository.deleteByGatheringIdAndMemberId(command.gatheringId(), command.username());
   }
 
@@ -49,11 +49,11 @@ public class MemberService {
       throw new GatheringException(GatheringCode.NOT_ALLOW_ROLE_GATHERING);
     }
 
-    isExistsValidate(command.gatheringId());
+    validateGatheringExists(command.gatheringId());
     memberRepository.deleteAllByGatheringIdAndMembers(command.gatheringId(), command.users());
   }
 
-  private void isExistsValidate(UUID id) {
-    internalGatheringService.isExitsGathering(id);
+  private void validateGatheringExists(UUID id) {
+    internalGatheringService.validateGatheringExists(id);
   }
 }
