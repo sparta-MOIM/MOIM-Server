@@ -24,6 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
   private final MemberService memberService;
 
+  /**
+   * 사용자가 지정된 모임에 참여합니다.
+   *
+   * @param gatheringId 참여할 모임의 고유 식별자
+   * @param userInfo 인증된 사용자 정보
+   * @return 성공 시 내용이 없는 표준 API 응답
+   */
   @PostMapping("/{gatheringId}")
   public ResponseEntity<ApiResponseData<Void>> joinGathering(@PathVariable UUID gatheringId,
                                                              @AuthenticationPrincipal CustomUserDetails userInfo) {
@@ -31,6 +38,13 @@ public class MemberController {
     return ResponseEntity.ok(ApiResponseData.success(null));
   }
 
+  /**
+   * 사용자가 특정 모임에서 탈퇴하도록 처리합니다.
+   *
+   * @param gatheringId 탈퇴할 모임의 고유 식별자
+   * @param userInfo 인증된 사용자 정보
+   * @return 성공 시 내용 없는 표준 API 응답
+   */
   @DeleteMapping("/{gatheringId}/leave")
   public ResponseEntity<ApiResponseData<Void>> leaveGathering(@PathVariable UUID gatheringId,
                                                               @AuthenticationPrincipal CustomUserDetails userInfo) {
@@ -38,7 +52,13 @@ public class MemberController {
     return ResponseEntity.ok(ApiResponseData.success(null));
   }
 
-  // 주인만 삭제가능
+  /**
+   * 모임의 소유자가 해당 모임을 삭제합니다.
+   *
+   * @param gatheringId 삭제할 모임의 고유 식별자
+   * @param request 모임 삭제 요청 정보
+   * @return 삭제 성공 시 빈 데이터를 포함한 200 OK 응답
+   */
   @DeleteMapping("/{gatheringId}/remove")
   public ResponseEntity<ApiResponseData<Void>> removeGathering(@PathVariable UUID gatheringId,
                                                                @RequestBody @Valid RemoveGatheringRequest request,

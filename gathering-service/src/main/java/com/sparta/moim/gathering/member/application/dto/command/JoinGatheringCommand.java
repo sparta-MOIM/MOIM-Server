@@ -12,6 +12,11 @@ public record JoinGatheringCommand(UUID gatheringId, String username) {
     this(gatheringId, userInfo.getUsername());
   }
 
+  /**
+   * 이 명령 객체를 기반으로 일반 멤버 타입의 Member 도메인 객체를 생성합니다.
+   *
+   * @return 새로운 Member 도메인 객체
+   */
   public Member toDomain() {
     return Member.builder()
         .gatheringId(gatheringId)

@@ -41,6 +41,12 @@ public class Member {
 
   private LocalDateTime joinTime;
 
+  /**
+   * SharedGatheringMember DTO로부터 Member 엔티티 인스턴스를 생성합니다.
+   *
+   * @param sharedGatheringMember 변환할 SharedGatheringMember 객체
+   * @return 변환된 Member 엔티티 인스턴스
+   */
   public static Member from(SharedGatheringMember sharedGatheringMember) {
     return Member.builder()
         .gatheringId(sharedGatheringMember.gatheringId())

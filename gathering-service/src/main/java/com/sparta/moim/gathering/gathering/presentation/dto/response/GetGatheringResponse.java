@@ -18,6 +18,12 @@ public record GetGatheringResponse(
     LocalDateTime updateAt,
     String updateBy
 ) {
+  /**
+   * 주어진 GetGatheringResult 객체를 기반으로 GetGatheringResponse 인스턴스를 생성합니다.
+   *
+   * @param result 조회된 모임 정보를 담고 있는 결과 객체
+   * @return 변환된 GetGatheringResponse 객체
+   */
   public static GetGatheringResponse get(GetGatheringResult result) {
     return new GetGatheringResponse(result.gatheringId(),
         result.organizationId(),

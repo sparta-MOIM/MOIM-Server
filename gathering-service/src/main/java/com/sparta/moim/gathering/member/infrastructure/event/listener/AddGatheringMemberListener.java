@@ -15,6 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AddGatheringMemberListener {
   private final MemberRepository memberRepository;
+  /**
+   * 소모임 멤버 추가 이벤트를 수신하여 멤버 정보를 저장합니다.
+   *
+   * @param sharedGatheringMember 저장할 소모임 멤버 정보가 담긴 이벤트 객체
+   */
   @EventListener
   @Transactional
   public void save(SharedGatheringMember sharedGatheringMember) {
