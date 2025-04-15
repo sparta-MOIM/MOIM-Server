@@ -13,6 +13,7 @@ import com.sparta.moim.organization.domain.repository.OrganizationApplicationRep
 import com.sparta.moim.organization.domain.repository.OrganizationMemberRepository;
 import com.sparta.moim.organization.domain.repository.OrganizationRepository;
 import com.sparta.moim.organization.infrastruct.adaptor.out.ApplyOrganizationNotificationProducer;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,7 @@ public class ApplyOrganizationService implements ApplyOrganizationUseCase {
     private final OrganizationMemberRepository organizationMemberRepository;
     private final ApplyOrganizationNotificationProducer applyOrganizationNotificationProducer;
     private final OrganizationRepository organizationRepository;
+    private final OrganizationMemberService organizationMemberService;
 
     @Override
     @Transactional
@@ -44,13 +46,21 @@ public class ApplyOrganizationService implements ApplyOrganizationUseCase {
                 userTrackingId,
                 applyOrganizationCommand);
         organizationApplicationRepository.save(application);
+
+        List<String> organizationMembersTrackingIds = organizationMemberService.getOrganizationManagers(organization)
+                .stream()
+                .map(OrganizationMember::getUserTrackingId)
+                .map(String::valueOf)
+                .toList();
+
         applyOrganizationNotificationProducer.send(
                 ApplyOrganizationNotificationMessage.of(
                         NotificationType.ORGANIZATION_MOIM_REQUEST,
                         organizationTrackingId,
                         organization.getOrganizationName(),
                         userTrackingId,
-                        "테스터" //todo - username을 헤더에서 꺼내서 보내줌.
+                        "테스터", //todo - username을 헤더에서 꺼내서 보내줌.
+                        organizationMembersTrackingIds
                 )
         );
 

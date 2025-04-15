@@ -1,6 +1,7 @@
 package com.sparta.moim.organization.application.dto.message;
 
 import com.sparta.moim.organization.application.enums.NotificationType;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,19 +19,20 @@ public class ApplyOrganizationNotificationMessage {
     private String organizationName;
     private String userTrackingId;
     private String username;
+    private List<String> receiverTrackingIds;
 
     public static ApplyOrganizationNotificationMessage of(
             NotificationType notificationType,
             String organizationTrackingId,
             String organizationName,
             String userTrackingId,
-            String username) {
         return ApplyOrganizationNotificationMessage.builder()
                 .notificationType(notificationType)
                 .organizationTrackingId(organizationTrackingId)
                 .organizationName(organizationName)
                 .userTrackingId(userTrackingId)
                 .username(username)
+                .receiverTrackingIds(receiverTrackingIds)
                 .build();
     }
 }

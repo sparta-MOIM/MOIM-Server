@@ -2,6 +2,7 @@ package com.sparta.moim.organization.infrastruct.repository;
 
 import com.sparta.moim.organization.domain.entity.Organization;
 import com.sparta.moim.organization.domain.entity.OrganizationMember;
+import com.sparta.moim.organization.domain.enums.OrganizationMemberRole;
 import com.sparta.moim.organization.domain.repository.OrganizationMemberRepository;
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +39,12 @@ public class OrganizationMemberRepositoryImpl implements OrganizationMemberRepos
     @Override
     public Optional<OrganizationMember> findByOrganizationAndNickname(Organization organization, String nickaname) {
         return jpaRepository.findByOrganizationAndNickname(organization, nickaname);
+    }
+
+    @Override
+    public List<OrganizationMember> findAllByOrganizationAndRoleIn(Organization organization,
+                                                                   List<OrganizationMemberRole> organizationMemberRoles) {
+        return jpaRepository.findAllByOrganizationAndRoleIn(organization, organizationMemberRoles );
     }
 
 
