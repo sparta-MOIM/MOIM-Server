@@ -10,12 +10,10 @@ import org.springframework.http.HttpStatus;
 public enum GatheringCode implements Code {
 
   NOT_FOUND_GATHERING(HttpStatus.NOT_FOUND, "G001", "Gathering not found"),
-  EXITS_NAME_GATHERING(HttpStatus.BAD_REQUEST, "G002", "Gathering name is exits"),
-  TIME_OUT_GATHERING(HttpStatus.BAD_REQUEST, "G003", "현재시간으로 세션에 참여하실 수 없습니다."),
-  ALREADY_PARTICIPATE_GATHERING(HttpStatus.BAD_REQUEST, "G004", "this Gathering is already participate"),
-  NOT_OPEN_GATHERING(HttpStatus.BAD_REQUEST, "G005", "this Gathering is not open"),
-  NOT_ALLOW_ROLE_GATHERING(HttpStatus.BAD_REQUEST, "G006", "the authority gathering is not allowed"),
-
+  EXISTS_NAME_GATHERING(HttpStatus.BAD_REQUEST, "G002", "Gathering title already exists"),
+  TIME_OUT_GATHERING(HttpStatus.BAD_REQUEST, "G003", "You cannot join the session at the current time"),
+  ALREADY_PARTICIPATE_GATHERING(HttpStatus.BAD_REQUEST, "G004", "You are already participating in this gathering"),
+  NOT_OPEN_GATHERING(HttpStatus.BAD_REQUEST, "G005", "This gathering is not open"),
   ;
 
 
