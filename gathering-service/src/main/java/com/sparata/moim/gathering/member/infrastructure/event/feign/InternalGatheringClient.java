@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@FeignClient(name = "gathering-Client",url = "http://localhost:19101/internal/v1")
+@FeignClient(name = "gathering-Client",url = "${member.service.url}/internal/v1")
 public interface InternalGatheringClient extends InternalGatheringService {
 
   @PostMapping("/gathering/{gatheringId}/validate")

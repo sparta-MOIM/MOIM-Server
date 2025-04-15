@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "gathering-service",url = "http://localhost:19101/internal/v1/member")
+@FeignClient(name = "gathering-service",url = "${member.service.url}/internal/v1/member")
 public interface MemberClient extends MemberService {
 
 
