@@ -18,6 +18,11 @@ public class ValidateGatheringController {
   @PostMapping("/{gatheringId}/validate")
   public void exitsGathering(@PathVariable UUID gatheringId) {
     gatheringValidationService.exitsGathering(gatheringId);
+  } 
+  
+  @PostMapping("/{gatheringId}/status")
+  public void exitsOpenStatusGathering(@PathVariable UUID gatheringId) {
+    gatheringValidationService.exitsOpenStatusGathering(gatheringId);
   }
 
 }

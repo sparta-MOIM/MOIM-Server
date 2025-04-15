@@ -17,4 +17,12 @@ public class GatheringValidationService {
       throw new GatheringException(GatheringCode.NOT_FOUND_GATHERING);
     }
   }
+
+  public void exitsOpenStatusGathering(UUID gatheringId) {
+    boolean status = gatheringRepository.findByGatheringStatus(gatheringId);
+
+    if (!status) {
+      throw new GatheringException(GatheringCode.NOT_OPEN_GATHERING);
+    }
+  }
 }

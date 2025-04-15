@@ -4,4 +4,5 @@ import java.util.UUID;
 
 public interface GatheringService {
   void isExitsGathering(UUID gatheringId);
+  void isGatheringStatusOpen(UUID gatheringId);
 }

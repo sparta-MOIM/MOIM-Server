@@ -12,4 +12,7 @@ public interface GatheringClient extends GatheringService {
 
   @PostMapping("/{gatheringId}/validate")
   void isExitsGathering(@PathVariable(name = "gatheringId") UUID gatheringId);
+
+  @PostMapping("/{gatheringId}/status")
+  void isGatheringStatusOpen(@PathVariable(name = "gatheringId") UUID gatheringId);
 }

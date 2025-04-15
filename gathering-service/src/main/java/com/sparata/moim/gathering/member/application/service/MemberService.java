@@ -17,24 +17,29 @@ public class MemberService {
   private final GatheringService gatheringService;
 
   public void joinGathering(JoinGatheringCommand command) {
-    validate(command.gatheringId());
+    isExitsValidate(command.gatheringId());
+    statusTrueValidate(command);
     memberRepository.save(command.toDomain());
+  }
+
+  private void statusTrueValidate(JoinGatheringCommand command) {
+    gatheringService.isGatheringStatusOpen(command.gatheringId());
   }
 
 
   @Transactional
   public void leaveGathering(LeaveGatheringCommand command) {
-    validate(command.gatheringId());
+    isExitsValidate(command.gatheringId());
     memberRepository.deleteByGatheringIdAndMemberId(command.gatheringId().toString(), command.username());
   }
 
   @Transactional
   public void removeGathering(RemoveGatheringCommand command) {
-    validate(command.gatheringId());
+    isExitsValidate(command.gatheringId());
     memberRepository.deleteAllByGatheringIdAndMembers(command.gatheringId().toString(), command.users());
   }
 
-  private void validate(UUID id) {
+  private void isExitsValidate(UUID id) {
     gatheringService.isExitsGathering(id);
   }
 }
