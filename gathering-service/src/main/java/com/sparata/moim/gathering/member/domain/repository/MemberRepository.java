@@ -10,4 +10,6 @@ public interface MemberRepository {
   void deleteAllByGatheringIdAndMembers(UUID gatheringId, List<String> memberIds);
 
   List<Member> findMembers(UUID gatheringId);
+
+  boolean existsByMemberId(String memberId);
 }

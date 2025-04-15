@@ -5,6 +5,8 @@ import com.sparata.moim.gathering.member.application.dto.command.LeaveGatheringC
 import com.sparata.moim.gathering.member.application.dto.command.RemoveGatheringCommand;
 import com.sparata.moim.gathering.member.application.event.feign.InternalGatheringService;
 import com.sparata.moim.gathering.member.domain.repository.MemberRepository;
+import com.sparata.moim.gathering.shared.error.code.GatheringCode;
+import com.sparata.moim.gathering.shared.error.exception.GatheringException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,11 @@ public class MemberService {
   public void joinGathering(JoinGatheringCommand command) {
     isExitsValidate(command.gatheringId());
     statusTrueValidate(command);
+
+    if(memberRepository.existsByMemberId(command.username())) {
+      throw new GatheringException(GatheringCode.ALREADY_PARTICIPATE_GATHERING);
+    }
+
     memberRepository.save(command.toDomain());
   }
 
