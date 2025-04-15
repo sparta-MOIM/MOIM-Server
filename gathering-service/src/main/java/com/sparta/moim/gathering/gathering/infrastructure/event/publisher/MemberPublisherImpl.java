@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class MemberPublisherImpl implements MemberPublisher {
   private final ApplicationEventPublisher publisher;
 
+  @Override
   public void add(UUID gatheringId, String memberName) {
     publisher.publishEvent(SharedGatheringMember.builder()
         .gatheringId(gatheringId)
