@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class GatheringValidationService {
   private final GatheringValidationRepository gatheringRepository;
 
-  public void exitsGathering(UUID gatheringId) {
+  public void existsGathering(UUID gatheringId) {
     if (!gatheringRepository.existsByTrackingIdAndDeletedAtNull(gatheringId)) {
       throw new GatheringException(GatheringCode.NOT_FOUND_GATHERING);
     }
