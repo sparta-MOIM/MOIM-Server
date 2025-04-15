@@ -104,6 +104,7 @@ src/main/resources/log4j2.xml
 !gradle/wrapper/gradle-wrapper.properties
 !**/src/main/resources/application.yml
 !**/src/main/resources/application-database.yml
+!**/src/main/resources/application-external.yml
 
 ### QueryDSL ###
 **/src/main/generated
