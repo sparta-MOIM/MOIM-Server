@@ -96,7 +96,7 @@ public class UserService {
 
   @Transactional(readOnly = true)
   public Pagination<UserSummaryResult> getUserSummary(UserSummaryQuery query) {
-    Pageable pageable = PageRequest.of(query.page(), query.size());
+    Pageable pageable = PageRequest.of(query.page() - 1, query.size());
     Page<User> userPage = userRepository.findAllByDeletedAtIsNull(pageable);
     return userDataAccessMapper.paginationFromUser(userPage);
   }

@@ -8,8 +8,8 @@ import com.sparta.moim.user.application.UserService;
 import com.sparta.moim.user.application.dto.AccessTokenRefreshResult;
 import com.sparta.moim.user.application.dto.SignupUserResult;
 import com.sparta.moim.user.application.dto.UpdateUserResult;
-import com.sparta.moim.user.application.dto.UserSummaryResult;
 import com.sparta.moim.user.application.dto.UserSummaryQuery;
+import com.sparta.moim.user.application.dto.UserSummaryResult;
 import com.sparta.moim.user.application.exception.RefreshTokenNotFoundException;
 import com.sparta.moim.user.presentation.dto.SignupUserRequest;
 import com.sparta.moim.user.presentation.dto.SignupUserResponse;
@@ -20,11 +20,13 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import java.net.URI;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +42,7 @@ import org.springframework.web.util.WebUtils;
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
+@Validated
 public class UserController {
 
   private final UserService userService;
@@ -89,10 +92,10 @@ public class UserController {
 
   @GetMapping
   public ResponseEntity<ApiResponseData<Pagination<UserSummaryResult>>> getUserSummary(
-      @RequestParam(defaultValue = "1") int page,
-      @RequestParam(defaultValue = "10") int size
+      @RequestParam(defaultValue = "1") @Positive(message = "페이지 번호는 1 이상이어야 합니다.") int page,
+      @RequestParam(defaultValue = "10") @Positive(message = "페이지 크기는 1 이상이어야 합니다.") int size
   ) {
-    UserSummaryQuery query = userPresentationMapper.toUserSummaryQuery(page - 1, size);
+    UserSummaryQuery query = userPresentationMapper.toUserSummaryQuery(page, size);
     Pagination<UserSummaryResult> result = userService.getUserSummary(query);
     return ResponseEntity.ok(ApiResponseData.success(result));
   }
