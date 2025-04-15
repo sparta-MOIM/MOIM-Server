@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 public interface InternalGatheringClient extends InternalGatheringService {
 
   @PostMapping("/gathering/{gatheringId}/validate")
-  void isExitsGathering(@PathVariable(name = "gatheringId") UUID gatheringId);
+  void validateGatheringExists(@PathVariable(name = "gatheringId") UUID gatheringId);
 
   @PostMapping("/gathering/{gatheringId}/status")
-  void isGatheringStatusOpen(@PathVariable(name = "gatheringId") UUID gatheringId);
+  void validateGatheringStatusOpen(@PathVariable(name = "gatheringId") UUID gatheringId);
 }
