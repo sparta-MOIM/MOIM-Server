@@ -26,6 +26,8 @@ public class ApplyOrganizationNotificationMessage {
             String organizationTrackingId,
             String organizationName,
             String userTrackingId,
+            String username,
+            List<String> receiverTrackingIds) {
         return ApplyOrganizationNotificationMessage.builder()
                 .notificationType(notificationType)
                 .organizationTrackingId(organizationTrackingId)

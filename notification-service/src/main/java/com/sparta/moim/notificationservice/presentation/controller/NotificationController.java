@@ -22,6 +22,12 @@ public class NotificationController {
     @GetMapping(value = "/connect", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter subscribe(
             @RequestHeader(value="Last-Event-ID", required = false, defaultValue = "") String lastEventId){
-        return notificationService.subscribe("12345678-c01f-4f88-8f10-4c9797b772cf", lastEventId); // todo - userTrackingId를 실제 값으로 변경
+        return notificationService.subscribe("68926367-c01f-4f88-8f10-4c9797b77f8e", lastEventId); // todo - userTrackingId를 실제 값으로 변경
+    }
+
+    @GetMapping(value = "/test")
+    public ResponseEntity<ApiResponseData<String>> test() {
+        notificationService.sendNotificationToMember("68926367-c01f-4f88-8f10-4c9797b77f8e", "테스트 알림");
+        return ResponseEntity.ok(ApiResponseData.success("test"));
     }
 }

@@ -18,7 +18,5 @@ public interface OrganizationMemberRepository {
 
     Optional<OrganizationMember> findByOrganizationAndNickname(Organization organization, String nickaname);
 
-    List<OrganizationMember> findByOrganizationId(Long organizationId);
-
     List<OrganizationMember> findAllByOrganizationAndRoleIn(Organization organization, List<OrganizationMemberRole> organizationMemberRoles);
 }

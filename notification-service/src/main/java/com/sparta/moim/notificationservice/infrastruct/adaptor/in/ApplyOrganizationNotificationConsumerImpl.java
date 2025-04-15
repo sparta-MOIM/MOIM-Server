@@ -23,5 +23,6 @@ public class ApplyOrganizationNotificationConsumerImpl implements ApplyOrganizat
     public void consume(ApplyOrganizationNotificationMessage message) {
             log.info("message received : {}", message);
             applyOrganizationNotificationService.sendApplyOrganizationNotification(commandMapper.toCommand(message));
+            log.info("알림 전송 완료");
     }
 }

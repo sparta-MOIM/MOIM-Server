@@ -15,11 +15,13 @@ import com.sparta.moim.organization.domain.repository.OrganizationRepository;
 import com.sparta.moim.organization.infrastruct.adaptor.out.ApplyOrganizationNotificationProducer;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ApplyOrganizationService implements ApplyOrganizationUseCase {
 
     private final OrganizationApplicationRepository organizationApplicationRepository;
@@ -52,6 +54,9 @@ public class ApplyOrganizationService implements ApplyOrganizationUseCase {
                 .map(OrganizationMember::getUserTrackingId)
                 .map(String::valueOf)
                 .toList();
+
+        log.info("받는 사람 정보 : " + organizationMembersTrackingIds.get(0).toString());
+
 
         applyOrganizationNotificationProducer.send(
                 ApplyOrganizationNotificationMessage.of(
