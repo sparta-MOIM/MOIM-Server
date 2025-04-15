@@ -10,7 +10,7 @@ import com.sparta.moim.gathering.gathering.application.dto.result.GetGatheringMe
 import com.sparta.moim.gathering.gathering.application.dto.result.SearchGatheringListResult;
 import com.sparta.moim.gathering.gathering.application.dto.result.SearchGatheringResult;
 import com.sparta.moim.gathering.gathering.application.event.feign.MemberService;
-import com.sparta.moim.gathering.gathering.application.event.publisher.AddMemberPublisher;
+import com.sparta.moim.gathering.gathering.application.event.publisher.MemberPublisher;
 import com.sparta.moim.gathering.gathering.domain.entity.Gathering;
 import com.sparta.moim.gathering.gathering.domain.repository.GatheringRepository;
 import com.sparta.moim.gathering.gathering.domain.repository.GatheringRepositoryCustom;
@@ -29,14 +29,14 @@ public class GatheringService {
   private final GatheringRepository gatheringRepository;
   private final GatheringRepositoryCustom gatheringRepositoryCustom;
   private final MemberService memberService;
-  private final AddMemberPublisher addMemberPublisher;
+  private final MemberPublisher memberPublisher;
 
   public CreateGatheringResult createGathering(CreateGatheringCommand command) {
     if (gatheringRepository.existsByNameAndDeletedAtIsNull(command.name())) {
       throw new GatheringException(GatheringCode.EXISTS_NAME_GATHERING);
     }
     Gathering savedGathering = gatheringRepository.save(command.toEntity());
-    addMemberPublisher.add(savedGathering.getTrackingId(), savedGathering.getOwner());
+    memberPublisher.add(savedGathering.getTrackingId(), savedGathering.getOwner());
     return CreateGatheringResult.create(savedGathering);
   }
 
@@ -50,6 +50,10 @@ public class GatheringService {
     Gathering gathering = gatheringRepository.findByTrackingIdAndDeletedAtIsNull(id)
         .orElseThrow(() -> new GatheringException(GatheringCode.NOT_FOUND_GATHERING));
     gathering.change(command.toDomain());
+
+    if (command.owner() != null) {
+      memberPublisher.revoke(id, command.owner());
+    }
   }
 
   private boolean duplicateGatheringName(String name, UUID id) {

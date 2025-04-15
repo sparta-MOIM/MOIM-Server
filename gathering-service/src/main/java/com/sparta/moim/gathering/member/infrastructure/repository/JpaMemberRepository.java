@@ -4,6 +4,7 @@ import com.sparta.moim.gathering.member.domain.Member;
 import com.sparta.moim.gathering.member.domain.enums.MemberType;
 import com.sparta.moim.gathering.member.domain.repository.MemberRepository;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,11 +15,17 @@ public interface JpaMemberRepository extends JpaRepository<Member, Long>, Member
 
   @Modifying
   @Query("delete from Member m where m.gatheringId = :gatheringId and m.memberId IN (:memberIds)")
-  void deleteAllByGatheringIdAndMembers(@Param("gatheringId") UUID gatheringId, @Param("memberIds") List<String> memberIds);
+  void deleteAllByGatheringIdAndMembers(@Param("gatheringId") UUID gatheringId,
+                                        @Param("memberIds") List<String> memberIds);
 
   @Query("select m from Member m where m.gatheringId = :gatheringId")
   List<Member> findMembers(@Param("gatheringId") UUID gatheringId);
 
   @Query("select m.type from Member m where m.gatheringId = :gatheringId and m.memberId = :memberId")
   MemberType findMemberType(@Param("gatheringId") UUID gatheringId, @Param("memberId") String memberId);
+
+  @Query("""
+      select m from Member m where m.gatheringId = :gatheringId  and m.memberId <> :memberId
+      """)
+  Optional<Member> findByMemberStatusOwner(@Param("gatheringId") UUID gatheringId, @Param("memberId") String memberId);
 }

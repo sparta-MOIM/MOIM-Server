@@ -49,4 +49,8 @@ public class Member {
         .joinTime(LocalDateTime.now())
         .build();
   }
+
+  public void changeOwner(String memberId) {
+    this.memberId = memberId;
+  }
 }
