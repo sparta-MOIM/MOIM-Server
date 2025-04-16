@@ -1,6 +1,7 @@
 package com.moim.schedule.application;
 
 import com.moim.schedule.application.command.CreateScheduleCommand;
+import com.moim.schedule.application.command.DeleteCommand;
 import com.moim.schedule.application.usecase.ScheduleCommandUseCase;
 import com.moim.schedule.domain.Schedule;
 import com.moim.schedule.domain.repository.command.ScheduleCommandRepository;
@@ -23,5 +24,12 @@ public class ScheduleCommandService implements ScheduleCommandUseCase {
         command.end()
     );
     return repository.save(schedule);
+  }
+
+  @Override
+  public void deleteSchedule(DeleteCommand command) {
+    // todo: 예외처리
+    Schedule schedule = repository.findByTrackingId(command.id()).orElseThrow(null);
+    schedule.delete();
   }
 }

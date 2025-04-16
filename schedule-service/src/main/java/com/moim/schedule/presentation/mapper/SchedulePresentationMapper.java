@@ -1,6 +1,7 @@
 package com.moim.schedule.presentation.mapper;
 
 import com.moim.schedule.application.command.CreateScheduleCommand;
+import com.moim.schedule.application.command.DeleteCommand;
 import com.moim.schedule.application.query.FindQuery;
 import com.moim.schedule.application.query.SearchScheduleQuery;
 import com.moim.schedule.domain.Schedule;
@@ -23,5 +24,7 @@ public interface SchedulePresentationMapper {
   FindQuery toQuery(UUID id);
 
   SearchScheduleQuery toQuery(SearchScheduleRequest request);
+
+  DeleteCommand toCommand(UUID id);
 
 }
