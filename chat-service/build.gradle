@@ -1,0 +1,81 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.4'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.sparta.moim'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "2024.0.1")
+}
+
+dependencies {
+
+    //spring boot starter
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    //common 모듈
+    implementation project(':common')
+
+    //MySQL
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    //env
+    implementation("io.github.cdimascio:java-dotenv:5.2.2")
+
+    //mongoDB
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+    //STOMP
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.webjars:webjars-locator-core'
+    implementation 'org.webjars:sockjs-client:1.5.1'
+    implementation 'org.webjars:stomp-websocket:2.3.4'
+    implementation 'org.webjars:bootstrap:5.2.3'
+    implementation 'org.webjars:jquery:3.6.4'
+
+    //validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    //kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+
+    //add guava for using ImmutableMap
+    //Kafka Consumer setting value must not be changeable
+    //So, u using설정값은 일반적으로 애플리케이션 실행 중에 변경되지 않아야 하는 고정된 구성값이어서 ImmutableMap을 사용해야 함
+    implementation 'com.google.guava:guava:33.1.0-jre'
+
+    //eureka client
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+
+tasks.register("prepareKotlinBuildScriptModel"){}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

@@ -5,6 +5,7 @@ import com.sparta.moim.user.application.dto.ProcessSignupCommand;
 import com.sparta.moim.user.application.dto.SignupUserResult;
 import com.sparta.moim.user.application.dto.UpdateUserCommand;
 import com.sparta.moim.user.application.dto.UpdateUserResult;
+import com.sparta.moim.user.application.dto.UserSummaryQuery;
 import com.sparta.moim.user.presentation.dto.GetUserResponse;
 import com.sparta.moim.user.presentation.dto.SignupUserRequest;
 import com.sparta.moim.user.presentation.dto.SignupUserResponse;
@@ -34,5 +35,9 @@ public class UserPresentationMapper {
 
   public UpdateUserResponse toUpdateUserResponse(UpdateUserResult result) {
     return new UpdateUserResponse(result.trackingId(), result.name());
+  }
+
+  public UserSummaryQuery toUserSummaryQuery(int page, int size) {
+    return new UserSummaryQuery(page, size);
   }
 }

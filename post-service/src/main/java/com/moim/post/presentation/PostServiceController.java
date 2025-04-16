@@ -21,7 +21,7 @@ public class PostServiceController {
   private final PostPresentationMapper mapper;
 
   @GetMapping("/feeds/{id}")
-  public ValidationResponse isValidFeed(@PathVariable final String id) {
+  public ValidationResponse isValidFeed(@PathVariable("id") final String id) {
     log.info("[Internal] Feed 유효성 요청: {}", id);
     Boolean result = useCase.isValidFeed(mapper.toQuery(UUID.fromString(id)));
     ValidationResponse response = mapper.toResponse(result);

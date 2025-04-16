@@ -1,0 +1,11 @@
+package com.sparta.moim.user.application.dto;
+
+import java.util.UUID;
+
+public record UserSummaryResult(
+    UUID trackingId,
+    String username,
+    String name
+) {
+
+}

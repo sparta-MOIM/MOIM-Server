@@ -12,6 +12,7 @@ import com.moim.post.domain.feed.Feed;
 import com.moim.post.domain.vote.Vote;
 import com.moim.post.presentation.request.CreateFeedRequest;
 import com.moim.post.presentation.request.CreateVoteRequest;
+import com.moim.post.presentation.request.DeleteRequest;
 import com.moim.post.presentation.request.SearchFeedRequest;
 import com.moim.post.presentation.request.SearchVoteRequest;
 import com.moim.post.presentation.request.UpdateFeedRequest;
@@ -47,7 +48,7 @@ public interface PostPresentationMapper {
 
   UpdateVoteCommand toCommand(UpdateVoteRequest request);
 
-  DeleteCommand toCommand(UUID id);
+  DeleteCommand toCommand(DeleteRequest request);
 
   ValidationResponse toResponse(Boolean result);
 }
