@@ -6,8 +6,8 @@ import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheri
 import com.sparta.moim.gathering.gathering.application.event.feign.InternalGatheringService;
 import com.sparta.moim.gathering.gathering.domain.enums.MemberType;
 import com.sparta.moim.gathering.gathering.domain.enums.MemberRepository;
-import com.sparta.moim.gathering.shared.error.code.GatheringCode;
-import com.sparta.moim.gathering.shared.error.exception.GatheringException;
+import com.sparta.moim.gathering.gathering.application.dto.code.GatheringCode;
+import com.sparta.moim.gathering.gathering.application.exception.GatheringException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

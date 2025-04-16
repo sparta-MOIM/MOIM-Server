@@ -1,6 +1,6 @@
-package com.sparta.moim.gathering.shared.error.exception;
+package com.sparta.moim.gathering.gathering.application.exception;
 
-import com.sparta.moim.gathering.shared.error.code.GatheringCode;
+import com.sparta.moim.gathering.gathering.application.dto.code.GatheringCode;
 import com.sparta.moim.common.exception.BaseException;
 
 public class GatheringException extends BaseException {

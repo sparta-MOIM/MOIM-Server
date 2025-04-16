@@ -1,7 +1,7 @@
 package com.sparta.moim.gathering.gathering.domain.entity;
 
 import com.sparta.moim.gathering.gathering.domain.enums.MemberType;
-import com.sparta.moim.gathering.shared.dto.SharedGatheringMember;
+import com.sparta.moim.gathering.gathering.application.dto.event.GatheringAdminSaveEvent;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,11 +41,11 @@ public class Member {
 
   private LocalDateTime joinTime;
 
-  public static Member from(SharedGatheringMember sharedGatheringMember) {
+  public static Member from(GatheringAdminSaveEvent gatheringAdminSaveEvent) {
     return Member.builder()
-        .gatheringId(sharedGatheringMember.gatheringId())
-        .memberId(sharedGatheringMember.memberName())
-        .type(MemberType.valueOf(sharedGatheringMember.type()))
+        .gatheringId(gatheringAdminSaveEvent.gatheringId())
+        .memberId(gatheringAdminSaveEvent.memberName())
+        .type(MemberType.valueOf(gatheringAdminSaveEvent.type()))
         .joinTime(LocalDateTime.now())
         .build();
   }

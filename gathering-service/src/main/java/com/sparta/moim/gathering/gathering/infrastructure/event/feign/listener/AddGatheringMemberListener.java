@@ -2,7 +2,7 @@ package com.sparta.moim.gathering.gathering.infrastructure.event.feign.listener;
 
 import com.sparta.moim.gathering.gathering.domain.entity.Member;
 import com.sparta.moim.gathering.gathering.domain.enums.MemberRepository;
-import com.sparta.moim.gathering.shared.dto.SharedGatheringMember;
+import com.sparta.moim.gathering.gathering.application.dto.event.GatheringAdminSaveEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -17,16 +17,16 @@ public class AddGatheringMemberListener {
   private final MemberRepository memberRepository;
   @EventListener
   @Transactional
-  public void save(SharedGatheringMember sharedGatheringMember) {
+  public void save(GatheringAdminSaveEvent gatheringAdminSaveEvent) {
     try {
-      log.info("소모임 멤버 저장 시작: {}", sharedGatheringMember.memberName());
-      memberRepository.save(Member.from(sharedGatheringMember));
-      log.info("소모임 멤버 저장 완료: {}", sharedGatheringMember.memberName());
+      log.info("소모임 멤버 저장 시작: {}", gatheringAdminSaveEvent.memberName());
+      memberRepository.save(Member.from(gatheringAdminSaveEvent));
+      log.info("소모임 멤버 저장 완료: {}", gatheringAdminSaveEvent.memberName());
     } catch (DataIntegrityViolationException e) {
-      log.warn("멤버 저장 중복 오류: {}: {}", sharedGatheringMember.memberName(), e.getMessage());
+      log.warn("멤버 저장 중복 오류: {}: {}", gatheringAdminSaveEvent.memberName(), e.getMessage());
         // 중복 데이터인 경우 별도 처리 로직
     }  catch (RuntimeException e) {
-      log.error("소모임 멤버 저장 실패: {}: {}", sharedGatheringMember.memberName(), e.getMessage(), e);
+      log.error("소모임 멤버 저장 실패: {}: {}", gatheringAdminSaveEvent.memberName(), e.getMessage(), e);
       //TODO 보상 트랜잭션 적용
     }
   }

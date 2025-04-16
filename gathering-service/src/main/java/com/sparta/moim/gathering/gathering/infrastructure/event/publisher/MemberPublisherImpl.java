@@ -1,8 +1,8 @@
 package com.sparta.moim.gathering.gathering.infrastructure.event.publisher;
 
 import com.sparta.moim.gathering.gathering.application.event.publisher.MemberPublisher;
-import com.sparta.moim.gathering.shared.dto.SharedGatheringMember;
-import com.sparta.moim.gathering.shared.dto.SharedGatheringRevokeMember;
+import com.sparta.moim.gathering.gathering.application.dto.event.GatheringAdminSaveEvent;
+import com.sparta.moim.gathering.gathering.application.dto.event.GatheringAdminRevokeEvent;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -15,7 +15,7 @@ public class MemberPublisherImpl implements MemberPublisher {
 
   @Override
   public void add(UUID gatheringId, String memberName) {
-    publisher.publishEvent(SharedGatheringMember.builder()
+    publisher.publishEvent(GatheringAdminSaveEvent.builder()
         .gatheringId(gatheringId)
         .memberName(memberName)
         .type("ADMIN")
@@ -24,7 +24,7 @@ public class MemberPublisherImpl implements MemberPublisher {
 
   @Override
   public void revoke(UUID gatheringId, String owner) {
-    publisher.publishEvent(SharedGatheringRevokeMember.builder()
+    publisher.publishEvent(GatheringAdminRevokeEvent.builder()
         .gatheringId(gatheringId)
         .ownerName(owner)
         .build());

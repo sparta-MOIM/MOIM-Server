@@ -2,9 +2,9 @@ package com.sparta.moim.gathering.gathering.infrastructure.event.feign.listener;
 
 import com.sparta.moim.gathering.gathering.domain.entity.Member;
 import com.sparta.moim.gathering.gathering.domain.enums.MemberRepository;
-import com.sparta.moim.gathering.shared.dto.SharedGatheringRevokeMember;
-import com.sparta.moim.gathering.shared.error.code.GatheringCode;
-import com.sparta.moim.gathering.shared.error.exception.GatheringException;
+import com.sparta.moim.gathering.gathering.application.dto.event.GatheringAdminRevokeEvent;
+import com.sparta.moim.gathering.gathering.application.dto.code.GatheringCode;
+import com.sparta.moim.gathering.gathering.application.exception.GatheringException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -19,7 +19,7 @@ public class RevokeGatheringMemberListener {
 
   @EventListener
   @Transactional
-  public void revoke(SharedGatheringRevokeMember revokeMember) {
+  public void revoke(GatheringAdminRevokeEvent revokeMember) {
     try {
       log.info("소모임 관리자 저장 시작: {}", revokeMember.ownerName());
 

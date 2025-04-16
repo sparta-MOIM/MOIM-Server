@@ -14,8 +14,8 @@ import com.sparta.moim.gathering.gathering.application.event.publisher.MemberPub
 import com.sparta.moim.gathering.gathering.domain.entity.Gathering;
 import com.sparta.moim.gathering.gathering.domain.repository.GatheringRepository;
 import com.sparta.moim.gathering.gathering.domain.repository.GatheringRepositoryCustom;
-import com.sparta.moim.gathering.shared.error.code.GatheringCode;
-import com.sparta.moim.gathering.shared.error.exception.GatheringException;
+import com.sparta.moim.gathering.gathering.application.dto.code.GatheringCode;
+import com.sparta.moim.gathering.gathering.application.exception.GatheringException;
 import com.sparta.moim.common.page.Pagination;
 import java.util.List;
 import java.util.UUID;
