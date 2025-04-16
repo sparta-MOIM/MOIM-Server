@@ -6,16 +6,19 @@ import com.moim.post.domain.vote.Vote;
 import com.moim.post.presentation.mapper.PostPresentationMapper;
 import com.moim.post.presentation.request.CreateFeedRequest;
 import com.moim.post.presentation.request.CreateVoteRequest;
+import com.moim.post.presentation.request.DeleteRequest;
 import com.moim.post.presentation.request.UpdateFeedRequest;
 import com.moim.post.presentation.request.UpdateVoteRequest;
 import com.moim.post.presentation.response.FeedResponse;
 import com.moim.post.presentation.response.VoteResponse;
 import com.sparta.moim.common.response.ApiResponseData;
+import com.sparta.moim.common.security.CustomUserDetails;
 import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,10 +37,11 @@ public class PostCommandController {
 
   @PostMapping("/feeds")
   public ResponseEntity<ApiResponseData<FeedResponse>> createFeed(
-      @Valid @RequestBody CreateFeedRequest request
+      @Valid @RequestBody CreateFeedRequest request,
+      @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
     log.info("Feed 생성 요청: {}", request.toString());
-    Feed feed = useCase.createFeed(mapper.toCommand(request));
+    Feed feed = useCase.createFeed(userDetails, mapper.toCommand(request));
     FeedResponse response = mapper.toResponse(feed);
     log.info("Feed 생성 및 저장 완료: {}", response.id().toString());
     return ResponseEntity.ok().body(ApiResponseData.success(response));
@@ -45,10 +49,11 @@ public class PostCommandController {
 
   @PostMapping("/votes")
   public ResponseEntity<ApiResponseData<VoteResponse>> createVotes(
-      @Valid @RequestBody CreateVoteRequest request
+      @Valid @RequestBody CreateVoteRequest request,
+      @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
     log.info("Vote 생성 요청: {}", request.toString());
-    Vote vote = useCase.createVote(mapper.toCommand(request));
+    Vote vote = useCase.createVote(userDetails, mapper.toCommand(request));
     VoteResponse response = mapper.toResponse(vote);
     log.info("Vote 생성 및 저장 완료: {}", response.id().toString());
     return ResponseEntity.ok().body(ApiResponseData.success(response));
@@ -57,11 +62,12 @@ public class PostCommandController {
   @PostMapping("/feeds/{id}")
   public ResponseEntity<ApiResponseData<FeedResponse>> updateFeed(
       @PathVariable final String id,
-      @RequestBody UpdateFeedRequest request
+      @RequestBody UpdateFeedRequest request,
+      @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
     log.info("Feed 업데이트 요청: {}", id);
     log.info("Feed 업데이트 내역: {}", request.toString());
-    Feed feed = useCase.updateFeed(UUID.fromString(id), mapper.toCommand(request));
+    Feed feed = useCase.updateFeed(userDetails, UUID.fromString(id), mapper.toCommand(request));
     FeedResponse response = mapper.toResponse(feed);
     log.info("Feed 업데이트 완료");
     return ResponseEntity.ok().body(ApiResponseData.success(response));
@@ -70,28 +76,35 @@ public class PostCommandController {
   @PostMapping("/votes/{id}")
   public ResponseEntity<ApiResponseData<VoteResponse>> updateVote(
       @PathVariable final String id,
-      @RequestBody UpdateVoteRequest request
+      @RequestBody UpdateVoteRequest request,
+      @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
     log.info("Vote 업데이트 요청: {}", id);
     log.info("Vote 업데이트 내역: {}", request.toString());
-    Vote vote = useCase.updateVote(UUID.fromString(id), mapper.toCommand(request));
+    Vote vote = useCase.updateVote(userDetails, UUID.fromString(id), mapper.toCommand(request));
     VoteResponse response = mapper.toResponse(vote);
     log.info("Vote 업데이트 완료");
     return ResponseEntity.ok().body(ApiResponseData.success(response));
   }
 
-  @DeleteMapping("/feeds/{id}")
-  public ResponseEntity<ApiResponseData> deleteFeed(@PathVariable final String id) {
-    log.info("Feed 삭제 요청: {}", id);
-    useCase.deleteFeed(mapper.toCommand(UUID.fromString(id)));
+  @DeleteMapping("/feeds")
+  public ResponseEntity<ApiResponseData> deleteFeed(
+      @Valid @RequestBody DeleteRequest request,
+      @AuthenticationPrincipal CustomUserDetails userDetails
+  ) {
+    log.info("Feed 삭제 요청: {}", request.postId());
+    useCase.deleteFeed(userDetails, mapper.toCommand(request));
     log.info("Feed 삭제 완료");
     return ResponseEntity.ok().body(ApiResponseData.success(null));
   }
 
-  @DeleteMapping("/votes/{id}")
-  public ResponseEntity<ApiResponseData> deleteVote(@PathVariable final String id) {
-    log.info("Vote 삭제 요청: {}", id);
-    useCase.deleteVote(mapper.toCommand(UUID.fromString(id)));
+  @DeleteMapping("/votes")
+  public ResponseEntity<ApiResponseData> deleteVote(
+      @Valid @RequestBody DeleteRequest request,
+      @AuthenticationPrincipal CustomUserDetails userDetails
+  ) {
+    log.info("Vote 삭제 요청: {}", request.postId());
+    useCase.deleteVote(userDetails, mapper.toCommand(request));
     log.info("Vote 삭제 완료");
     return ResponseEntity.ok().body(ApiResponseData.success(null));
   }
