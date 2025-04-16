@@ -64,6 +64,9 @@ dependencies {
     testImplementation 'org.springframework.kafka:spring-kafka-test'
     implementation 'com.google.guava:guava:33.1.0-jre'
 
+    // security
+    implementation "org.springframework.boot:spring-boot-starter-security"
+
 }
 
 ext {
