@@ -1,6 +1,7 @@
 package com.sparta.moim.notificationservice.infrastruct.repository;
 
 import com.sparta.moim.notificationservice.domain.repository.EmitterRepository;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -14,7 +15,7 @@ public class EmitterRepositoryImpl implements EmitterRepository {
 
     @Override
     public SseEmitter save(String emitterId, SseEmitter sseEmitter) {
-        emitters.put(emitterId, new SseEmitter());
+        emitters.put(emitterId, sseEmitter);
         return sseEmitter;
     }
 
@@ -24,7 +25,7 @@ public class EmitterRepositoryImpl implements EmitterRepository {
     }
 
     @Override
-    public Map<String, Object> findAllEmitterStartWithByMemberId(String memberId) {
+    public Map<String, SseEmitter> findAllEmitterStartWithByMemberId(String memberId) {
         return emitters.entrySet().stream()
                 .filter(entry->entry.getKey().startsWith(memberId))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
@@ -44,23 +45,23 @@ public class EmitterRepositoryImpl implements EmitterRepository {
 
     @Override
     public void deleteAllEmitterStartWithId(String memberId) {
-        emitters.forEach(
-                (key, emitter)-> {
-                    if(key.startsWith(memberId)){
-                        emitters.remove(key);
-                    }
-                }
-        );
+        List<String> keysToDelete = emitters.keySet().stream()
+                .filter(key -> key.startsWith(memberId))
+                .toList();
+
+        for (String key : keysToDelete) {
+            emitters.remove(key);
+        }
     }
 
     @Override
-    public void deleteAllEventCacheStartWithId(String memberId){
-        eventCache.forEach(
-                (key, event)-> {
-                    if(key.startsWith(memberId)){
-                        eventCache.remove(key);
-                    }
-                }
-        );
+    public void deleteAllEventCacheStartWithId(String memberId) {
+        List<String> keysToDelete = eventCache.keySet().stream()
+                .filter(key -> key.startsWith(memberId))
+                .toList();
+
+        for (String key : keysToDelete) {
+            eventCache.remove(key);
+        }
     }
 }

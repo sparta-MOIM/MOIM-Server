@@ -22,7 +22,7 @@ public class NotificationService {
     private final NotificationRepository notificationRepository;
 
     //연결 지속 시간
-    private static final Long DEFAULT_TIMEOUT = 60L * 1000L * 60L; // 1시간
+    private static final Long DEFAULT_TIMEOUT = 60L * 1000L * 60; // 1시간
 
     public SseEmitter subscribe(String memberTrackingId, String lastEventId){
         // 고유한 아이디 생성
@@ -42,29 +42,36 @@ public class NotificationService {
                     .filter(entry -> lastEventId.compareTo(entry.getKey())<0)
                     .forEach(entry -> sendToClient(emitter,entry.getKey(),entry.getValue()));
         }
-        log.info("🔗 SSE 구독 연결: memberId = " + memberTrackingId);
+        log.info("SSE 구독 연결: memberId = " + memberTrackingId);
         return emitter;
 
     }
 
-    private void sendToClient(SseEmitter emitter, String emitterId, Object object) {
+    private void sendToClient(SseEmitter emitter, String messageId, Object data) {
 
         try {
-            log.info("📨 메시지 전송 시도: emitterId = " + emitterId + ", object = " + object);
+            log.info("메시지 전송 시도: emitterId = " + messageId + ", object = " + data);
             emitter.send(SseEmitter.event()
-                    .id(emitterId)
-                    .data(object));
+                    .id(messageId)
+                    .data(data));
         } catch (IOException exception){
-            log.error("🔥 emitter 전송 실패: {}", exception.getMessage());
-            emitterRepository.deleteById(emitterId);
+            log.error("emitter 전송 실패: {}", exception.getMessage());
+            emitterRepository.deleteById(messageId);
             throw new RuntimeException("전송 실패");
         }
     }
 
     public void sendNotificationToMember(String memberTrackingId, String message) {
-        Map<String, Object> emitters = emitterRepository.findAllEmitterStartWithByMemberId(memberTrackingId);
-        emitters.forEach((emitterId, emitterObj) -> {
-            SseEmitter emitter = (SseEmitter) emitterObj;
+        Map<String, SseEmitter> emitters = emitterRepository.findAllEmitterStartWithByMemberId(memberTrackingId);
+        if (emitters.isEmpty()) {
+            log.info("📭 emitterRepository에 저장된 emitter가 없습니다. memberId: {}", memberTrackingId);
+        } else {
+            log.info("현재 저장된 emitter 목록 (memberId: {})", memberTrackingId);
+            emitters.forEach((emitterId, emitter) -> {
+                log.info("emitterId: {}", emitterId);
+            });
+        }
+        emitters.forEach((emitterId, emitter) -> {
             log.info("Emitter ID : " + emitterId);
             log.info("Emitter: "+ emitter.toString());
             log.info(emitterId + "에 메시지 전송");
@@ -76,7 +83,7 @@ public class NotificationService {
 
             log.info("받는 사람 : " + memberTrackingId + ", 메시지 ID : " + messageId + ", 메시지 : " + message);
             // 실제 전송
-            sendToClient(emitter, emitterId, message);
+            sendToClient(emitter, messageId, message);
         });
     }
 
