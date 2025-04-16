@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public record UpdateFeedCommand(
+    UUID organizationId,
     Optional<String> title,
     Optional<String> content,
     Optional<String> imageUrl,
