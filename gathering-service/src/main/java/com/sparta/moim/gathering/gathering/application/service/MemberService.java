@@ -1,11 +1,11 @@
-package com.sparta.moim.gathering.member.application.service;
+package com.sparta.moim.gathering.gathering.application.service;
 
-import com.sparta.moim.gathering.member.application.dto.command.JoinGatheringCommand;
-import com.sparta.moim.gathering.member.application.dto.command.LeaveGatheringCommand;
-import com.sparta.moim.gathering.member.application.dto.command.RemoveGatheringCommand;
-import com.sparta.moim.gathering.member.application.event.feign.InternalGatheringService;
-import com.sparta.moim.gathering.member.domain.enums.MemberType;
-import com.sparta.moim.gathering.member.domain.repository.MemberRepository;
+import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.JoinGatheringCommand;
+import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.LeaveGatheringCommand;
+import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.RemoveGatheringCommand;
+import com.sparta.moim.gathering.gathering.application.event.feign.InternalGatheringService;
+import com.sparta.moim.gathering.gathering.domain.enums.MemberType;
+import com.sparta.moim.gathering.gathering.domain.enums.MemberRepository;
 import com.sparta.moim.gathering.shared.error.code.GatheringCode;
 import com.sparta.moim.gathering.shared.error.exception.GatheringException;
 import java.util.UUID;

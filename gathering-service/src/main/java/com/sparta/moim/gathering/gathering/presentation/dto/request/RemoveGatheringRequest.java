@@ -1,6 +1,6 @@
-package com.sparta.moim.gathering.member.presentation.dto.request;
+package com.sparta.moim.gathering.gathering.presentation.dto.request;
 
-import com.sparta.moim.gathering.member.application.dto.command.RemoveGatheringCommand;
+import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.RemoveGatheringCommand;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

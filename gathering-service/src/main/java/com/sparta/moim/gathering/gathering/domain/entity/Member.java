@@ -1,6 +1,6 @@
-package com.sparta.moim.gathering.member.domain;
+package com.sparta.moim.gathering.gathering.domain.entity;
 
-import com.sparta.moim.gathering.member.domain.enums.MemberType;
+import com.sparta.moim.gathering.gathering.domain.enums.MemberType;
 import com.sparta.moim.gathering.shared.dto.SharedGatheringMember;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

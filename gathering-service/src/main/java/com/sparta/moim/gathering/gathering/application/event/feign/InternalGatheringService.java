@@ -1,4 +1,4 @@
-package com.sparta.moim.gathering.member.application.event.feign;
+package com.sparta.moim.gathering.gathering.application.event.feign;
 
 import java.util.UUID;
 

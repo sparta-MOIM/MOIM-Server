@@ -1,4 +1,4 @@
-package com.sparta.moim.gathering.member.application.dto.result;
+package com.sparta.moim.gathering.gathering.application.dto.result;
 
 public record GetMemberListResult(String name,
                                   String type) {
