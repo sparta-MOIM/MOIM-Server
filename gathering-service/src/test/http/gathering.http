@@ -1,5 +1,5 @@
 ### 게더링 생성
-POST http://localhost:19101/api/v1/gathering
+POST http://localhost:8085/api/v1/gathering
 Content-Type: application/json
 X-User-Name: 사용자이름
 X-User-Role: USER
@@ -7,7 +7,7 @@ X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76
 
 {
   "organizationId": "org123",
-  "name": "모임 이름5",
+  "name": "모임 이름",
   "owner": "주인장",
   "count": 10,
   "status": true
@@ -15,7 +15,7 @@ X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76
 
 
 ###
-POST http://localhost:19101/api/v1/gathering/member/39ad3059-aba2-4de9-97cf-5dcb4c5f65b3
+POST http://localhost:19101/api/v1/gathering/member/16fbfdfd-3901-455e-8ae3-07f2efa5ec17
 X-User-Name: stem
 X-User-Role: USER
 X-User-ID: d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c70
@@ -56,19 +56,19 @@ X-User-ID: 550e8400-e29b-41d4-a716-446655440000
 
 
 ### 게더링 수정
-PUT http://localhost:19101/api/v1/gathering/7af12059-8279-4000-82c2-358083f9e8f6
+PUT http://localhost:8085/api/v1/gathering/c1bbad8f-8821-4021-be55-bb5bc4fb085f
 Content-Type: application/json
 X-User-Name: 사용자이름
 X-User-Role: USER
 X-User-ID: 550e8400-e29b-41d4-a716-446655440000
 
 {
-  "status": false
+  "owner": "hi"
 }
 
 
 ### 게더링 조회
-GET http://localhost:19101/api/v1/gathering/88cd4965-9cb3-4a66-8a73-04b360e56da1
+GET http://localhost:8085/api/v1/gathering/c1bbad8f-8821-4021-be55-bb5bc4fb085f
 Content-Type: application/json
 X-User-Name: 사용자이름
 X-User-Role: USER
