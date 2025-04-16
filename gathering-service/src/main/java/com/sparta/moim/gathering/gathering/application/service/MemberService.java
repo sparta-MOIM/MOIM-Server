@@ -3,9 +3,9 @@ package com.sparta.moim.gathering.gathering.application.service;
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.JoinGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.LeaveGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.RemoveGatheringCommand;
-import com.sparta.moim.gathering.gathering.application.event.feign.InternalGatheringService;
 import com.sparta.moim.gathering.gathering.domain.enums.MemberType;
-import com.sparta.moim.gathering.gathering.domain.enums.MemberRepository;
+import com.sparta.moim.gathering.gathering.domain.repository.GatheringValidationRepository;
+import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
 import com.sparta.moim.gathering.shared.error.code.GatheringCode;
 import com.sparta.moim.gathering.shared.error.exception.GatheringException;
 import java.util.UUID;
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MemberService {
   private final MemberRepository memberRepository;
-  private final InternalGatheringService internalGatheringService;
+  private final GatheringValidationRepository gatheringValidationRepository;
 
   public void joinGathering(JoinGatheringCommand command) {
     validateGatheringExists(command.gatheringId());
@@ -31,7 +31,7 @@ public class MemberService {
   }
 
   private void statusTrueValidate(JoinGatheringCommand command) {
-    internalGatheringService.validateGatheringStatusOpen(command.gatheringId());
+    gatheringValidationRepository.isGatheringOpen(command.gatheringId());
   }
 
 
@@ -54,6 +54,6 @@ public class MemberService {
   }
 
   private void validateGatheringExists(UUID id) {
-    internalGatheringService.validateGatheringExists(id);
+    gatheringValidationRepository.existsByTrackingIdAndDeletedAtNull(id);
   }
 }

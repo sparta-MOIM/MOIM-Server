@@ -1,6 +1,7 @@
-package com.sparta.moim.gathering.gathering.domain.enums;
+package com.sparta.moim.gathering.gathering.domain.repository;
 
 import com.sparta.moim.gathering.gathering.domain.entity.Member;
+import com.sparta.moim.gathering.gathering.domain.enums.MemberType;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

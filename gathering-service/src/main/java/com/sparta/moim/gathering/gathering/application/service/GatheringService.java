@@ -9,11 +9,11 @@ import com.sparta.moim.gathering.gathering.application.dto.result.GetGatheringRe
 import com.sparta.moim.gathering.gathering.application.dto.result.GetGatheringMemberListResult;
 import com.sparta.moim.gathering.gathering.application.dto.result.SearchGatheringListResult;
 import com.sparta.moim.gathering.gathering.application.dto.result.SearchGatheringResult;
-import com.sparta.moim.gathering.gathering.application.event.feign.MemberService;
 import com.sparta.moim.gathering.gathering.application.event.publisher.MemberPublisher;
 import com.sparta.moim.gathering.gathering.domain.entity.Gathering;
 import com.sparta.moim.gathering.gathering.domain.repository.GatheringRepository;
 import com.sparta.moim.gathering.gathering.domain.repository.GatheringRepositoryCustom;
+import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
 import com.sparta.moim.gathering.shared.error.code.GatheringCode;
 import com.sparta.moim.gathering.shared.error.exception.GatheringException;
 import com.sparta.moim.common.page.Pagination;
@@ -28,8 +28,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class GatheringService {
   private final GatheringRepository gatheringRepository;
   private final GatheringRepositoryCustom gatheringRepositoryCustom;
+
+  private final MemberRepository memberRepository;
   private final MemberService memberService;
+
   private final MemberPublisher memberPublisher;
+
 
   public CreateGatheringResult createGathering(CreateGatheringCommand command) {
     if (gatheringRepository.existsByNameAndDeletedAtIsNull(command.name())) {
@@ -65,7 +69,7 @@ public class GatheringService {
 
   @Transactional(readOnly = true)
   public GetGatheringResult getGathering(UUID gatheringId) {
-    List<GetGatheringMemberListResult> members = memberService.findMembers(gatheringId);
+    List<GetGatheringMemberListResult> members = memberRepository.findMembers(gatheringId).stream().map(g -> new GetGatheringMemberListResult(g)).toList();
     Gathering gathering = gatheringRepository.findByTrackingIdAndDeletedAtIsNull(gatheringId)
         .orElseThrow(() -> new GatheringException(GatheringCode.NOT_FOUND_GATHERING));
     return GetGatheringResult.get(gathering, members);

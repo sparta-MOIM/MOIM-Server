@@ -1,7 +1,7 @@
-package com.sparta.moim.gathering.gathering.infrastructure.event.feign.listener;
+package com.sparta.moim.gathering.gathering.infrastructure.event.listener;
 
 import com.sparta.moim.gathering.gathering.domain.entity.Member;
-import com.sparta.moim.gathering.gathering.domain.enums.MemberRepository;
+import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
 import com.sparta.moim.gathering.shared.dto.SharedGatheringMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
