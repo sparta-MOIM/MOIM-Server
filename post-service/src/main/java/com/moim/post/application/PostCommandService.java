@@ -115,7 +115,7 @@ public class PostCommandService implements PostCommandUseCase {
       DeleteCommand command
   ) {
     checkRole("DELETE", command.organizationId(), userDetails.getTrackingId());
-    Vote vote = voteRepository.findByTrackingId(command.postId()).orElseThrow(NotFoundFeed::new);
+    Vote vote = voteRepository.findByTrackingId(command.postId()).orElseThrow(NotFoundVote::new);
     vote.delete();
   }
 
