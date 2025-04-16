@@ -1,11 +1,14 @@
 package com.moim.schedule.presentation.mapper;
 
 import com.moim.schedule.application.command.CreateScheduleCommand;
+import com.moim.schedule.application.command.DeleteCommand;
+import com.moim.schedule.application.command.UpdateScheduleCommand;
 import com.moim.schedule.application.query.FindQuery;
 import com.moim.schedule.application.query.SearchScheduleQuery;
 import com.moim.schedule.domain.Schedule;
 import com.moim.schedule.presentation.request.CreateScheduleRequest;
 import com.moim.schedule.presentation.request.SearchScheduleRequest;
+import com.moim.schedule.presentation.request.UpdateScheduleRequest;
 import com.moim.schedule.presentation.response.ScheduleResponse;
 import java.util.UUID;
 import org.mapstruct.Mapper;
@@ -23,5 +26,9 @@ public interface SchedulePresentationMapper {
   FindQuery toQuery(UUID id);
 
   SearchScheduleQuery toQuery(SearchScheduleRequest request);
+
+  DeleteCommand toCommand(UUID id);
+
+  UpdateScheduleCommand toCommand(UpdateScheduleRequest request);
 
 }
