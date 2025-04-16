@@ -38,7 +38,7 @@ public class NotificationController {
     public ResponseEntity<ApiResponseData<Pagination<GetNotificationResponse>>> getNotifications(
 //            @AuthenticationPrincipal CustomUserDetails userDetails todo- userDetails로 변경
             @RequestParam(value = "isRead", required = false) Boolean isRead,
-            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "0") int page, //todo - @Positive(message = "페이지 번호 1 이상이어야 합니다.")
             @RequestParam(defaultValue = "10") int size
     ) {
         Pagination<GetNotificationResponse> response = getNotificationsUseCase.execute(
