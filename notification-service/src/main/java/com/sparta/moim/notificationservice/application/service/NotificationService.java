@@ -23,9 +23,9 @@ public class NotificationService {
     //연결 지속 시간
     private static final Long DEFAULT_TIMEOUT = 60L * 1000L * 60; // 1시간
 
-    public SseEmitter subscribe(String memberTrackingId, String lastEventId){
+    public SseEmitter subscribe(String userTrackingId, String lastEventId){
         // 고유한 아이디 생성
-        String emitterId = memberTrackingId + "_" + System.currentTimeMillis();
+        String emitterId = userTrackingId + "_" + System.currentTimeMillis();
         SseEmitter emitter = emitterRepository.save(emitterId, new SseEmitter(DEFAULT_TIMEOUT));
 
         // 시간 초과나 비동기 요청 실패시 자동으로 삭제
@@ -33,15 +33,15 @@ public class NotificationService {
         emitter.onCompletion(() -> emitterRepository.deleteById(emitterId));
 
         // 최초 연결시 더미데이터가 없으면 503 오류 발생. 더미 데이터 생성
-        sendToClient(emitter, emitterId, "EventStream Created. [memberId=" + memberTrackingId + "]");
+        sendToClient(emitter, emitterId, "EventStream Created. [memberId=" + userTrackingId + "]");
         // lastEventId가 있다는것은 연결이 종료됐었다는 의미. 이벤트가 남아 있을 경우 클라이언트에게 전송
         if(!lastEventId.isEmpty()){
-            Map<String, Object> events = emitterRepository.findAllEventCacheStartWithMyMemberId(memberTrackingId);
+            Map<String, Object> events = emitterRepository.findAllEventCacheStartWithMyMemberId(userTrackingId);
             events.entrySet().stream()
                     .filter(entry -> lastEventId.compareTo(entry.getKey())<0)
                     .forEach(entry -> sendToClient(emitter,entry.getKey(),entry.getValue()));
         }
-        log.info("SSE 구독 연결: memberId = " + memberTrackingId);
+        log.info("SSE 구독 연결: memberId = " + userTrackingId);
         return emitter;
 
     }
