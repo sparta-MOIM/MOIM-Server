@@ -30,7 +30,7 @@ public class UpdateMemberInfoService implements UpdateMemberInfoUseCase {
         OrganizationMember byOrganizationAndNickname = organizationMemberRepository.findByOrganizationAndNickname(
                 organization, command.getNickname()).orElse(null);
 
-        if (byOrganizationAndNickname != null && !byOrganizationAndNickname.getUserTrackingId().equals(organizationMember.getTrackingId())) {
+        if (byOrganizationAndNickname != null && !byOrganizationAndNickname.getUserTrackingId().equals(organizationMember.getUserTrackingId())) {
             throw new AlreadyUsedNickname();
         }
 

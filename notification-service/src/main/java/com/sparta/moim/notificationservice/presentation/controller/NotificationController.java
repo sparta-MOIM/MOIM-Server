@@ -33,5 +33,5 @@ public class NotificationController {
         return ResponseEntity.ok(ApiResponseData.success("test"));
     }
 
- 
+
 }
