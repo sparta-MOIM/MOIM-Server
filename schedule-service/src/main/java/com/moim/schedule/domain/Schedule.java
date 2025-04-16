@@ -49,6 +49,9 @@ public class Schedule extends BaseEntity {
   @Column(name = "period", nullable = false)
   private Period period;
 
+  @Column(name = "is_deleted", nullable = false)
+  private Boolean isDeleted;
+
   public static Schedule create(
       UUID organizationId,
       String title,
@@ -61,7 +64,12 @@ public class Schedule extends BaseEntity {
         .title(title)
         .content(content)
         .period(new Period(start, end))
+        .isDeleted(false)
         .build();
+  }
+
+  public void delete(){
+    isDeleted = true;
   }
 
 }
