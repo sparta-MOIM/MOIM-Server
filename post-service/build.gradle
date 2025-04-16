@@ -56,9 +56,13 @@ dependencies {
     // eureka client
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
-
     //spring cloud - feign
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+    //kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+    implementation 'com.google.guava:guava:33.1.0-jre'
 
 }
 
