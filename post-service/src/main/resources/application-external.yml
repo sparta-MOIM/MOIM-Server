@@ -1,7 +1,7 @@
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT}/eureka/
+      defaultZone: http://localhost:${EUREKA_PORT}/eureka/
   instance:
     hostname: localhost    # 추가: 호스트명 명시적 설정
     preferIpAddress: true
