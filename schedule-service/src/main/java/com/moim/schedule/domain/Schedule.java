@@ -68,6 +68,22 @@ public class Schedule extends BaseEntity {
         .build();
   }
 
+  public void updateTitle(String title){
+    this.title = title;
+  }
+
+  public void updateContent(String content){
+    this.content = content;
+  }
+
+  public void updateStart(LocalDateTime start){
+    period.updateStart(start);
+  }
+
+  public void updateEnd(LocalDateTime end){
+    period.updateEnd(end);
+  }
+
   public void delete(){
     isDeleted = true;
   }
