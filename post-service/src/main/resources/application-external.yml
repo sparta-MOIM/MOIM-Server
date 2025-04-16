@@ -20,3 +20,7 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+feign:
+  url:
+    organization: ${ORGANIZATION_CLIENT_URL}
