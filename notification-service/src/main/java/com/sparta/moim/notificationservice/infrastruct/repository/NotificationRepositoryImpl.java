@@ -4,6 +4,7 @@ import com.sparta.moim.common.page.Pagination;
 import com.sparta.moim.notificationservice.domain.entity.Notification;
 import com.sparta.moim.notificationservice.domain.repository.NotificationRepository;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -36,5 +37,16 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                 notificationPage.getTotalElements(),
                 notificationPage.getContent()
         );
+    }
+
+    @Override
+    public Optional<Notification> findByUserTrackingIdAndNotificationTrackingId(String userTrackingId,
+                                                                                String notificationTrackingId) {
+        return notificationJpaRepository.findByReceiverTrackingIdAndTrackingId(UUID.fromString(userTrackingId), UUID.fromString(notificationTrackingId));
+    }
+
+    @Override
+    public void save(Notification notification) {
+        notificationJpaRepository.save(notification);
     }
 }
