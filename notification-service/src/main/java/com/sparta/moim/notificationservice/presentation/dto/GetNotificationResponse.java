@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class NotificationResponse {
+public class GetNotificationResponse {
 
     private String notificationTrackingId;
     private String organizationTrackingId;

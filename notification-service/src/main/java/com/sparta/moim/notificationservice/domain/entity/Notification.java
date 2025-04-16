@@ -1,5 +1,6 @@
 package com.sparta.moim.notificationservice.domain.entity;
 
+import com.sparta.moim.common.utils.BaseEntity;
 import com.sparta.moim.notificationservice.application.dto.command.ApplyOrganizationNotificationCommand;
 import com.sparta.moim.notificationservice.domain.enums.NotificationType;
 import jakarta.persistence.Column;
@@ -28,7 +29,7 @@ import org.hibernate.annotations.Where;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder(access = AccessLevel.PRIVATE)
 @Table(name = "p_notification")
-public class Notification {
+public class Notification extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,7 +57,7 @@ public class Notification {
     private String content;
 
     @Column(name="is_read", nullable = false)
-    private boolean isRead;
+    private Boolean isRead;
 
     public static Notification from(ApplyOrganizationNotificationCommand command, String reciverTrackingId, String content) {
         return Notification.builder()
