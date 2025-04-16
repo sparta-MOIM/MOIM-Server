@@ -19,20 +19,21 @@ public class ChatRoomService {
   private final ChatRoomSender chatRoomSender;
 
   //채팅방을 만들고 카프카에 토픽에 전달
-  public void createChatRoomService(ChatRoomRequestDTO chatRoomRequestDTO){
+  public ChatRoomResponseDTO createChatRoomService(ChatRoomRequestDTO chatRoomRequestDTO){
 
     //모임이 존재하는지 확인 필요 (feignClient)
-    //유저가 존재하는지 확인 팔요 (feignClient)
+    //유저가 존재하는지 확인 팔요 (feignClient), 관리자 권한 체크 (채팅방을 만들수있는건 관리자)
 
     ChatRoom chatRoom = ChatRoom.from(chatRoomRequestDTO);
 
-    ChatRoomResponseDTO chatRoomResponseDTO = ChatRoomResponseDTO.from(chatRoomRepository.save(chatRoom).get());
+    ChatRoomResponseDTO chatRoomResponseDTO = ChatRoomResponseDTO.from(chatRoomRepository.save(chatRoom));
 
     chatRoomSender.send(ConstantUtil.KAFKA_TOPIC_CHATROOM, chatRoomResponseDTO);
 
+    return chatRoomResponseDTO;
+
   }
 
-  //
 
 }
 

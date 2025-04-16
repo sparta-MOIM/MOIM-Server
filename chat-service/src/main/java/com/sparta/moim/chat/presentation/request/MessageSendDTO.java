@@ -1,10 +1,12 @@
 package com.sparta.moim.chat.presentation.request;
 
+import com.sparta.moim.chat.domain.enums.MessageType;
 import com.sparta.moim.chat.domain.model.Chat;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +14,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
-// Kafka에서 메시지 전달에 사용할 도메인 모델 작성
+// 메세지 내용
+// Kafka로 메시지를 전달할 때 사용할 도메인 모델 작성
 @Getter
 @ToString
 @Builder
@@ -24,34 +27,41 @@ public class MessageSendDTO implements Serializable {
   private Integer chatNo;
 
   @NotNull
-  private String contentType;
+  private String content;
 
   @NotNull
-  private String content;
+  private MessageType contentType; //enum은 암묵적으로 Serializable를 구현한다.
+
+  //메세지를 보낸사람의 trackingId
+  private String senderId;
 
   private String senderName;
 
-  private String senderId;
+  private String chatRoomNo;
 
-  private long sendTime;
+  private Long sendTime;
+
   private Integer readCount;
 
   public void setSendTimeAndSender(LocalDateTime sendTime, String senderId, String senderName) {
     this.senderName = senderName;
+    //대한민국 시간대 저장 (나라별 시간대 관리)
+    //직렬화를 편하게 하기 위해서 추가, LocalDateTime을 사용하면 커스텀 직렬화/역직렬화 필요
     this.sendTime = sendTime.atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli();
     this.senderId = senderId;
     //this.readCount = readCount;
   }
 
-  public Chat convertEntity() {
+  public Chat toChat() {
     return Chat.builder()
-        .senderName(senderName)
-        .senderId(senderId)
-        .chatRoomNo(chatNo)
-        .contentType(contentType)
         .content(content)
-        .sendDate(Instant.ofEpochMilli(sendTime).atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime())
-        .readCount(readCount)
+        .contentType(contentType)
+        .senderId(senderId)
+        .senderName(senderName)
+        .chatRoomNo(chatRoomNo)
+        //db에 저장할 때는 보기 편하게, LocalDateTime으로 설정
+        .sendTime(Instant.ofEpochMilli(sendTime).atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime())
+        //.readCount(readCount)
         .build();
   }
 }

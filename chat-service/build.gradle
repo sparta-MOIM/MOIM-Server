@@ -52,6 +52,9 @@ dependencies {
     //validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+    //spring security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
     //kafka
     implementation 'org.springframework.kafka:spring-kafka'
     testImplementation 'org.springframework.kafka:spring-kafka-test'

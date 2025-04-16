@@ -39,7 +39,7 @@ public class ProducerConfiguration {
   @Bean
   public Map<String, Object> messageSendProducerConfigurations() {
     return ImmutableMap.<String, Object>builder()
-        .put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
+        .put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
         .put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class)
         .put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class)
         .build();
@@ -48,7 +48,7 @@ public class ProducerConfiguration {
   @Bean
   public Map<String, Object> chatRoomProducerConfigurations() {
     return ImmutableMap.<String, Object>builder()
-        .put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
+        .put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
         .put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class)
         .put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class)
         .build();

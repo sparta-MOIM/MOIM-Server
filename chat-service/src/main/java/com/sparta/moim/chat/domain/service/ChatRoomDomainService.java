@@ -5,6 +5,7 @@ import com.sparta.moim.chat.domain.model.ChatRoom;
 import com.sparta.moim.chat.domain.repository.ChatRoomRepository;
 import com.sparta.moim.chat.presentation.request.ChatRoomRequestDTO;
 import com.sparta.moim.common.exception.BaseException;
+import com.sparta.moim.common.security.CustomUserDetails;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -36,17 +37,17 @@ public class ChatRoomDomainService {
   }
 
   // 채팅방 수정
-  public void updateChatRoom(Long chat_room_id, ChatRoomRequestDTO chatRoomRequestDTO){
-    ChatRoom chatRoom = chatRoomRepository.findById(chat_room_id).orElseThrow(()->new BaseException("해당 채팅방이 존재하지 않습니다."));
+  public void updateChatRoom(String ChatRoomId, ChatRoomRequestDTO chatRoomRequestDTO){
+    ChatRoom chatRoom = chatRoomRepository.findByChatRoomId(ChatRoomId);
     chatRoom.setChatRoom(chatRoomRequestDTO.getChatRoom());
-    chatRoomRepository.save(chatRoom).orElseThrow(()->new BaseException("채팅방 수정에 실패하였습니다."));
+    chatRoomRepository.save(chatRoom);
   }
 
   //채팅방 삭제
-  public void deleteChatRoom(Long chat_room_id){
-    ChatRoom chatRoom = chatRoomRepository.findById(chat_room_id).orElseThrow(()->new BaseException("해당 채팅방이 존재하지 않습니다."));
-    chatRoom.softDelete("testuser");
-    chatRoomRepository.save(chatRoom).orElseThrow(()->new BaseException("채팅방 삭제에 실패하였습니다."));
+  public void deleteChatRoom(String chatRoomId, CustomUserDetails customUserDetails){
+    ChatRoom chatRoom = chatRoomRepository.findByChatRoomId(chatRoomId);
+    chatRoom.softDelete(customUserDetails.getTrackingId().toString());
+    chatRoomRepository.save(chatRoom);
   }
 
 
