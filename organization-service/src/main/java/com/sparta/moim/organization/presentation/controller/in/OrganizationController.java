@@ -1,4 +1,4 @@
-package com.sparta.moim.organization.presentation.controller;
+package com.sparta.moim.organization.presentation.controller.in;
 
 import com.sparta.moim.common.page.Pagination;
 import com.sparta.moim.common.response.ApiResponseData;

@@ -1,4 +1,4 @@
-package com.sparta.moim.organization.presentation.controller;
+package com.sparta.moim.organization.presentation.controller.in;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

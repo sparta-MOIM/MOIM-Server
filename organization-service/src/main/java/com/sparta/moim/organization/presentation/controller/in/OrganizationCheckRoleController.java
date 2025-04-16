@@ -1,4 +1,4 @@
-package com.sparta.moim.organization.presentation.controller;
+package com.sparta.moim.organization.presentation.controller.in;
 
 import com.sparta.moim.common.response.ApiResponseData;
 import com.sparta.moim.organization.application.usecase.OrganizationCheckRoleUseCase;
