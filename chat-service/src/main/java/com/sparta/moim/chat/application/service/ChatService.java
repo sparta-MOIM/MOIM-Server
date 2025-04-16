@@ -1,11 +1,16 @@
 package com.sparta.moim.chat.application.service;
 
+import com.sparta.moim.chat.application.dto.ChatResponseDTO;
+import com.sparta.moim.chat.application.dto.ChatRoomResponseDTO;
 import com.sparta.moim.chat.application.service.kafka.ChatSender;
+import com.sparta.moim.chat.domain.model.Chat;
 import com.sparta.moim.chat.domain.repository.ChatRepository;
 import com.sparta.moim.chat.domain.repository.ChatRoomRepository;
 import com.sparta.moim.chat.infrastructure.util.ConstantUtil;
 import com.sparta.moim.chat.presentation.request.MessageSendDTO;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +48,18 @@ public class ChatService {
     //메세지 전송 후, 메세지 기록을 위해서 mongodb에 메세지를 저장한다.
     chatRepository.save(messageSendDTO.toChat());
 
+  }
+
+  public List<ChatResponseDTO> getMessages(String chatRoomId){
+    //chatRoomId의 채팅내역들을 조회
+    List<Chat> chats = chatRepository.findByChatRoomId(chatRoomId);
+    List<ChatResponseDTO> chatResponseDTOS = new ArrayList<>();
+
+    for(Chat chat : chats){
+        chatResponseDTOS.add(ChatResponseDTO.from(chat));
+    }
+
+    return chatResponseDTOS;
   }
 
 }
