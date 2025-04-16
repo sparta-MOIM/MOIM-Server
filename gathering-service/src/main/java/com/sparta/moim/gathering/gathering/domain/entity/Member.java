@@ -1,7 +1,7 @@
 package com.sparta.moim.gathering.gathering.domain.entity;
 
 import com.sparta.moim.gathering.gathering.domain.enums.MemberType;
-import com.sparta.moim.gathering.shared.dto.SharedGatheringMember;
+import com.sparta.moim.gathering.gathering.application.dto.event.SharedGatheringMember;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package com.sparta.moim.gathering.shared.dto;
+package com.sparta.moim.gathering.gathering.application.dto.event;
 
 import java.util.UUID;
 import lombok.Builder;

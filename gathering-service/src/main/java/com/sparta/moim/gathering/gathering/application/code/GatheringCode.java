@@ -1,4 +1,4 @@
-package com.sparta.moim.gathering.shared.error.code;
+package com.sparta.moim.gathering.gathering.application.code;
 
 import com.sparta.moim.common.response.Code;
 import lombok.Getter;

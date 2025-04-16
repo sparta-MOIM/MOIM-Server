@@ -1,8 +1,8 @@
 package com.sparta.moim.gathering.gathering.infrastructure.event.publisher;
 
 import com.sparta.moim.gathering.gathering.application.event.publisher.MemberPublisher;
-import com.sparta.moim.gathering.shared.dto.SharedGatheringMember;
-import com.sparta.moim.gathering.shared.dto.SharedGatheringRevokeMember;
+import com.sparta.moim.gathering.gathering.application.dto.event.SharedGatheringMember;
+import com.sparta.moim.gathering.gathering.application.dto.event.SharedGatheringRevokeMember;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;

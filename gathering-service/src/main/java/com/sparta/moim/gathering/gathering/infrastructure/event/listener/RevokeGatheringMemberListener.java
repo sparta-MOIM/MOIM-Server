@@ -2,9 +2,9 @@ package com.sparta.moim.gathering.gathering.infrastructure.event.listener;
 
 import com.sparta.moim.gathering.gathering.domain.entity.Member;
 import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
-import com.sparta.moim.gathering.shared.dto.SharedGatheringRevokeMember;
-import com.sparta.moim.gathering.shared.error.code.GatheringCode;
-import com.sparta.moim.gathering.shared.error.exception.GatheringException;
+import com.sparta.moim.gathering.gathering.application.dto.event.SharedGatheringRevokeMember;
+import com.sparta.moim.gathering.gathering.application.code.GatheringCode;
+import com.sparta.moim.gathering.gathering.application.exception.GatheringException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
