@@ -14,12 +14,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PostNotificationEvent implements Serializable {
   private UUID postId;
-  private List<UUID> notifiedUserId;
+  private List<UUID> notifiedUserIds;
 
-  public static PostNotificationEvent create(UUID postId, List<UUID> notifiedUserId) {
+  public static PostNotificationEvent create(UUID postId, List<UUID> notifiedUserIds) {
     return PostNotificationEvent.builder()
         .postId(postId)
-        .notifiedUserId(notifiedUserId)
+        .notifiedUserIds(notifiedUserIds)
         .build();
   }
 }
