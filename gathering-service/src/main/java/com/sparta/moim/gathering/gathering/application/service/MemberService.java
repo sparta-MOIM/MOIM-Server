@@ -3,11 +3,12 @@ package com.sparta.moim.gathering.gathering.application.service;
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.JoinGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.LeaveGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.RemoveGatheringCommand;
+import com.sparta.moim.gathering.gathering.application.exception.AlreadyParticipateFoundGatheringException;
+import com.sparta.moim.gathering.gathering.application.exception.NotOpenGatheringException;
+import com.sparta.moim.gathering.gathering.application.exception.RoleNotAllowedGatheringException;
 import com.sparta.moim.gathering.gathering.domain.enums.MemberType;
 import com.sparta.moim.gathering.gathering.domain.repository.GatheringValidationRepository;
 import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
-import com.sparta.moim.gathering.gathering.application.code.GatheringCode;
-import com.sparta.moim.gathering.gathering.application.exception.GatheringException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,16 +25,17 @@ public class MemberService {
     statusTrueValidate(command);
 
     if(memberRepository.existsByMemberId(command.username())) {
-      throw new GatheringException(GatheringCode.ALREADY_PARTICIPATE_GATHERING);
+      throw new AlreadyParticipateFoundGatheringException();
     }
 
     memberRepository.save(command.toDomain());
   }
 
   private void statusTrueValidate(JoinGatheringCommand command) {
-    gatheringValidationRepository.isGatheringOpen(command.gatheringId());
+    if(!gatheringValidationRepository.isGatheringOpen(command.gatheringId())) {
+      throw new NotOpenGatheringException();
+    }
   }
-
 
   @Transactional
   public void leaveGathering(LeaveGatheringCommand command) {
@@ -46,7 +48,7 @@ public class MemberService {
     MemberType memberType = memberRepository.findMemberType(command.gatheringId(), command.memberId());
 
     if(memberType == MemberType.GENERAL) {
-      throw new GatheringException(GatheringCode.ROLE_NOT_ALLOWED_GATHERING);
+      throw new RoleNotAllowedGatheringException();
     }
 
     validateGatheringExists(command.gatheringId());

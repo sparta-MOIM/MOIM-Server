@@ -1,5 +1,7 @@
 package com.sparta.moim.gathering.gathering.application.service;
 
+import com.sparta.moim.gathering.gathering.application.exception.NotFoundGatheringException;
+import com.sparta.moim.gathering.gathering.application.exception.NotOpenGatheringException;
 import com.sparta.moim.gathering.gathering.domain.repository.GatheringValidationRepository;
 import com.sparta.moim.gathering.gathering.application.code.GatheringCode;
 import com.sparta.moim.gathering.gathering.application.exception.GatheringException;
@@ -14,7 +16,7 @@ public class GatheringValidationService {
 
   public void existsGathering(UUID gatheringId) {
     if (!gatheringRepository.existsByTrackingIdAndDeletedAtNull(gatheringId)) {
-      throw new GatheringException(GatheringCode.NOT_FOUND_GATHERING);
+      throw new NotFoundGatheringException();
     }
   }
 
@@ -22,7 +24,7 @@ public class GatheringValidationService {
     boolean isOpen = gatheringRepository.isGatheringOpen(gatheringId);
 
     if (!isOpen) {
-      throw new GatheringException(GatheringCode.NOT_OPEN_GATHERING);
+      throw new NotOpenGatheringException();
     }
   }
 }
