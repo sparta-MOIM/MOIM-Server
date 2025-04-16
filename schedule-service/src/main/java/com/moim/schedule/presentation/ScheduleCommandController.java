@@ -41,7 +41,7 @@ public class ScheduleCommandController {
 
   @PostMapping("/{id}")
   public ResponseEntity<ApiResponseData<ScheduleResponse>> updateSchedule(
-      @PathVariable final String id,
+      @PathVariable("id") final String id,
       @RequestBody UpdateScheduleRequest request
   ) {
     log.info("Schedule 업데이트 요청: {}", id);
@@ -53,7 +53,7 @@ public class ScheduleCommandController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<ApiResponseData> deleteSchedule(@PathVariable final String id) {
+  public ResponseEntity<ApiResponseData> deleteSchedule(@PathVariable("id") final String id) {
     log.info("schedule 삭제 요청: {}", id);
     useCase.deleteSchedule(mapper.toCommand(UUID.fromString(id)));
     log.info("schedule 삭제 완료");
