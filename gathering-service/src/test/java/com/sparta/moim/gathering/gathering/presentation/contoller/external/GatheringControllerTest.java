@@ -100,7 +100,7 @@ class GatheringControllerTest {
             resource(ResourceSnippetParameters.builder()
                 .tag("Gathering-External")
                 .summary("소모임 생성")
-                .description("소모임을 생성하기 위한 엔드포인트입니다.")
+                .description("소모임을 생성하기 위한 엔드포인트입니다. ")
                 .requestFields(
                     fieldWithPath("organizationId").description("모임 아이디"),
                     fieldWithPath("name").description("소모임 명"),
