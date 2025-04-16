@@ -30,7 +30,6 @@ public class GatheringService {
   private final GatheringRepositoryCustom gatheringRepositoryCustom;
 
   private final MemberRepository memberRepository;
-  private final MemberService memberService;
 
   private final MemberPublisher memberPublisher;
 
