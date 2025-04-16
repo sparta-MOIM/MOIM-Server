@@ -1,11 +1,13 @@
 package com.sparta.moim.notificationservice.presentation.controller;
 
 import com.sparta.moim.common.response.ApiResponseData;
+import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.notificationservice.application.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Parameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,5 +31,13 @@ public class NotificationController {
     public ResponseEntity<ApiResponseData<String>> test() {
         notificationService.sendNotificationToMember("68926367-c01f-4f88-8f10-4c9797b77f8e", "테스트 알림");
         return ResponseEntity.ok(ApiResponseData.success("test"));
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponseData<GetNotificationsResponse>> getNotifications(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ){
+           notificationService.getNo
+
     }
 }
