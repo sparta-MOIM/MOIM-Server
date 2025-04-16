@@ -45,12 +45,14 @@ public class Notification extends BaseEntity {
     private NotificationType notificationType;
 
     @Column(name="organization_tracking_id", length = 36, nullable = false)
+    @JdbcTypeCode(Types.VARCHAR)
     private UUID organizationTrackingId;
 
     @Column(name="organization_name", nullable = false)
     private String organizationName;
 
     @Column(name="receiver_tracking_id", length = 36, nullable = false)
+    @JdbcTypeCode(Types.VARCHAR)
     private UUID receiverTrackingId;
 
     @Column(name="content", nullable = false)

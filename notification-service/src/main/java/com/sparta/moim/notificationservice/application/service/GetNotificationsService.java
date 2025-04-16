@@ -9,9 +9,11 @@ import com.sparta.moim.notificationservice.domain.entity.Notification;
 import com.sparta.moim.notificationservice.domain.repository.NotificationRepository;
 import com.sparta.moim.notificationservice.presentation.dto.GetNotificationResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class GetNotificationsService implements GetNotificationsUseCase {
 

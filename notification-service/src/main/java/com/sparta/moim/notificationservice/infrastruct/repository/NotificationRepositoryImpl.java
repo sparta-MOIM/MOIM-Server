@@ -4,6 +4,7 @@ import com.sparta.moim.common.page.Pagination;
 import com.sparta.moim.notificationservice.domain.entity.Notification;
 import com.sparta.moim.notificationservice.domain.repository.NotificationRepository;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +29,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
             Boolean isRead,
             int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Notification> notificationPage = notificationJpaRepository.findByUserTrackingIdAndIsRead(userTrackingId, isRead, pageable);
+        Page<Notification> notificationPage = notificationJpaRepository.findByUserTrackingIdAndIsRead(UUID.fromString(userTrackingId), isRead, pageable);
         return Pagination.of(
                 notificationPage.getNumber(),
                 notificationPage.getSize(),

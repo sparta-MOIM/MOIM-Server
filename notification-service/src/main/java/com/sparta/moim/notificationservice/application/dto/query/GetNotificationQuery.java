@@ -24,6 +24,7 @@ public class GetNotificationQuery {
                 .organizationTrackingId(notification.getOrganizationTrackingId().toString())
                 .organizationName(notification.getOrganizationName())
                 .isRead(notification.getIsRead())
+                .content(notification.getContent())
                 .receivedAt(notification.getCreatedAt())
                 .build();
     }

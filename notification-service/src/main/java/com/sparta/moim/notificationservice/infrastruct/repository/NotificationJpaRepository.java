@@ -1,6 +1,7 @@
 package com.sparta.moim.notificationservice.infrastruct.repository;
 
 import com.sparta.moim.notificationservice.domain.entity.Notification;
+import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,5 +12,5 @@ public interface NotificationJpaRepository extends JpaRepository<Notification, L
     @Query("SELECT n FROM Notification n " +
             "WHERE n.receiverTrackingId = :userTrackingId " +
             "AND (:isRead IS NULL OR n.isRead = :isRead)")
-    Page<Notification> findByUserTrackingIdAndIsRead(String userTrackingId, Boolean isRead, Pageable pageable);
+    Page<Notification> findByUserTrackingIdAndIsRead(UUID userTrackingId, Boolean isRead, Pageable pageable);
 }
