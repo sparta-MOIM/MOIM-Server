@@ -54,8 +54,9 @@ public class CommentController {
 
   @DeleteMapping("/{post}/{comment_id}")
   public ResponseEntity<ApiResponseData<String>> deleteComment(@PathVariable("post") String postId,
-                                                               @PathVariable("comment_id") UUID commentId){
-    commentDomainService.deleteComment(postId, commentId);
+                                                               @PathVariable("comment_id") UUID commentId,
+                                                               @AuthenticationPrincipal CustomUserDetails customUserDetails){
+    commentDomainService.deleteComment(postId, commentId, customUserDetails);
     return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_DELETE.getCode(),COMMENT_DELETE.getMessage(), null));
   }
 

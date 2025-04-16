@@ -15,6 +15,8 @@ import com.sparta.moim.common.security.CustomUserDetails;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -67,10 +69,23 @@ public class CommentDomainService {
 
   //특정 게시글의 특정 댓글 삭제
   //게시물이 삭제되면 댓글도 삭제되도록 처리 필요
-  public void deleteComment(String postId, UUID commentId){
+  public void deleteComment(String postId, UUID commentId, CustomUserDetails customUserDetails){
     Comment comment = commentRepository.findComment(postId,commentId).get();
-    comment.softDelete("testUsername");
+    comment.softDelete(customUserDetails.getTrackingId().toString());
     commentRepository.save(comment);
+
+  }
+
+  //특정 게시글의 전체 댓글 삭제
+  public void deleteComments(String postId, CustomUserDetails customUserDetails){
+    List<Comment> comments = commentRepository.findCommentAll(postId);
+    if(comments.isEmpty()){
+      throw new BaseException(NO_COMMENT_IN_POST);
+    }
+    for(Comment comment : comments) {
+      comment.softDelete(customUserDetails.getTrackingId().toString());
+      commentRepository.save(comment);
+    }
 
   }
 
