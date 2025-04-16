@@ -1,7 +1,11 @@
 package com.sparta.moim.notificationservice.domain.entity;
 
+import com.sparta.moim.notificationservice.application.dto.command.ApplyOrganizationNotificationCommand;
+import com.sparta.moim.notificationservice.domain.enums.NotificationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,16 +39,25 @@ public class Notification {
     @Column(name = "tracking_id", length = 36, nullable = false, unique = true)
     private UUID trackingId;
 
-    @Column(name="notification_template_tracking_id", length = 36, nullable = false)
-    private UUID notificationTemplateTrackingId;
+    @Column(name="notification_type",nullable = false)
+    @Enumerated(EnumType.STRING)
+    private NotificationType notificationType;
 
     @Column(name="receiver_tracking_id", length = 36, nullable = false)
     private UUID receiverTrackingId;
 
-    @Column(name="sender_tracking_id", length = 36, nullable = false)
-    private UUID senderTrackingId;
+    @Column(name="content", nullable = false)
+    private String content;
 
     @Column(name="is_read", nullable = false)
     private boolean isRead;
 
+    public static Notification from(ApplyOrganizationNotificationCommand command, String reciverTrackingId, String content) {
+        return Notification.builder()
+                .notificationType(command.getNotificationType())
+                .receiverTrackingId(UUID.fromString(reciverTrackingId))
+                .content(content)
+                .isRead(false)
+                .build();
+    }
 }

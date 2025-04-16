@@ -19,7 +19,6 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 public class NotificationService {
 
     private final EmitterRepository emitterRepository;
-    private final NotificationRepository notificationRepository;
 
     //연결 지속 시간
     private static final Long DEFAULT_TIMEOUT = 60L * 1000L * 60; // 1시간
@@ -50,7 +49,6 @@ public class NotificationService {
     private void sendToClient(SseEmitter emitter, String messageId, Object data) {
 
         try {
-            log.info("메시지 전송 시도: emitterId = " + messageId + ", object = " + data);
             emitter.send(SseEmitter.event()
                     .id(messageId)
                     .data(data));
@@ -63,18 +61,7 @@ public class NotificationService {
 
     public void sendNotificationToMember(String memberTrackingId, String message) {
         Map<String, SseEmitter> emitters = emitterRepository.findAllEmitterStartWithByMemberId(memberTrackingId);
-        if (emitters.isEmpty()) {
-            log.info("📭 emitterRepository에 저장된 emitter가 없습니다. memberId: {}", memberTrackingId);
-        } else {
-            log.info("현재 저장된 emitter 목록 (memberId: {})", memberTrackingId);
-            emitters.forEach((emitterId, emitter) -> {
-                log.info("emitterId: {}", emitterId);
-            });
-        }
         emitters.forEach((emitterId, emitter) -> {
-            log.info("Emitter ID : " + emitterId);
-            log.info("Emitter: "+ emitter.toString());
-            log.info(emitterId + "에 메시지 전송");
             // 메시지 ID는 UUID로 생성 → 재전송을 위한 고유 ID
             String messageId = UUID.randomUUID().toString();
 
@@ -92,6 +79,4 @@ public class NotificationService {
             sendNotificationToMember(memberTrackingId, message);
         }
     }
-
-
 }

@@ -1,6 +1,10 @@
 package com.sparta.moim.notificationservice.application.service;
 
 import com.sparta.moim.notificationservice.application.dto.command.ApplyOrganizationNotificationCommand;
+import com.sparta.moim.notificationservice.domain.entity.Notification;
+import com.sparta.moim.notificationservice.domain.repository.NotificationRepository;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,6 +16,7 @@ public class ApplyOrganizationNotificationServiceImpl implements ApplyOrganizati
 
     private final NotificationTemplateUtilService notificationTemplateUtilService;
     private final NotificationService notificationService;
+    private final NotificationRepository notificationRepository;
 
     @Override
     public void sendApplyOrganizationNotification(ApplyOrganizationNotificationCommand command) {
@@ -21,7 +26,14 @@ public class ApplyOrganizationNotificationServiceImpl implements ApplyOrganizati
         // 알림을 보낸다.
         notificationService.sendNotificationToMembers(command.getReceiverTrackingIds(), content);
         log.info("알림을 보냈습니다. 내용: {}", content);
-        // todo - 알림 보내고
-        // todo - 알림 저장하고
+
+        // 알림을 저장한다.
+        List<Notification> notificationList = new ArrayList<>();
+        for(String receiverTrackingId : command.getReceiverTrackingIds()) {
+            Notification notification = Notification.from(command, receiverTrackingId, content);
+            notificationList.add(notification);
+        }
+        notificationRepository.saveAll(notificationList);
+
     }
 }
