@@ -1,5 +1,6 @@
 package com.moim.schedule.application;
 
+import com.moim.schedule.application.exception.NotFoundSchedule;
 import com.moim.schedule.application.query.FindQuery;
 import com.moim.schedule.application.query.SearchScheduleQuery;
 import com.moim.schedule.application.usecase.ScheduleQueryUseCase;
@@ -21,8 +22,7 @@ public class ScheduleQueryService implements ScheduleQueryUseCase {
 
   @Override
   public Schedule findSchedule(FindQuery query) {
-    // todo: 예외처리하기
-    return repository.findSchedule(query.id()).orElseThrow(null);
+    return repository.findSchedule(query.id()).orElseThrow(NotFoundSchedule::new);
   }
 
   @Override

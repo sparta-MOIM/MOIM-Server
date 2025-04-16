@@ -3,6 +3,7 @@ package com.moim.schedule.application;
 import com.moim.schedule.application.command.CreateScheduleCommand;
 import com.moim.schedule.application.command.DeleteCommand;
 import com.moim.schedule.application.command.UpdateScheduleCommand;
+import com.moim.schedule.application.exception.NotFoundSchedule;
 import com.moim.schedule.application.usecase.ScheduleCommandUseCase;
 import com.moim.schedule.domain.Schedule;
 import com.moim.schedule.domain.repository.command.ScheduleCommandRepository;
@@ -30,8 +31,7 @@ public class ScheduleCommandService implements ScheduleCommandUseCase {
 
   @Override
   public Schedule updateSchedule(UUID id, UpdateScheduleCommand command) {
-    // todo : 예외처리
-    Schedule schedule = repository.findByTrackingId(id).orElseThrow(null);
+    Schedule schedule = repository.findByTrackingId(id).orElseThrow(NotFoundSchedule::new);
     command.title().ifPresent(schedule::updateTitle);
     command.content().ifPresent(schedule::updateContent);
     command.start().ifPresent(schedule::updateStart);
@@ -41,8 +41,7 @@ public class ScheduleCommandService implements ScheduleCommandUseCase {
 
   @Override
   public void deleteSchedule(DeleteCommand command) {
-    // todo: 예외처리
-    Schedule schedule = repository.findByTrackingId(command.id()).orElseThrow(null);
+    Schedule schedule = repository.findByTrackingId(command.id()).orElseThrow(NotFoundSchedule::new);
     schedule.delete();
   }
 }
