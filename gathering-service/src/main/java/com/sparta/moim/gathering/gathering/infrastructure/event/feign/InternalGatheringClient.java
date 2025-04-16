@@ -1,7 +1,7 @@
-package com.sparta.moim.gathering.member.infrastructure.event.feign;
+package com.sparta.moim.gathering.gathering.infrastructure.event.feign;
 
 
-import com.sparta.moim.gathering.member.application.event.feign.InternalGatheringService;
+import com.sparta.moim.gathering.gathering.application.event.feign.InternalGatheringService;
 import java.util.UUID;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;

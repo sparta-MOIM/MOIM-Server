@@ -128,6 +128,7 @@ class GatheringControllerTest {
     UUID gatheringId = UUID.randomUUID();
     UpdateGatheringRequest request = new UpdateGatheringRequest(
         "수정된 모임 이름",
+        "chnaged",
         20,
         false
     );
@@ -153,6 +154,7 @@ class GatheringControllerTest {
                 .requestFields(
                     fieldWithPath("name").description("소모임 명"),
                     fieldWithPath("count").description("모집 인원"),
+                    fieldWithPath("owner").description("변경되어지는 관리자"),
                     fieldWithPath("status").description("모집 상태"))
                 .build()
             )));

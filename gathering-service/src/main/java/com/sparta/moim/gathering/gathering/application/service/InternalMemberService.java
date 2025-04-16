@@ -1,8 +1,8 @@
-package com.sparta.moim.gathering.member.application.service;
+package com.sparta.moim.gathering.gathering.application.service;
 
-import com.sparta.moim.gathering.member.application.dto.result.GetMemberListResult;
-import com.sparta.moim.gathering.member.domain.Member;
-import com.sparta.moim.gathering.member.domain.repository.MemberRepository;
+import com.sparta.moim.gathering.gathering.application.dto.result.GetMemberListResult;
+import com.sparta.moim.gathering.gathering.domain.entity.Member;
+import com.sparta.moim.gathering.gathering.domain.enums.MemberRepository;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;

@@ -1,7 +1,7 @@
-package com.sparta.moim.gathering.member.presentation.controller.internal;
+package com.sparta.moim.gathering.gathering.presentation.contoller.Internal;
 
-import com.sparta.moim.gathering.member.application.service.InternalMemberService;
-import com.sparta.moim.gathering.member.presentation.dto.response.GetMemberListResponse;
+import com.sparta.moim.gathering.gathering.application.service.InternalMemberService;
+import com.sparta.moim.gathering.gathering.presentation.dto.response.GetMemberListResponse;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
