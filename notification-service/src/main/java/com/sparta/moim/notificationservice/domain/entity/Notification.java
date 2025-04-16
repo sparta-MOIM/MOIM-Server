@@ -43,6 +43,12 @@ public class Notification {
     @Enumerated(EnumType.STRING)
     private NotificationType notificationType;
 
+    @Column(name="organization_tracking_id", length = 36, nullable = false)
+    private UUID organizationTrackingId;
+
+    @Column(name="organization_name", nullable = false)
+    private String organizationName;
+
     @Column(name="receiver_tracking_id", length = 36, nullable = false)
     private UUID receiverTrackingId;
 
@@ -55,6 +61,8 @@ public class Notification {
     public static Notification from(ApplyOrganizationNotificationCommand command, String reciverTrackingId, String content) {
         return Notification.builder()
                 .notificationType(command.getNotificationType())
+                .organizationTrackingId(UUID.fromString(command.getOrganizationTrackingId()))
+                .organizationName(command.getOrganizationName())
                 .receiverTrackingId(UUID.fromString(reciverTrackingId))
                 .content(content)
                 .isRead(false)
