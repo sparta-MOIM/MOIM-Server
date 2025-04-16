@@ -3,7 +3,7 @@ package com.sparta.moim.gathering.gathering.application.service;
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.JoinGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.LeaveGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.RemoveGatheringCommand;
-import com.sparta.moim.gathering.gathering.application.exception.AleardyParticipateFoundGatheringException;
+import com.sparta.moim.gathering.gathering.application.exception.AlreadyParticipateFoundGatheringException;
 import com.sparta.moim.gathering.gathering.application.exception.NotOpenGatheringException;
 import com.sparta.moim.gathering.gathering.application.exception.RoleNotAllowedGatheringException;
 import com.sparta.moim.gathering.gathering.domain.enums.MemberType;
@@ -25,7 +25,7 @@ public class MemberService {
     statusTrueValidate(command);
 
     if(memberRepository.existsByMemberId(command.username())) {
-      throw new AleardyParticipateFoundGatheringException();
+      throw new AlreadyParticipateFoundGatheringException();
     }
 
     memberRepository.save(command.toDomain());
