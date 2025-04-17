@@ -5,5 +5,5 @@ import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface MongoChatRepository extends MongoRepository<Chat, String> {
-  List<Chat> findByTrackingIdAndDeletedByIsNull(String organizationId);
+  List<Chat> findByChatRoomNo(String organizationId);
 }

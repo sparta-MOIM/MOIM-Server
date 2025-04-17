@@ -16,7 +16,7 @@ public class ChatRepositoryImpl implements ChatRepository {
   }
 
   public List<Chat> findByChatRoomId(String chatRoomId){
-    return mongoChatRepository.findByTrackingIdAndDeletedByIsNull(chatRoomId);
+    return mongoChatRepository.findByChatRoomNo(chatRoomId);
   }
 }
 
