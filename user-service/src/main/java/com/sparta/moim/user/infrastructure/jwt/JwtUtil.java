@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JwtUtil {
-  public static final int ACCESS_TOKEN_EXPIRY_SECOND = 60 * 30; //
+  public static final int ACCESS_TOKEN_EXPIRY_SECOND = 60 * 30;
   public static final int REFRESH_TOKEN_EXPIRY_SECOND = 60 * 60 * 24 * 7;
 
   private final SecretKey secretKey;
