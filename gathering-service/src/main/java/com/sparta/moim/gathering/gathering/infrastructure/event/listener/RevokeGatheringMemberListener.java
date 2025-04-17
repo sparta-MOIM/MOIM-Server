@@ -2,7 +2,7 @@ package com.sparta.moim.gathering.gathering.infrastructure.event.listener;
 
 import com.sparta.moim.gathering.gathering.domain.entity.Member;
 import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
-import com.sparta.moim.gathering.gathering.application.dto.event.SharedGatheringRevokeMember;
+import com.sparta.moim.gathering.gathering.application.dto.event.GatheringRevokeAdminEvent;
 import com.sparta.moim.gathering.gathering.application.code.GatheringCode;
 import com.sparta.moim.gathering.gathering.application.exception.GatheringException;
 import lombok.RequiredArgsConstructor;
@@ -19,18 +19,11 @@ public class RevokeGatheringMemberListener {
 
   @EventListener
   @Transactional
-  public void revoke(SharedGatheringRevokeMember revokeMember) {
-    try {
-      log.info("소모임 관리자 저장 시작: {}", revokeMember.ownerName());
-
-      Member member = memberRepository.findByMemberStatusOwner(revokeMember.gatheringId(), revokeMember.ownerName())
-          .orElseThrow(() -> new GatheringException(GatheringCode.NOT_FOUND_GATHERING_MEMBER));
-      member.changeOwner(revokeMember.ownerName());
-      log.info("소모임 관리자 수정 완료: {}", revokeMember.ownerName());
-    } catch (RuntimeException e) {
-      log.error("소모임 관리자 권한 변경 실패: {}: {}", revokeMember.ownerName(), e.getMessage(), e);
-      //TODO 보상 트랜잭션 적용
-    }
+  public void revoke(GatheringRevokeAdminEvent revokeMember) {
+    Member member = memberRepository.findByMemberStatusOwner(revokeMember.gatheringId(), revokeMember.ownerName())
+        .orElseThrow(() -> new GatheringException(GatheringCode.NOT_FOUND_GATHERING_MEMBER));
+    member.changeOwner(revokeMember.ownerName());
+    log.info("소모임 관리자 수정 완료: {}", revokeMember.ownerName());
   }
 
 }
