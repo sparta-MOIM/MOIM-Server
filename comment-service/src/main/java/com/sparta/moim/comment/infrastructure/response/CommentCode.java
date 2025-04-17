@@ -12,7 +12,8 @@ public enum CommentCode implements Code {
   COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "CM400", "댓글을 찾을 수 없습니다."),
   POST_NOT_FOUND(HttpStatus.NOT_FOUND,"CM401", "해당 게시글은 존재하지 않습니다"),
   COMMENT_ACCESS_DENIED(HttpStatus.FORBIDDEN, "CM401", "댓글 접근권한이 존재하지 않습니다."),
-  NO_COMMENT_IN_POST(HttpStatus.FORBIDDEN, "CM402", "해당 게시글에는 댓글이 존재하지 않습니다.");
+  NO_COMMENT_IN_POST(HttpStatus.FORBIDDEN, "CM402", "해당 게시글에는 댓글이 존재하지 않습니다."),
+  COMMENT_NOT_DELETE(HttpStatus.INTERNAL_SERVER_ERROR, "CM403", "댓글 삭제에 실패했습니다.");
   private final HttpStatus status;
   private final String code;
   private final String message;

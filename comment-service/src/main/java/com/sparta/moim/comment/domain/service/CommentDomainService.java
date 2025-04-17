@@ -71,7 +71,7 @@ public class CommentDomainService {
   //특정 게시글의 특정 댓글 삭제
   //게시물이 삭제되면 댓글도 삭제되도록 처리 필요
   public void deleteComment(String postId, UUID commentId, CustomUserDetails customUserDetails){
-    Comment comment = commentRepository.findComment(postId,commentId).get();
+    Comment comment = commentRepository.findComment(postId,commentId).orElseThrow(()->new BaseException(COMMENT_NOT_FOUND));
     comment.softDelete(customUserDetails.getTrackingId().toString());
     commentRepository.save(comment);
 
