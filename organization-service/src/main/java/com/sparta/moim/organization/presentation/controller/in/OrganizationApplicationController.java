@@ -33,7 +33,7 @@ public class OrganizationApplicationController {
         return ResponseEntity.ok(ApiResponseData.success(null));
     }
 
-    @PostMapping("/{applicationTrackingId}/accept")
+    @PostMapping("/{applicationTrackingId}/accept") //todo- Application 이름 변경
     public ResponseEntity<ApiResponseData<String>> acceptApplication(@PathVariable String organizationTrackingId, @PathVariable String applicationTrackingId){
         acceptOrganizationApplicationUseCase.execute(organizationTrackingId,applicationTrackingId, "68926367-c01f-4f88-8f10-4c9797b77f8e"); // todo - userTrackingId를 실제 값으로 변경
         return ResponseEntity.ok(ApiResponseData.success(null));
