@@ -2,14 +2,18 @@ package com.sparta.moim.notificationservice.presentation.controller;
 
 import com.sparta.moim.common.page.Pagination;
 import com.sparta.moim.common.response.ApiResponseData;
+import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.notificationservice.application.service.NotificationService;
 import com.sparta.moim.notificationservice.application.usecase.GetNotificationsUseCase;
 import com.sparta.moim.notificationservice.application.usecase.ReadNotificationUseCase;
 import com.sparta.moim.notificationservice.presentation.dto.GetNotificationResponse;
+import jakarta.validation.constraints.Positive;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/notifications")
@@ -30,34 +35,36 @@ public class NotificationController {
 
     @GetMapping(value = "/connect", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter subscribe(
-            @RequestHeader(value="Last-Event-ID", required = false, defaultValue = "") String lastEventId){
-        return notificationService.subscribe("68926367-c01f-4f88-8f10-4c9797b77f8e", lastEventId); // todo - userTrackingId를 실제 값으로 변경
+            @RequestHeader(value="Last-Event-ID", required = false, defaultValue = "") String lastEventId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+            ){
+        return notificationService.subscribe(customUserDetails.getTrackingId().toString(), lastEventId);
     }
 
     @GetMapping
     public ResponseEntity<ApiResponseData<Pagination<GetNotificationResponse>>> getNotifications(
-//            @AuthenticationPrincipal CustomUserDetails userDetails todo- userDetails로 변경
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestParam(value = "isRead", required = false) Boolean isRead,
-            @RequestParam(defaultValue = "0") int page, //todo - @Positive(message = "페이지 번호 1 이상이어야 합니다.")
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "0") int page, // todo - 1부터 시작하도록 변경. @Positive
+            @RequestParam(defaultValue = "10") @Positive(message = "페이지 번호 1 이상이어야 합니다.") int size
     ) {
         Pagination<GetNotificationResponse> response = getNotificationsUseCase.execute(
-                "68926367-c01f-4f88-8f10-4c9797b77f8e", isRead, page, size);
+                customUserDetails.getTrackingId().toString(), isRead, page, size);
         return ResponseEntity.ok(ApiResponseData.success(response));
     }
 
     @PatchMapping("/{notificationTrackingId}/read")
     public ResponseEntity<ApiResponseData<String>> readNotification(
-            @PathVariable(name = "notificationTrackingId") String notificationTrackingId) { // todo - userTrackingId를 실제 값으로 변경
-        readNotificationUseCase.execute("68926367-c01f-4f88-8f10-4c9797b77f8e", notificationTrackingId); // todo - userTrackingId를 실제 값으로 변경
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PathVariable(name = "notificationTrackingId") String notificationTrackingId) {
+        readNotificationUseCase.execute(customUserDetails.getTrackingId().toString(), notificationTrackingId);
         return ResponseEntity.ok(ApiResponseData.success(null));
     }
 
     @GetMapping(value = "/test")
-    public ResponseEntity<ApiResponseData<String>> test() {
-        notificationService.sendNotificationToMember("68926367-c01f-4f88-8f10-4c9797b77f8e", "테스트 알림");
+    public ResponseEntity<ApiResponseData<String>> test(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        notificationService.sendNotificationToMember(customUserDetails.getTrackingId().toString(), "테스트 알림");
         return ResponseEntity.ok(ApiResponseData.success("test"));
     }
-
 
 }
