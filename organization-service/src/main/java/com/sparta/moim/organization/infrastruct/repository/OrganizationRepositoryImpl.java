@@ -38,4 +38,9 @@ public class OrganizationRepositoryImpl implements OrganizationRepository {
                 organizationPage.getTotalElements(),
                 organizationPage.getContent());
     }
+
+    @Override
+    public boolean existsByTrackingId(String organizationTrackingId) {
+        return jpaRepository.existsByTrackingId(UUID.fromString(organizationTrackingId));
+    }
 }
