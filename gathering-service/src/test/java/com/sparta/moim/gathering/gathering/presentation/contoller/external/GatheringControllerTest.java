@@ -3,6 +3,7 @@ package com.sparta.moim.gathering.gathering.presentation.contoller.external;
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.document;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
@@ -17,32 +18,42 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sparta.moim.common.exception.GlobalExceptionHandler;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.gathering.gathering.application.dto.command.CreateGatheringCommand;
+import com.sparta.moim.gathering.gathering.application.dto.command.UpdateGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.dto.result.CreateGatheringResult;
 import com.sparta.moim.gathering.gathering.application.dto.result.GetGatheringMemberListResult;
 import com.sparta.moim.gathering.gathering.application.dto.result.GetGatheringResult;
 import com.sparta.moim.gathering.gathering.application.dto.result.SearchGatheringListResult;
 import com.sparta.moim.gathering.gathering.application.dto.result.SearchGatheringResult;
+import com.sparta.moim.gathering.gathering.application.exception.ExistsNameGatheringException;
+import com.sparta.moim.gathering.gathering.application.exception.NotFoundGatheringException;
 import com.sparta.moim.gathering.gathering.application.service.GatheringService;
 import com.sparta.moim.gathering.gathering.presentation.dto.request.UpdateGatheringRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
+import org.springframework.restdocs.payload.FieldDescriptor;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureRestDocs
+@DisplayName("소모임 테스트")
+@Import(GlobalExceptionHandler.class)
 @WebMvcTest(GatheringController.class)
 @AutoConfigureMockMvc(addFilters = false)  // 시큐리티 필터 비활성화
 class GatheringControllerTest {
@@ -56,10 +67,13 @@ class GatheringControllerTest {
   private GatheringService gatheringService;
 
 
-  @Test
-  @DisplayName("게더링 생성 성공")
-  void createGathering_success() throws Exception {
-    // given
+  FieldDescriptor[] errorResponse = {fieldWithPath("data").description("데이터"),
+      fieldWithPath("code").description("에러 코드"),
+      fieldWithPath("message").description("메시지")};
+
+  @DisplayName("게더링 생성 테스트")
+  @Nested
+  class CreateGatheringTest {
     UUID gatheringId = UUID.randomUUID();
     CreateGatheringCommand request = new CreateGatheringCommand(
         "org123",
@@ -69,62 +83,142 @@ class GatheringControllerTest {
         true
     );
 
-    CreateGatheringResult response = new CreateGatheringResult(
-        gatheringId,
-        "org123",
-        "테스트 모임",
-        "주인장",
-        10,
-        true
-    );
+    FieldDescriptor[] fieldDescriptors = {fieldWithPath("organizationId").description("모임 아이디"),
+        fieldWithPath("name").description("소모임 명"),
+        fieldWithPath("owner").description("소유자 명"),
+        fieldWithPath("count").description("모집 인원"),
+        fieldWithPath("status").description("모집 상태")};
 
-    when(gatheringService.createGathering(any())).thenReturn(response);
+    @Test
+    @DisplayName("게더링 생성 성공")
+    void createGathering_success() throws Exception {
+      // given
+      CreateGatheringResult response = new CreateGatheringResult(
+          gatheringId,
+          "org123",
+          "테스트 모임",
+          "주인장",
+          10,
+          true
+      );
 
-    // when & then
-    mockMvc.perform(post("/api/v1/gathering")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(request))
-            .header("X-User-Name", "테스트유저")
-            .header("X-User-Role", "USER")
-            .header("X-User-ID", UUID.randomUUID().toString()))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.data.gatheringId").value(gatheringId.toString()))
-        .andExpect(jsonPath("$.data.organizationId").value("org123"))
-        .andExpect(jsonPath("$.data.name").value("테스트 모임"))
-        .andExpect(jsonPath("$.data.owner").value("주인장"))
-        .andExpect(jsonPath("$.data.count").value(10))
-        .andExpect(jsonPath("$.data.status").value(true))
-        .andDo(document("소모임 - 생성",
-            preprocessRequest(Preprocessors.prettyPrint()),
-            preprocessResponse(Preprocessors.prettyPrint()),
-            resource(ResourceSnippetParameters.builder()
-                .tag("Gathering-External")
-                .summary("소모임 생성")
-                .description("소모임을 생성하기 위한 엔드포인트입니다.")
-                .requestFields(
-                    fieldWithPath("organizationId").description("모임 아이디"),
-                    fieldWithPath("name").description("소모임 명"),
-                    fieldWithPath("owner").description("소유자 명"),
-                    fieldWithPath("count").description("모집 인원"),
-                    fieldWithPath("status").description("모집 상태"))
-                .responseFields(
-                    fieldWithPath("data.gatheringId").description("소모임 아이디"),
-                    fieldWithPath("data.organizationId").description("모임 아이디"),
-                    fieldWithPath("data.name").description("소모임 명"),
-                    fieldWithPath("data.owner").description("소유자 명"),
-                    fieldWithPath("data.count").description("모집 인원"),
-                    fieldWithPath("data.status").description("모집 상태"),
-                    fieldWithPath("code").description("코드"),
-                    fieldWithPath("message").description("성공메시지")
-                )
-                .build()
-            )));
+      when(gatheringService.createGathering(any())).thenReturn(response);
+
+      // when & then
+      mockMvc.perform(post("/api/v1/gathering")
+              .contentType(MediaType.APPLICATION_JSON)
+              .content(objectMapper.writeValueAsString(request))
+              .header("X-User-Name", "테스트유저")
+              .header("X-User-Role", "USER")
+              .header("X-User-ID", UUID.randomUUID().toString()))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$.data.gatheringId").value(gatheringId.toString()))
+          .andExpect(jsonPath("$.data.organizationId").value("org123"))
+          .andExpect(jsonPath("$.data.name").value("테스트 모임"))
+          .andExpect(jsonPath("$.data.owner").value("주인장"))
+          .andExpect(jsonPath("$.data.count").value(10))
+          .andExpect(jsonPath("$.data.status").value(true))
+          .andDo(document("소모임 - 생성",
+              preprocessRequest(Preprocessors.prettyPrint()),
+              preprocessResponse(Preprocessors.prettyPrint()),
+              resource(ResourceSnippetParameters.builder()
+                  .tag("Gathering-External")
+                  .summary("소모임 생성")
+                  .description("소모임을 생성하기 위한 엔드포인트입니다.")
+                  .requestFields(fieldDescriptors)
+                  .responseFields(
+                      fieldWithPath("data.gatheringId").description("소모임 아이디"),
+                      fieldWithPath("data.organizationId").description("모임 아이디"),
+                      fieldWithPath("data.name").description("소모임 명"),
+                      fieldWithPath("data.owner").description("소유자 명"),
+                      fieldWithPath("data.count").description("모집 인원"),
+                      fieldWithPath("data.status").description("모집 상태"),
+                      fieldWithPath("code").description("코드"),
+                      fieldWithPath("message").description("성공메시지")
+                  )
+                  .build()
+              )));
+    }
+
+    @Test
+    @DisplayName("중복된 이름을 넣는 경우")
+    void createGathering_fail_exitsName() throws Exception {
+      //given
+      // when
+      when(gatheringService.createGathering(any())).thenThrow(new ExistsNameGatheringException());
+      //then
+      mockMvc.perform(post("/api/v1/gathering")
+              .contentType(MediaType.APPLICATION_JSON)
+              .content(objectMapper.writeValueAsString(request))
+              .header("X-User-Name", "테스트유저")
+              .header("X-User-Role", "USER")
+              .header("X-User-ID", UUID.randomUUID().toString()))
+          .andExpect(status().isBadRequest())
+          .andExpect(jsonPath("$.code").value("G002"))
+          .andExpect(jsonPath("$.message").value("A gathering with this title already exists"))
+          .andDo(document("소모임 - 이름 중복",
+              preprocessRequest(Preprocessors.prettyPrint()),
+              preprocessResponse(Preprocessors.prettyPrint()),
+              resource(ResourceSnippetParameters.builder()
+                  .tag("Gathering-External")
+                  .summary("소모임 생성")
+                  .description("소모임을 생성시 이름 중복이 발생했을때의 엔드포인트입니다.")
+                  .requestFields(fieldDescriptors)
+                  .responseFields(
+                      fieldWithPath("data").description("데이터"),
+                      fieldWithPath("code").description("에러 코드"),
+                      fieldWithPath("message").description("메시지")
+                  )
+                  .build()
+              )));
+
+    }
+
+    @Test
+    @DisplayName("모집인원이 0명인 경우")
+    void createGathering_fail_countZero() throws Exception {
+      //given
+      CreateGatheringCommand request = new CreateGatheringCommand(
+          "org123",
+          "테스트 모임",
+          "주인장",
+          0,
+          true
+      );
+      // when
+      //then
+
+      mockMvc.perform(post("/api/v1/gathering")
+              .contentType(MediaType.APPLICATION_JSON)
+              .content(objectMapper.writeValueAsString(request))
+              .header("X-User-Name", "테스트유저")
+              .header("X-User-Role", "USER")
+              .header("X-User-ID", UUID.randomUUID().toString()))
+          .andExpect(status().isBadRequest())
+          .andExpect(jsonPath("$.code").value("0"))
+          .andExpect(jsonPath("$.message").value("must be greater than 0"))
+          .andDo(document("소모임 - 모집인원을 0명을 선택한 경우",
+              preprocessRequest(Preprocessors.prettyPrint()),
+              preprocessResponse(Preprocessors.prettyPrint()),
+              resource(ResourceSnippetParameters.builder()
+                  .tag("Gathering-External")
+                  .summary("소모임 생성")
+                  .description("소모임을 생성시 0명을 모집헀을때 발생했을때의 엔드포인트입니다.")
+                  .requestFields(fieldDescriptors)
+                  .responseFields(
+                      errorResponse
+                  )
+                  .build()
+              )));
+
+    }
   }
 
-  @Test
-  @DisplayName("게더링 수정 성공")
-  void updateGathering_success() throws Exception {
-    // given
+
+  @DisplayName("게더링 수정 테스트")
+  @Nested
+  class UpdateGatheringTest {
+
     UUID gatheringId = UUID.randomUUID();
     UpdateGatheringRequest request = new UpdateGatheringRequest(
         "수정된 모임 이름",
@@ -133,31 +227,142 @@ class GatheringControllerTest {
         false
     );
 
-    // when & then
-    mockMvc.perform(put("/api/v1/gathering/{gatheringId}", gatheringId)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(request))
-            .header("X-User-Name", "테스트유저")
-            .header("X-User-Role", "USER")
-            .header("X-User-ID", UUID.randomUUID().toString()))
-        .andExpect(status().isOk())
-        .andDo(document("소모임 - 수정",
-            preprocessRequest(Preprocessors.prettyPrint()),
-            preprocessResponse(Preprocessors.prettyPrint()),
-            resource(ResourceSnippetParameters.builder()
-                .tag("Gathering-External")
-                .summary("소모임 수정")
-                .description("소모임을 수정하기 위한 엔드포인트입니다.")
-                .pathParameters(
-                    parameterWithName("gatheringId").description("소모임 아이디")
-                )
-                .requestFields(
-                    fieldWithPath("name").description("소모임 명"),
-                    fieldWithPath("count").description("모집 인원"),
-                    fieldWithPath("owner").description("변경되어지는 관리자"),
-                    fieldWithPath("status").description("모집 상태"))
-                .build()
-            )));
+    @Test
+    @DisplayName("게더링 수정 성공")
+    void updateGathering_success() throws Exception {
+      // given
+      // when & then
+      mockMvc.perform(put("/api/v1/gathering/{gatheringId}", gatheringId)
+              .contentType(MediaType.APPLICATION_JSON)
+              .content(objectMapper.writeValueAsString(request))
+              .header("X-User-Name", "테스트유저")
+              .header("X-User-Role", "USER")
+              .header("X-User-ID", UUID.randomUUID().toString()))
+          .andExpect(status().isOk())
+          .andDo(document("소모임 - 수정",
+              preprocessRequest(Preprocessors.prettyPrint()),
+              preprocessResponse(Preprocessors.prettyPrint()),
+              resource(ResourceSnippetParameters.builder()
+                  .tag("Gathering-External")
+                  .summary("소모임 수정")
+                  .description("소모임을 수정하기 위한 엔드포인트입니다.")
+                  .pathParameters(
+                      parameterWithName("gatheringId").description("소모임 아이디")
+                  )
+
+                  .requestFields(
+                      fieldWithPath("name").description("소모임 명"),
+                      fieldWithPath("count").description("모집 인원"),
+                      fieldWithPath("owner").description("변경되어지는 관리자"),
+                      fieldWithPath("status").description("모집 상태"))
+                  .build()
+              )));
+    }
+
+    @Test
+    @DisplayName("게더링 이름이 중복되는 경우")
+    void updateGathering_fail_duplicate() throws Exception {
+      // given
+      doThrow(new ExistsNameGatheringException()).when(gatheringService).updateGathering(any());
+      // when & then
+      mockMvc.perform(put("/api/v1/gathering/{gatheringId}", gatheringId)
+              .contentType(MediaType.APPLICATION_JSON)
+              .content(objectMapper.writeValueAsString(request))
+              .header("X-User-Name", "테스트유저")
+              .header("X-User-Role", "USER")
+              .header("X-User-ID", UUID.randomUUID().toString()))
+          .andExpect(status().isBadRequest())
+          .andExpect(jsonPath("$.code").value("G002"))
+          .andExpect(jsonPath("$.message").value("A gathering with this title already exists"))
+          .andDo(document("소모임 - 이름이 중복되는 경우",
+              preprocessRequest(Preprocessors.prettyPrint()),
+              preprocessResponse(Preprocessors.prettyPrint()),
+              resource(ResourceSnippetParameters.builder()
+                  .tag("Gathering-External")
+                  .summary("소모임 수정")
+                  .description("소모임 수정시 이름이 중복시 엔드포인트입니다.")
+                  .pathParameters(
+                      parameterWithName("gatheringId").description("소모임 아이디")
+                  )
+                  .requestFields(
+                      fieldWithPath("name").description("소모임 명"),
+                      fieldWithPath("count").description("모집 인원"),
+                      fieldWithPath("owner").description("변경되어지는 관리자"),
+                      fieldWithPath("status").description("모집 상태"))
+                  .responseFields(errorResponse)
+                  .build()
+              )));
+    }
+
+    @Test
+    @DisplayName("게더링 모집인원을 0명으로 하는 경우")
+    void updateGathering_fail_zero() throws Exception {
+      request = UpdateGatheringRequest.builder().build();
+      // when & then
+      mockMvc.perform(put("/api/v1/gathering/{gatheringId}", gatheringId)
+              .contentType(MediaType.APPLICATION_JSON)
+              .content(objectMapper.writeValueAsString(request))
+              .header("X-User-Name", "테스트유저")
+              .header("X-User-Role", "USER")
+              .header("X-User-ID", UUID.randomUUID().toString()))
+          .andExpect(status().isBadRequest())
+          .andExpect(jsonPath("$.code").value("0"))
+          .andExpect(jsonPath("$.message").value("must be greater than 0"))
+          .andDo(document("소모임 - 모집인원이 0이하로 변경하는 경우",
+              preprocessRequest(Preprocessors.prettyPrint()),
+              preprocessResponse(Preprocessors.prettyPrint()),
+              resource(ResourceSnippetParameters.builder()
+                  .tag("Gathering-External")
+                  .summary("소모임 수정")
+                  .description("소모임 수정시 모집인원을 0명 으로 하는 엔드포인트입니다.")
+                  .pathParameters(
+                      parameterWithName("gatheringId").description("소모임 아이디")
+                  )
+                  .requestFields(
+                      fieldWithPath("name").description("소모임 명"),
+                      fieldWithPath("count").description("모집 인원"),
+                      fieldWithPath("owner").description("변경되어지는 관리자"),
+                      fieldWithPath("status").description("모집 상태"))
+                  .responseFields(errorResponse)
+                  .build()
+              )));
+    }
+
+    @Test
+    @DisplayName("수정할 게더링이 존재하지 않는 경우")
+    void updateGathering_not_found() throws Exception {
+      // when & then
+      doThrow(new NotFoundGatheringException()).when(gatheringService).updateGathering(any());
+
+      mockMvc.perform(put("/api/v1/gathering/{gatheringId}", gatheringId)
+              .contentType(MediaType.APPLICATION_JSON)
+              .content(objectMapper.writeValueAsString(request))
+              .header("X-User-Name", "테스트유저")
+              .header("X-User-Role", "USER")
+              .header("X-User-ID", UUID.randomUUID().toString()))
+          .andExpect(status().isBadRequest())
+          .andExpect(jsonPath("$.code").value("G001"))
+          .andExpect(jsonPath("$.message").value("The requested gathering could not be found"))
+          .andDo(document("소모임 - 존재하지 않는 소모임인 경우",
+              preprocessRequest(Preprocessors.prettyPrint()),
+              preprocessResponse(Preprocessors.prettyPrint()),
+              resource(ResourceSnippetParameters.builder()
+                  .tag("Gathering-External")
+                  .summary("소모임 수정")
+                  .description("소모임 수정시 존재하지 않는 소모임을 조회하기 위한 엔드포인트입니다.")
+                  .pathParameters(
+                      parameterWithName("gatheringId").description("소모임 아이디")
+                  )
+                  .requestFields(
+                      fieldWithPath("name").description("소모임 명"),
+                      fieldWithPath("count").description("모집 인원"),
+                      fieldWithPath("owner").description("변경되어지는 관리자"),
+                      fieldWithPath("status").description("모집 상태"))
+                  .responseFields(errorResponse)
+                  .build()
+              )));
+    }
+
   }
 
   @Test
