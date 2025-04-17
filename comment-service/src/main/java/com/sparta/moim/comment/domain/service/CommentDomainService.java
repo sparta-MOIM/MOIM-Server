@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -77,14 +78,22 @@ public class CommentDomainService {
   }
 
   //특정 게시글의 전체 댓글 삭제
-  public void deleteComments(String postId, CustomUserDetails customUserDetails){
+  @Transactional
+  public boolean deleteComments(String postId, String userId){
     List<Comment> comments = commentRepository.findCommentAll(postId);
+
+    //댓글이 없을 경우, 삭제할 댓글이 없는 경우 이므로, true 반환
     if(comments.isEmpty()){
-      throw new BaseException(NO_COMMENT_IN_POST);
+      return true;
     }
-    for(Comment comment : comments) {
-      comment.softDelete(customUserDetails.getTrackingId().toString());
-      commentRepository.save(comment);
+
+    //댓글 삭제가 성공할 경우, true 반환. 실패하면, false 반환
+    try{
+      commentRepository.softDeleteByPostId(postId, userId);
+      return true;
+    }catch(Exception e){
+      log.error("댓글 삭제를 실패했습니다. postId: {}, userId: {}", postId, userId, e);
+      return false;
     }
 
   }

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -44,6 +45,11 @@ public class CommentRepositoryImpl implements CommentRepository {
         .where(qComment.postId.eq(postId)
             .and(qComment.comment.containsIgnoreCase(comment)))
         .fetch();
+  }
+
+  @Override
+  public void softDeleteByPostId(@Param("postId") String postId, @Param("userId") String userId){
+    jpaCommentRepository.softDeleteByPostId(postId,userId);
   }
 
 }
