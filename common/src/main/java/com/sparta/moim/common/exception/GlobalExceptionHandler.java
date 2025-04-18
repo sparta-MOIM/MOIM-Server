@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
   // 커스텀 에러처리 가능 (아래 예외 핸들러 추가 하면 됨)
   @ExceptionHandler(BaseException.class)
   public ResponseEntity<ApiResponseData<String>> handleBaseException(BaseException e) {
-    return ResponseEntity.status(BAD_REQUEST)
+    return ResponseEntity.status(e.getCode().getStatus())
         .body(ApiResponseData.failure(e.getCode().getCode(), e.getCode().getMessage()));
   }
 

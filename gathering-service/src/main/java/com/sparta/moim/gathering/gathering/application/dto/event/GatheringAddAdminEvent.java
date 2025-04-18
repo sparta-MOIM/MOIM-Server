@@ -4,5 +4,5 @@ import java.util.UUID;
 import lombok.Builder;
 
 @Builder
-public record SharedGatheringMember(UUID gatheringId, String memberName, String type) {
+public record GatheringAddAdminEvent(UUID gatheringId, String memberName, String type) {
 }

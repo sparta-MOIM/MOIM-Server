@@ -29,7 +29,7 @@ public class AcceptOrganizationApplicationService implements AcceptOrganizationA
     @Transactional
     public void execute(String organizationTrackingId, String applicationTrackingId, String managerTrackingId) {
 
-        if(checkRoleService.checkRole(managerTrackingId, organizationTrackingId, List.of(OrganizationMemberRole.MASTER, OrganizationMemberRole.MANAGER))){
+        if(!checkRoleService.checkRole(managerTrackingId, organizationTrackingId, List.of(OrganizationMemberRole.MASTER, OrganizationMemberRole.MANAGER))){
             throw new MemberAccessDeniedException();
         }
 
