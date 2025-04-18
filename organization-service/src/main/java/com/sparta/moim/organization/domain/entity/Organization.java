@@ -28,7 +28,7 @@ import org.hibernate.annotations.Where;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder(access = AccessLevel.PRIVATE)
+@Builder // todo - private로 변경. 목데이터 넣어줄때 편하게 하려고 일단 지움.
 @Table(name = "p_organization")
 public class Organization extends BaseEntity {
 

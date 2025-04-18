@@ -28,7 +28,7 @@ import org.hibernate.annotations.Where;
 @Where(clause = "deleted_at IS NULL")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 @Builder
 @Table(name = "p_organization_member")
 public class OrganizationMember extends BaseEntity {

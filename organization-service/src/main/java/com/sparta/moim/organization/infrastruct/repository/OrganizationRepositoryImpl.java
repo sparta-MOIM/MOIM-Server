@@ -43,4 +43,9 @@ public class OrganizationRepositoryImpl implements OrganizationRepository {
     public boolean existsByTrackingId(String organizationTrackingId) {
         return jpaRepository.existsByTrackingId(UUID.fromString(organizationTrackingId));
     }
+
+    @Override
+    public void saveAll(List<Organization> organizations) {
+        jpaRepository.saveAll(organizations);
+    }
 }
