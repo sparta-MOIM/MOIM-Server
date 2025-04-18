@@ -8,7 +8,9 @@ import com.sparta.moim.organization.domain.repository.OrganizationMemberReposito
 import com.sparta.moim.organization.domain.repository.OrganizationRepository;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,10 +52,15 @@ public class DataCreateService {
             // 역할 배분
             int managerCount = (int) (memberCount * 0.2);
             int memberCountOnly = memberCount - managerCount - 1; // 나머지 MEMBER, MASTER 1명
-
+            Set<String> usedUserIds = new HashSet<>();
             for (int j = 0; j < memberCount; j++) {
                 long userIndex = ((long)(orgStartIndex + i)) * 10_000 + j;
                 String paddedId = String.format("%06d", userIndex % 100_000);
+                // 중복 방지 로직
+                while (!usedUserIds.add(paddedId)) {
+                    userIndex++;
+                    paddedId = String.format("%06d", userIndex % 100_000);
+                }
                 UUID userTrackingId = UUID.nameUUIDFromBytes(("user-" + paddedId).getBytes());
 
                 OrganizationMemberRole role;

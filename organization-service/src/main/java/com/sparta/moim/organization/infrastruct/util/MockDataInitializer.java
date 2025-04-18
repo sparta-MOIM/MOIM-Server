@@ -24,8 +24,8 @@ public class MockDataInitializer implements ApplicationRunner {
     private final OrganizationMemberRepository organizationMemberRepository;
     private final DataCreateService dataCreateService;
 
-    private static final int TOTAL_ORGANIZATIONS = 10_000;
-    private static final int ORG_BATCH_SIZE = 1_000;
+    private static final int TOTAL_ORGANIZATIONS = 100;
+    private static final int ORG_BATCH_SIZE = 10;
     private static final int THREAD_POOL_SIZE = 10;
 
     @Override

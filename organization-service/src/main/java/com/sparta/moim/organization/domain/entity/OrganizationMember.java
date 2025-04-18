@@ -42,10 +42,10 @@ public class OrganizationMember extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @UuidGenerator
-//    @JdbcTypeCode(Types.VARCHAR)
-//    @Column(name = "tracking_id", length = 36, nullable = false, unique = true)
-//    private UUID trackingId;
+    @UuidGenerator
+    @JdbcTypeCode(Types.VARCHAR)
+    @Column(name = "tracking_id", length = 36, nullable = false, unique = true)
+    private UUID trackingId;
 
     @JdbcTypeCode(Types.VARCHAR)
     @Column(name="user_tracking_id",length = 36, nullable = false)
