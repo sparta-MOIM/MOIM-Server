@@ -340,7 +340,7 @@ class GatheringControllerTest {
               .header("X-User-Name", "테스트유저")
               .header("X-User-Role", "USER")
               .header("X-User-ID", UUID.randomUUID().toString()))
-          .andExpect(status().isBadRequest())
+          .andExpect(status().isNotFound())
           .andExpect(jsonPath("$.code").value("G001"))
           .andExpect(jsonPath("$.message").value("The requested gathering could not be found"))
           .andDo(document("소모임 - 존재하지 않는 소모임인 경우",
