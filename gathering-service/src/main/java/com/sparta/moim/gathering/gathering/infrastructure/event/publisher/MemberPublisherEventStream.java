@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MemberPublisherImpl implements MemberPublisher {
+public class MemberPublisherEventStream implements MemberPublisher {
   private final ApplicationEventPublisher publisher;
 
   @Override
