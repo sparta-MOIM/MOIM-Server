@@ -7,6 +7,7 @@ import com.sparta.moim.chat.application.service.ChatService;
 import com.sparta.moim.chat.infrastructure.response.ChatCode;
 import com.sparta.moim.chat.presentation.request.MessageSendDTO;
 import com.sparta.moim.common.response.ApiResponseData;
+import com.sparta.moim.common.security.CustomUserDetails;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -29,9 +31,10 @@ public class ChatController {
   // 메세지 보내기
   // /send/message로 발행된 메세지 처리
   // 메세지 발행주소 prefix를 제외한 형태
+  //채팅을 보낼때는 클라이언트가 유저의 trackingId, nickname 등 유저에 대한 정보를 갖고있다고 가정
   @MessageMapping("/message/{chatRoomId}")
   @SendTo("/room/{chatRoomId}")
-  public void sendMessage(@Valid MessageSendDTO messageSendDTO,  @DestinationVariable("chatRoomId") Integer chatRoomId){
+  public void sendMessage(@Valid MessageSendDTO messageSendDTO, @DestinationVariable("chatRoomId") String chatRoomId){
     chatService.sendMessage(messageSendDTO, chatRoomId);
   }
 

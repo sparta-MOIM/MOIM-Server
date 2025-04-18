@@ -61,7 +61,7 @@ public class ListenerConfiguration {
             .put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
             .build();
 
-    return new DefaultKafkaConsumerFactory<>(consumerConfigurations, new StringDeserializer(), deserializer);
+    return new DefaultKafkaConsumerFactory<>(consumerConfigurations , new StringDeserializer(), deserializer);
   }
 
   @Bean

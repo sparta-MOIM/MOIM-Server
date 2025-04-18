@@ -18,6 +18,7 @@ public class ChatReceiver {
   // 카프카 message consume 로직
   @KafkaListener(groupId = "chat-group" , topics = "chat", containerFactory = "kafkaMessageSendContainerFactory")
   public void receiveMessage(MessageSendDTO messageSendDTO){
+    log.info("================================ 카프카 리스너 동작 =========================================");
     log.info("메세지 전송 위치 = /room/" + messageSendDTO.getChatRoomNo());
     log.info("채팅방으로 해당 메세지 전송 : {}", messageSendDTO);
 

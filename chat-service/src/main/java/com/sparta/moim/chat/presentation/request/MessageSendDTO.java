@@ -24,9 +24,6 @@ import org.jetbrains.annotations.NotNull;
 public class MessageSendDTO implements Serializable {
 
   @NotNull
-  private Integer chatNo;
-
-  @NotNull
   private String content;
 
   @NotNull
@@ -43,13 +40,13 @@ public class MessageSendDTO implements Serializable {
 
   private Integer readCount;
 
-  public void setSendTimeAndSender(LocalDateTime sendTime, String senderId, String senderName) {
-    this.senderName = senderName;
+  //유저의 권한 검사를 위해 Role 필드 추가 필요
+
+  public void setMessageInfo(LocalDateTime sendTime, String chatRoomId) {
+    this.chatRoomNo = chatRoomId;
     //대한민국 시간대 저장 (나라별 시간대 관리)
     //직렬화를 편하게 하기 위해서 추가, LocalDateTime을 사용하면 커스텀 직렬화/역직렬화 필요
     this.sendTime = sendTime.atZone(ZoneId.of("Asia/Seoul")).toInstant().toEpochMilli();
-    this.senderId = senderId;
-    //this.readCount = readCount;
   }
 
   public Chat toChat() {
