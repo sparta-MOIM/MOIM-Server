@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OrganizationJpaRepository extends JpaRepository<Organization, Long> {
     Optional<Organization> findByTrackingId(UUID trackingId);
+
+    boolean existsByTrackingId(UUID trackingId);
 }

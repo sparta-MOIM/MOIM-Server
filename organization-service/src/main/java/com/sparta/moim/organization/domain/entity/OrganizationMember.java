@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.sql.Types;
 import java.util.UUID;
 import lombok.AccessLevel;
@@ -28,9 +29,13 @@ import org.hibernate.annotations.Where;
 @Where(clause = "deleted_at IS NULL")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 @Builder
-@Table(name = "p_organization_member")
+@Table(name = "p_organization_member",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"organization_id", "user_tracking_id"})
+    }
+)
 public class OrganizationMember extends BaseEntity {
 
     @Id
@@ -43,7 +48,7 @@ public class OrganizationMember extends BaseEntity {
     private UUID trackingId;
 
     @JdbcTypeCode(Types.VARCHAR)
-    @Column(name="user_tracking_id",length = 36, nullable = false, unique = true)
+    @Column(name="user_tracking_id",length = 36, nullable = false)
     private UUID userTrackingId;
 
     @Column(length = 100)
