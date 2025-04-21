@@ -1,15 +1,20 @@
 package com.sparta.moim.gathering.gathering.domain.entity;
 
-import com.sparta.moim.gathering.gathering.domain.enums.MemberType;
+
 import com.sparta.moim.gathering.gathering.application.dto.event.GatheringAddAdminEvent;
+import com.sparta.moim.gathering.shared.enums.MemberType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.sql.Types;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -37,6 +42,7 @@ public class Member {
 
   private String memberId;
 
+  @Enumerated(EnumType.STRING)
   private MemberType type;
 
   private LocalDateTime joinTime;
@@ -52,5 +58,13 @@ public class Member {
 
   public void changeOwner(String memberId) {
     this.memberId = memberId;
+  }
+
+  public Map<String, String> toMap() {
+    Map<String, String> map = new HashMap<>();
+    map.put("gathering_id", gatheringId.toString());
+    map.put("member_name", memberId);
+    map.put("type", MemberType.GENERAL.name());
+    return map;
   }
 }

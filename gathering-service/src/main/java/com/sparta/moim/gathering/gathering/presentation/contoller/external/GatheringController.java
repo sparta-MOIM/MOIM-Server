@@ -1,7 +1,7 @@
 package com.sparta.moim.gathering.gathering.presentation.contoller.external;
 
 import com.sparta.moim.gathering.gathering.application.dto.command.DeleteGatheringCommand;
-import com.sparta.moim.gathering.gathering.application.service.GatheringService;
+import com.sparta.moim.gathering.gathering.application.service.rds.GatheringService;
 import com.sparta.moim.gathering.gathering.presentation.dto.request.CreateGatheringRequest;
 import com.sparta.moim.gathering.gathering.presentation.dto.request.SearchGatheringRequest;
 import com.sparta.moim.gathering.gathering.presentation.dto.request.UpdateGatheringRequest;
