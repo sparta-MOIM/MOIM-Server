@@ -6,10 +6,12 @@ import com.sparta.moim.gathering.gathering.application.dto.event.GatheringRevoke
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Primary
 public class MemberPublisherEventStream implements MemberPublisher {
   private final ApplicationEventPublisher publisher;
 

@@ -4,15 +4,11 @@ import com.sparta.moim.gathering.gathering.application.dto.event.redis.Gathering
 import com.sparta.moim.gathering.gathering.application.event.publisher.MemberPublisher;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.annotation.Primary;
-import org.springframework.data.redis.connection.stream.RecordId;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-@Primary
 public class MemberPublisherRedis implements MemberPublisher {
   private final RedisTemplate<String, GatheringJoinAdminEvent> redisTemplate;
 
