@@ -33,7 +33,6 @@ public class JwtUtil {
     return Jwts.builder()
         .setSubject(trackingId.toString())
         .claim("username", username)
-        .claim("role", role)
         .setIssuer(issuer)
         .setIssuedAt(Date.from(now.toInstant()))
         .setExpiration(expiration)
