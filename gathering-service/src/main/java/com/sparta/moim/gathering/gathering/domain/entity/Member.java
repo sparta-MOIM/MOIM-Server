@@ -4,6 +4,8 @@ import com.sparta.moim.gathering.gathering.domain.enums.MemberType;
 import com.sparta.moim.gathering.gathering.application.dto.event.GatheringAddAdminEvent;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -39,6 +41,7 @@ public class Member {
 
   private String memberId;
 
+  @Enumerated(EnumType.STRING)
   private MemberType type;
 
   private LocalDateTime joinTime;
@@ -58,6 +61,7 @@ public class Member {
 
   public Map<String, String> toMap() {
     Map<String, String> map = new HashMap<>();
+    map.put("gathering_id", gatheringId.toString());
     map.put("member_name", memberId);
     map.put("type", MemberType.GENERAL.name());
     return map;
