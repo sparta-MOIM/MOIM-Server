@@ -10,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.sql.Types;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -52,5 +54,12 @@ public class Member {
 
   public void changeOwner(String memberId) {
     this.memberId = memberId;
+  }
+
+  public Map<String, String> toMap() {
+    Map<String, String> map = new HashMap<>();
+    map.put("member_name", memberId);
+    map.put("type", MemberType.GENERAL.name());
+    return map;
   }
 }
