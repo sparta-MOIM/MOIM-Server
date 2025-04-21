@@ -2,7 +2,7 @@ package com.sparta.moim.gathering.gathering.domain.entity;
 
 
 import com.sparta.moim.gathering.gathering.application.dto.event.GatheringAddAdminEvent;
-import com.sparta.moim.gathering.sherd.enums.MemberType;
+import com.sparta.moim.gathering.shared.enums.MemberType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
