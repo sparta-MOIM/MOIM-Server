@@ -26,14 +26,14 @@ public class MemberServiceAsRedis implements MemberService {
   public void joinGathering(JoinGatheringCommand command) {
 //    validateGatheringExists(command.gatheringId());
 //    statusTrueValidate(command);
-//
+
 //    if (memberRepository.existsByMemberId(command.username())) {
 //      throw new AlreadyParticipateFoundGatheringException();
 //    }
 
     Member member = command.toDomain();
-    redisTemplate.opsForStream().add("stream:gathering_join", member.toMap());
     // 대기열을 통해 메시지를 전달한다.
+    redisTemplate.opsForStream().add("stream:gathering_join", member.toMap());
   }
 
   private void statusTrueValidate(JoinGatheringCommand command) {
@@ -42,10 +42,14 @@ public class MemberServiceAsRedis implements MemberService {
     }
   }
 
+  //미구현
   public void leaveGathering(LeaveGatheringCommand command) {
+
   }
 
+  //미구현
   public void removeGathering(RemoveGatheringCommand command) {
+
   }
 
   private void validateGatheringExists(UUID id) {
