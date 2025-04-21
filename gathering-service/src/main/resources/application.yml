@@ -22,8 +22,8 @@ spring:
   data:
     redis:
       stream-key: stream:gathering_join
-      group-name : gathering_group
-      consumer-id : gathering_consumer_1
+      group-name: gathering_group
+      consumer-id: gathering_consumer_1
       host: localhost
       port: 6379
       timeout: 6000
