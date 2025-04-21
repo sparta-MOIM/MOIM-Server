@@ -444,7 +444,6 @@ class GatheringControllerTest {
       // given
       UUID gatheringId = UUID.randomUUID();
 
-
       when(gatheringService.getGathering(any()))
           .thenThrow(new NotFoundGatheringException());
 
@@ -474,39 +473,85 @@ class GatheringControllerTest {
   }
 
 
-  @Test
-  @DisplayName("게더링 삭제 성공")
-  void deleteGathering_success() throws Exception {
-    // given
-    UUID gatheringId = UUID.randomUUID();
-    UUID userId = UUID.randomUUID();
-    String username = "user1";
-    String role = "USER";
+  @Nested
+  @DisplayName("게더링 삭제 테스트")
+  class DeleteGatheringTest {
+    @Test
+    @DisplayName("게더링 삭제 성공")
+    void deleteGathering_success() throws Exception {
+      // given
+      UUID gatheringId = UUID.randomUUID();
+      UUID userId = UUID.randomUUID();
+      String username = "user1";
+      String role = "USER";
 
-    // SecurityContext에 인증 정보 설정
-    CustomUserDetails customUserDetails = new CustomUserDetails(username, role, userId);
-    SecurityContextHolder.getContext().setAuthentication(
-        new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities())
-    );
-    // when & then
-    mockMvc.perform(delete("/api/v1/gathering/{gatheringId}", gatheringId)
-            .header("X-User-Name", "테스트유저")
-            .header("X-User-Role", "USER")
-            .header("X-User-ID", UUID.randomUUID().toString()))
-        .andExpect(status().isOk())
-        .andDo(document("소모임 - 삭제",
-            preprocessRequest(Preprocessors.prettyPrint()),
-            preprocessResponse(Preprocessors.prettyPrint()),
-            resource(ResourceSnippetParameters.builder()
-                .tag("Gathering-External")
-                .summary("소모임 삭제")
-                .description("소모임을 삭제하기 위한 엔드포인트입니다.")
-                .pathParameters(
-                    parameterWithName("gatheringId").description("소모임 아이디")
-                )
-                .build()
-            )));
+      // SecurityContext에 인증 정보 설정
+      CustomUserDetails customUserDetails = new CustomUserDetails(username, role, userId);
+      SecurityContextHolder.getContext().setAuthentication(
+          new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities())
+      );
+      // when & then
+      mockMvc.perform(delete("/api/v1/gathering/{gatheringId}", gatheringId)
+              .header("X-User-Name", "테스트유저")
+              .header("X-User-Role", "USER")
+              .header("X-User-ID", UUID.randomUUID().toString()))
+          .andExpect(status().isOk())
+          .andDo(document("소모임 - 삭제",
+              preprocessRequest(Preprocessors.prettyPrint()),
+              preprocessResponse(Preprocessors.prettyPrint()),
+              resource(ResourceSnippetParameters.builder()
+                  .tag("Gathering-External")
+                  .summary("소모임 삭제")
+                  .description("소모임을 삭제하기 위한 엔드포인트입니다.")
+                  .pathParameters(
+                      parameterWithName("gatheringId").description("소모임 아이디")
+                  )
+                  .build()
+              )));
+    }
+
+
+    @Test
+    @DisplayName("게더링 삭제 - 존재하지 않는 소모임으로 삭제요청하는 경우")
+    void deleteGathering_fail() throws Exception {
+      // given
+      UUID gatheringId = UUID.randomUUID();
+      UUID userId = UUID.randomUUID();
+      String username = "user1";
+      String role = "USER";
+
+      // SecurityContext에 인증 정보 설정
+      CustomUserDetails customUserDetails = new CustomUserDetails(username, role, userId);
+      SecurityContextHolder.getContext().setAuthentication(
+          new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities())
+      );
+
+      doThrow(new NotFoundGatheringException()).when(gatheringService).deleteGathering(any());
+
+      // when & then
+      mockMvc.perform(delete("/api/v1/gathering/{gatheringId}", gatheringId)
+              .header("X-User-Name", "테스트유저")
+              .header("X-User-Role", "USER")
+              .header("X-User-ID", UUID.randomUUID().toString()))
+          .andExpect(status().isNotFound())
+          .andExpect(jsonPath("$.code").value("G001"))
+          .andExpect(jsonPath("$.message").value("The requested gathering could not be found"))
+          .andDo(document("소모임 - 삭제",
+              preprocessRequest(Preprocessors.prettyPrint()),
+              preprocessResponse(Preprocessors.prettyPrint()),
+              resource(ResourceSnippetParameters.builder()
+                  .tag("Gathering-External")
+                  .summary("소모임 삭제")
+                  .description("소모임을 삭제하기 위한 엔드포인트입니다.")
+                  .pathParameters(
+                      parameterWithName("gatheringId").description("소모임 아이디")
+                  )
+                  .responseFields(errorResponse)
+                  .build()
+              )));
+    }
   }
+
 
   @Test
   @DisplayName("게더링 검색 성공")
