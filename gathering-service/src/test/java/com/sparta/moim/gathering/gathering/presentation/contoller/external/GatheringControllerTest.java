@@ -486,10 +486,7 @@ class GatheringControllerTest {
       String role = "USER";
 
       // SecurityContext에 인증 정보 설정
-      CustomUserDetails customUserDetails = new CustomUserDetails(username, role, userId);
-      SecurityContextHolder.getContext().setAuthentication(
-          new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities())
-      );
+      setupSecurityContext(username, role, userId);
       // when & then
       mockMvc.perform(delete("/api/v1/gathering/{gatheringId}", gatheringId)
               .header("X-User-Name", "테스트유저")
@@ -521,10 +518,7 @@ class GatheringControllerTest {
       String role = "USER";
 
       // SecurityContext에 인증 정보 설정
-      CustomUserDetails customUserDetails = new CustomUserDetails(username, role, userId);
-      SecurityContextHolder.getContext().setAuthentication(
-          new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities())
-      );
+      setupSecurityContext(username, role, userId);
 
       doThrow(new NotFoundGatheringException()).when(gatheringService).deleteGathering(any());
 
@@ -562,11 +556,7 @@ class GatheringControllerTest {
     String role = "USER";
 
     // SecurityContext에 인증 정보 설정
-    CustomUserDetails customUserDetails = new CustomUserDetails(username, role, userId);
-    SecurityContextHolder.getContext().setAuthentication(
-        new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities())
-    );
-
+    setupSecurityContext(username, role, userId);
     List<SearchGatheringListResult> gatherings = List.of(
         new SearchGatheringListResult(
             UUID.randomUUID(),
@@ -627,5 +617,12 @@ class GatheringControllerTest {
                 )
                 .build()
             )));
+  }
+
+  private void setupSecurityContext(String username, String role, UUID userId) {
+    CustomUserDetails customUserDetails = new CustomUserDetails(username, role, userId);
+    SecurityContextHolder.getContext().setAuthentication(
+        new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities())
+    );
   }
 }
