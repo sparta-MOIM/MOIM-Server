@@ -3,7 +3,6 @@ package com.sparta.moim.gathering.gathering.application.service.redis;
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.JoinGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.LeaveGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.RemoveGatheringCommand;
-import com.sparta.moim.gathering.gathering.application.exception.AlreadyParticipateFoundGatheringException;
 import com.sparta.moim.gathering.gathering.application.exception.NotOpenGatheringException;
 import com.sparta.moim.gathering.gathering.application.service.MemberService;
 import com.sparta.moim.gathering.gathering.domain.entity.Member;
