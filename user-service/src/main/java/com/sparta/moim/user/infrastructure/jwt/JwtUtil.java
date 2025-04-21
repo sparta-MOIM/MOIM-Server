@@ -1,8 +1,19 @@
 package com.sparta.moim.user.infrastructure.jwt;
 
+import static com.sparta.moim.user.application.exception.AuthErrorCode.EXPIRED_JWT;
+import static com.sparta.moim.user.application.exception.AuthErrorCode.JWT_NOT_VALID;
+import static com.sparta.moim.user.application.exception.AuthErrorCode.MALFORMED_JWT;
+import static com.sparta.moim.user.application.exception.AuthErrorCode.SIGNATURE_NOT_VALID;
+import static com.sparta.moim.user.application.exception.AuthErrorCode.UNSUPPORTED_JWT;
+
+import com.sparta.moim.user.application.exception.JwtAuthenticationException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.UUID;
@@ -53,11 +64,25 @@ public class JwtUtil {
   }
 
   public Claims extractClaims(String token) {
-    return Jwts.parserBuilder()
-        .setSigningKey(secretKey)
-        .build()
-        .parseClaimsJws(token)
-        .getBody();
+    Claims claims;
+    try {
+      claims = Jwts.parserBuilder()
+          .setSigningKey(secretKey)
+          .build()
+          .parseClaimsJws(token)
+          .getBody();
+    } catch (ExpiredJwtException e) {
+      throw new JwtAuthenticationException(EXPIRED_JWT);
+    } catch (UnsupportedJwtException e) {
+      throw new JwtAuthenticationException(UNSUPPORTED_JWT);
+    } catch (MalformedJwtException e) {
+      throw new JwtAuthenticationException(MALFORMED_JWT);
+    } catch (SignatureException e) {
+      throw new JwtAuthenticationException(SIGNATURE_NOT_VALID);
+    } catch (IllegalArgumentException e) {
+      throw new JwtAuthenticationException(JWT_NOT_VALID);
+    }
+    return claims;
   }
 
   public ResponseCookie createRefreshTokenCookie(String refreshToken) {
