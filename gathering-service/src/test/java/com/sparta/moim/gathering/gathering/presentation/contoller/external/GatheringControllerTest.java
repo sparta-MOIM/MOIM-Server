@@ -154,7 +154,7 @@ class GatheringControllerTest {
           .andExpect(status().isBadRequest())
           .andExpect(jsonPath("$.code").value("G002"))
           .andExpect(jsonPath("$.message").value("A gathering with this title already exists"))
-          .andDo(document("소모임 - 이름 중복",
+          .andDo(document("소모임 - 생성 - 이름 중복",
               preprocessRequest(Preprocessors.prettyPrint()),
               preprocessResponse(Preprocessors.prettyPrint()),
               resource(ResourceSnippetParameters.builder()
@@ -195,7 +195,7 @@ class GatheringControllerTest {
           .andExpect(status().isBadRequest())
           .andExpect(jsonPath("$.code").value("0"))
           .andExpect(jsonPath("$.message").value("must be greater than 0"))
-          .andDo(document("소모임 - 모집인원을 0명을 선택한 경우",
+          .andDo(document("소모임 - 생성 - 모집인원을 0명을 선택한 경우",
               preprocessRequest(Preprocessors.prettyPrint()),
               preprocessResponse(Preprocessors.prettyPrint()),
               resource(ResourceSnippetParameters.builder()
@@ -272,7 +272,7 @@ class GatheringControllerTest {
           .andExpect(status().isBadRequest())
           .andExpect(jsonPath("$.code").value("G002"))
           .andExpect(jsonPath("$.message").value("A gathering with this title already exists"))
-          .andDo(document("소모임 - 이름이 중복되는 경우",
+          .andDo(document("소모임 - 수정 - 이름이 중복되는 경우",
               preprocessRequest(Preprocessors.prettyPrint()),
               preprocessResponse(Preprocessors.prettyPrint()),
               resource(ResourceSnippetParameters.builder()
@@ -306,7 +306,7 @@ class GatheringControllerTest {
           .andExpect(status().isBadRequest())
           .andExpect(jsonPath("$.code").value("0"))
           .andExpect(jsonPath("$.message").value("must be greater than 0"))
-          .andDo(document("소모임 - 모집인원이 0이하로 변경하는 경우",
+          .andDo(document("소모임 - 수정 - 모집인원이 0이하로 변경하는 경우",
               preprocessRequest(Preprocessors.prettyPrint()),
               preprocessResponse(Preprocessors.prettyPrint()),
               resource(ResourceSnippetParameters.builder()
@@ -341,7 +341,7 @@ class GatheringControllerTest {
           .andExpect(status().isNotFound())
           .andExpect(jsonPath("$.code").value("G001"))
           .andExpect(jsonPath("$.message").value("The requested gathering could not be found"))
-          .andDo(document("소모임 - 존재하지 않는 소모임인 경우",
+          .andDo(document("소모임 - 수정 - 존재하지 않는 소모임인 경우",
               preprocessRequest(Preprocessors.prettyPrint()),
               preprocessResponse(Preprocessors.prettyPrint()),
               resource(ResourceSnippetParameters.builder()
@@ -456,7 +456,7 @@ class GatheringControllerTest {
           .andExpect(jsonPath("$.code").value("G001"))
           .andExpect(jsonPath("$.message").value("The requested gathering could not be found"))
 
-          .andDo(document("소모임 - 존재하지 않는 소모임을 조회하는 경우",
+          .andDo(document("소모임 - 단일 조회 - 존재하지 않는 소모임을 조회하는 경우",
               preprocessRequest(Preprocessors.prettyPrint()),
               preprocessResponse(Preprocessors.prettyPrint()),
               resource(ResourceSnippetParameters.builder()
@@ -530,7 +530,7 @@ class GatheringControllerTest {
           .andExpect(status().isNotFound())
           .andExpect(jsonPath("$.code").value("G001"))
           .andExpect(jsonPath("$.message").value("The requested gathering could not be found"))
-          .andDo(document("소모임 - 삭제",
+          .andDo(document("소모임 - 삭제 - 존재하지 않는 소모임 삭제시",
               preprocessRequest(Preprocessors.prettyPrint()),
               preprocessResponse(Preprocessors.prettyPrint()),
               resource(ResourceSnippetParameters.builder()
