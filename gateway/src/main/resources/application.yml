@@ -31,14 +31,14 @@ spring:
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/api/v1/users/logout
-          filters:
-            - PassportRelayFilter
+            - Path=/api/v1/users/signup, /api/v1/users/login, /api/v1/users/refresh
 
         - id: user-service
           uri: lb://user-service
           predicates:
             - Path=/api/v1/users/**
+          filters:
+            - PassportRelayFilter
 
         - id: comment-service
           uri: lb://comment-service

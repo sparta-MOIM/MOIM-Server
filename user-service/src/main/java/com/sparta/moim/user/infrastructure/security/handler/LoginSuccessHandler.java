@@ -10,11 +10,13 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+@Slf4j
 @RequiredArgsConstructor
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
@@ -32,9 +34,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
     String accessToken = jwtUtil.createAccessToken(username, role, trackingId, now);
     String refreshToken = jwtUtil.createRefreshToken(username, trackingId, now);
+    log.info("Successfully create token");
 
     ResponseCookie accessTokenCookie = jwtUtil.createAccessTokenCookie(accessToken);
     ResponseCookie refreshTokenCookie = jwtUtil.createRefreshTokenCookie(refreshToken);
+    log.info("Successfully create token cookie");
 
     response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
     response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());

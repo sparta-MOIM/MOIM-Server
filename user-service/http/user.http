@@ -19,7 +19,7 @@ Content-Type: application/json
 
 ### logout
 POST http://localhost:19091/api/v1/users/logout
-Cookie: accessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YThmMzAwNC1mZWNmLTQ0ZGMtYTAzYi1jMjlkOGNiMjUzNzciLCJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaXNzIjoiaHR0cHM6Ly9tb2ltLmNvbSIsImlhdCI6MTc0NTI1MjcxMCwiZXhwIjoxNzQ1MjU0NTEwfQ.0qOMDNDtyXJKC0V2oJw7ywkw4yCifQZa5XviSUgfLcs; Path=/; Max-Age=1800; Expires=Mon, 21 Apr 2025 16:55:10 GMT; Secure; HttpOnly; SameSite=LAX
+Cookie: accessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YThmMzAwNC1mZWNmLTQ0ZGMtYTAzYi1jMjlkOGNiMjUzNzciLCJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaXNzIjoiaHR0cHM6Ly9tb2ltLmNvbSIsImlhdCI6MTc0NTI1NTI4MCwiZXhwIjoxNzQ1MjU3MDgwfQ.k7nbNHIs2AikRzFdtUTkfMpd0-t-gbKuqYvsdWJjhh8; Path=/; Max-Age=1800; Expires=Mon, 21 Apr 2025 17:38:00 GMT; Secure; HttpOnly; SameSite=LAX
 
 ### 유저 조회 by TrackingId
 GET http://localhost:8082/internal/v1/users/69207ff8-c757-477a-89a3-b79bab50f696
@@ -27,7 +27,7 @@ GET http://localhost:8082/internal/v1/users/69207ff8-c757-477a-89a3-b79bab50f696
 ### 액세스토큰 재발급
 POST http://localhost:19091/api/v1/users/refresh
 Content-Type: application/json
-Cookie: refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Njg3YzhiNi02NWI3LTQ5NmEtYjcwNy00OTFiNDU5MzU1N2YiLCJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaXNzIjoiaHR0cHM6Ly9tb2ltLmNvbSIsImlhdCI6MTc0NTI1MDUwMSwiZXhwIjoxNzQ1ODU1MzAxfQ.mIOnGZfkoLV2InTEyF0B9eJ_pTGkzbHfT2C1oZrHMH0; Path=/api/v1/auth/refresh; Max-Age=604800; Expires=Mon, 28 Apr 2025 15:48:21 GMT; Secure; HttpOnly; SameSite=STRICT
+Cookie: refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YThmMzAwNC1mZWNmLTQ0ZGMtYTAzYi1jMjlkOGNiMjUzNzciLCJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaXNzIjoiaHR0cHM6Ly9tb2ltLmNvbSIsImlhdCI6MTc0NTI1NTI1MiwiZXhwIjoxNzQ1ODYwMDUyfQ.McaZmOOcksLE62pil80x4HNA1fr9AdAaMa2uPjA0Glc; Path=/api/v1/auth/refresh; Max-Age=604800; Expires=Mon, 28 Apr 2025 17:07:32 GMT; Secure; HttpOnly; SameSite=STRICT
 
 ### 회원 업데이트
 PUT http://localhost:8082/api/v1/users/1ee56098-5cb4-4a95-bb8d-71035f11665e
