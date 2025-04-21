@@ -1,8 +1,8 @@
 package com.sparta.moim.gathering.gathering.infrastructure.event.listener;
 
 import com.sparta.moim.gathering.gathering.domain.entity.Member;
-import com.sparta.moim.gathering.gathering.domain.enums.MemberType;
 import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
+import com.sparta.moim.gathering.sherd.enums.MemberType;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
