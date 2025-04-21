@@ -1,5 +1,8 @@
 server:
   port: 8084
+  tomcat:
+    mbeanregistry:
+      enabled: true
 
 spring:
   application:
@@ -23,3 +26,18 @@ eureka:
       defaultZone: http://localhost:19090/eureka/
     register-with-eureka: true
     fetch-registry: true
+
+management:
+#  server:
+#    port: 10100
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+  endpoint:
+    prometheus:
+      access: unrestricted
