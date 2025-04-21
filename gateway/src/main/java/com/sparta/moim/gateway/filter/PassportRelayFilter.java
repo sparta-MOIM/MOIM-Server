@@ -3,11 +3,11 @@ package com.sparta.moim.gateway.filter;
 import static com.sparta.moim.common.passport.enums.UserPassportConstants.X_USER_ID;
 import static com.sparta.moim.common.passport.enums.UserPassportConstants.X_USER_NAME;
 import static com.sparta.moim.common.passport.enums.UserPassportConstants.X_USER_ROLE;
-import static com.sparta.moim.gateway.exception.GatewayErrorCode.ACCESS_TOKEN_IS_EMPTY;
-import static com.sparta.moim.gateway.exception.GatewayErrorCode.ACCESS_TOKEN_NOT_FOUND;
+import static com.sparta.moim.gateway.exception.GatewayErrorCode.ACCESS_TOKEN_COOKIE_IS_EMPTY;
+import static com.sparta.moim.gateway.exception.GatewayErrorCode.ACCESS_TOKEN_COOKIE_NOT_FOUND;
 
 import com.sparta.moim.common.passport.enums.Passport;
-import com.sparta.moim.gateway.exception.JwtAuthenticationException;
+import com.sparta.moim.gateway.exception.CookieNotFoundException;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpCookie;
@@ -21,13 +21,13 @@ import org.springframework.web.server.ServerWebExchange;
 public class PassportRelayFilter extends AbstractGatewayFilterFactory<Object> {
 
   private final WebClient webClient;
-  private final String ACCESS_TOKEN_COOKIE_NAME = "access_token";
-  private final String GET_PASSPORT_URL = "/api/v1/passport";
+  private final String ACCESS_TOKEN_COOKIE_NAME = "accessToken";
+  private final String GET_PASSPORT_URL = "/internal/v1/users/passport";
 
   public PassportRelayFilter(WebClient.Builder webClientBuilder) {
     super(Object.class);
     this.webClient = webClientBuilder
-        .baseUrl("http://localhost:8082")
+        .baseUrl("lb://user-service")
         .build();
   }
 
@@ -56,12 +56,12 @@ public class PassportRelayFilter extends AbstractGatewayFilterFactory<Object> {
     HttpCookie accessTokenCookie = exchange.getRequest().getCookies().getFirst(ACCESS_TOKEN_COOKIE_NAME);
 
     if (accessTokenCookie == null) {
-      throw new JwtAuthenticationException(ACCESS_TOKEN_NOT_FOUND);
+      throw new CookieNotFoundException(ACCESS_TOKEN_COOKIE_NOT_FOUND);
     }
 
     String accessToken = accessTokenCookie.getValue();
     if (!StringUtils.hasText(accessToken)) {
-      throw new JwtAuthenticationException(ACCESS_TOKEN_IS_EMPTY);
+      throw new CookieNotFoundException(ACCESS_TOKEN_COOKIE_IS_EMPTY);
     }
     return accessToken;
   }
