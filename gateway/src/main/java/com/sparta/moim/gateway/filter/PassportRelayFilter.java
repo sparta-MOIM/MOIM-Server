@@ -6,51 +6,50 @@ import static com.sparta.moim.common.passport.enums.UserPassportConstants.X_USER
 import static com.sparta.moim.gateway.exception.GatewayErrorCode.ACCESS_TOKEN_IS_EMPTY;
 import static com.sparta.moim.gateway.exception.GatewayErrorCode.ACCESS_TOKEN_NOT_FOUND;
 
-import com.sparta.moim.gateway.JwtUtil;
+import com.sparta.moim.common.passport.enums.Passport;
 import com.sparta.moim.gateway.exception.JwtAuthenticationException;
-import io.jsonwebtoken.Claims;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ServerWebExchange;
 
 @Component
-public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<Object> {
+public class PassportRelayFilter extends AbstractGatewayFilterFactory<Object> {
 
-  private final JwtUtil jwtUtil;
+  private final WebClient webClient;
+  private final String ACCESS_TOKEN_COOKIE_NAME = "access_token";
+  private final String GET_PASSPORT_URL = "/api/v1/passport";
 
-  public JwtAuthenticationFilter(JwtUtil jwtUtil) {
+  public PassportRelayFilter(WebClient.Builder webClientBuilder) {
     super(Object.class);
-    this.jwtUtil = jwtUtil;
+    this.webClient = webClientBuilder
+        .baseUrl("http://localhost:8082")
+        .build();
   }
-
-  private static final String ACCESS_TOKEN_COOKIE_NAME = "accessToken";
 
   @Override
   public GatewayFilter apply(Object config) {
     return (exchange, chain) -> {
       String accessToken = extractAccessTokenFromCookie(exchange);
-      Claims claims = jwtUtil.extractClaims(accessToken);
-      ServerWebExchange addedPassportExchange = addPassportToHeader(exchange, claims);
-      return chain.filter(addedPassportExchange);
+      return webClient.get()
+          .uri(GET_PASSPORT_URL)
+          .header(ACCESS_TOKEN_COOKIE_NAME, accessToken)
+          .retrieve()
+          .bodyToMono(Passport.class)
+          .flatMap(passport -> {
+            ServerHttpRequest request = exchange.getRequest().mutate()
+                .header(X_USER_ID.getValue(), passport.userTrackingId())
+                .header(X_USER_NAME.getValue(), passport.username())
+                .header(X_USER_ROLE.getValue(), passport.role())
+                .build();
+
+            return chain.filter(exchange.mutate().request(request).build());
+          });
     };
-  }
-
-  private ServerWebExchange addPassportToHeader(ServerWebExchange exchange, Claims claims) {
-    String trackingId = claims.getSubject();
-    String username = claims.get("username", String.class);
-    String role = claims.get("role", String.class);
-
-    ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
-        .header(X_USER_ID.getValue(), trackingId)
-        .header(X_USER_NAME.getValue(), username)
-        .header(X_USER_ROLE.getValue(), role)
-        .build();
-
-    return exchange.mutate().request(mutatedRequest).build();
   }
 
   private String extractAccessTokenFromCookie(ServerWebExchange exchange) {

@@ -1,8 +1,8 @@
 package com.sparta.moim.common.security.filter;
 
-import static com.sparta.moim.common.enums.UserPassportConstants.X_USER_ID;
-import static com.sparta.moim.common.enums.UserPassportConstants.X_USER_NAME;
-import static com.sparta.moim.common.enums.UserPassportConstants.X_USER_ROLE;
+import static com.sparta.moim.common.passport.enums.UserPassportConstants.X_USER_ID;
+import static com.sparta.moim.common.passport.enums.UserPassportConstants.X_USER_NAME;
+import static com.sparta.moim.common.passport.enums.UserPassportConstants.X_USER_ROLE;
 
 import com.sparta.moim.common.security.CustomUserDetails;
 import jakarta.servlet.FilterChain;
