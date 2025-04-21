@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 public enum GatewayErrorCode implements Code {
   ACCESS_TOKEN_COOKIE_NOT_FOUND(HttpStatus.BAD_REQUEST, "GW001", "엑세스 토큰 쿠키가 없습니다."),
   ACCESS_TOKEN_COOKIE_IS_EMPTY(HttpStatus.BAD_REQUEST, "GW002", "엑세스 토큰 쿠키 값이 빈 값입니다."),
+  PASSPORT_RETRIEVAL(HttpStatus.UNAUTHORIZED, "GW003", "Passport 조회에 실패했습니다."),
   ;
 
   private final HttpStatus status;

@@ -5,9 +5,11 @@ import static com.sparta.moim.common.passport.enums.UserPassportConstants.X_USER
 import static com.sparta.moim.common.passport.enums.UserPassportConstants.X_USER_ROLE;
 import static com.sparta.moim.gateway.exception.GatewayErrorCode.ACCESS_TOKEN_COOKIE_IS_EMPTY;
 import static com.sparta.moim.gateway.exception.GatewayErrorCode.ACCESS_TOKEN_COOKIE_NOT_FOUND;
+import static com.sparta.moim.gateway.exception.GatewayErrorCode.PASSPORT_RETRIEVAL;
 
 import com.sparta.moim.common.passport.Passport;
 import com.sparta.moim.gateway.exception.CookieNotFoundException;
+import com.sparta.moim.gateway.exception.PassportRetrievalException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -43,6 +45,7 @@ public class PassportRelayFilter extends AbstractGatewayFilterFactory<Object> {
           .header(ACCESS_TOKEN_COOKIE_NAME, accessToken)
           .retrieve()
           .bodyToMono(Passport.class)
+          .onErrorMap(original -> new PassportRetrievalException(PASSPORT_RETRIEVAL))
           .flatMap(passport -> {
             ServerHttpRequest request = exchange.getRequest().mutate()
                 .header(X_USER_ID.getValue(), passport.userTrackingId())
