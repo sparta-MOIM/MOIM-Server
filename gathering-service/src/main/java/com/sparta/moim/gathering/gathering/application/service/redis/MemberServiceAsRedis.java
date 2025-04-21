@@ -11,6 +11,7 @@ import com.sparta.moim.gathering.gathering.domain.repository.GatheringValidation
 import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Primary
 public class MemberServiceAsRedis implements MemberService {
+
+  @Value("${spring.data.redis.stream-key}")
+  private String streamKey;
+
   private final RedisTemplate<String, Member> redisTemplate;
   private final MemberRepository memberRepository;
   private final GatheringValidationRepository gatheringValidationRepository;
@@ -33,7 +38,7 @@ public class MemberServiceAsRedis implements MemberService {
 
     Member member = command.toDomain();
     // 대기열을 통해 메시지를 전달한다.
-    redisTemplate.opsForStream().add("stream:gathering_join", member.toMap());
+    redisTemplate.opsForStream().add(streamKey, member.toMap());
   }
 
   private void statusTrueValidate(JoinGatheringCommand command) {
