@@ -34,6 +34,8 @@ public class RedisStreamConfig {
   @Value("${spring.data.redis.consumer-id}")
   private String consumerId;
 
+  @Value("${spring.data.redis.poll-timeout}")
+  private int pollTimeout;
   @Bean
   public StreamMessageListenerContainer<String, MapRecord<String, String, String>> streamMessageListenerContainer(
       StringRedisTemplate redisTemplate,
@@ -57,7 +59,7 @@ public class RedisStreamConfig {
 
     var options = StreamMessageListenerContainer.StreamMessageListenerContainerOptions
         .builder()
-        .pollTimeout(Duration.ofSeconds(1)) // Redis polling 간격
+        .pollTimeout(Duration.ofSeconds(pollTimeout)) // Redis polling 간격
         .build();
 
     var container = StreamMessageListenerContainer.create(factory, options);
