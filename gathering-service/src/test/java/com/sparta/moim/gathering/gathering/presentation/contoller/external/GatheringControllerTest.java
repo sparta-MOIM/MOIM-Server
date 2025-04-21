@@ -28,7 +28,7 @@ import com.sparta.moim.gathering.gathering.application.dto.result.SearchGatherin
 import com.sparta.moim.gathering.gathering.application.dto.result.SearchGatheringResult;
 import com.sparta.moim.gathering.gathering.application.exception.ExistsNameGatheringException;
 import com.sparta.moim.gathering.gathering.application.exception.NotFoundGatheringException;
-import com.sparta.moim.gathering.gathering.application.service.GatheringService;
+import com.sparta.moim.gathering.gathering.application.service.rds.GatheringService;
 import com.sparta.moim.gathering.gathering.presentation.dto.request.UpdateGatheringRequest;
 import java.time.LocalDateTime;
 import java.util.List;
