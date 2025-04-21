@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,7 @@ import org.springframework.data.redis.stream.StreamMessageListenerContainer;
 
 @Configuration
 @RequiredArgsConstructor
+@Slf4j
 public class RedisStreamConfig {
 
   private final RedisConsumerListener myStreamListener;
@@ -53,6 +55,7 @@ public class RedisStreamConfig {
       streamOps.createGroup(streamKey, ReadOffset.latest(), groupName);
     } catch (RedisSystemException e) {
       if (!(e.getCause() instanceof RedisBusyException)) {
+        log.error("Redis 그룹 생성 중 오류 발생: {}", e.getMessage(), e);
         throw e;
       }
     }
