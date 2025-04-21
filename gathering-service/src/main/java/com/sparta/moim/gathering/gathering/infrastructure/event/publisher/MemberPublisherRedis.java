@@ -6,6 +6,7 @@ import com.sparta.moim.gathering.shared.enums.MemberType;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,12 @@ import org.springframework.stereotype.Service;
 public class MemberPublisherRedis implements MemberPublisher {
   private final RedisTemplate<String, GatheringJoinAdminEvent> redisTemplate;
 
+  @Value("${spring.data.redis.stream-key}")
+  private String streamKey;
   @Override
   public void add(UUID gatheringId, String memberName) {
     GatheringJoinAdminEvent event = new GatheringJoinAdminEvent(gatheringId, memberName, MemberType.ADMIN);
-    redisTemplate.opsForStream().add("stream:gathering_join", event.toMap());
+    redisTemplate.opsForStream().add(streamKey, event.toMap());
   }
 
   // 미구현
