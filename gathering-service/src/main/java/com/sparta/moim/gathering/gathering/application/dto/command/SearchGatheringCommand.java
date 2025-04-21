@@ -3,7 +3,7 @@ package com.sparta.moim.gathering.gathering.application.dto.command;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.gathering.gathering.domain.dto.criteria.SearchGatheringCriteria;
 import com.sparta.moim.gathering.gathering.domain.entity.Member;
-import com.sparta.moim.gathering.gathering.domain.enums.MemberType;
+import com.sparta.moim.gathering.shared.enums.MemberType;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
