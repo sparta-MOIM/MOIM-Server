@@ -536,7 +536,7 @@ class GatheringControllerTest {
               resource(ResourceSnippetParameters.builder()
                   .tag("Gathering-External")
                   .summary("소모임 삭제")
-                  .description("소모임을 삭제하기 위한 엔드포인트입니다.")
+                  .description("존재하지 않는 소모임을 삭제 요청시 발생하는 엔드포인트입니다.")
                   .pathParameters(
                       parameterWithName("gatheringId").description("소모임 아이디")
                   )
