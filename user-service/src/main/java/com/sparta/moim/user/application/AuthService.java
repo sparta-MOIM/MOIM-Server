@@ -2,7 +2,7 @@ package com.sparta.moim.user.application;
 
 import static com.sparta.moim.user.application.exception.UserErrorCode.USER_NOT_FOUND;
 
-import com.sparta.moim.common.passport.enums.Passport;
+import com.sparta.moim.common.passport.Passport;
 import com.sparta.moim.user.application.exception.UserNotFoundException;
 import com.sparta.moim.user.domain.model.User;
 import com.sparta.moim.user.domain.repository.UserRepository;

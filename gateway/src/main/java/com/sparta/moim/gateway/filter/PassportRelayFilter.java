@@ -6,8 +6,9 @@ import static com.sparta.moim.common.passport.enums.UserPassportConstants.X_USER
 import static com.sparta.moim.gateway.exception.GatewayErrorCode.ACCESS_TOKEN_COOKIE_IS_EMPTY;
 import static com.sparta.moim.gateway.exception.GatewayErrorCode.ACCESS_TOKEN_COOKIE_NOT_FOUND;
 
-import com.sparta.moim.common.passport.enums.Passport;
+import com.sparta.moim.common.passport.Passport;
 import com.sparta.moim.gateway.exception.CookieNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpCookie;
@@ -17,12 +18,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ServerWebExchange;
 
+@Slf4j
 @Component
 public class PassportRelayFilter extends AbstractGatewayFilterFactory<Object> {
 
   private final WebClient webClient;
-  private final String ACCESS_TOKEN_COOKIE_NAME = "accessToken";
-  private final String GET_PASSPORT_URL = "/internal/v1/users/passport";
+  private static final String ACCESS_TOKEN_COOKIE_NAME = "accessToken";
+  private static final String GET_PASSPORT_URL = "/internal/v1/users/passport";
 
   public PassportRelayFilter(WebClient.Builder webClientBuilder) {
     super(Object.class);
@@ -34,6 +36,7 @@ public class PassportRelayFilter extends AbstractGatewayFilterFactory<Object> {
   @Override
   public GatewayFilter apply(Object config) {
     return (exchange, chain) -> {
+      log.info("PassportRelayFilter apply");
       String accessToken = extractAccessTokenFromCookie(exchange);
       return webClient.get()
           .uri(GET_PASSPORT_URL)

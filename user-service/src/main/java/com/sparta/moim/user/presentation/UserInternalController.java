@@ -1,6 +1,6 @@
 package com.sparta.moim.user.presentation;
 
-import com.sparta.moim.common.passport.enums.Passport;
+import com.sparta.moim.common.passport.Passport;
 import com.sparta.moim.user.application.AuthService;
 import com.sparta.moim.user.application.UserService;
 import com.sparta.moim.user.application.dto.GetUserResult;
