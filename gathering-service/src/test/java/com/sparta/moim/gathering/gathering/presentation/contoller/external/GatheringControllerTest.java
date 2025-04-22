@@ -553,7 +553,7 @@ class GatheringControllerTest {
 
 
 
-    private List<SearchGatheringListResult> testGatheringInfoTest(int count) {
+    private List<SearchGatheringListResult> createTestGatheringInfo(int count) {
       List<SearchGatheringListResult> gatherings = new ArrayList<>();
 
       for (int i = 0; i < count; i++) {
@@ -580,7 +580,7 @@ class GatheringControllerTest {
       setupSecurityContext(username, role, userId);
 
       SearchGatheringResult response = SearchGatheringResult.builder()
-          .gatherings(testGatheringInfoTest(10))
+          .gatherings(createTestGatheringInfo(10))
           .page(0)
           .content(1)
           .total(10)
