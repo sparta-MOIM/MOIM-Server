@@ -12,11 +12,13 @@ import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
 import com.sparta.moim.gathering.shared.enums.MemberType;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Primary
 public class MemberServiceAsRds implements MemberService {
   private final MemberRepository memberRepository;
   private final GatheringValidationRepository gatheringValidationRepository;
