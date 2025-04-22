@@ -8,6 +8,7 @@ import com.sparta.moim.gathering.gathering.application.service.struct.MemberServ
 import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ public class MemberRdsProxyService implements MemberService {
   private final MemberRepository memberRepository;
 
   @Override
+  @Transactional
   public void joinGathering(JoinGatheringCommand command) {
     memberServiceStruct.joinGathering(command);
     memberRepository.save(command.toDomain());
