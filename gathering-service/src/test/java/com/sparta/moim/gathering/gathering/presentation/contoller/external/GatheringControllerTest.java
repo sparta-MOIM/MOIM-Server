@@ -551,8 +551,6 @@ class GatheringControllerTest {
   @DisplayName("게더링 검색 테스트")
   class SearchGatheringTest {
 
-
-
     private List<SearchGatheringListResult> createTestGatheringInfo(int count) {
       List<SearchGatheringListResult> gatherings = new ArrayList<>();
 
@@ -626,6 +624,67 @@ class GatheringControllerTest {
                       parameterWithName("size").description("가져올 데이터 크기").optional(),
                       parameterWithName("sort").description("정렬 기준").optional()
                   )
+                  .build()
+              )));
+    }
+
+    @Test
+    @DisplayName("게더링 검색 성공 - 검색결과가 없는 경우")
+    void searchGathering_noContent_success() throws Exception {
+      // given
+      UUID userId = UUID.randomUUID();
+      String username = "테스트유저";
+      String role = "USER";
+
+      // SecurityContext에 인증 정보 설정
+      setupSecurityContext(username, role, userId);
+
+      SearchGatheringResult response = SearchGatheringResult.builder()
+          .gatherings(createTestGatheringInfo(0))
+          .page(0)
+          .content(0)
+          .total(0)
+          .build();
+
+      when(gatheringService.searchGathering(any()))
+          .thenReturn(response);
+
+      // when & then
+      mockMvc.perform(get("/api/v1/gathering")
+              .param("name", "스파르타")
+              .param("isDeleted", "false")
+              .param("startTime", LocalDateTime.now().toString())
+              .param("endTime", LocalDateTime.now().toString())
+              .param("sort", "createdAt")
+              .param("status", "true")
+              .param("page", "0")
+              .param("size", "10")
+              .header("X-User-Name", username)
+              .header("X-User-Role", role)
+              .header("X-User-ID", userId.toString()))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$.data.gatherings").isArray())
+          .andExpect(jsonPath("$.data.page").value(0))
+          .andExpect(jsonPath("$.data.content").value(0))
+          .andExpect(jsonPath("$.data.total").value(0))
+          .andDo(document("소모임 - 조회 - 데이터가 존재하지 않는 경우",
+              preprocessRequest(Preprocessors.prettyPrint()),
+              preprocessResponse(Preprocessors.prettyPrint()),
+              resource(ResourceSnippetParameters.builder()
+                  .tag("Gathering-External")
+                  .summary("소모임 데이터가 존재하지 않는 경우")
+                  .description("소모임을 검색하기 위한 엔드포인트입니다.")
+                  .queryParameters(
+                      parameterWithName("name").description("소모임 명").optional(),
+                      parameterWithName("status").description("모임 상태").optional(),
+                      parameterWithName("isDeleted").description("삭제 여부").optional(),
+                      parameterWithName("startTime").description("검색 시작 시간").optional(),
+                      parameterWithName("endTime").description("검색 종료 시간").optional(),
+                      parameterWithName("page").description("현재 페이지").optional(),
+                      parameterWithName("size").description("가져올 데이터 크기").optional(),
+                      parameterWithName("sort").description("정렬 기준").optional()
+                  )
+
                   .build()
               )));
     }
