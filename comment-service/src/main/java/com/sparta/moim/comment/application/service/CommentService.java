@@ -88,6 +88,7 @@ public class CommentService {
 
   //특정 게시글의 특정 댓글 수정
   //댓글 수정 되면 캐시 업데이트
+  //댓글을 작성한 유저만 해당 댓글을 업데이트 가능
   @Transactional
   @CacheEvict(cacheNames = "commentOfAll", allEntries = true) //댓글이 수정되면 모든 댓글을 조회한 것을 저장한 캐시도 수정 (다른곳에도 추가 필요)
   public CommentResponseDTO updateComment(String postId, UUID commentId, CommentUpdateRequestDTO commentUpdateRequestDTO, CustomUserDetails customUserDetails){
@@ -96,7 +97,13 @@ public class CommentService {
     //권한 체크 후, 아무 일도 없으면 권한 체크 통과
     userCheckService.roleCheck(roleCheckClient, commentUpdateRequestDTO.getRoleCheckDTO().getOrganizationId(), customUserDetails.getTrackingId().toString(), roles);
 
-    Comment comment = commentRepository.findComment(postId,commentId).orElseThrow(()->new BaseException(COMMENT_NOT_FOUND));
+    Comment comment = commentRepository.findUserComment(postId,commentId, customUserDetails.getTrackingId());
+
+    //해당 댓글이 존재하지 않거나, 다른 사람의 댓글을 업데이트 하려고 하는 경우 댓글은 조회되지 않는다.
+    if(comment==null){
+      throw new BaseException(CANNOT_UPDATE_COMMENT);
+    }
+
     comment.setComment(commentUpdateRequestDTO.getComment());
     commentRepository.save(comment);
 
@@ -107,16 +114,33 @@ public class CommentService {
   //게시물이 삭제되면 댓글도 삭제되도록 처리 필요
   @Transactional
   @CacheEvict(cacheNames = "commentOfAll", allEntries = true) //댓글이 수정되면 모든 댓글을 조회한 것을 저장한 캐시도 수정 (다른곳에도 추가 필요)
-  public void deleteComment(String postId, UUID commentId, CustomUserDetails customUserDetails){
-    Comment comment = commentRepository.findComment(postId,commentId).orElseThrow(()->new BaseException(COMMENT_NOT_FOUND));
+  public void deleteComment(RoleCheckDTO roleCheckDTO, String postId, UUID commentId, CustomUserDetails customUserDetails){
+    //essential authorization to assign comment
+    List<OrganizationMemberRole> roles = List.of(MEMBER, MASTER, MANAGER);
+    //권한 체크 후, 아무 일도 없으면 권한 체크 통과
+    userCheckService.roleCheck(roleCheckClient, roleCheckDTO.getOrganizationId(), customUserDetails.getTrackingId().toString(), roles);
+
+    Comment comment = commentRepository.findUserComment(postId, commentId, customUserDetails.getTrackingId());
+
+    //해당 댓글이 존재하지 않거나, 다른 사람의 댓글을 업데이트 하려고 하는 경우 댓글은 조회되지 않는다.
+    if(comment==null){
+      throw new BaseException(CANNOT_DELETE_COMMENT);
+    }
+
     comment.softDelete(customUserDetails.getTrackingId().toString());
+
     commentRepository.save(comment);
   }
 
   //특정 게시글의 전체 댓글 삭제
   @Transactional
   @CacheEvict(cacheNames = "commentOfAll", allEntries = true) //댓글이 수정되면 모든 댓글을 조회한 것을 저장한 캐시도 수정 (다른곳에도 추가 필요)
-  public boolean deleteComments(String postId, String userId){
+  public boolean deleteComments(RoleCheckDTO roleCheckDTO, String postId, String userId, CustomUserDetails customUserDetails){
+    //essential authorization to assign comment
+    List<OrganizationMemberRole> roles = List.of(MEMBER, MASTER, MANAGER);
+    //권한 체크 후, 아무 일도 없으면 권한 체크 통과
+    userCheckService.roleCheck(roleCheckClient, roleCheckDTO.getOrganizationId(), customUserDetails.getTrackingId().toString(), roles);
+
     List<Comment> comments = commentRepository.findCommentAll(postId);
 
     //댓글이 없을 경우, 삭제할 댓글이 없는 경우 이므로, true 반환
@@ -137,7 +161,12 @@ public class CommentService {
 
   //특정 댓글 내용 바탕으로 댓글 검색
   @Transactional(readOnly = true)
-  public List<CommentResponseDTO> searchComment(String postId, String comment){
+  public List<CommentResponseDTO> searchComment(RoleCheckDTO roleCheckDTO, String postId, String comment, CustomUserDetails customUserDetails){
+    //essential authorization to assign comment
+    List<OrganizationMemberRole> roles = List.of(MEMBER, MASTER, MANAGER);
+    //권한 체크 후, 아무 일도 없으면 권한 체크 통과
+    userCheckService.roleCheck(roleCheckClient, roleCheckDTO.getOrganizationId(), customUserDetails.getTrackingId().toString(), roles);
+
     List<Comment> comments = commentRepository.searchComment(postId, comment);
     List<CommentResponseDTO> commentResponseDTOS = new ArrayList<>();
     for(Comment originComment : comments){

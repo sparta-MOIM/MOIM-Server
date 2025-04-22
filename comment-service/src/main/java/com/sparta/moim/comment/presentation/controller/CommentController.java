@@ -54,19 +54,22 @@ public class CommentController {
   }
 
   @DeleteMapping("/{post}/{comment_id}")
-  public ResponseEntity<ApiResponseData<String>> deleteComment(@PathVariable("post") String postId,
+  public ResponseEntity<ApiResponseData<String>> deleteComment(@RequestBody @Valid RoleCheckDTO roleCheckDTO,
+                                                               @PathVariable("post") String postId,
                                                                @PathVariable("comment_id") UUID commentId,
                                                                @AuthenticationPrincipal CustomUserDetails customUserDetails){
-    commentService.deleteComment(postId, commentId, customUserDetails);
+    commentService.deleteComment(roleCheckDTO, postId, commentId, customUserDetails);
     return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_DELETE.getCode(),COMMENT_DELETE.getMessage(), null));
   }
 
 
   @GetMapping("/{post_id}/search")
-  public  ResponseEntity<ApiResponseData<List<CommentResponseDTO>>> searchComment(@PathVariable("post_id") String postId,
-                                                                       @RequestParam("comment") String comment){
+  public  ResponseEntity<ApiResponseData<List<CommentResponseDTO>>> searchComment(@RequestBody @Valid RoleCheckDTO roleCheckDTO,
+                                                                                  @PathVariable("post_id") String postId,
+                                                                                  @RequestParam("comment") String comment,
+                                                                                  @AuthenticationPrincipal CustomUserDetails customUserDetails){
 
-    return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_FOUND.getCode(), COMMENT_FOUND.getMessage(), commentService.searchComment(postId,comment)));
+    return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_FOUND.getCode(), COMMENT_FOUND.getMessage(), commentService.searchComment(roleCheckDTO, postId,comment,customUserDetails)));
   }
 
 }

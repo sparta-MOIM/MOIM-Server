@@ -13,7 +13,7 @@ public interface CommentRepository {
 
   Optional<Comment> findComment(String postId, UUID commentId);
 
-  
+  Comment findUserComment(String postId, UUID commentId, UUID userId);
 
   List<Comment> searchComment(String postId, String comment);
 

@@ -46,6 +46,19 @@ public class CommentRepositoryImpl implements CommentRepository {
         .fetch();
   }
 
+  //queryDSL은 반환타입 optional을 허용하지 않는다.
+  //만약 값이 없다면 null을 반환
+  @Override
+  public Comment findUserComment(String postId, UUID commentId, UUID userId){
+    QComment qComment = QComment.comment1;
+    return jpaQueryFactory.selectFrom(qComment)
+        .where(qComment.postId.eq(postId)
+            .and(qComment.trackingId.eq(commentId))
+            .and(qComment.userId.eq(userId))
+            .and(qComment.deletedBy.isNull()))
+        .fetchOne();
+  }
+
   @Override
   public void softDeleteByPostId(@Param("postId") String postId, @Param("userId") String userId){
     jpaCommentRepository.softDeleteByPostId(postId,userId);

@@ -1,9 +1,14 @@
 package com.sparta.moim.comment.presentation.controller;
 
 import com.sparta.moim.comment.application.service.CommentService;
+import com.sparta.moim.common.dto.req.RoleCheckDTO;
+import com.sparta.moim.common.security.CustomUserDetails;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +24,10 @@ public class CommentInternalController {
   //댓글 삭제 완료 or 삭제할 댓글이 없는 경우 -> return true
   //삭제 시, 에러가 발생하여 삭제가 안됨 -> return false
   @DeleteMapping("/{postId}/{userId}")
-  public boolean deleteComments(@PathVariable("postId") String postId, @PathVariable("userId") String userId){
-    return commentService.deleteComments(postId,userId);
+  public boolean deleteComments(@RequestBody @Valid RoleCheckDTO roleCheckDTO,
+                                @PathVariable("postId") String postId,
+                                @PathVariable("userId") String userId,
+                                @AuthenticationPrincipal CustomUserDetails customUserDetails){
+    return commentService.deleteComments(roleCheckDTO,postId,userId,customUserDetails);
   }
 }

@@ -16,7 +16,9 @@ public enum CommentCode implements Code {
   NO_COMMENT_IN_POST(HttpStatus.FORBIDDEN, "CM404", "해당 게시글에는 댓글이 존재하지 않습니다."),
   COMMENT_NOT_DELETE(HttpStatus.INTERNAL_SERVER_ERROR, "CM405", "댓글 삭제에 실패했습니다."),
   COMMENT_NOT_VALID_AUTH(HttpStatus.UNAUTHORIZED, "CM410", "댓글을 작성할 권한이 존재하지 않습니다."),
-  PARENT_COMMENT_CANNOT_HAVE_COMMENT(HttpStatus.FORBIDDEN, "CM406", "부모 댓글은 부모 댓글을 가질 수 없습니다.");
+  CANNOT_UPDATE_COMMENT(HttpStatus.BAD_REQUEST, "CM420", "해당 댓글은 존재하지 않거나, 댓글을 수정할 권한이 없습니다."),
+  CANNOT_DELETE_COMMENT(HttpStatus.BAD_REQUEST, "CM421", "해당 댓글은 존재하지 않거나, 댓글을 삭제할 권한이 없습니다."),
+  PARENT_COMMENT_CANNOT_HAVE_COMMENT(HttpStatus.FORBIDDEN, "CM430", "부모 댓글은 부모 댓글을 가질 수 없습니다.");
   private final HttpStatus status;
   private final String code;
   private final String message;

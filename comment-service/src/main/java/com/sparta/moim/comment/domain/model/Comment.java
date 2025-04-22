@@ -39,12 +39,13 @@ public class Comment extends BaseEntity {
   @Column(nullable = false)
   private Integer commentClass;
 
-  //저장 될수도 있고 저장 안될 수도 있어서 타입을 UUID가 아닌 String 으로 설정
+  //저장 될수도 있고 저장 안될 수도 있어서 타입을 UUID가 아닌 String 으로 설정 (부모 댓글이 있을 수도 있고 없을 수도 있음)
   @JdbcTypeCode(Types.VARCHAR)
   @Column(length = 36)
   private String parentId;
 
   @Setter
+  @JdbcTypeCode(Types.VARCHAR)
   @Column(length = 36, nullable = false)
   private UUID userId;
 
