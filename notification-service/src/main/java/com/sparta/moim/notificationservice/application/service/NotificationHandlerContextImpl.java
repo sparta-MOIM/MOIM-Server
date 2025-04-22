@@ -10,21 +10,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class NotificationHandlerContextImpl implements NotificationHandlerContext{
 
-    private final Map<NotificationType, NotificationStrategy> notificationStrategyMap;
+    private final Map<NotificationType, NotificationHandlerStrategy> notificationStrategyMap;
 
-    public NotificationHandlerContextImpl(List<NotificationStrategy> notificationStrategyList) {
-        this.notificationStrategyMap = notificationStrategyList.stream()
-                .collect(Collectors.toMap(NotificationStrategy::getType, strategy -> strategy));
+    public NotificationHandlerContextImpl(List<NotificationHandlerStrategy> notificationHandlerStrategyList) {
+        this.notificationStrategyMap = notificationHandlerStrategyList.stream()
+                .collect(Collectors.toMap(NotificationHandlerStrategy::getType, strategy -> strategy));
     }
 
     @Override
     public void handle(NotificationType type, String rawJson) {
-        NotificationStrategy notificationStrategy = notificationStrategyMap.get(type);
-        if (notificationStrategy == null) {
+        NotificationHandlerStrategy notificationHandlerStrategy = notificationStrategyMap.get(type);
+        if (notificationHandlerStrategy == null) {
             throw new CannotFindNotificationType();
         }
 
-        notificationStrategy.handleNotification(rawJson);
+        notificationHandlerStrategy.handleNotification(rawJson);
     }
 
 }

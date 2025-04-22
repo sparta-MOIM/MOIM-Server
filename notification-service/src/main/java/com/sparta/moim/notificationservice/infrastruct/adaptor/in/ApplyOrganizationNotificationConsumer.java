@@ -1,8 +1,8 @@
 package com.sparta.moim.notificationservice.infrastruct.adaptor.in;
 
 import com.sparta.moim.notificationservice.application.service.ApplyOrganizationNotificationService;
-import com.sparta.moim.notificationservice.application.service.NotificationHandler;
-import com.sparta.moim.notificationservice.infrastruct.dto.message.ApplyOrganizationNotificationMessage;
+import com.sparta.moim.notificationservice.application.service.NotificationHandlerContext;
+import com.sparta.moim.notificationservice.domain.enums.NotificationType;
 import com.sparta.moim.notificationservice.infrastruct.mapper.CommandMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,14 +14,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ApplyOrganizationNotificationConsumer implements NotificationConsumer{
 
-    private final ApplyOrganizationNotificationService applyOrganizationNotificationService;
-    private final CommandMapper commandMapper;
+    private final NotificationHandlerContext notificationHandlerContext;
 
     @Override
     @KafkaListener(topics = "organization-apply-notification", groupId = "notification-group")
     public void consume(String rawMessage) {
             log.info("message received : {}", rawMessage);
-            applyOrganizationNotificationService.sendApplyOrganizationNotification(rawMessage);
+            notificationHandlerContext.handle(NotificationType.ORGANIZATION_MOIM_REQUEST,rawMessage);
             log.info("알림 전송 완료");
     }
 }
