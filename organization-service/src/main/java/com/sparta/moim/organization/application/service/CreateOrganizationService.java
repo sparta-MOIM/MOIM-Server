@@ -21,12 +21,12 @@ public class CreateOrganizationService implements CreateOrganizationUseCase {
 
     @Override
     @Transactional
-    public void execute(CreateOrganizationCommand createOrganizationCommand) {
+    public void execute(String userTrackingID, CreateOrganizationCommand createOrganizationCommand) {
 
         Organization organization = organizationRepository.save(Organization.from(createOrganizationCommand));
 
         OrganizationMember organizationMember = OrganizationMember.of(
-                UUID.fromString("68926367-c01f-4f88-8f10-4c9797b77f8e"), // todo-user의 트래킹Id로 변경해야함.
+                UUID.fromString(userTrackingID), // todo-user의 트래킹Id로 변경해야함.
                 createOrganizationCommand.getNickname(),
                 OrganizationMemberRole.MASTER,
                 organization);
