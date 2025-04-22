@@ -33,9 +33,8 @@ public class CommentRepositoryImpl implements CommentRepository {
 
   @Override
   public Optional<Comment> findComment(String postId, UUID commentId) {
-    return Optional.ofNullable(
-      jpaCommentRepository.findByPostIdAndTrackingIdAndDeletedByIsNull(postId, commentId)
-          .orElseThrow(() -> new BaseException(COMMENT_NOT_FOUND)));
+    return
+      jpaCommentRepository.findByPostIdAndTrackingIdAndDeletedByIsNull(postId, commentId);
   }
 
   @Override

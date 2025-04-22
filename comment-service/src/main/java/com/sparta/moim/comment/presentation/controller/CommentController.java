@@ -3,12 +3,11 @@ package com.sparta.moim.comment.presentation.controller;
 import static com.sparta.moim.comment.infrastructure.response.CommentCode.*;
 
 import com.sparta.moim.comment.application.dto.CommentResponseDTO;
-import com.sparta.moim.comment.domain.service.CommentDomainService;
-import com.sparta.moim.comment.infrastructure.response.CommentCode;
+import com.sparta.moim.comment.application.service.CommentService;
 import com.sparta.moim.comment.presentation.request.CommentRequestDTO;
 import com.sparta.moim.comment.presentation.request.CommentUpdateRequestDTO;
+import com.sparta.moim.common.dto.req.RoleCheckDTO;
 import com.sparta.moim.common.response.ApiResponseData;
-import com.sparta.moim.common.response.Code;
 import com.sparta.moim.common.security.CustomUserDetails;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,31 +30,34 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CommentController {
 
-  private final CommentDomainService commentDomainService;
+  private final CommentService commentService;
 
   @PostMapping("")
   public ResponseEntity<ApiResponseData<String>> postComment(@RequestBody @Valid CommentRequestDTO commentRequestDTO, @AuthenticationPrincipal CustomUserDetails customUserDetails){
-    commentDomainService.commentService(commentRequestDTO,customUserDetails);
+    commentService.commentService(commentRequestDTO,customUserDetails);
     return ResponseEntity.ok().body(ApiResponseData.success(null, "댓글을 성공적으로 등록하였습니다."));
   }
 
   @GetMapping("/{post_id}")
-  public ResponseEntity<ApiResponseData<List<CommentResponseDTO>>> getComments(@PathVariable("post_id") String postId){
-    return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_FOUND.getCode(),  COMMENT_FOUND.getMessage(), commentDomainService.readAllComment(postId)));
+  public ResponseEntity<ApiResponseData<List<CommentResponseDTO>>> getComments(@RequestBody @Valid RoleCheckDTO roleCheckDTO,
+                                                                               @PathVariable("post_id") String postId,
+                                                                               @AuthenticationPrincipal CustomUserDetails customUserDetails){
+    return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_FOUND.getCode(),  COMMENT_FOUND.getMessage(), commentService.readAllComment(roleCheckDTO, postId, customUserDetails)));
   }
 
   @PutMapping("/{post_id}/{comment_id}")
   public ResponseEntity<ApiResponseData<CommentResponseDTO>> updateComment(@PathVariable("post_id") String postId,
                                                                            @PathVariable("comment_id") UUID commentId,
-                                                                           @RequestBody CommentUpdateRequestDTO commentUpdateRequestDTO){
-    return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_UPDATE.getCode(), COMMENT_UPDATE.getMessage(), commentDomainService.updateComment(postId,commentId,commentUpdateRequestDTO)));
+                                                                           @RequestBody CommentUpdateRequestDTO commentUpdateRequestDTO,
+                                                                           @AuthenticationPrincipal CustomUserDetails customUserDetails){
+    return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_UPDATE.getCode(), COMMENT_UPDATE.getMessage(), commentService.updateComment(postId,commentId,commentUpdateRequestDTO, customUserDetails)));
   }
 
   @DeleteMapping("/{post}/{comment_id}")
   public ResponseEntity<ApiResponseData<String>> deleteComment(@PathVariable("post") String postId,
                                                                @PathVariable("comment_id") UUID commentId,
                                                                @AuthenticationPrincipal CustomUserDetails customUserDetails){
-    commentDomainService.deleteComment(postId, commentId, customUserDetails);
+    commentService.deleteComment(postId, commentId, customUserDetails);
     return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_DELETE.getCode(),COMMENT_DELETE.getMessage(), null));
   }
 
@@ -65,7 +66,7 @@ public class CommentController {
   public  ResponseEntity<ApiResponseData<List<CommentResponseDTO>>> searchComment(@PathVariable("post_id") String postId,
                                                                        @RequestParam("comment") String comment){
 
-    return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_FOUND.getCode(), COMMENT_FOUND.getMessage(), commentDomainService.searchComment(postId,comment)));
+    return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_FOUND.getCode(), COMMENT_FOUND.getMessage(), commentService.searchComment(postId,comment)));
   }
 
 }

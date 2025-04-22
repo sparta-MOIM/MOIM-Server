@@ -13,7 +13,10 @@ public interface CommentRepository {
 
   Optional<Comment> findComment(String postId, UUID commentId);
 
+  
+
   List<Comment> searchComment(String postId, String comment);
+
 
   void softDeleteByPostId(@Param("postId") String postId, @Param("userId") String userId);
 }
