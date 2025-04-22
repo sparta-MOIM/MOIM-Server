@@ -34,15 +34,15 @@ public class CommentController {
 
   @PostMapping("")
   public ResponseEntity<ApiResponseData<String>> postComment(@RequestBody @Valid CommentRequestDTO commentRequestDTO, @AuthenticationPrincipal CustomUserDetails customUserDetails){
-    commentService.commentService(commentRequestDTO,customUserDetails);
+    commentService.createComment(commentRequestDTO,customUserDetails);
     return ResponseEntity.ok().body(ApiResponseData.success(null, "댓글을 성공적으로 등록하였습니다."));
   }
 
-  @GetMapping("/{post_id}")
-  public ResponseEntity<ApiResponseData<List<CommentResponseDTO>>> getComments(@RequestBody @Valid RoleCheckDTO roleCheckDTO,
-                                                                               @PathVariable("post_id") String postId,
+  @GetMapping("/{organizationId}/{postId}")
+  public ResponseEntity<ApiResponseData<List<CommentResponseDTO>>> getComments(@PathVariable("organizationId") String organizationId,
+                                                                               @PathVariable("postId") String postId,
                                                                                @AuthenticationPrincipal CustomUserDetails customUserDetails){
-    return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_FOUND.getCode(),  COMMENT_FOUND.getMessage(), commentService.readAllComment(roleCheckDTO, postId, customUserDetails)));
+    return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_FOUND.getCode(),  COMMENT_FOUND.getMessage(), commentService.readAllComment(organizationId, postId, customUserDetails)));
   }
 
   @PutMapping("/{post_id}/{comment_id}")
@@ -63,13 +63,13 @@ public class CommentController {
   }
 
 
-  @GetMapping("/{post_id}/search")
-  public  ResponseEntity<ApiResponseData<List<CommentResponseDTO>>> searchComment(@RequestBody @Valid RoleCheckDTO roleCheckDTO,
-                                                                                  @PathVariable("post_id") String postId,
+  @GetMapping("/{organizationId}/{postId}/search")
+  public  ResponseEntity<ApiResponseData<List<CommentResponseDTO>>> searchComment(@PathVariable("organizationId") String organizationId,
+                                                                                  @PathVariable("postId") String postId,
                                                                                   @RequestParam("comment") String comment,
                                                                                   @AuthenticationPrincipal CustomUserDetails customUserDetails){
 
-    return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_FOUND.getCode(), COMMENT_FOUND.getMessage(), commentService.searchComment(roleCheckDTO, postId,comment,customUserDetails)));
+    return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_FOUND.getCode(), COMMENT_FOUND.getMessage(), commentService.searchComment(organizationId, postId,comment,customUserDetails)));
   }
 
 }

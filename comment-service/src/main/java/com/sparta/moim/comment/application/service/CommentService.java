@@ -40,7 +40,7 @@ public class CommentService {
   private final UserCheckService userCheckService;
 
   //댓글 달기
-  public void commentService(CommentRequestDTO commentRequestDTO, CustomUserDetails customUserDetails){
+  public void createComment(CommentRequestDTO commentRequestDTO, CustomUserDetails customUserDetails){
     //essential authorization to assign comment
     List<OrganizationMemberRole> roles = List.of(MEMBER, MASTER, MANAGER);
     //권한 체크 후, 아무 일도 없으면 권한 체크 통과
@@ -67,12 +67,12 @@ public class CommentService {
 
   //특정 게시물 댓글 전체 조회
   @Transactional(readOnly = true)
-  @Cacheable(cacheNames = "commentOfAll", key = "args[0]")
-  public List<CommentResponseDTO> readAllComment(RoleCheckDTO roleCheckDTO, String postId, CustomUserDetails customUserDetails){
+  @Cacheable(cacheNames = "commentOfAll")
+  public List<CommentResponseDTO> readAllComment(String organizationId, String postId, CustomUserDetails customUserDetails){
     //essential authorization to assign comment
     List<OrganizationMemberRole> roles = List.of(MEMBER, MASTER, MANAGER);
     //권한 체크 후, 아무 일도 없으면 권한 체크 통과
-    userCheckService.roleCheck(roleCheckClient, roleCheckDTO.getOrganizationId(), customUserDetails.getTrackingId().toString(), roles);
+    userCheckService.roleCheck(roleCheckClient, organizationId, customUserDetails.getTrackingId().toString(), roles);
 
     //이미 등록된 댓글은 게시물이 존재하는지 검사하고 등록된 것이기 때문에
     //조회에서는 굳이 게시물이 존재하는지 검사할 필요없음
@@ -161,11 +161,11 @@ public class CommentService {
 
   //특정 댓글 내용 바탕으로 댓글 검색
   @Transactional(readOnly = true)
-  public List<CommentResponseDTO> searchComment(RoleCheckDTO roleCheckDTO, String postId, String comment, CustomUserDetails customUserDetails){
+  public List<CommentResponseDTO> searchComment(String organizationId, String postId, String comment, CustomUserDetails customUserDetails){
     //essential authorization to assign comment
-    List<OrganizationMemberRole> roles = List.of(MEMBER, MASTER, MANAGER);
+    List<OrganizationMemberRole> roles = List.of(MASTER, MANAGER);
     //권한 체크 후, 아무 일도 없으면 권한 체크 통과
-    userCheckService.roleCheck(roleCheckClient, roleCheckDTO.getOrganizationId(), customUserDetails.getTrackingId().toString(), roles);
+    userCheckService.roleCheck(roleCheckClient, organizationId, customUserDetails.getTrackingId().toString(), roles);
 
     List<Comment> comments = commentRepository.searchComment(postId, comment);
     List<CommentResponseDTO> commentResponseDTOS = new ArrayList<>();
