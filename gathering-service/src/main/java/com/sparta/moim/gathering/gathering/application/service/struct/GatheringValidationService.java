@@ -1,4 +1,4 @@
-package com.sparta.moim.gathering.gathering.application.service.rds;
+package com.sparta.moim.gathering.gathering.application.service.struct;
 
 import com.sparta.moim.gathering.gathering.application.exception.NotFoundGatheringException;
 import com.sparta.moim.gathering.gathering.application.exception.NotOpenGatheringException;

@@ -1,9 +1,10 @@
-package com.sparta.moim.gathering.gathering.application.service.rds;
+package com.sparta.moim.gathering.gathering.application.service.struct;
 
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.JoinGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.LeaveGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.RemoveGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.exception.AlreadyParticipateFoundGatheringException;
+import com.sparta.moim.gathering.gathering.application.exception.NotFoundGatheringException;
 import com.sparta.moim.gathering.gathering.application.exception.NotOpenGatheringException;
 import com.sparta.moim.gathering.gathering.application.exception.RoleNotAllowedGatheringException;
 import com.sparta.moim.gathering.gathering.application.service.MemberService;
@@ -12,14 +13,12 @@ import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
 import com.sparta.moim.gathering.shared.enums.MemberType;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Primary
-public class MemberServiceAsRds implements MemberService {
+public class MemberServiceStruct implements MemberService {
   private final MemberRepository memberRepository;
   private final GatheringValidationRepository gatheringValidationRepository;
 
@@ -27,15 +26,14 @@ public class MemberServiceAsRds implements MemberService {
     validateGatheringExists(command.gatheringId());
     statusTrueValidate(command);
 
-    if(memberRepository.existsByMemberId(command.username())) {
+    if (memberRepository.existsByGatheringIdAndMemberId(command.gatheringId(), command.username())) {
       throw new AlreadyParticipateFoundGatheringException();
     }
 
-    memberRepository.save(command.toDomain());
   }
 
   private void statusTrueValidate(JoinGatheringCommand command) {
-    if(!gatheringValidationRepository.isGatheringOpen(command.gatheringId())) {
+    if (!gatheringValidationRepository.isGatheringOpen(command.gatheringId())) {
       throw new NotOpenGatheringException();
     }
   }
@@ -50,7 +48,7 @@ public class MemberServiceAsRds implements MemberService {
   public void removeGathering(RemoveGatheringCommand command) {
     MemberType memberType = memberRepository.findMemberType(command.gatheringId(), command.memberId());
 
-    if(memberType == MemberType.GENERAL) {
+    if (memberType == MemberType.GENERAL) {
       throw new RoleNotAllowedGatheringException();
     }
 
@@ -59,6 +57,8 @@ public class MemberServiceAsRds implements MemberService {
   }
 
   private void validateGatheringExists(UUID id) {
-    gatheringValidationRepository.existsByTrackingIdAndDeletedAtNull(id);
+    if (!gatheringValidationRepository.existsByTrackingIdAndDeletedAtNull(id)) {
+      throw new NotFoundGatheringException();
+    }
   }
 }

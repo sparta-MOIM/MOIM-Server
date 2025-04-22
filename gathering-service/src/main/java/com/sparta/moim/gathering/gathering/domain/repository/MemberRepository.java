@@ -16,7 +16,7 @@ public interface MemberRepository {
 
   List<Member> findMembers(UUID gatheringId);
 
-  boolean existsByMemberId(String memberId);
+  boolean existsByGatheringIdAndMemberId(UUID gatheringId, String memberId);
 
   MemberType findMemberType(@Param("gatheringId") UUID gatheringId, @Param("memberId") String memberId);
 
