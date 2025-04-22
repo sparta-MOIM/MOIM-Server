@@ -1,6 +1,5 @@
-package com.sparta.moim.comment.domain.validation;
+package com.sparta.moim.comment.domain.strategy.validation;
 
-import static com.sparta.moim.comment.infrastructure.response.CommentCode.PARENT_COMMENT_CANNOT_HAVE_COMMENT;
 import static com.sparta.moim.comment.infrastructure.response.CommentCode.PARENT_COMMENT_NOT_FOUND;
 
 import com.sparta.moim.comment.domain.repository.CommentRepository;

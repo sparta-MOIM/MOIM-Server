@@ -4,10 +4,12 @@ import static com.sparta.moim.comment.infrastructure.feignclient.enums.Organizat
 import static com.sparta.moim.comment.infrastructure.response.CommentCode.*;
 
 import com.sparta.moim.comment.application.dto.CommentResponseDTO;
+import com.sparta.moim.comment.domain.comment.CommentValidationContext;
 import com.sparta.moim.comment.domain.model.Comment;
 import com.sparta.moim.comment.domain.repository.CommentRepository;
-import com.sparta.moim.comment.domain.validation.CommentValidation;
-import com.sparta.moim.comment.domain.validation.CommentValidationStrategy;
+import com.sparta.moim.comment.domain.strategy.validation.CommentValidation;
+import com.sparta.moim.comment.domain.strategy.validation.CommentValidationStrategy;
+import com.sparta.moim.comment.domain.strategy.validation.ReplyCommentValidation;
 import com.sparta.moim.comment.infrastructure.feignclient.PostClient;
 import com.sparta.moim.comment.infrastructure.feignclient.RoleCheckClient;
 import com.sparta.moim.comment.infrastructure.feignclient.enums.OrganizationMemberRole;
@@ -23,7 +25,6 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +37,6 @@ public class CommentService {
   private final CommentRepository commentRepository;
   private final PostClient postClient;
   private final RoleCheckClient roleCheckClient;
-  private final Map<Integer, CommentValidationStrategy> validationStrategies;
   private final UserCheckService userCheckService;
 
   //댓글 달기
@@ -56,8 +56,17 @@ public class CommentService {
     }
 
     //댓글인지, 대댓글인지 구분해서 유효성 체크 진행 (전략 패턴)
-    CommentValidationStrategy validCheck = validationStrategies.get(commentClass);
-    validCheck.validate(postId,commentRequestDTO,commentRepository);
+    CommentValidationContext commentValidationContext = new CommentValidationContext(new CommentValidation(), new ReplyCommentValidation());
+
+    //댓글인 경우 전략
+    if(commentClass==0){
+      commentValidationContext.commentValidate(postId, commentRequestDTO, commentRepository);
+    }
+
+    //대댓글인 경우 전략
+    commentValidationContext.replyCommentValidate(postId, commentRequestDTO, commentRepository);
+
+    //추후 대댓글인 경우 전략 확장 가능
 
     //모든 유효성 체크가 마무리 된 후, 댓글 등록
     Comment comment = Comment.from(commentRequestDTO);

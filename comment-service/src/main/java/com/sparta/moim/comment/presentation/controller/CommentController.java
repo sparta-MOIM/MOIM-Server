@@ -35,7 +35,7 @@ public class CommentController {
   @PostMapping("")
   public ResponseEntity<ApiResponseData<String>> postComment(@RequestBody @Valid CommentRequestDTO commentRequestDTO, @AuthenticationPrincipal CustomUserDetails customUserDetails){
     commentService.createComment(commentRequestDTO,customUserDetails);
-    return ResponseEntity.ok().body(ApiResponseData.success(null, "댓글을 성공적으로 등록하였습니다."));
+    return ResponseEntity.ok().body(ApiResponseData.success(null, "댓글을 성공적으로 등록했습니다."));
   }
 
   @GetMapping("/{organizationId}/{postId}")
@@ -53,10 +53,10 @@ public class CommentController {
     return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_UPDATE.getCode(), COMMENT_UPDATE.getMessage(), commentService.updateComment(postId,commentId,commentUpdateRequestDTO, customUserDetails)));
   }
 
-  @DeleteMapping("/{post}/{comment_id}")
+  @DeleteMapping("/{postId}/{commentId}")
   public ResponseEntity<ApiResponseData<String>> deleteComment(@RequestBody @Valid RoleCheckDTO roleCheckDTO,
-                                                               @PathVariable("post") String postId,
-                                                               @PathVariable("comment_id") UUID commentId,
+                                                               @PathVariable("postId") String postId,
+                                                               @PathVariable("commentId") UUID commentId,
                                                                @AuthenticationPrincipal CustomUserDetails customUserDetails){
     commentService.deleteComment(roleCheckDTO, postId, commentId, customUserDetails);
     return ResponseEntity.ok().body(ApiResponseData.of(COMMENT_DELETE.getCode(),COMMENT_DELETE.getMessage(), null));

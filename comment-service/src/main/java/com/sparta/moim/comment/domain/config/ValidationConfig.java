@@ -1,8 +1,8 @@
-package com.sparta.moim.comment.domain.validation.config;
+package com.sparta.moim.comment.domain.config;
 
-import com.sparta.moim.comment.domain.validation.CommentValidation;
-import com.sparta.moim.comment.domain.validation.CommentValidationStrategy;
-import com.sparta.moim.comment.domain.validation.ReplyCommentValidation;
+import com.sparta.moim.comment.domain.strategy.validation.CommentValidation;
+import com.sparta.moim.comment.domain.strategy.validation.CommentValidationStrategy;
+import com.sparta.moim.comment.domain.strategy.validation.ReplyCommentValidation;
 import java.util.Map;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
