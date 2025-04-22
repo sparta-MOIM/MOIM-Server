@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-@Primary
+//@Primary
 public class MemberServiceAsRedis implements MemberService {
 
   @Value("${spring.data.redis.stream-key}")
