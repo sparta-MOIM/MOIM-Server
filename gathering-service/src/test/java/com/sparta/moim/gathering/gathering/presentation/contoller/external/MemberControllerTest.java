@@ -6,6 +6,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -15,6 +16,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.common.exception.GlobalExceptionHandler;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.gathering.gathering.application.service.MemberService;
+import com.sparta.moim.gathering.gathering.presentation.dto.request.RemoveGatheringRequest;
+import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -74,9 +77,83 @@ class MemberControllerTest {
             preprocessRequest(Preprocessors.prettyPrint()),
             preprocessResponse(Preprocessors.prettyPrint()),
             resource(ResourceSnippetParameters.builder()
-                .tag("Gathering-External")
+                .tag("Member-External")
                 .summary("소모임 참가")
                 .description("소모임에 참가하기 위한 엔드포인트입니다.")
+                .pathParameters(
+                    parameterWithName("gatheringId").description("소모임 아이디")
+                )
+                .responseFields(
+                    successCode
+                )
+                .build()
+            )));
+  }
+
+  @Test
+  @DisplayName("게더링 나가기 성공")
+  void gathering_leave_success() throws Exception {
+    UUID gatheringId = UUID.randomUUID();
+
+    String username = "testUser";
+    UUID userId = UUID.randomUUID();
+    String role = "USER";
+
+    setupSecurityContext(username, role, userId);
+
+    // when & then
+    mockMvc.perform(delete("/api/v1/gathering/member/{gatheringId}/leave", gatheringId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .header("X-User-Name", "테스트유저")
+            .header("X-User-Role", "USER")
+            .header("X-User-ID", UUID.randomUUID().toString()))
+        .andExpect(status().isOk())
+        .andDo(document("소모임 - 나가기",
+            preprocessRequest(Preprocessors.prettyPrint()),
+            preprocessResponse(Preprocessors.prettyPrint()),
+            resource(ResourceSnippetParameters.builder()
+                .tag("Member-External")
+                .summary("소모임 나가기")
+                .description("소모임에 나가기 위한 엔드포인트입니다.")
+                .pathParameters(
+                    parameterWithName("gatheringId").description("소모임 아이디")
+                )
+                .responseFields(
+                    successCode
+                )
+                .build()
+            )));
+  }
+
+  @Test
+  @DisplayName("게더링 강퇴 성공")
+  void gathering_remove_success() throws Exception {
+    //given
+    UUID gatheringId = UUID.randomUUID();
+
+    String username = "testUser";
+    UUID userId = UUID.randomUUID();
+    String role = "USER";
+
+    RemoveGatheringRequest request = new RemoveGatheringRequest(List.of("deleteUser"));
+
+    setupSecurityContext(username, role, userId);
+
+    // when & then
+    mockMvc.perform(delete("/api/v1/gathering/member/{gatheringId}/remove", gatheringId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(request))
+            .header("X-User-Name", "테스트유저")
+            .header("X-User-Role", "USER")
+            .header("X-User-ID", UUID.randomUUID().toString()))
+        .andExpect(status().isOk())
+        .andDo(document("소모임 - 강퇴",
+            preprocessRequest(Preprocessors.prettyPrint()),
+            preprocessResponse(Preprocessors.prettyPrint()),
+            resource(ResourceSnippetParameters.builder()
+                .tag("Member-External")
+                .summary("소모임 강퇴")
+                .description("소모임에서 강퇴를 하기 위한 엔드포인트입니다.")
                 .pathParameters(
                     parameterWithName("gatheringId").description("소모임 아이디")
                 )
