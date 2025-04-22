@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class MemberServiceStruct implements MemberService {
+public class MemberServiceStruct {
   private final MemberRepository memberRepository;
   private final GatheringValidationRepository gatheringValidationRepository;
 
