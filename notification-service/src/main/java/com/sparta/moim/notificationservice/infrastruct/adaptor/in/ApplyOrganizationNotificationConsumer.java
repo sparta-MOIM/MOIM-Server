@@ -1,9 +1,7 @@
 package com.sparta.moim.notificationservice.infrastruct.adaptor.in;
 
-import com.sparta.moim.notificationservice.application.service.ApplyOrganizationNotificationService;
 import com.sparta.moim.notificationservice.application.service.NotificationHandlerContext;
 import com.sparta.moim.notificationservice.domain.enums.NotificationType;
-import com.sparta.moim.notificationservice.infrastruct.mapper.CommandMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
