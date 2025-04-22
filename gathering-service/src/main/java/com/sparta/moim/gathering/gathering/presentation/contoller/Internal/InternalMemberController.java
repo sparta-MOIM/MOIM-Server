@@ -1,6 +1,6 @@
 package com.sparta.moim.gathering.gathering.presentation.contoller.Internal;
 
-import com.sparta.moim.gathering.gathering.application.service.rds.InternalMemberService;
+import com.sparta.moim.gathering.gathering.application.service.struct.InternalMemberService;
 import com.sparta.moim.gathering.gathering.presentation.dto.response.GetMemberListResponse;
 import java.util.List;
 import java.util.UUID;
