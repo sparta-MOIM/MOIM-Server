@@ -37,6 +37,7 @@ public class MemberRedisProxyService implements MemberService {
   public void joinGathering(JoinGatheringCommand command) {
     Member member = command.toDomain();
     memberServiceStruct.joinGathering(command);
+    //TODO 전략 패턴으로 분리 및 아웃박스 패턴 vs 직접 Redis 접근 성능 비교를 위해 주석 처리
 //    redisTemplate.opsForStream().add(streamJoinKey, member.toMap());
     try {
       String payload = objectMapper.writeValueAsString(member.toMap());
