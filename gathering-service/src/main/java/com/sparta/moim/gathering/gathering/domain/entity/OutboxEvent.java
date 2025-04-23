@@ -1,6 +1,7 @@
 package com.sparta.moim.gathering.gathering.domain.entity;
 
 import com.sparta.moim.common.utils.BaseEntity;
+import com.sparta.moim.gathering.gathering.domain.dto.criteria.GatheringEventCriteria;
 import com.sparta.moim.gathering.shared.enums.EventType;
 import com.sparta.moim.gathering.shared.enums.OutboxType;
 import jakarta.persistence.Column;
@@ -44,6 +45,15 @@ public class OutboxEvent extends BaseEntity {
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
   private OutboxType status;
+
+  public static OutboxEvent create(GatheringEventCriteria criteria) {
+    return OutboxEvent.builder()
+        .streamKey(criteria.streamJoinKey())
+        .eventType(criteria.eventType())
+        .payload(criteria.payload())
+        .status(OutboxType.PENDING)
+        .build();
+  }
 
   public void markAsSent() {
     this.status = OutboxType.SENT;
