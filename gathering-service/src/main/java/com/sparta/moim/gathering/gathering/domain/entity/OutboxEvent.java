@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,6 +47,12 @@ public class OutboxEvent extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private OutboxType status;
 
+  @Column(name = "retry_count", nullable = false)
+  private int retryCount = 0;
+
+  @Column(name = "last_attempt_time")
+  private LocalDateTime lastAttemptTime;
+
   public static OutboxEvent create(GatheringEventCriteria criteria) {
     return OutboxEvent.builder()
         .streamKey(criteria.streamJoinKey())
@@ -60,6 +67,13 @@ public class OutboxEvent extends BaseEntity {
   }
 
   public void markAsFailed() {
+    this.retryCount++;
+    this.lastAttemptTime = LocalDateTime.now();
     this.status = OutboxType.FAILED;
   }
+
+  public boolean canRetry(int maxRetries) {
+    return this.retryCount < maxRetries;
+  }
+
 }
