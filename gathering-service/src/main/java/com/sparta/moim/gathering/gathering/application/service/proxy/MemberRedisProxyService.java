@@ -36,9 +36,10 @@ public class MemberRedisProxyService implements MemberService {
 
   @Override
   public void leaveGathering(LeaveGatheringCommand command) {
-    Map<String, String> map = new HashMap<>(2);
-    map.put("gathering_id", command.gatheringId().toString());
-    map.put("member_name", command.username());
+    Map<String, String> map = Map.of(
+        "gathering_id", command.gatheringId().toString(),
+        "member_name", command.username()
+    );
 
     memberServiceStruct.leaveGathering(command);
     redisTemplate.opsForStream().add(streamLeaveKey, map);
