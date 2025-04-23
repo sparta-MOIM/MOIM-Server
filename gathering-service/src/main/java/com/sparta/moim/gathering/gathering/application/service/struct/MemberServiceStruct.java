@@ -5,6 +5,7 @@ import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheri
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.RemoveGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.exception.AlreadyParticipateFoundGatheringException;
 import com.sparta.moim.gathering.gathering.application.exception.NotFoundGatheringException;
+import com.sparta.moim.gathering.gathering.application.exception.NotFoundGatheringMemberException;
 import com.sparta.moim.gathering.gathering.application.exception.NotOpenGatheringException;
 import com.sparta.moim.gathering.gathering.application.exception.RoleNotAllowedGatheringException;
 import com.sparta.moim.gathering.gathering.application.service.MemberService;
@@ -40,6 +41,15 @@ public class MemberServiceStruct {
 
   public void leaveGathering(LeaveGatheringCommand command) {
     validateGatheringExists(command.gatheringId());
+
+    UUID gatheringId = command.gatheringId();
+    String username = command.username();
+
+    if (!memberRepository.existsByGatheringIdAndMemberId(gatheringId, username)) {
+      throw new NotFoundGatheringMemberException();
+    }
+
+
   }
 
   @Transactional
