@@ -24,8 +24,10 @@ public class MemberRdsProxyService implements MemberService {
   }
 
   @Override
+  @Transactional
   public void leaveGathering(LeaveGatheringCommand command) {
     memberServiceStruct.leaveGathering(command);
+    memberRepository.deleteByGatheringIdAndMemberId(command.gatheringId(), command.username());
   }
 
   @Override

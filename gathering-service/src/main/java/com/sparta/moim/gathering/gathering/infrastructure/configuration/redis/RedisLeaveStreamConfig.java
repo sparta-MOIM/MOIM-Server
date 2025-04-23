@@ -1,10 +1,10 @@
 package com.sparta.moim.gathering.gathering.infrastructure.configuration.redis;
 
-import com.sparta.moim.gathering.gathering.infrastructure.event.listener.RedisConsumerListener;
+import com.sparta.moim.gathering.gathering.infrastructure.event.listener.RedisStreamJoinListener;
+import com.sparta.moim.gathering.gathering.infrastructure.event.listener.RedisStreamLeaveListener;
 import io.lettuce.core.RedisBusyException;
 import java.time.Duration;
 import java.util.Map;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,23 +23,23 @@ import org.springframework.data.redis.stream.StreamMessageListenerContainer;
 @Configuration
 @RequiredArgsConstructor
 @Slf4j
-public class RedisStreamConfig {
+public class RedisLeaveStreamConfig {
 
-  private final RedisConsumerListener myStreamListener;
+  private final RedisStreamLeaveListener myStreamListener;
 
-  @Value("${spring.data.redis.stream-key}")
+  @Value("${spring.data.redis.stream-leave-key}")
   private String streamKey;
 
-  @Value("${spring.data.redis.group-name}")
+  @Value("${spring.data.redis.group-leave-name}")
   private String groupName;
 
-  @Value("${spring.data.redis.consumer-id}")
+  @Value("${spring.data.redis.consumer-id}2")
   private String consumerId;
 
   @Value("${spring.data.redis.poll-timeout}")
   private int pollTimeout;
   @Bean
-  public StreamMessageListenerContainer<String, MapRecord<String, String, String>> streamMessageListenerContainer(
+  public StreamMessageListenerContainer<String, MapRecord<String, String, String>> streamMessageListenerLeaveContainer(
       StringRedisTemplate redisTemplate,
       RedisConnectionFactory factory) {
 

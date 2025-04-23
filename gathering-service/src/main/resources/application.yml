@@ -21,9 +21,11 @@ spring:
         format_sql: true
   data:
     redis:
-      stream-key: stream:gathering_join
-      group-name: gathering_group
-      consumer-id: gathering_consumer_1
+      stream-join-key: stream:gathering_join
+      stream-leave-key: stream:gathering_leave
+      group-join-name: gathering_join_group
+      group-leave-name: gathering_leave_group
+      consumer-id: gathering_consumer_
       poll-timeout: 1
       host: localhost
       port: 6379

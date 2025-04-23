@@ -38,10 +38,8 @@ public class MemberServiceStruct {
     }
   }
 
-  @Transactional
   public void leaveGathering(LeaveGatheringCommand command) {
     validateGatheringExists(command.gatheringId());
-    memberRepository.deleteByGatheringIdAndMemberId(command.gatheringId(), command.username());
   }
 
   @Transactional

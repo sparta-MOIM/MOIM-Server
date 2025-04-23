@@ -28,4 +28,10 @@ public interface JpaMemberRepository extends JpaRepository<Member, Long>, Member
       select m from Member m where m.gatheringId = :gatheringId  and m.memberId <> :memberId
       """)
   Optional<Member> findByMemberStatusOwner(@Param("gatheringId") UUID gatheringId, @Param("memberId") String memberId);
+
+
+  @Query(""" 
+        select m from Member m where m.gatheringId = :gatheringId and m.type = "ADMIN"
+      """)
+  Optional<Member> exitsOwner(@Param("gatheringId") UUID gatheringId);
 }

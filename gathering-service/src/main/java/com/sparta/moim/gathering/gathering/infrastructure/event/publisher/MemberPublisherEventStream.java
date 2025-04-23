@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-@Primary
 public class MemberPublisherEventStream implements MemberPublisher {
   private final ApplicationEventPublisher publisher;
 
