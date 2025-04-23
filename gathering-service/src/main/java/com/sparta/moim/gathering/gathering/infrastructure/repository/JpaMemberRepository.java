@@ -33,5 +33,5 @@ public interface JpaMemberRepository extends JpaRepository<Member, Long>, Member
   @Query(""" 
         select m from Member m where m.gatheringId = :gatheringId and m.type = "ADMIN"
       """)
-  Optional<Member> exitsOwner(@Param("gatheringId") UUID gatheringId);
+  Optional<Member> existsOwner(@Param("gatheringId") UUID gatheringId);
 }

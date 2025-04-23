@@ -18,7 +18,7 @@ public class RedisStreamJoinListener implements StreamListener<String, MapRecord
   @Override
   public void onMessage(MapRecord<String, String, String> message) {
     UUID gatheringId = UUID.fromString(message.getValue().get("gathering_id"));
-    Member owner = memberRepository.exitsOwner(gatheringId).orElse(null);
+    Member owner = memberRepository.existsOwner(gatheringId).orElse(null);
     // 리더가 존재하지 않는 경우 무시
     if (owner == null) {
       return;

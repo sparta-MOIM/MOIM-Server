@@ -37,7 +37,7 @@ public class MemberRedisProxyService implements MemberService {
 
   @Override
   public void leaveGathering(LeaveGatheringCommand command) {
-    Map<String, String> map = new HashMap<>();
+    Map<String, String> map = new HashMap<>(2);
     map.put("gathering_id", command.gatheringId().toString());
     map.put("member_name", command.username());
 

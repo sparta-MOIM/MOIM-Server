@@ -32,16 +32,16 @@ public class RedisJoinStreamConfig {
   @Value("${spring.data.redis.group-join-name}")
   private String groupName;
 
-  @Value("${spring.data.redis.consumer-id}1")
+  @Value("${spring.data.redis.consumer-id}" + '1')
   private String consumerId;
 
   @Value("${spring.data.redis.poll-timeout}")
   private int pollTimeout;
+
   @Bean
   public StreamMessageListenerContainer<String, MapRecord<String, String, String>> streamMessageListenerJoinContainer(
       StringRedisTemplate redisTemplate,
       RedisConnectionFactory factory) {
-
 
     // Group 생성 로직
     StreamOperations<String, Object, Object> streamOps = redisTemplate.opsForStream();

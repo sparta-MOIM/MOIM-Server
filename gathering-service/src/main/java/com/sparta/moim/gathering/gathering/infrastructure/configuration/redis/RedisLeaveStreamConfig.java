@@ -33,16 +33,16 @@ public class RedisLeaveStreamConfig {
   @Value("${spring.data.redis.group-leave-name}")
   private String groupName;
 
-  @Value("${spring.data.redis.consumer-id}2")
+  @Value("${spring.data.redis.consumer-id} + '2'")
   private String consumerId;
 
   @Value("${spring.data.redis.poll-timeout}")
   private int pollTimeout;
+
   @Bean
   public StreamMessageListenerContainer<String, MapRecord<String, String, String>> streamMessageListenerLeaveContainer(
       StringRedisTemplate redisTemplate,
       RedisConnectionFactory factory) {
-
 
     // Group 생성 로직
     StreamOperations<String, Object, Object> streamOps = redisTemplate.opsForStream();

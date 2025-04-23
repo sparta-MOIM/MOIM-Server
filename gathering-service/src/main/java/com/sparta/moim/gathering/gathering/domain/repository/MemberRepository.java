@@ -21,5 +21,5 @@ public interface MemberRepository {
 
   Optional<Member> findByMemberStatusOwner(UUID gatheringId, String memberId);
 
-  Optional<Member> exitsOwner(UUID gatheringId);
+  Optional<Member> existsOwner(UUID gatheringId);
 }
