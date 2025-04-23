@@ -5,9 +5,9 @@ import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheri
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.RemoveGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.exception.AlreadyParticipateFoundGatheringException;
 import com.sparta.moim.gathering.gathering.application.exception.NotFoundGatheringException;
+import com.sparta.moim.gathering.gathering.application.exception.NotFoundGatheringMemberException;
 import com.sparta.moim.gathering.gathering.application.exception.NotOpenGatheringException;
 import com.sparta.moim.gathering.gathering.application.exception.RoleNotAllowedGatheringException;
-import com.sparta.moim.gathering.gathering.application.service.MemberService;
 import com.sparta.moim.gathering.gathering.domain.repository.GatheringValidationRepository;
 import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
 import com.sparta.moim.gathering.shared.enums.MemberType;
@@ -38,10 +38,17 @@ public class MemberServiceStruct {
     }
   }
 
-  @Transactional
   public void leaveGathering(LeaveGatheringCommand command) {
     validateGatheringExists(command.gatheringId());
-    memberRepository.deleteByGatheringIdAndMemberId(command.gatheringId(), command.username());
+
+    UUID gatheringId = command.gatheringId();
+    String username = command.username();
+
+    if (!memberRepository.existsByGatheringIdAndMemberId(gatheringId, username)) {
+      throw new NotFoundGatheringMemberException();
+    }
+
+
   }
 
   @Transactional

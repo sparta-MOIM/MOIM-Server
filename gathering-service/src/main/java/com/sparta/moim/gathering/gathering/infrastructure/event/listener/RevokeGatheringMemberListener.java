@@ -1,10 +1,9 @@
 package com.sparta.moim.gathering.gathering.infrastructure.event.listener;
 
+import com.sparta.moim.gathering.gathering.application.dto.event.GatheringRevokeAdminEvent;
+import com.sparta.moim.gathering.gathering.application.exception.NotFoundGatheringMemberException;
 import com.sparta.moim.gathering.gathering.domain.entity.Member;
 import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
-import com.sparta.moim.gathering.gathering.application.dto.event.GatheringRevokeAdminEvent;
-import com.sparta.moim.gathering.gathering.application.code.GatheringCode;
-import com.sparta.moim.gathering.gathering.application.exception.GatheringException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -21,7 +20,7 @@ public class RevokeGatheringMemberListener {
   @Transactional
   public void revoke(GatheringRevokeAdminEvent revokeMember) {
     Member member = memberRepository.findByMemberStatusOwner(revokeMember.gatheringId(), revokeMember.ownerName())
-        .orElseThrow(() -> new GatheringException(GatheringCode.NOT_FOUND_GATHERING_MEMBER));
+        .orElseThrow(NotFoundGatheringMemberException::new);
     member.changeOwner(revokeMember.ownerName());
     log.info("소모임 관리자 수정 완료: {}", revokeMember.ownerName());
   }

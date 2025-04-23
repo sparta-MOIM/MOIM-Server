@@ -2,12 +2,11 @@ package com.sparta.moim.gathering.gathering.infrastructure.repository;
 
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.sparta.moim.common.page.Pagination;
 import com.sparta.moim.gathering.gathering.domain.dto.criteria.SearchGatheringCriteria;
 import com.sparta.moim.gathering.gathering.domain.entity.Gathering;
-
 import com.sparta.moim.gathering.gathering.domain.entity.QGathering;
 import com.sparta.moim.gathering.gathering.domain.repository.GatheringRepositoryCustom;
-import com.sparta.moim.common.page.Pagination;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

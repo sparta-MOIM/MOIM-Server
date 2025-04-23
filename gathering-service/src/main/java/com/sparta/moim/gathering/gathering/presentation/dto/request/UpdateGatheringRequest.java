@@ -4,7 +4,6 @@ package com.sparta.moim.gathering.gathering.presentation.dto.request;
 import com.sparta.moim.gathering.gathering.application.dto.command.UpdateGatheringCommand;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
 import java.util.UUID;
 import lombok.Builder;
 

@@ -12,13 +12,20 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class RedisConsumerListener implements StreamListener<String, MapRecord<String, String, String>> {
+public class RedisStreamJoinListener implements StreamListener<String, MapRecord<String, String, String>> {
   private final MemberRepository memberRepository;
 
   @Override
   public void onMessage(MapRecord<String, String, String> message) {
+    UUID gatheringId = UUID.fromString(message.getValue().get("gathering_id"));
+    Member owner = memberRepository.existsOwner(gatheringId).orElse(null);
+    // 리더가 존재하지 않는 경우 무시
+    if (owner == null) {
+      return;
+    }
+
     memberRepository.save(Member.builder()
-        .gatheringId(UUID.fromString(message.getValue().get("gathering_id")))
+        .gatheringId(gatheringId)
         .memberId(message.getValue().get("member_name"))
         .type(MemberType.valueOf(message.getValue().get("type")))
         .joinTime(LocalDateTime.now())
