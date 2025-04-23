@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -27,13 +28,9 @@ public class OutboxEventScheduler {
   @Scheduled(fixedDelay = 3000)
   @Transactional
   public void flushOutboxToRedis() {
-    List<OutboxEvent> events = outboxRepository.findAllByPendingStatusEvents(OutboxType.PENDING);
     int maxEventsPerBatch = 100;
-
-    if (events.size() > maxEventsPerBatch) {
-      events = events.subList(0, maxEventsPerBatch);
-    }
-
+    Pageable pageable = Pageable.ofSize(maxEventsPerBatch);
+    List<OutboxEvent> events = outboxRepository.findAllByPendingStatusEvents(OutboxType.PENDING, pageable);
     for (OutboxEvent event : events) {
       try {
         Map<String, String> map = objectMapper.readValue(event.getPayload(), new TypeReference<>() {
