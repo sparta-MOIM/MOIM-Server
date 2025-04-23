@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class OutboxEventScheduler {
   private final ObjectMapper objectMapper;
   private final RedisTemplate<String, Member> redisTemplate;
+  private final CreateOutboxEvent createOutboxEvent;
   private final OutboxRepository outboxRepository;
 
   @Scheduled(fixedDelay = 3000)
@@ -45,7 +46,7 @@ public class OutboxEventScheduler {
         event.markAsFailed();
         log.error("Failed to process outbox event with id {}: {}", event.getId(), e.getMessage(), e);
       }
-      outboxRepository.save(event);
+      createOutboxEvent.execute(event);
     }
   }
 
