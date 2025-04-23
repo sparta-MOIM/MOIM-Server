@@ -15,6 +15,7 @@ public enum GatheringCode implements Code {
   NOT_OPEN_GATHERING(HttpStatus.BAD_REQUEST, "G004", "This gathering is not open"),
   ROLE_NOT_ALLOWED_GATHERING(HttpStatus.BAD_REQUEST,"G005", "You are not allowed to gather this role"),
   NOT_FOUND_GATHERING_MEMBER(HttpStatus.NOT_FOUND,"G006", "The gathering member could not be found"),
+  PROCESSING_LEAVE_GATHERING_MEMBER(HttpStatus.INTERNAL_SERVER_ERROR,"G007", "The gathering leave system is not processed"),
   ;
 
   private final HttpStatus status;

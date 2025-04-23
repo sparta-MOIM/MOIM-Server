@@ -1,6 +1,7 @@
 package com.sparta.moim.gathering.gathering.infrastructure.event.listener;
 
 import com.sparta.moim.common.exception.BaseException;
+import com.sparta.moim.gathering.gathering.application.exception.MemberLeaveProcessingException;
 import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class RedisStreamLeaveListener implements StreamListener<String, MapRecor
       memberRepository.deleteByGatheringIdAndMemberId(gatheringId, memberName);
     } catch (Exception e) {
       log.error("멤버 퇴장 처리 중 오류 발생: {}", e.getMessage(), e);
-      throw new BaseException();
+      throw new MemberLeaveProcessingException();
     }
   }
 }
