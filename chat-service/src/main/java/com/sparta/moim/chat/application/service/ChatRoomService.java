@@ -7,6 +7,9 @@ import com.sparta.moim.chat.domain.repository.ChatRoomRepository;
 import com.sparta.moim.chat.infrastructure.util.ConstantUtil;
 import com.sparta.moim.chat.presentation.request.ChatRoomRequestDTO;
 import com.sparta.moim.common.exception.BaseException;
+import com.sparta.moim.common.security.CustomUserDetails;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,9 +34,33 @@ public class ChatRoomService {
     chatRoomSender.send(ConstantUtil.KAFKA_TOPIC_CHATROOM, chatRoomResponseDTO);
 
     return chatRoomResponseDTO;
-
   }
 
+  // 채팅방 조회
+  public List<ChatRoomResponseDTO> readChatRooms(String organizationId){
+    List<ChatRoom> chatRooms = chatRoomRepository.readChatRooms(organizationId);
+    List<ChatRoomResponseDTO> chatRoomResponseDTOS = new ArrayList<>();
+
+    for(ChatRoom chatRoom : chatRooms){
+      chatRoomResponseDTOS.add(ChatRoomResponseDTO.from(chatRoom));
+    }
+
+    return chatRoomResponseDTOS;
+  }
+
+  // 채팅방 수정
+  public void updateChatRoom(String ChatRoomId, ChatRoomRequestDTO chatRoomRequestDTO){
+    ChatRoom chatRoom = chatRoomRepository.findByChatRoomId(ChatRoomId);
+    chatRoom.setChatRoom(chatRoomRequestDTO.getChatRoom());
+    chatRoomRepository.save(chatRoom);
+  }
+
+  //채팅방 삭제
+  public void deleteChatRoom(String chatRoomId, CustomUserDetails customUserDetails){
+    ChatRoom chatRoom = chatRoomRepository.findByChatRoomId(chatRoomId);
+    chatRoom.softDelete(customUserDetails.getTrackingId().toString());
+    chatRoomRepository.save(chatRoom);
+  }
 
 }
 
