@@ -32,7 +32,7 @@ public class RedisLeaveStreamConfig {
   @Value("${spring.data.redis.group-leave-name}")
   private String groupName;
 
-  @Value("${spring.data.redis.consumer-id} + '2'")
+  @Value("${spring.data.redis.consumer-id}2")
   private String consumerId;
 
   @Value("${spring.data.redis.poll-timeout}")
