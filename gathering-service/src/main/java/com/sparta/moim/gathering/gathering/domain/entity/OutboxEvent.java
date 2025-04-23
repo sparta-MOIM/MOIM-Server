@@ -1,0 +1,54 @@
+package com.sparta.moim.gathering.gathering.domain.entity;
+
+import com.sparta.moim.common.utils.BaseEntity;
+import com.sparta.moim.gathering.shared.enums.EventType;
+import com.sparta.moim.gathering.shared.enums.OutboxType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Table(name = "p_gathering_outbox")
+@Builder
+public class OutboxEvent extends BaseEntity {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @Column(name = "stream_key", nullable = false)
+  private String streamKey;
+
+  @Column(name = "event_type", nullable = false)
+  @Enumerated(EnumType.STRING)
+  private EventType eventType;
+
+  @Lob
+  @Column(nullable = false)
+  private String payload;
+
+  @Column(nullable = false)
+  @Enumerated(EnumType.STRING)
+  private OutboxType status;
+
+  public void markAsSent() {
+    this.status = OutboxType.SENT;
+  }
+
+  public void markAsFailed() {
+    this.status = OutboxType.FAILED;
+  }
+}
