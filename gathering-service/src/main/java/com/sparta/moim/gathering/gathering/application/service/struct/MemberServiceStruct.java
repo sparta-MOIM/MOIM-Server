@@ -8,7 +8,6 @@ import com.sparta.moim.gathering.gathering.application.exception.NotFoundGatheri
 import com.sparta.moim.gathering.gathering.application.exception.NotFoundGatheringMemberException;
 import com.sparta.moim.gathering.gathering.application.exception.NotOpenGatheringException;
 import com.sparta.moim.gathering.gathering.application.exception.RoleNotAllowedGatheringException;
-import com.sparta.moim.gathering.gathering.application.service.MemberService;
 import com.sparta.moim.gathering.gathering.domain.repository.GatheringValidationRepository;
 import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
 import com.sparta.moim.gathering.shared.enums.MemberType;

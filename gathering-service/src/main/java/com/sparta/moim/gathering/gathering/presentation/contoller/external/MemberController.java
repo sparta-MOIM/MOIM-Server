@@ -1,11 +1,11 @@
 package com.sparta.moim.gathering.gathering.presentation.contoller.external;
 
+import com.sparta.moim.common.response.ApiResponseData;
+import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.JoinGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.LeaveGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.service.MemberService;
 import com.sparta.moim.gathering.gathering.presentation.dto.request.RemoveGatheringRequest;
-import com.sparta.moim.common.response.ApiResponseData;
-import com.sparta.moim.common.security.CustomUserDetails;
 import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

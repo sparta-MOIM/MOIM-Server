@@ -6,7 +6,6 @@ import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheri
 import com.sparta.moim.gathering.gathering.application.service.MemberService;
 import com.sparta.moim.gathering.gathering.application.service.struct.MemberServiceStruct;
 import com.sparta.moim.gathering.gathering.domain.entity.Member;
-import com.sparta.moim.gathering.shared.enums.MemberType;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;

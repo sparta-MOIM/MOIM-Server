@@ -1,6 +1,5 @@
 package com.sparta.moim.gathering.gathering.infrastructure.event.listener;
 
-import com.sparta.moim.common.exception.BaseException;
 import com.sparta.moim.gathering.gathering.application.exception.MemberLeaveProcessingException;
 import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
 import java.util.UUID;

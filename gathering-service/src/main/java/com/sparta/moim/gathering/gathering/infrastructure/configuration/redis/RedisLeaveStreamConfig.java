@@ -1,6 +1,5 @@
 package com.sparta.moim.gathering.gathering.infrastructure.configuration.redis;
 
-import com.sparta.moim.gathering.gathering.infrastructure.event.listener.RedisStreamJoinListener;
 import com.sparta.moim.gathering.gathering.infrastructure.event.listener.RedisStreamLeaveListener;
 import io.lettuce.core.RedisBusyException;
 import java.time.Duration;
