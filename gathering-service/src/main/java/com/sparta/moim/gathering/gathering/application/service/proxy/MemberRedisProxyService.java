@@ -2,18 +2,15 @@ package com.sparta.moim.gathering.gathering.application.service.proxy;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.JoinGatheringCommand;
-import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.LeaveGatheringCommand;
-import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.RemoveGatheringCommand;
+import com.sparta.moim.gathering.gathering.application.dto.command.event.LeaveGatheringCommand;
+import com.sparta.moim.gathering.gathering.application.dto.command.event.RemoveGatheringCommand;
+import com.sparta.moim.gathering.gathering.application.dto.command.event.JoinGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.service.MemberService;
 import com.sparta.moim.gathering.gathering.application.service.struct.MemberServiceStruct;
 import com.sparta.moim.gathering.gathering.domain.entity.Member;
 import com.sparta.moim.gathering.gathering.domain.entity.OutboxEvent;
-import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
 import com.sparta.moim.gathering.gathering.domain.repository.OutboxRepository;
 import com.sparta.moim.gathering.shared.enums.EventType;
-import com.sparta.moim.gathering.shared.enums.OutboxType;
-import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,12 +40,7 @@ public class MemberRedisProxyService implements MemberService {
 //    redisTemplate.opsForStream().add(streamJoinKey, member.toMap());
     try {
       String payload = objectMapper.writeValueAsString(member.toMap());
-      outboxRepository.save(OutboxEvent.builder()
-          .streamKey(streamJoinKey)
-          .eventType(EventType.MEMBER_JOINED)
-          .payload(payload)
-          .status(OutboxType.PENDING)
-          .build());
+      outboxRepository.save(OutboxEvent.create(command.toCriteria(streamJoinKey, EventType.MEMBER_JOINED, payload)));
     } catch (JsonProcessingException e) {
       throw new RuntimeException("Failed to serialize member data for outbox event", e);
     }

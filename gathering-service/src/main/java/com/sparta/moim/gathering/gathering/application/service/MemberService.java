@@ -1,8 +1,9 @@
 package com.sparta.moim.gathering.gathering.application.service;
 
-import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.JoinGatheringCommand;
-import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.LeaveGatheringCommand;
-import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.RemoveGatheringCommand;
+
+import com.sparta.moim.gathering.gathering.application.dto.command.event.LeaveGatheringCommand;
+import com.sparta.moim.gathering.gathering.application.dto.command.event.RemoveGatheringCommand;
+import com.sparta.moim.gathering.gathering.application.dto.command.event.JoinGatheringCommand;
 
 public interface MemberService {
   void joinGathering(JoinGatheringCommand command);
