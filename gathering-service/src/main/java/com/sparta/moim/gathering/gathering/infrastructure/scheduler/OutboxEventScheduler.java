@@ -1,10 +1,11 @@
-package com.sparta.moim.gathering.gathering.infrastructure.sheduler;
+package com.sparta.moim.gathering.gathering.infrastructure.scheduler;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.gathering.gathering.domain.entity.Member;
 import com.sparta.moim.gathering.gathering.domain.entity.OutboxEvent;
 import com.sparta.moim.gathering.gathering.domain.repository.OutboxRepository;
+import com.sparta.moim.gathering.shared.enums.OutboxType;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,12 @@ public class OutboxEventScheduler {
   @Scheduled(fixedDelay = 3000)
   @Transactional
   public void flushOutboxToRedis() {
-    List<OutboxEvent> events = outboxRepository.findAllByPendingStatusEvents();
+    List<OutboxEvent> events = outboxRepository.findAllByPendingStatusEvents(OutboxType.PENDING);
+    int maxEventsPerBatch = 100;
+
+    if (events.size() > maxEventsPerBatch) {
+      events = events.subList(0, maxEventsPerBatch);
+    }
 
     for (OutboxEvent event : events) {
       try {
@@ -33,13 +39,14 @@ public class OutboxEventScheduler {
         });
         redisTemplate.opsForStream().add(event.getStreamKey(), map);
         event.markAsSent();
+        log.info("Successfully sent event with id {} to Redis stream", event.getId());
       } catch (Exception e) {
         log.error(e.getMessage());
         event.markAsFailed();
+        log.error("Failed to process outbox event with id {}: {}", event.getId(), e.getMessage(), e);
       }
       outboxRepository.save(event);
     }
-
-
   }
+
 }

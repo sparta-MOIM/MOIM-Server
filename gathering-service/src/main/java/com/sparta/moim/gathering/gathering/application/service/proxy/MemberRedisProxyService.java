@@ -50,7 +50,7 @@ public class MemberRedisProxyService implements MemberService {
           .status(OutboxType.PENDING)
           .build());
     } catch (JsonProcessingException e) {
-      throw new RuntimeException(e);
+      throw new RuntimeException("Failed to serialize member data for outbox event", e);
     }
 
   }
