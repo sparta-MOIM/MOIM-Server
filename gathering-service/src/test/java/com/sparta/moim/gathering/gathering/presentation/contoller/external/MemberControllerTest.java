@@ -135,7 +135,7 @@ class MemberControllerTest {
     UUID userId = UUID.randomUUID();
     String role = "USER";
 
-    RemoveGatheringRequest request = new RemoveGatheringRequest(List.of("deleteUser"));
+    RemoveGatheringRequest request = new RemoveGatheringRequest(List.of(UUID.randomUUID()));
 
     setupSecurityContext(username, role, userId);
 

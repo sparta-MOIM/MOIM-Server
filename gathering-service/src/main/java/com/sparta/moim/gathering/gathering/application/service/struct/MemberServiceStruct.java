@@ -42,7 +42,7 @@ public class MemberServiceStruct {
     validateGatheringExists(command.gatheringId());
 
     UUID gatheringId = command.gatheringId();
-    String username = command.username();
+    UUID username = command.username();
 
     if (!memberRepository.existsByGatheringIdAndMemberId(gatheringId, username)) {
       throw new NotFoundGatheringMemberException();

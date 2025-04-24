@@ -35,7 +35,7 @@ public class Gathering extends BaseEntity {
 
   private String organizationId;
 
-  private String owner;
+  private UUID owner;
 
   private int count;
 
@@ -46,7 +46,7 @@ public class Gathering extends BaseEntity {
   @Column(length = 36, nullable = false, unique = true)
   private UUID trackingId;
 
-  public static Gathering create(String organizationId, String name, String owner, int count, boolean status) {
+  public static Gathering create(String organizationId, String name, UUID owner, int count, boolean status) {
     return Gathering.builder()
         .count(count)
         .organizationId(organizationId)
@@ -57,7 +57,7 @@ public class Gathering extends BaseEntity {
 
   }
 
-  public static Gathering update(UUID gatheringId, String owner, String name, int count, Boolean status) {
+  public static Gathering update(UUID gatheringId, UUID owner, String name, int count, Boolean status) {
     return Gathering.builder()
         .count(count)
         .owner(owner)

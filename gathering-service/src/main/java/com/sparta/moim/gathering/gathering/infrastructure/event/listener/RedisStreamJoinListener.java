@@ -26,7 +26,7 @@ public class RedisStreamJoinListener implements StreamListener<String, MapRecord
 
     memberRepository.save(Member.builder()
         .gatheringId(gatheringId)
-        .memberId(message.getValue().get("member_name"))
+        .memberId(UUID.fromString(message.getValue().get("member_name")))
         .type(MemberType.valueOf(message.getValue().get("type")))
         .joinTime(LocalDateTime.now())
         .build());

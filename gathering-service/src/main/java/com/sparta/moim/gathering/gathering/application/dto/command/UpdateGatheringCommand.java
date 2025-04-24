@@ -7,7 +7,7 @@ import lombok.Builder;
 @Builder
 public record UpdateGatheringCommand(
     UUID gatheringId,
-    String owner,
+    UUID owner,
     String name,
     int count,
     Boolean status) {

@@ -14,7 +14,7 @@ public class MemberPublisherEventStream implements MemberPublisher {
   private final ApplicationEventPublisher publisher;
 
   @Override
-  public void add(UUID gatheringId, String memberName) {
+  public void add(UUID gatheringId, UUID memberName) {
     publisher.publishEvent(GatheringAddAdminEvent.builder()
         .gatheringId(gatheringId)
         .memberName(memberName)
@@ -23,7 +23,7 @@ public class MemberPublisherEventStream implements MemberPublisher {
   }
 
   @Override
-  public void revoke(UUID gatheringId, String owner) {
+  public void revoke(UUID gatheringId, UUID owner) {
     publisher.publishEvent(GatheringRevokeAdminEvent.builder()
         .gatheringId(gatheringId)
         .ownerName(owner)

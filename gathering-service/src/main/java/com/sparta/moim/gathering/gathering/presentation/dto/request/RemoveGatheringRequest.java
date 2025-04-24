@@ -10,9 +10,9 @@ import java.util.UUID;
 public record RemoveGatheringRequest(
     @NotNull
     @Size(min = 1, message = "At least one user must be specified")
-    List<@NotBlank String> users
+    List<UUID> users
 ) {
-  public RemoveGatheringCommand toCommand(UUID gatheringId, String memberId) {
+  public RemoveGatheringCommand toCommand(UUID gatheringId, UUID memberId) {
     return new RemoveGatheringCommand(gatheringId, users, memberId);
   }
 }

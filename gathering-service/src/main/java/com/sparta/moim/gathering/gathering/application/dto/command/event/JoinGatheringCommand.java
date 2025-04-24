@@ -8,10 +8,10 @@ import com.sparta.moim.gathering.shared.enums.MemberType;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record JoinGatheringCommand(UUID gatheringId, String username) {
+public record JoinGatheringCommand(UUID gatheringId, UUID username) {
 
   public JoinGatheringCommand(UUID gatheringId, CustomUserDetails userInfo) {
-    this(gatheringId, userInfo.getUsername());
+    this(gatheringId, userInfo.getTrackingId());
   }
 
   public Member toDomain() {
