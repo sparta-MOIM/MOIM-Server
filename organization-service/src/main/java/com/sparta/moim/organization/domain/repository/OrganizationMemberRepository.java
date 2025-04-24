@@ -1,5 +1,6 @@
 package com.sparta.moim.organization.domain.repository;
 
+import com.sparta.moim.common.page.Pagination;
 import com.sparta.moim.organization.domain.entity.Organization;
 import com.sparta.moim.organization.domain.entity.OrganizationMember;
 import com.sparta.moim.organization.domain.enums.OrganizationMemberRole;
@@ -13,6 +14,8 @@ public interface OrganizationMemberRepository {
     Optional<OrganizationMember> findByUserTrackingIdAndOrganizationTrackingId(String userTrackingId, String trackingId);
 
     List<OrganizationMember> findAllByOrganization(Organization organization);
+
+    Pagination<OrganizationMember> findAllByOrganization(Organization organization, int page, int size);
 
     void saveAll(List<OrganizationMember> members);
 
