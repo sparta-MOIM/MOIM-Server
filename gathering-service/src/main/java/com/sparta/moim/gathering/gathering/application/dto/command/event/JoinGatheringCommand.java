@@ -24,11 +24,11 @@ public record JoinGatheringCommand(UUID gatheringId, String username) {
         .build();
   }
 
-  public GatheringEventCriteria toCriteria(String streamJoinKey,
+  public GatheringEventCriteria toCriteria(String streamKey,
                                            EventType eventType,
                                            String payload) {
     return GatheringEventCriteria.builder()
-        .streamKey(streamJoinKey)
+        .streamKey(streamKey)
         .eventType(eventType)
         .payload(payload)
         .build();
