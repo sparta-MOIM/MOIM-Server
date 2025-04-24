@@ -15,7 +15,7 @@ public class ApplyOrganizationNotificationConsumer implements NotificationConsum
     private final NotificationHandlerContext notificationHandlerContext;
 
     @Override
-    @KafkaListener(topics = "organization-apply-notification", groupId = "notification-group")
+    @KafkaListener(topics = "organization-apply-notification", groupId = "notification-group", containerFactory = "stringContainerFactory")
     public void consume(String rawMessage) {
             log.info("message received : {}", rawMessage);
             notificationHandlerContext.handle(NotificationType.ORGANIZATION_MOIM_REQUEST,rawMessage);
