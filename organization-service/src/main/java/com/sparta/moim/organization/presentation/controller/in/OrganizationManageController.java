@@ -23,16 +23,16 @@ public class OrganizationManageController {
     private final ChangeAuthorityUseCase changeAuthorityUseCase;
     private final CommandMapper commandMapper;
     // 멤버 권한 변경
-    @PostMapping("/members/{userTrackingId}/role")
+    @PostMapping("/members/{targetMemberTrackingId}/role")
     public ResponseEntity<ApiResponseData<Void>> changeRole(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable String organizationTrackingId,
             @PathVariable String targetMemberTrackingId,
             @RequestBody @Valid ChangeOrganizationRoleRequest changeOrganizationRoleRequest) {
         changeAuthorityUseCase.execute(
-                customUserDetails.getTrackingId().toString(),
                 organizationTrackingId,
                 targetMemberTrackingId,
+                customUserDetails.getTrackingId().toString(),
                 commandMapper.toCommand(changeOrganizationRoleRequest));
         return ResponseEntity.ok(ApiResponseData.success(null));
     }
