@@ -26,7 +26,7 @@ public class MemberPublisherEventStream implements MemberPublisher {
   public void revoke(UUID gatheringId, UUID owner) {
     publisher.publishEvent(GatheringRevokeAdminEvent.builder()
         .gatheringId(gatheringId)
-        .ownerName(owner)
+        .ownerId(owner)
         .build());
   }
 

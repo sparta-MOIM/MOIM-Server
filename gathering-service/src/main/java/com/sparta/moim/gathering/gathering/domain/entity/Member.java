@@ -63,7 +63,7 @@ public class Member {
   public Map<String, String> toMap() {
     Map<String, String> map = new HashMap<>();
     map.put("gathering_id", gatheringId.toString());
-    map.put("member_name", memberId.toString());
+    map.put("member_id", memberId.toString());
     map.put("type", MemberType.GENERAL.name());
     return map;
   }

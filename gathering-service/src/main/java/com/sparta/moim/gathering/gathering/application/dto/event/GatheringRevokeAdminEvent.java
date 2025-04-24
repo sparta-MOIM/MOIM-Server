@@ -4,5 +4,5 @@ import java.util.UUID;
 import lombok.Builder;
 
 @Builder
-public record GatheringRevokeAdminEvent(UUID gatheringId, UUID ownerName) {
+public record GatheringRevokeAdminEvent(UUID gatheringId, UUID ownerId) {
 }

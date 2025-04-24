@@ -52,7 +52,7 @@ public class MemberRedisProxyService implements MemberService {
   public void leaveGathering(LeaveGatheringCommand command) {
     Map<String, String> map = Map.of(
         "gathering_id", command.gatheringId().toString(),
-        "member_name", command.username().toString()
+        "member_id", command.userId().toString()
     );
 
     memberServiceStruct.leaveGathering(command);
