@@ -1,8 +1,8 @@
 package com.sparta.moim.gathering.gathering.infrastructure.repository;
 
 import com.sparta.moim.gathering.gathering.domain.entity.Member;
-import com.sparta.moim.gathering.gathering.domain.enums.MemberType;
 import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
+import com.sparta.moim.gathering.shared.enums.MemberType;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,4 +28,10 @@ public interface JpaMemberRepository extends JpaRepository<Member, Long>, Member
       select m from Member m where m.gatheringId = :gatheringId  and m.memberId <> :memberId
       """)
   Optional<Member> findByMemberStatusOwner(@Param("gatheringId") UUID gatheringId, @Param("memberId") String memberId);
+
+
+  @Query(""" 
+        select m from Member m where m.gatheringId = :gatheringId and m.type = "ADMIN"
+      """)
+  Optional<Member> existsOwner(@Param("gatheringId") UUID gatheringId);
 }

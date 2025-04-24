@@ -1,6 +1,6 @@
 package com.sparta.moim.gathering.gathering.presentation.contoller.Internal;
 
-import com.sparta.moim.gathering.gathering.application.service.GatheringValidationService;
+import com.sparta.moim.gathering.gathering.application.service.struct.GatheringValidationService;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;

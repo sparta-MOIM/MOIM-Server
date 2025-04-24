@@ -26,47 +26,47 @@ spring:
           predicates:
             - Path=/api/v1/notifications/**
           filters:
-            - JwtAuthenticationFilter
+            - PassportRelayFilter
+
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/v1/users/signup, /api/v1/users/login, /api/v1/users/refresh
 
         - id: user-service
           uri: lb://user-service
           predicates:
             - Path=/api/v1/users/**
-
-        - id: user-service
-          uri: lb://user-service
-          predicates:
-            - Path=/api/v1/users/logout
           filters:
-            - JwtAuthenticationFilter
+            - PassportRelayFilter
 
         - id: comment-service
           uri: lb://comment-service
           predicates:
             - Path=/api/v1/comment/**
           filters:
-            - JwtAuthenticationFilter
+            - PassportRelayFilter
 
         - id: organization-service
           uri: lb://organization-service
           predicates:
             - Path=/api/v1/organizations/**
           filters:
-            - JwtAuthenticationFilter
+            - PassportRelayFilter
 
         - id: gathering-service
           uri: lb://gathering-service
           predicates:
             - Path=/api/v1/gathering/**
           filters:
-            - JwtAuthenticationFilter
+            - PassportRelayFilter
 
         - id: schedule-service
           uri: lb://schedule-service
           predicates:
             - Path=/api/v1/schedules/**
           filters:
-            - JwtAuthenticationFilter
+            - PassportRelayFilter
 
         - id: chat-service
           uri: lb://chat-service
@@ -74,21 +74,18 @@ spring:
             - Path=/api/v1/chat/**
             - Path=/api/v1/chat_room/**
           filters:
-            - JwtAuthenticationFilter
+            - PassportRelayFilter
 
         - id: post-service
           uri: lb://post-service
           predicates:
             - Path=/api/v1/posts/**
           filters:
-            - JwtAuthenticationFilter
+            - PassportRelayFilter
 
         - id: session-service
           uri: lb://session-service
           predicates:
             - Path=/api/v1/session/**
           filters:
-            - JwtAuthenticationFilter
-
-jwt:
-  secret: ${JWT_SECRET}
+            - PassportRelayFilter

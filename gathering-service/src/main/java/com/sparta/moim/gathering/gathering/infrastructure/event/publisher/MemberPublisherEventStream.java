@@ -1,8 +1,8 @@
 package com.sparta.moim.gathering.gathering.infrastructure.event.publisher;
 
-import com.sparta.moim.gathering.gathering.application.event.publisher.MemberPublisher;
 import com.sparta.moim.gathering.gathering.application.dto.event.GatheringAddAdminEvent;
 import com.sparta.moim.gathering.gathering.application.dto.event.GatheringRevokeAdminEvent;
+import com.sparta.moim.gathering.gathering.application.event.publisher.MemberPublisher;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MemberPublisherImpl implements MemberPublisher {
+public class MemberPublisherEventStream implements MemberPublisher {
   private final ApplicationEventPublisher publisher;
 
   @Override

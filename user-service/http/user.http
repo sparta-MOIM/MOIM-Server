@@ -9,7 +9,7 @@ Content-Type: application/json
 }
 
 ### login
-POST http://localhost:8082/api/v1/users/login
+POST http://localhost:19091/api/v1/users/login
 Content-Type: application/json
 
 {
@@ -18,19 +18,21 @@ Content-Type: application/json
 }
 
 ### logout
-POST http://localhost:8082/api/v1/users/logout
+POST http://localhost:19091/api/v1/users/logout
+Cookie: accessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YThmMzAwNC1mZWNmLTQ0ZGMtYTAzYi1jMjlkOGNiMjUzNzciLCJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaXNzIjoiaHR0cHM6Ly9tb2ltLmNvbSIsImlhdCI6MTc0NTI1NTI4MCwiZXhwIjoxNzQ1MjU3MDgwfQ.k7nbNHIs2AikRzFdtUTkfMpd0-t-gbKuqYvsdWJjhh8; Path=/; Max-Age=1800; Expires=Mon, 21 Apr 2025 17:38:00 GMT; Secure; HttpOnly; SameSite=LAX
 
 ### 유저 조회 by TrackingId
-GET http://localhost:8082/internal/v1/users/69207ff8-c757-477a-89a3-b79bab50f696
+GET http://localhost:8082/internal/v1/users/a03730a3-9163-43ce-87db-ef40be8e6b6f
 
 ### 액세스토큰 재발급
 POST http://localhost:19091/api/v1/users/refresh
 Content-Type: application/json
-Cookie: refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjNjU3NTk0OS1jNjFjLTQ3NDItODEzZS00MmVmYWNkZjZmOTEiLCJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaXNzIjoiaHR0cHM6Ly9tb2ltLmNvbSIsImlhdCI6MTc0NDY0NzU2NiwiZXhwIjoxNzQ1MjUyMzY2fQ.BZvrRywdTLgjvNK1vtaBzVx4Wibc_PPLODSQ6TVIQ44
+Cookie: refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhMDM3MzBhMy05MTYzLTQzY2UtODdkYi1lZjQwYmU4ZTZiNmYiLCJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaXNzIjoiaHR0cHM6Ly9tb2ltLmNvbSIsImlhdCI6MTc0NTI1NTY5MywiZXhwIjoxNzQ1ODYwNDkzfQ.k3CcLHwsamEiR3H8h-1WSw6t8mNJMsAEiS9DyY-hCpA; Path=/api/v1/auth/refresh; Max-Age=604800; Expires=Mon, 28 Apr 2025 17:14:53 GMT; Secure; HttpOnly; SameSite=STRICT
 
 ### 회원 업데이트
-PUT http://localhost:8082/api/v1/users/1ee56098-5cb4-4a95-bb8d-71035f11665e
+PUT http://localhost:19091/api/v1/users/a03730a3-9163-43ce-87db-ef40be8e6b6f
 Content-Type: application/json
+Cookie: accessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlNTI3YTBjZS1jDlhLTRiMWUtYTcxYy03ODI2NjdhYWM3MWMiLCJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaXNzIjoiaHR0cHM6Ly9tb2ltLmNvbSIsImlhdCI6MTc0NTI1NjYxNSwiZXhwIjoxNzQ1MjU4NDE1fQ.uO-EGFSGom26cAJT8PfZngK69q65rOu2L9cPo6YkA1Q; Path=/; Max-Age=1800; Expires=Mon, 21 Apr 2025 18:00:16 GMT; Secure; HttpOnly; SameSite=LAX
 
 {
   "name": "이순신"

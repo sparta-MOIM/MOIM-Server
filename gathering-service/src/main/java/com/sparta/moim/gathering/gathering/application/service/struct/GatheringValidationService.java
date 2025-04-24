@@ -1,10 +1,8 @@
-package com.sparta.moim.gathering.gathering.application.service;
+package com.sparta.moim.gathering.gathering.application.service.struct;
 
 import com.sparta.moim.gathering.gathering.application.exception.NotFoundGatheringException;
 import com.sparta.moim.gathering.gathering.application.exception.NotOpenGatheringException;
 import com.sparta.moim.gathering.gathering.domain.repository.GatheringValidationRepository;
-import com.sparta.moim.gathering.gathering.application.code.GatheringCode;
-import com.sparta.moim.gathering.gathering.application.exception.GatheringException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
