@@ -38,6 +38,7 @@ public class CommentService {
   private final PostClient postClient;
   private final RoleCheckClient roleCheckClient;
   private final UserCheckService userCheckService;
+  private final CommentValidationContext commentValidationContext;
 
   //댓글 달기
   public void createComment(CommentRequestDTO commentRequestDTO, CustomUserDetails customUserDetails){
@@ -54,9 +55,6 @@ public class CommentService {
     if(!postClient.isValidFeed(postId).result()){
       throw new BaseException(POST_NOT_FOUND);
     }
-
-    //댓글인지, 대댓글인지 구분해서 유효성 체크 진행 (전략 패턴)
-    CommentValidationContext commentValidationContext = new CommentValidationContext(new CommentValidation(), new ReplyCommentValidation());
 
     //댓글인 경우 전략
     if(commentClass==0){

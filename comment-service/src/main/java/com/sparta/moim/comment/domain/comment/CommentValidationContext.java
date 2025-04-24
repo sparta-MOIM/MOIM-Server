@@ -5,8 +5,11 @@ import com.sparta.moim.comment.domain.strategy.validation.CommentValidation;
 import com.sparta.moim.comment.domain.strategy.validation.ReplyCommentValidation;
 import com.sparta.moim.comment.presentation.request.CommentRequestDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+//전략 패턴 사용
 //전략 컨텍스트 (전략 등록/실행)
+@Component
 @RequiredArgsConstructor
 public class CommentValidationContext {
 
