@@ -1,10 +1,12 @@
 package com.sparta.moim.organization.presentation.mapper;
 
 import com.sparta.moim.organization.application.dto.command.ApplyOrganizationCommand;
+import com.sparta.moim.organization.application.dto.command.ChangeOrganizationRoleCommand;
 import com.sparta.moim.organization.application.dto.command.CreateOrganizationCommand;
 import com.sparta.moim.organization.application.dto.command.UpdateMemberInfoCommand;
 import com.sparta.moim.organization.application.dto.command.UpdateOrganizationCommand;
 import com.sparta.moim.organization.presentation.dto.ApplyOrganizationRequest;
+import com.sparta.moim.organization.presentation.dto.ChangeOrganizationRoleRequest;
 import com.sparta.moim.organization.presentation.dto.CreateOrganizationRequest;
 import com.sparta.moim.organization.presentation.dto.UpdateMemberInfoRequest;
 import com.sparta.moim.organization.presentation.dto.UpdateOrganizationRequest;
@@ -18,4 +20,6 @@ public interface CommandMapper {
     UpdateOrganizationCommand toCommand(UpdateOrganizationRequest request);
     ApplyOrganizationCommand toCommand(ApplyOrganizationRequest request);
     UpdateMemberInfoCommand toCommand(UpdateMemberInfoRequest request);
+    ChangeOrganizationRoleCommand toCommand(ChangeOrganizationRoleRequest request);
+
 }

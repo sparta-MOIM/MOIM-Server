@@ -17,4 +17,6 @@ public interface OrganizationMemberJpaRepository extends JpaRepository<Organizat
     Optional<OrganizationMember> findByOrganizationAndNickname(Organization organization, String nickname);
 
     List<OrganizationMember> findAllByOrganizationAndRoleIn(Organization organization, Collection<OrganizationMemberRole> roles);
+
+    Optional<OrganizationMember> findByTrackingId(UUID trackingId);
 }

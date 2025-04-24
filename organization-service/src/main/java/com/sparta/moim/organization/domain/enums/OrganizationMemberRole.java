@@ -6,5 +6,6 @@ import lombok.Getter;
 public enum OrganizationMemberRole {
     MEMBER,
     MANAGER,
-    MASTER,
+    MASTER
+    ,;
 }

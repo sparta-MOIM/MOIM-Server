@@ -47,5 +47,10 @@ public class OrganizationMemberRepositoryImpl implements OrganizationMemberRepos
         return jpaRepository.findAllByOrganizationAndRoleIn(organization, organizationMemberRoles );
     }
 
+    @Override
+    public Optional<OrganizationMember> findByMemberTrackingId(String memberTrackingId) {
+        return jpaRepository.findByTrackingId(UUID.fromString(memberTrackingId));
+    }
+
 
 }
