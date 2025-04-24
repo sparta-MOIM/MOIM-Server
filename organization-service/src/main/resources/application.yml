@@ -9,14 +9,14 @@ spring:
     name: organization-service
 
   datasource:
-    url: jdbc:mysql://localhost:3310/organization_db
-    username: root
-    password: 1234
+    url: ${ORGANIZATION_DB_URL}
+    username: ${ORGANIZATION_DB_USERNAME}
+    password: ${ORGANIZATION_DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
-      maximum-pool-size: 30
-      minimum-idle: 15
-      connection-timeout: 30000
+      maximum-pool-size: ${HIKARI_MAX_POOL_SIZE}
+      minimum-idle: ${HIKARI_MIN_IDLE}
+      connection-timeout: ${HIKARI_CONNECTION_TIMEOUT}
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -27,16 +27,22 @@ spring:
       hibernate:
         generate_statistics: true
 
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:19090/eureka/
+      defaultZone: ${EUREKA_URL}
     register-with-eureka: true
     fetch-registry: true
 
 management:
-#  server:
-#    port: 10100
+  #  server:
+  #    port: 10100
   endpoints:
     web:
       exposure:
