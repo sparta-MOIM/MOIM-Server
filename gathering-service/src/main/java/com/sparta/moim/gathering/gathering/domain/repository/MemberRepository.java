@@ -1,11 +1,10 @@
 package com.sparta.moim.gathering.gathering.domain.repository;
 
 import com.sparta.moim.gathering.gathering.domain.entity.Member;
-import com.sparta.moim.gathering.gathering.domain.enums.MemberType;
+import com.sparta.moim.gathering.shared.enums.MemberType;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.data.repository.query.Param;
 
 public interface MemberRepository {
   Member save(Member member);
@@ -16,9 +15,11 @@ public interface MemberRepository {
 
   List<Member> findMembers(UUID gatheringId);
 
-  boolean existsByMemberId(String memberId);
+  boolean existsByGatheringIdAndMemberId(UUID gatheringId, String memberId);
 
-  MemberType findMemberType(@Param("gatheringId") UUID gatheringId, @Param("memberId") String memberId);
+  MemberType findMemberType(UUID gatheringId, String memberId);
 
   Optional<Member> findByMemberStatusOwner(UUID gatheringId, String memberId);
+
+  Optional<Member> existsOwner(UUID gatheringId);
 }

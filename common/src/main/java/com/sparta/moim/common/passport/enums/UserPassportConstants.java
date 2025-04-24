@@ -1,4 +1,4 @@
-package com.sparta.moim.common.enums;
+package com.sparta.moim.common.passport.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

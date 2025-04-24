@@ -21,9 +21,9 @@ public class OrganizationCheckRoleController {
 
     @GetMapping("/{organizationTrackingId}/members/{userTrackingId}/has-role")
     public ApiResponseData<Boolean> checkRole(
-            @PathVariable String organizationTrackingId,
-            @PathVariable String userTrackingId,
-            @RequestParam List<OrganizationMemberRole> roles){
+            @PathVariable(name="organizationTrackingId") String organizationTrackingId,
+            @PathVariable(name="userTrackingId") String userTrackingId,
+            @RequestParam(name="roles") List<OrganizationMemberRole> roles){
         return ApiResponseData.success(organizationCheckRoleUseCase.execute(organizationTrackingId,userTrackingId, roles));
     }
 }

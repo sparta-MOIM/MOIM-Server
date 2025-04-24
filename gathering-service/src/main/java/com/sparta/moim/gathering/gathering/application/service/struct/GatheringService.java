@@ -1,12 +1,13 @@
-package com.sparta.moim.gathering.gathering.application.service;
+package com.sparta.moim.gathering.gathering.application.service.struct;
 
+import com.sparta.moim.common.page.Pagination;
 import com.sparta.moim.gathering.gathering.application.dto.command.CreateGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.dto.command.DeleteGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.dto.command.UpdateGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.dto.result.CreateGatheringResult;
-import com.sparta.moim.gathering.gathering.application.dto.result.GetGatheringResult;
 import com.sparta.moim.gathering.gathering.application.dto.result.GetGatheringMemberListResult;
+import com.sparta.moim.gathering.gathering.application.dto.result.GetGatheringResult;
 import com.sparta.moim.gathering.gathering.application.dto.result.SearchGatheringListResult;
 import com.sparta.moim.gathering.gathering.application.dto.result.SearchGatheringResult;
 import com.sparta.moim.gathering.gathering.application.event.publisher.MemberPublisher;
@@ -16,7 +17,6 @@ import com.sparta.moim.gathering.gathering.domain.entity.Gathering;
 import com.sparta.moim.gathering.gathering.domain.repository.GatheringRepository;
 import com.sparta.moim.gathering.gathering.domain.repository.GatheringRepositoryCustom;
 import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
-import com.sparta.moim.common.page.Pagination;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

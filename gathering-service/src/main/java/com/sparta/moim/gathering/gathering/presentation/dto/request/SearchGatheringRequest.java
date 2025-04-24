@@ -1,7 +1,7 @@
 package com.sparta.moim.gathering.gathering.presentation.dto.request;
 
-import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand;
 import com.sparta.moim.common.security.CustomUserDetails;
+import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand;
 import java.time.LocalDateTime;
 
 public record SearchGatheringRequest(
