@@ -5,7 +5,7 @@ import com.sparta.moim.gathering.gathering.domain.dto.criteria.GatheringEventCri
 import com.sparta.moim.gathering.shared.enums.EventType;
 import java.util.UUID;
 
-public record LeaveGatheringCommand(UUID gatheringId, UUID username) {
+public record LeaveGatheringCommand(UUID gatheringId, UUID userId) {
   public LeaveGatheringCommand(UUID gatheringId, CustomUserDetails userInfo) {
     this(gatheringId, userInfo.getTrackingId());
   }
