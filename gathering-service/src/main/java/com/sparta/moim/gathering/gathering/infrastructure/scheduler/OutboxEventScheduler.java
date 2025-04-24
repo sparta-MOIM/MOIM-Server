@@ -40,7 +40,7 @@ public class OutboxEventScheduler {
         log.info("Successfully sent event with id {} to Redis stream", event.getId());
       } catch (Exception e) {
         log.error(e.getMessage());
-        event.markAsFailed();
+        event.markAsFailed(e.getMessage());
         log.error("Failed to process outbox event with id {}: {}", event.getId(), e.getMessage(), e);
       }
       createOutboxEvent.execute(event);

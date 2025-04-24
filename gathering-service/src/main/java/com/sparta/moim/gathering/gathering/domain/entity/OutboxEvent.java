@@ -53,6 +53,9 @@ public class OutboxEvent extends BaseEntity {
   @Column(name = "last_attempt_time")
   private LocalDateTime lastAttemptTime;
 
+  @Column(name = "failure_reason")
+  private String failureReason;
+
   public static OutboxEvent create(GatheringEventCriteria criteria) {
     return OutboxEvent.builder()
         .streamKey(criteria.streamJoinKey())
@@ -66,11 +69,16 @@ public class OutboxEvent extends BaseEntity {
     this.status = OutboxType.SENT;
   }
 
-  public void markAsFailed() {
+  public void markAsFailed(String reason) {
     this.retryCount++;
     this.lastAttemptTime = LocalDateTime.now();
     this.status = OutboxType.FAILED;
+    this.failureReason = reason;
   }
+  public void markAsFailed() {
+    markAsFailed("Unknown error");
+  }
+
 
   public boolean canRetry(int maxRetries) {
     return this.retryCount < maxRetries;
