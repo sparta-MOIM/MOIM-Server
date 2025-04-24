@@ -59,6 +59,9 @@ dependencies {
     //Monitoring
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-registry-prometheus'
+    implementation 'org.hibernate.orm:hibernate-core:6.3.1.Final'
+    implementation 'org.hibernate:hibernate-micrometer:6.3.1.Final'
+    implementation 'io.micrometer:micrometer-core'
 
 }
 

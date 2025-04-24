@@ -13,12 +13,19 @@ spring:
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 15
+      connection-timeout: 30000
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
     show-sql: true
+    properties:
+      hibernate:
+        generate_statistics: true
 
 eureka:
   client:
@@ -33,7 +40,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: prometheus
+        include: prometheus, metrics
   metrics:
     distribution:
       percentiles-histogram:
