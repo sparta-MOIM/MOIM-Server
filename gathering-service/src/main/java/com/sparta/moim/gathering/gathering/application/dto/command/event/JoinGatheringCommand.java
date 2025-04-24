@@ -28,7 +28,7 @@ public record JoinGatheringCommand(UUID gatheringId, String username) {
                                            EventType eventType,
                                            String payload) {
     return GatheringEventCriteria.builder()
-        .streamJoinKey(streamJoinKey)
+        .streamKey(streamJoinKey)
         .eventType(eventType)
         .payload(payload)
         .build();

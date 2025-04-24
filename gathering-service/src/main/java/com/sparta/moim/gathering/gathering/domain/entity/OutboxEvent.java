@@ -58,7 +58,7 @@ public class OutboxEvent extends BaseEntity {
 
   public static OutboxEvent create(GatheringEventCriteria criteria) {
     return OutboxEvent.builder()
-        .streamKey(criteria.streamJoinKey())
+        .streamKey(criteria.streamKey())
         .eventType(criteria.eventType())
         .payload(criteria.payload())
         .status(OutboxType.PENDING)

@@ -13,7 +13,7 @@ public record LeaveGatheringCommand(UUID gatheringId, String username) {
 
   public GatheringEventCriteria toCriteria(String streamLeaveKey, EventType eventType, String payload) {
     return GatheringEventCriteria.builder()
-        .streamJoinKey(streamLeaveKey)
+        .streamKey(streamLeaveKey)
         .eventType(eventType)
         .payload(payload)
         .build();

@@ -57,11 +57,11 @@ public class MemberRedisProxyService implements MemberService {
 
     memberServiceStruct.leaveGathering(command);
     try {
-    String payload = objectMapper.writeValueAsString(map);
+      String payload = objectMapper.writeValueAsString(map);
 //    redisTemplate.opsForStream().add(streamLeaveKey, map);
-    outboxRepository.save(OutboxEvent.create(command.toCriteria(streamLeaveKey, EventType.MEMBER_LEAVE, payload)));
+      outboxRepository.save(OutboxEvent.create(command.toCriteria(streamLeaveKey, EventType.MEMBER_LEAVE, payload)));
 
-    } catch (Exception e) {
+    } catch (JsonProcessingException e) {
       throw new RuntimeException("Failed to serialize member data for outbox event", e);
     }
   }
