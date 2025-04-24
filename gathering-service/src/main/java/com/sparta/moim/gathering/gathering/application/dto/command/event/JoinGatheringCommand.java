@@ -5,7 +5,6 @@ import com.sparta.moim.gathering.gathering.domain.dto.criteria.GatheringEventCri
 import com.sparta.moim.gathering.gathering.domain.entity.Member;
 import com.sparta.moim.gathering.shared.enums.EventType;
 import com.sparta.moim.gathering.shared.enums.MemberType;
-import com.sparta.moim.gathering.shared.enums.OutboxType;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -24,9 +23,9 @@ public record JoinGatheringCommand(UUID gatheringId, String username) {
         .build();
   }
 
-  public GatheringEventCriteria toCriteria(String streamKey,
-                                           EventType eventType,
-                                           String payload) {
+  public GatheringEventCriteria toEventCriteria(String streamKey,
+                                                EventType eventType,
+                                                String payload) {
     return GatheringEventCriteria.builder()
         .streamKey(streamKey)
         .eventType(eventType)

@@ -41,7 +41,7 @@ public class MemberRedisProxyService implements MemberService {
 //    redisTemplate.opsForStream().add(streamJoinKey, member.toMap());
     try {
       String payload = objectMapper.writeValueAsString(member.toMap());
-      outboxRepository.save(OutboxEvent.create(command.toCriteria(streamJoinKey, EventType.MEMBER_JOINED, payload)));
+      outboxRepository.save(OutboxEvent.create(command.toEventCriteria(streamJoinKey, EventType.MEMBER_JOINED, payload)));
     } catch (JsonProcessingException e) {
       throw new RuntimeException("Failed to serialize member data for outbox event", e);
     }
@@ -59,7 +59,7 @@ public class MemberRedisProxyService implements MemberService {
     try {
       String payload = objectMapper.writeValueAsString(map);
 //    redisTemplate.opsForStream().add(streamLeaveKey, map);
-      outboxRepository.save(OutboxEvent.create(command.toCriteria(streamLeaveKey, EventType.MEMBER_LEAVE, payload)));
+      outboxRepository.save(OutboxEvent.create(command.toEventCriteria(streamLeaveKey, EventType.MEMBER_LEAVE, payload)));
 
     } catch (JsonProcessingException e) {
       throw new RuntimeException("Failed to serialize member data for outbox event", e);
