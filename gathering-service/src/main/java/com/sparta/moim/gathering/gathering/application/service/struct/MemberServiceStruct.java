@@ -1,8 +1,8 @@
 package com.sparta.moim.gathering.gathering.application.service.struct;
 
-import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.JoinGatheringCommand;
-import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.LeaveGatheringCommand;
-import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.RemoveGatheringCommand;
+import com.sparta.moim.gathering.gathering.application.dto.command.event.LeaveGatheringCommand;
+import com.sparta.moim.gathering.gathering.application.dto.command.event.RemoveGatheringCommand;
+import com.sparta.moim.gathering.gathering.application.dto.command.event.JoinGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.exception.AlreadyParticipateFoundGatheringException;
 import com.sparta.moim.gathering.gathering.application.exception.NotFoundGatheringException;
 import com.sparta.moim.gathering.gathering.application.exception.NotFoundGatheringMemberException;

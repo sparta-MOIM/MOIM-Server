@@ -1,8 +1,8 @@
 package com.sparta.moim.gathering.gathering.application.service.proxy;
 
-import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.JoinGatheringCommand;
-import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.LeaveGatheringCommand;
-import com.sparta.moim.gathering.gathering.application.dto.command.SearchGatheringCommand.RemoveGatheringCommand;
+import com.sparta.moim.gathering.gathering.application.dto.command.event.LeaveGatheringCommand;
+import com.sparta.moim.gathering.gathering.application.dto.command.event.RemoveGatheringCommand;
+import com.sparta.moim.gathering.gathering.application.dto.command.event.JoinGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.service.MemberService;
 import com.sparta.moim.gathering.gathering.application.service.struct.MemberServiceStruct;
 import com.sparta.moim.gathering.gathering.domain.repository.MemberRepository;
