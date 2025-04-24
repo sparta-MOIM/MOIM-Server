@@ -9,7 +9,7 @@ public record GetGatheringResponse(
     UUID gatheringId,
     String organizationId,
     String name,
-    String owner,
+    UUID owner,
     int count,
     boolean status,
     List<GetGatheringMemberListResponse> member,

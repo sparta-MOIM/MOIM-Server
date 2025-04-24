@@ -1,7 +1,9 @@
 package com.sparta.moim.gathering.gathering.presentation.dto.response;
 
+import java.util.UUID;
+
 public record GetMemberListResponse(
-    String name,
+    UUID name,
     String type
 ) {
 }

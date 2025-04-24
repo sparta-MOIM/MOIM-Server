@@ -40,7 +40,7 @@ public class Member {
   @Column(length = 36, nullable = false)
   private UUID gatheringId;
 
-  private String memberId;
+  private UUID memberId;
 
   @Enumerated(EnumType.STRING)
   private MemberType type;
@@ -56,14 +56,14 @@ public class Member {
         .build();
   }
 
-  public void changeOwner(String memberId) {
+  public void changeOwner(UUID memberId) {
     this.memberId = memberId;
   }
 
   public Map<String, String> toMap() {
     Map<String, String> map = new HashMap<>();
     map.put("gathering_id", gatheringId.toString());
-    map.put("member_name", memberId);
+    map.put("member_id", memberId.toString());
     map.put("type", MemberType.GENERAL.name());
     return map;
   }

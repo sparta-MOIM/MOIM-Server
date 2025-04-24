@@ -9,17 +9,17 @@ import java.util.UUID;
 public interface MemberRepository {
   Member save(Member member);
 
-  void deleteByGatheringIdAndMemberId(UUID gatheringId, String memberId);
+  void deleteByGatheringIdAndMemberId(UUID gatheringId, UUID memberId);
 
-  void deleteAllByGatheringIdAndMembers(UUID gatheringId, List<String> memberIds);
+  void deleteAllByGatheringIdAndMembers(UUID gatheringId, List<UUID> memberIds);
 
   List<Member> findMembers(UUID gatheringId);
 
-  boolean existsByGatheringIdAndMemberId(UUID gatheringId, String memberId);
+  boolean existsByGatheringIdAndMemberId(UUID gatheringId, UUID memberId);
 
-  MemberType findMemberType(UUID gatheringId, String memberId);
+  MemberType findMemberType(UUID gatheringId, UUID memberId);
 
-  Optional<Member> findByMemberStatusOwner(UUID gatheringId, String memberId);
+  Optional<Member> findByMemberStatusOwner(UUID gatheringId, UUID memberId);
 
   Optional<Member> existsOwner(UUID gatheringId);
 }

@@ -26,7 +26,7 @@ public class MemberServiceStruct {
     validateGatheringExists(command.gatheringId());
     statusTrueValidate(command);
 
-    if (memberRepository.existsByGatheringIdAndMemberId(command.gatheringId(), command.username())) {
+    if (memberRepository.existsByGatheringIdAndMemberId(command.gatheringId(), command.userId())) {
       throw new AlreadyParticipateFoundGatheringException();
     }
 
@@ -42,9 +42,9 @@ public class MemberServiceStruct {
     validateGatheringExists(command.gatheringId());
 
     UUID gatheringId = command.gatheringId();
-    String username = command.username();
+    UUID userId = command.userId();
 
-    if (!memberRepository.existsByGatheringIdAndMemberId(gatheringId, username)) {
+    if (!memberRepository.existsByGatheringIdAndMemberId(gatheringId, userId)) {
       throw new NotFoundGatheringMemberException();
     }
 

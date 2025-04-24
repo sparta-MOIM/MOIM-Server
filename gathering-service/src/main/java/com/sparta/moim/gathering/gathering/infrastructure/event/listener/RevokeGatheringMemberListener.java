@@ -19,10 +19,10 @@ public class RevokeGatheringMemberListener {
   @EventListener
   @Transactional
   public void revoke(GatheringRevokeAdminEvent revokeMember) {
-    Member member = memberRepository.findByMemberStatusOwner(revokeMember.gatheringId(), revokeMember.ownerName())
+    Member member = memberRepository.findByMemberStatusOwner(revokeMember.gatheringId(), revokeMember.ownerId())
         .orElseThrow(NotFoundGatheringMemberException::new);
-    member.changeOwner(revokeMember.ownerName());
-    log.info("소모임 관리자 수정 완료: {}", revokeMember.ownerName());
+    member.changeOwner(revokeMember.ownerId());
+    log.info("소모임 관리자 수정 완료: {}", revokeMember.ownerId());
   }
 
 }
