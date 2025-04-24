@@ -26,7 +26,6 @@ public class OutboxEventScheduler {
   private final OutboxRepository outboxRepository;
 
   @Scheduled(fixedDelay = 3000)
-  @Transactional
   public void flushOutboxToRedis() {
     int maxEventsPerBatch = 100;
     Pageable pageable = Pageable.ofSize(maxEventsPerBatch);
