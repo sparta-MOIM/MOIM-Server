@@ -2,12 +2,14 @@ package com.sparta.moim.user.infrastructure.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.common.security.filter.GlobalSecurityContextFilter;
-import com.sparta.moim.user.domain.repository.UserRepository;
+import com.sparta.moim.user.domain.UserRepository;
 import com.sparta.moim.user.infrastructure.jwt.JwtUtil;
+import com.sparta.moim.user.infrastructure.redis.repository.RefreshTokenRepository;
 import com.sparta.moim.user.infrastructure.security.filter.LoginFilter;
 import com.sparta.moim.user.infrastructure.security.handler.CustomLogoutSuccessHandler;
 import com.sparta.moim.user.infrastructure.security.handler.LoginFailureHandler;
 import com.sparta.moim.user.infrastructure.security.handler.LoginSuccessHandler;
+import com.sparta.moim.user.infrastructure.security.handler.TokenClearingLogoutHandler;
 import com.sparta.moim.user.infrastructure.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +38,7 @@ public class SecurityConfig {
   private final ObjectMapper objectMapper;
   private final JwtUtil jwtUtil;
   private final GlobalSecurityContextFilter globalSecurityContextFilter;
+  private final RefreshTokenRepository refreshTokenRepository;
   private final UserRepository userRepository;
 
   private final AntPathRequestMatcher loginMatcher = new AntPathRequestMatcher(
@@ -55,7 +58,8 @@ public class SecurityConfig {
             (configurer) -> configurer
                 .logoutRequestMatcher(logoutMatcher)
                 .deleteCookies("accessToken", "refreshToken")
-                .logoutSuccessHandler(new CustomLogoutSuccessHandler()))
+                .logoutSuccessHandler(logoutSuccessHandler())
+                .addLogoutHandler(tokenClearingLogoutHandler()))
         .authorizeHttpRequests(auth -> auth.requestMatchers(
             "/api/v1/users/**", "/api/v1/auth/**", "/internal/v1/users/**").permitAll().anyRequest().authenticated())
         .sessionManagement(session -> session
@@ -86,8 +90,18 @@ public class SecurityConfig {
   @Bean
   public LoginFilter loginFilter() {
     LoginFilter loginFilter = new LoginFilter(loginMatcher, authenticationManager(), objectMapper);
-    loginFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler(jwtUtil));
+    loginFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler(jwtUtil, refreshTokenRepository));
     loginFilter.setAuthenticationFailureHandler(new LoginFailureHandler(objectMapper));
     return loginFilter;
+  }
+
+  @Bean
+  public CustomLogoutSuccessHandler logoutSuccessHandler() {
+    return new CustomLogoutSuccessHandler();
+  }
+
+  @Bean
+  public TokenClearingLogoutHandler tokenClearingLogoutHandler() {
+    return new TokenClearingLogoutHandler(jwtUtil, refreshTokenRepository);
   }
 }
