@@ -46,7 +46,7 @@ public class MemberServiceStruct {
   }
 
   private void checkRole(UUID gatheringId, UUID userId) {
-    UUID organizationId = UUID.fromString(gatheringRepository.findOrganizationId(gatheringId));
+    UUID organizationId = gatheringRepository.findOrganizationId(gatheringId);
 
     List<OrganizationMemberRole> allRole = List.of(OrganizationMemberRole.MANAGER,
         OrganizationMemberRole.MANAGER,

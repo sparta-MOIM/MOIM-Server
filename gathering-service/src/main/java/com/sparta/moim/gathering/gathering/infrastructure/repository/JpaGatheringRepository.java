@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 public interface JpaGatheringRepository extends JpaRepository<Gathering, Long>, GatheringRepository {
 
   @Query("""
-        SELECT g.organizationId from Gathering g where g.trackingId = :gatheringId
+        SELECT CAST(g.organizationId AS java.util.UUID) from Gathering g where g.trackingId = :gatheringId
         """)
-  String findOrganizationId(@Param("gatheringId") UUID gatheringId);
+  UUID findOrganizationId(@Param("gatheringId") UUID gatheringId);
 }
