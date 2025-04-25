@@ -38,7 +38,7 @@ public class PassportRelayFilter extends AbstractGatewayFilterFactory<Object> {
   @Override
   public GatewayFilter apply(Object config) {
     return (exchange, chain) -> {
-      log.info("PassportRelayFilter apply");
+      log.info("PassportRelayFilter apply={}", exchange.getRequest().getPath());
       String accessToken = extractAccessTokenFromCookie(exchange);
       return webClient.get()
           .uri(GET_PASSPORT_URL)
