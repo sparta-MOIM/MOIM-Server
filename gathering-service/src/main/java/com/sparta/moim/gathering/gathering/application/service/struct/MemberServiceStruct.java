@@ -5,7 +5,7 @@ import com.sparta.moim.common.response.CommonCode;
 import com.sparta.moim.gathering.gathering.application.dto.command.event.LeaveGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.dto.command.event.RemoveGatheringCommand;
 import com.sparta.moim.gathering.gathering.application.dto.command.event.JoinGatheringCommand;
-import com.sparta.moim.gathering.gathering.application.event.feigin.OrganizationService;
+import com.sparta.moim.gathering.gathering.application.event.feign.OrganizationService;
 import com.sparta.moim.gathering.gathering.application.exception.AlreadyParticipateFoundGatheringException;
 import com.sparta.moim.gathering.gathering.application.exception.NotConnectedGatheringException;
 import com.sparta.moim.gathering.gathering.application.exception.NotFoundGatheringException;

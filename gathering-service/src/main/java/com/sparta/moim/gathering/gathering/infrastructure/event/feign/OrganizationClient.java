@@ -1,7 +1,7 @@
-package com.sparta.moim.gathering.gathering.infrastructure.event.feigin;
+package com.sparta.moim.gathering.gathering.infrastructure.event.feign;
 
 import com.sparta.moim.common.response.ApiResponseData;
-import com.sparta.moim.gathering.gathering.application.event.feigin.OrganizationService;
+import com.sparta.moim.gathering.gathering.application.event.feign.OrganizationService;
 import com.sparta.moim.gathering.shared.enums.OrganizationMemberRole;
 import java.util.List;
 import java.util.UUID;

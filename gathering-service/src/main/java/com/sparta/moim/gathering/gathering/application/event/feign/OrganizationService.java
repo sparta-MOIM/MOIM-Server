@@ -1,4 +1,4 @@
-package com.sparta.moim.gathering.gathering.application.event.feigin;
+package com.sparta.moim.gathering.gathering.application.event.feign;
 
 import com.sparta.moim.common.response.ApiResponseData;
 import com.sparta.moim.gathering.shared.enums.OrganizationMemberRole;
