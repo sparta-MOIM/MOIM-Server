@@ -2,6 +2,7 @@ package com.sparta.moim.user.domain.repository;
 
 import com.sparta.moim.common.config.JpaConfig;
 import com.sparta.moim.user.domain.model.User;
+import com.sparta.moim.user.domain.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

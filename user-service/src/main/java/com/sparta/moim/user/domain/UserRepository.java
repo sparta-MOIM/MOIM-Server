@@ -1,4 +1,4 @@
-package com.sparta.moim.user.domain.repository;
+package com.sparta.moim.user.domain;
 
 import com.sparta.moim.user.domain.model.User;
 import java.util.Optional;

@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.user.domain.model.User;
-import com.sparta.moim.user.domain.repository.UserRepository;
+import com.sparta.moim.user.domain.UserRepository;
 import com.sparta.moim.user.presentation.dto.LoginRequest;
 import com.sparta.moim.user.presentation.dto.SignupUserRequest;
 import jakarta.servlet.http.Cookie;
