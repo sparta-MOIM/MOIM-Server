@@ -10,13 +10,13 @@ import com.sparta.moim.user.application.dto.ProcessSignupCommand;
 import com.sparta.moim.user.application.dto.SignupUserResult;
 import com.sparta.moim.user.application.dto.UpdateUserCommand;
 import com.sparta.moim.user.application.dto.UpdateUserResult;
-import com.sparta.moim.user.application.dto.UserSummaryResult;
 import com.sparta.moim.user.application.dto.UserSummaryQuery;
+import com.sparta.moim.user.application.dto.UserSummaryResult;
 import com.sparta.moim.user.application.exception.AlreadyExistsUsernameException;
 import com.sparta.moim.user.application.exception.UserNotFoundException;
 import com.sparta.moim.user.application.mapper.UserDataAccessMapper;
+import com.sparta.moim.user.domain.UserRepository;
 import com.sparta.moim.user.domain.model.User;
-import com.sparta.moim.user.domain.repository.UserRepository;
 import com.sparta.moim.user.infrastructure.jwt.JwtUtil;
 import io.jsonwebtoken.Claims;
 import java.time.ZoneId;
@@ -68,11 +68,11 @@ public class UserService {
         .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
     String username = user.getUsername();
-    String role = user.getRole().name();
     UUID trackingId = user.getTrackingId();
 
+    UUID jti = UUID.randomUUID();
     ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
-    String accessToken = jwtUtil.createAccessToken(username, role, trackingId, now);
+    String accessToken = jwtUtil.createAccessToken(username, trackingId, jti, now);
     ResponseCookie accessTokenCookie = jwtUtil.createAccessTokenCookie(accessToken);
 
     return new AccessTokenRefreshResult(accessTokenCookie);
