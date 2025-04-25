@@ -1,7 +1,7 @@
 package com.sparta.moim.user.infrastructure.service;
 
 import com.sparta.moim.user.domain.model.User;
-import com.sparta.moim.user.domain.repository.UserRepository;
+import com.sparta.moim.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
