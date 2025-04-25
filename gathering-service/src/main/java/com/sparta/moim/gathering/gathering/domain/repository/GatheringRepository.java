@@ -12,4 +12,6 @@ public interface GatheringRepository {
   boolean existsByNameAndDeletedAtIsNull(String name);
 
   boolean existsByNameAndDeletedAtIsNullAndTrackingIdNot(String name, UUID trackingId);
+
+  String findOrganizationId(UUID gatheringId);
 }
