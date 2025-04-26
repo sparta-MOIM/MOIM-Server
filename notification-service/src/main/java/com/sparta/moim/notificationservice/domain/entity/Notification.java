@@ -44,12 +44,9 @@ public class Notification extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private NotificationType notificationType;
 
-    @Column(name="organization_tracking_id", length = 36, nullable = false)
+    @Column(name="access_tracking_id", length = 36, nullable = false)
     @JdbcTypeCode(Types.VARCHAR)
-    private UUID organizationTrackingId;
-
-    @Column(name="organization_name", nullable = false)
-    private String organizationName;
+    private UUID accessTrackingId;
 
     @Column(name="receiver_tracking_id", length = 36, nullable = false)
     @JdbcTypeCode(Types.VARCHAR)
@@ -61,12 +58,11 @@ public class Notification extends BaseEntity {
     @Column(name="is_read", nullable = false)
     private Boolean isRead;
 
-    public static Notification from(ApplyOrganizationNotificationCommand command, String reciverTrackingId, String content) {
+    public static Notification from(ApplyOrganizationNotificationCommand command, String receiverTrackingId, String content) {
         return Notification.builder()
                 .notificationType(command.getNotificationType())
-                .organizationTrackingId(UUID.fromString(command.getOrganizationTrackingId()))
-                .organizationName(command.getOrganizationName())
-                .receiverTrackingId(UUID.fromString(reciverTrackingId))
+                .accessTrackingId(UUID.fromString(command.getOrganizationTrackingId()))
+                .receiverTrackingId(UUID.fromString(receiverTrackingId))
                 .content(content)
                 .isRead(false)
                 .build();
