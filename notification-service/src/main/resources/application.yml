@@ -1,28 +1,30 @@
+server:
+  port: 8081
+
 spring:
   application:
     name: notification-service
+
   security:
     user:
-      name: user
-      password: 1234
+      name: ${SECURITY_USER_NAME}
+      password: ${SECURITY_USER_PASSWORD}
+
   datasource:
-    url: jdbc:mysql://localhost:3307/notification_db
-    username: root
-    password: 1234
+    url: ${NOTIFICATION_DB_URL}
+    username: ${NOTIFICATION_DB_USERNAME}
+    password: ${NOTIFICATION_DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
-
-server:
-  port: 8081
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:19090/eureka/
+      defaultZone: ${EUREKA_URL}
     register-with-eureka: true
     fetch-registry: true
