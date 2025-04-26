@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
@@ -18,6 +19,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class OrganizationCacheService {
 
     private final RedisTemplate<String, Object> redisTemplate;
@@ -41,6 +43,7 @@ public class OrganizationCacheService {
     public void cacheMemberInfo(OrganizationMemberCache member) {
         String memberKey = generateMemberKey(member.getOrganizationTrackingId(), member.getUserTrackingId());
         valueOps.set(memberKey, member, Duration.ofSeconds(TTL));
+        log.info("Cache 저장Member: " + member.getOrganizationTrackingId() + ", memberTackingID " + member.getUserTrackingId());
     }
 
     // 여러 멤버 정보 한 번에 캐싱 (벌크 작업)
@@ -93,6 +96,7 @@ public class OrganizationCacheService {
         String memberKey = generateMemberKey(organizationTrackingId, userTrackingId);
         OrganizationMemberCache member = (OrganizationMemberCache) valueOps.get(memberKey);
 
+        log.info("Cache 타겟성공!!! 조회Member: " + organizationTrackingId + ", memberTackingID " + userTrackingId);
         // 캐시 히트 시 TTL 갱신
         if (member != null) {
             redisTemplate.expire(memberKey, Duration.ofSeconds(TTL));
