@@ -48,6 +48,13 @@ dependencies {
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
+	//Monitoring
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'io.micrometer:micrometer-registry-prometheus'
+	implementation 'org.hibernate.orm:hibernate-core:6.3.1.Final'
+	implementation 'org.hibernate:hibernate-micrometer:6.3.1.Final'
+	implementation 'io.micrometer:micrometer-core'
+
 
 }
 

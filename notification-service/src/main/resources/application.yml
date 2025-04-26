@@ -21,6 +21,9 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
+    properties:
+      hibernate:
+        generate_statistics: true
 
 eureka:
   client:
@@ -28,3 +31,18 @@ eureka:
       defaultZone: ${EUREKA_URL}
     register-with-eureka: true
     fetch-registry: true
+
+management:
+  #  server:
+  #    port: 10100
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, metrics
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+  endpoint:
+    prometheus:
+      access: unrestricted

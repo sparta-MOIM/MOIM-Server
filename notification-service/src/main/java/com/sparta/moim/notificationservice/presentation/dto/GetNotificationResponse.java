@@ -10,7 +10,6 @@ public class GetNotificationResponse {
 
     private String notificationTrackingId;
     private String organizationTrackingId;
-    private String organizationName;
     private String content;
     private String isRead;
     private LocalDateTime receivedAt;
