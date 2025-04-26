@@ -29,11 +29,7 @@ public class CheckRoleService {
         OrganizationMember member = organizationMemberRepository
                 .findByUserTrackingIdAndOrganizationTrackingId(userTrackingId, organizationTrackingId).orElse(null);
 
-        if(member == null){
-            return false;
-        }
-
-        if(!roles.contains(member.getRole())){
+        if(member == null || roles==null || !roles.contains(member.getRole())){
             return false;
         }
 

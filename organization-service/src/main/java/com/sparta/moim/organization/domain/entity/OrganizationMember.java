@@ -82,4 +82,8 @@ public class OrganizationMember extends BaseEntity {
     public void updateInfo(UpdateMemberInfoCommand command) {
         this.nickname = command.getNickname();
     }
+
+    public void updateRole(OrganizationMemberRole role) {
+        this.role = role;
+    }
 }

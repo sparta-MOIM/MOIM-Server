@@ -2,6 +2,7 @@ package com.sparta.moim.organization.presentation.controller.in;
 
 import com.sparta.moim.common.page.Pagination;
 import com.sparta.moim.common.response.ApiResponseData;
+import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.organization.application.usecase.CreateOrganizationUseCase;
 import com.sparta.moim.organization.application.usecase.DeleteOrganizationUseCase;
 import com.sparta.moim.organization.application.usecase.GetOrganizationUseCase;
@@ -14,6 +15,7 @@ import com.sparta.moim.organization.presentation.mapper.CommandMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,8 +38,8 @@ public class OrganizationController {
     private final CommandMapper commandMapper;
 
     @PostMapping
-    public ResponseEntity<ApiResponseData<String>> createOrganization(@RequestBody @Valid CreateOrganizationRequest request) {
-        createOrganizationUseCase.execute(commandMapper.toCommand(request));
+    public ResponseEntity<ApiResponseData<String>> createOrganization(@AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody @Valid CreateOrganizationRequest request) {
+        createOrganizationUseCase.execute(customUserDetails.getTrackingId().toString(),commandMapper.toCommand(request));
         return ResponseEntity.ok(ApiResponseData.success(null));
     }
 
