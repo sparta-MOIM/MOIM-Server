@@ -2,6 +2,7 @@ package com.sparta.moim.notificationservice.domain.entity;
 
 import com.sparta.moim.common.utils.BaseEntity;
 import com.sparta.moim.notificationservice.application.dto.command.ApplyOrganizationNotificationCommand;
+import com.sparta.moim.notificationservice.application.dto.command.UnReadPostNotificationCommand;
 import com.sparta.moim.notificationservice.domain.enums.NotificationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -62,6 +63,16 @@ public class Notification extends BaseEntity {
         return Notification.builder()
                 .notificationType(command.getNotificationType())
                 .accessTrackingId(UUID.fromString(command.getOrganizationTrackingId()))
+                .receiverTrackingId(UUID.fromString(receiverTrackingId))
+                .content(content)
+                .isRead(false)
+                .build();
+    }
+
+    public static Notification from(UnReadPostNotificationCommand command, String receiverTrackingId, String content) {
+        return Notification.builder()
+                .notificationType(command.getNotificationType())
+                .accessTrackingId(UUID.fromString(command.getPostTrackingId()))
                 .receiverTrackingId(UUID.fromString(receiverTrackingId))
                 .content(content)
                 .isRead(false)

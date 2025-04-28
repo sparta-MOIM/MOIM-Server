@@ -12,7 +12,7 @@ public enum NotificationType {
     CHAT_MESSAGE("채팅 메시지"),
     SESSION_OPEN("세션 오픈"),
     SESSION_CLOSE("세션 종료"),
-    REQUEST_POST_CHECK("게시물 확인 요청"),
+    UNREAD_USERS("게시물 확인 요청"),
     ;
 
     private final String description;
