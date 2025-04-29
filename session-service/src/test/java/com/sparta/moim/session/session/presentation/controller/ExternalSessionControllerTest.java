@@ -235,7 +235,7 @@ class ExternalSessionControllerTest {
                     fieldWithPath("data.applyInfo.applyTime").description("신청 시간"),
                     fieldWithPath("data.applyInfo.confirmTime").description("승인 시간"),
                     fieldWithPath("data.applyInfo.reason").description("신청 사유"),
-                    fieldWithPath("data.member[].id").description("참가자 명"),
+                    fieldWithPath("data.member[].id").description("참가자 ID"),
                     fieldWithPath("data.member[].type").description("참가자 타입")
                 )
                 .build()

@@ -86,7 +86,7 @@ class InternalMemberControllerTest {
                 .pathParameters(
                     parameterWithName("sessionId").description("세션 아이디")
                 ).responseFields(
-                    fieldWithPath("[].id").description("참여한 참가자 명"),
+                    fieldWithPath("[].id").description("참여한 참가자 ID"),
                     fieldWithPath("[].type").description("참가한 참가자 타입"))
                 .build()
             )));
