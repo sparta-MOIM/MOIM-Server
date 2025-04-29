@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 @Builder(access = AccessLevel.PRIVATE)
 public class ApplyOrganizationNotificationMessage {
 
-    private NotificationType notificationType;
     private String organizationTrackingId;
     private String organizationName;
     private String userTrackingId;
@@ -22,14 +21,12 @@ public class ApplyOrganizationNotificationMessage {
     private List<String> receiverTrackingIds;
 
     public static ApplyOrganizationNotificationMessage of(
-            NotificationType notificationType,
             String organizationTrackingId,
             String organizationName,
             String userTrackingId,
             String username,
             List<String> receiverTrackingIds) {
         return ApplyOrganizationNotificationMessage.builder()
-                .notificationType(notificationType)
                 .organizationTrackingId(organizationTrackingId)
                 .organizationName(organizationName)
                 .userTrackingId(userTrackingId)

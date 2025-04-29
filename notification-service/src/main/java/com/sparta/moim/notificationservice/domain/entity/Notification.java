@@ -61,7 +61,7 @@ public class Notification extends BaseEntity {
 
     public static Notification from(ApplyOrganizationNotificationCommand command, String receiverTrackingId, String content) {
         return Notification.builder()
-                .notificationType(command.getNotificationType())
+                .notificationType(NotificationType.ORGANIZATION_MOIM_REQUEST)
                 .accessTrackingId(UUID.fromString(command.getOrganizationTrackingId()))
                 .receiverTrackingId(UUID.fromString(receiverTrackingId))
                 .content(content)
@@ -71,7 +71,7 @@ public class Notification extends BaseEntity {
 
     public static Notification from(UnReadPostNotificationCommand command, String receiverTrackingId, String content) {
         return Notification.builder()
-                .notificationType(command.getNotificationType())
+                .notificationType(NotificationType.UNREAD_USERS)
                 .accessTrackingId(UUID.fromString(command.getPostTrackingId()))
                 .receiverTrackingId(UUID.fromString(receiverTrackingId))
                 .content(content)

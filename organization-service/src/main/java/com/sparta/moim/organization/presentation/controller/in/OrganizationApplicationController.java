@@ -31,7 +31,7 @@ public class OrganizationApplicationController {
 
     @PostMapping
     public ResponseEntity<ApiResponseData<String>> applyOrganization(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable String organizationTrackingId, @RequestBody @Valid ApplyOrganizationRequest applyOrganizationRequest){
-        applyOrganizationUseCase.execute(organizationTrackingId, customUserDetails.getTrackingId().toString(), commandMapper.toCommand(applyOrganizationRequest));
+        applyOrganizationUseCase.execute(organizationTrackingId, customUserDetails.getTrackingId().toString(),  customUserDetails.getUsername(),commandMapper.toCommand(applyOrganizationRequest));
         return ResponseEntity.ok(ApiResponseData.success(null));
     }
 

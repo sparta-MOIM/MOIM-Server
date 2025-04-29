@@ -4,5 +4,5 @@ import com.sparta.moim.organization.application.dto.command.ApplyOrganizationCom
 import com.sparta.moim.organization.presentation.dto.ApplyOrganizationRequest;
 
 public interface ApplyOrganizationUseCase {
-    void execute(String organizationTrackingId, String userTrackingId, ApplyOrganizationCommand applyOrganizationCommand);
+    void execute(String organizationTrackingId, String userTrackingId,String username, ApplyOrganizationCommand applyOrganizationCommand);
 }

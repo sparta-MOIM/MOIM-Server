@@ -32,7 +32,9 @@ public class ApplyOrganizationService implements ApplyOrganizationUseCase {
 
     @Override
     @Transactional
-    public void execute(String organizationTrackingId, String userTrackingId,
+    public void execute(String organizationTrackingId,
+                        String userTrackingId,
+                        String username,
                         ApplyOrganizationCommand applyOrganizationCommand) {
 
         Organization organization = organizationRepository.findByTrackingId(organizationTrackingId).orElseThrow(
@@ -55,16 +57,12 @@ public class ApplyOrganizationService implements ApplyOrganizationUseCase {
                 .map(String::valueOf)
                 .toList();
 
-        log.info("받는 사람 정보 : " + organizationMembersTrackingIds.get(0).toString());
-
-
         applyOrganizationNotificationProducer.send(
                 ApplyOrganizationNotificationMessage.of(
-                        NotificationType.ORGANIZATION_MOIM_REQUEST,
                         organizationTrackingId,
                         organization.getOrganizationName(),
                         userTrackingId,
-                        "테스터", //todo - username을 헤더에서 꺼내서 보내줌.
+                        username,
                         organizationMembersTrackingIds
                 )
         );

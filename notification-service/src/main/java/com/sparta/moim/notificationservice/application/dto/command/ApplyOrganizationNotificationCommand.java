@@ -11,7 +11,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ApplyOrganizationNotificationCommand {
 
-    private NotificationType notificationType;
     private String organizationTrackingId;
     private String organizationName;
     private String userTrackingId;

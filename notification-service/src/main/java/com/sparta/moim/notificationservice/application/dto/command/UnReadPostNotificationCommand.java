@@ -10,7 +10,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class UnReadPostNotificationCommand {
-    private NotificationType notificationType;
     private String postTrackingId;
     private String organizationName;
     private List<String> receiverTrackingIds;
