@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,14 +28,28 @@ public class MemberService {
   private final SessionInternalService sessionService;
   private final HandleSessionMemberCountPublisher handleSessionMemberCountPublisher;
 
+
+  @Value("${spring.data.redis.stream-join-key}")
+  private String streamJoinKey;
+
+  @Value("${spring.data.redis.stream-leave-key}")
+  private String streamLeaveKey;
+
+  private final RedisTemplate<String, Member> redisTemplate;
+
   @Transactional
   public void joinMember(JoinMemberCommand command) {
     joinValidate(command.sessionId(), command.username());
-    memberRepository.save(Member.builder()
+    Member member = Member.builder()
         .sessionId(command.sessionId())
         .type(MemberType.GENERAL)
         .memberName(command.username())
-        .build());
+        .build();
+
+//    memberRepository.save(member);
+
+    redisTemplate.opsForStream().add(streamJoinKey, member.toMap());
+
     handleSessionMemberCountPublisher.increase(command.sessionId(), command.username());
   }
 
