@@ -13,7 +13,6 @@ import com.sparta.moim.session.session.application.dto.result.GetSessionMemberLi
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionResult;
 import com.sparta.moim.session.session.application.event.feign.MemberInternalService;
-import com.sparta.moim.session.session.application.event.feign.OrganizationService;
 import com.sparta.moim.session.session.application.event.publisher.AddMemberPublisher;
 import com.sparta.moim.session.session.application.event.publisher.RemoveMemberPublisher;
 import com.sparta.moim.session.session.domain.entity.Session;
@@ -24,6 +23,7 @@ import com.sparta.moim.session.shared.enums.OrganizationMemberRole;
 import com.sparta.moim.session.shared.enums.SessionStatus;
 import com.sparta.moim.session.shared.error.code.SessionCode;
 import com.sparta.moim.session.shared.error.exception.SessionException;
+import com.sparta.moim.session.shared.feign.OrganizationService;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -39,7 +39,7 @@ public class SessionService {
   private final AddMemberPublisher addMemberPublisher;
   private final RemoveMemberPublisher removeMemberPublisher;
   private final MemberInternalService memberService;
-  private final OrganizationService organizationService;
+  private final OrganizationService organizationSessionService;
 
   @Transactional
   public CreateSessionResult createSession(CreateSessionCommand command) {
@@ -118,7 +118,7 @@ public class SessionService {
 
   private void checkSessionApply(UUID organizationId, UUID userId) {
     List<OrganizationMemberRole> roles = List.of(OrganizationMemberRole.MANAGER, OrganizationMemberRole.MANAGER);
-    ApiResponseData<Boolean> check = organizationService.checkRole(organizationId, userId, roles);
+    ApiResponseData<Boolean> check = organizationSessionService.checkRole(organizationId, userId, roles);
 
     if(!Objects.equals(check.getCode(), CommonCode.SUCCESS.getCode())) {
       throw new SessionException(SessionCode.NOT_CONNECTED_SESSION);

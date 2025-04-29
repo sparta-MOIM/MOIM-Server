@@ -1,7 +1,6 @@
-package com.sparta.moim.session.member.infrastructure.event.feign;
+package com.sparta.moim.session.shared.feign;
 
 import com.sparta.moim.common.response.ApiResponseData;
-import com.sparta.moim.session.member.application.event.feign.OrganizationService;
 import com.sparta.moim.session.shared.enums.OrganizationMemberRole;
 import java.util.List;
 import java.util.UUID;

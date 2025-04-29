@@ -7,7 +7,6 @@ import com.sparta.moim.session.member.application.dto.command.JoinMemberCommand;
 import com.sparta.moim.session.member.application.dto.command.LeaveMemberCommand;
 import com.sparta.moim.session.member.application.dto.command.RemoveMemberCommand;
 import com.sparta.moim.session.member.application.dto.result.GetMemberListResult;
-import com.sparta.moim.session.member.application.event.feign.OrganizationService;
 import com.sparta.moim.session.member.application.event.feign.SessionInternalService;
 import com.sparta.moim.session.member.application.event.publisher.HandleSessionMemberCountPublisher;
 import com.sparta.moim.session.member.domain.entity.Member;
@@ -18,6 +17,7 @@ import com.sparta.moim.session.session.domain.repository.SessionRepository;
 import com.sparta.moim.session.shared.enums.OrganizationMemberRole;
 import com.sparta.moim.session.shared.error.code.SessionCode;
 import com.sparta.moim.session.shared.error.exception.SessionException;
+import com.sparta.moim.session.shared.feign.OrganizationService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +39,7 @@ public class MemberService {
   private final MemberRepository memberRepository;
   private final SessionInternalService sessionService;
   private final HandleSessionMemberCountPublisher handleSessionMemberCountPublisher;
-  private final OrganizationService organizationService;
+  private final OrganizationService organizationMemberService;
   private final SessionRepository sessionRepository;
 
   @Value("${spring.data.redis.stream-join-key}")
@@ -96,7 +96,7 @@ public class MemberService {
     List<OrganizationMemberRole> roles = List.of(OrganizationMemberRole.MEMBER, OrganizationMemberRole.MASTER,
         OrganizationMemberRole.MANAGER);
 
-    ApiResponseData<Boolean> check = organizationService.checkRole(organizationId, userId, roles);
+    ApiResponseData<Boolean> check = organizationMemberService.checkRole(organizationId, userId, roles);
 
     if (!Objects.equals(check.getCode(), CommonCode.SUCCESS.getCode())) {
       throw new SessionException(SessionCode.NOT_CONNECTED_SESSION);

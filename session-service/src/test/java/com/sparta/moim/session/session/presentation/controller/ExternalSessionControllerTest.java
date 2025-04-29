@@ -53,7 +53,6 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureRestDocs
 @WebMvcTest(ExternalSessionController.class)
 @AutoConfigureMockMvc(addFilters = false)
-@ActiveProfiles("test")
 class ExternalSessionControllerTest {
   @Autowired
   private MockMvc mockMvc;

@@ -1,4 +1,4 @@
-package com.sparta.moim.session.member.application.event.feign;
+package com.sparta.moim.session.shared.feign;
 
 import com.sparta.moim.common.response.ApiResponseData;
 import com.sparta.moim.session.shared.enums.OrganizationMemberRole;
