@@ -6,11 +6,11 @@ import java.util.UUID;
 
 public interface MemberRepository {
   Member save(Member member);
-  void deleteMemberBySessionId(UUID sessionId, String memberName);
+  void deleteMemberBySessionId(UUID sessionId, UUID memberId);
   void removeMembers(UUID uuid, List<String> members);
 
   List<Member> findAllBySessionId(UUID sessionId);
-  boolean existsBySessionIdAndMemberName(UUID sessionId, String memberName);
+  boolean existsBySessionIdAndMemberId(UUID sessionId, UUID memberId);
 
   void deleteAllBySessionId(UUID sessionId);
 

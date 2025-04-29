@@ -80,7 +80,7 @@ class ExternalSessionControllerTest {
 
     CreateSessionRequest request = CreateSessionRequest.builder()
         .organizationId(organizationId)
-        .publisher(username)
+        .publisher(userId)
         .title("스파르타 세션")
         .totalCount(15)
         .openTime(LocalDateTime.now())
@@ -161,14 +161,18 @@ class ExternalSessionControllerTest {
   void getSession_success() throws Exception {
     // given
     UUID sessionId = UUID.randomUUID();
+
+    UUID publisher = UUID.randomUUID();
+    UUID user1 = UUID.randomUUID();
+    UUID user2 = UUID.randomUUID();
     GetSessionResult response = GetSessionResult.builder()
         .organizationId("org123")
         .sessionId(sessionId)
         .status(SessionStatus.OPEN)
         .title("test")
         .member(List.of(
-            new GetSessionMemberListResult("user1", "PUBLISHER"),
-            new GetSessionMemberListResult("user2", "GENERAL")
+            new GetSessionMemberListResult(user1, "PUBLISHER"),
+            new GetSessionMemberListResult(user2, "GENERAL")
         ))
         .openTime(LocalDateTime.now())
         .applyTime(LocalDateTime.now())
@@ -177,7 +181,7 @@ class ExternalSessionControllerTest {
         .reason("test")
         .totalCount(10)
         .currentCount(2)
-        .publisher("test")
+        .publisher(publisher)
         .build();
 
     when(sessionService.getSession(any()))
@@ -198,11 +202,11 @@ class ExternalSessionControllerTest {
         .andExpect(jsonPath("$.data.memberCount.total").value(10))
         .andExpect(jsonPath("$.data.memberCount.current").value(2))
         .andExpect(jsonPath("$.data.member").isArray())
-        .andExpect(jsonPath("$.data.member[0].name").value("user1"))
+        .andExpect(jsonPath("$.data.member[0].id").value(user1.toString()))
         .andExpect(jsonPath("$.data.member[0].type").value("PUBLISHER"))
-        .andExpect(jsonPath("$.data.member[1].name").value("user2"))
+        .andExpect(jsonPath("$.data.member[1].id").value(user2.toString()))
         .andExpect(jsonPath("$.data.member[1].type").value("GENERAL"))
-        .andExpect(jsonPath("$.data.publisher").value("test"))
+        .andExpect(jsonPath("$.data.publisher").value(publisher.toString()))
         .andExpect(jsonPath("$.data.applyInfo.applyTime").exists())
         .andExpect(jsonPath("$.data.applyInfo.confirmTime").exists())
         .andExpect(jsonPath("$.data.applyInfo.reason").value("test"))
@@ -232,7 +236,7 @@ class ExternalSessionControllerTest {
                     fieldWithPath("data.applyInfo.applyTime").description("신청 시간"),
                     fieldWithPath("data.applyInfo.confirmTime").description("승인 시간"),
                     fieldWithPath("data.applyInfo.reason").description("신청 사유"),
-                    fieldWithPath("data.member[].name").description("참가자 명"),
+                    fieldWithPath("data.member[].id").description("참가자 명"),
                     fieldWithPath("data.member[].type").description("참가자 타입")
                 )
                 .build()
@@ -377,6 +381,7 @@ class ExternalSessionControllerTest {
     UUID userId = UUID.randomUUID();
     String username = "testUser";
     String role = "USER";
+    UUID publisher = UUID.randomUUID();
 
     SearchSessionRequest request = SearchSessionRequest.builder()
         .title("title")
@@ -402,7 +407,7 @@ class ExternalSessionControllerTest {
     List<SearchSessionListResult> sessions = List.of(
         SearchSessionListResult.builder()
             .title("title")
-            .publisher("publisher")
+            .publisher(publisher)
             .build()
     );
 
@@ -437,7 +442,7 @@ class ExternalSessionControllerTest {
         .andExpect(jsonPath("$.data.sessions").isArray())
         .andExpect(jsonPath("$.data.sessions.length()").value(1))
         .andExpect(jsonPath("$.data.sessions[0].title").value("title"))
-        .andExpect(jsonPath("$.data.sessions[0].publisher").value("publisher"))
+        .andExpect(jsonPath("$.data.sessions[0].publisher").value(publisher.toString()))
         .andExpect(jsonPath("$.data.page").value(0))
         .andExpect(jsonPath("$.data.content").value(1))
         .andExpect(jsonPath("$.data.total").value(1))

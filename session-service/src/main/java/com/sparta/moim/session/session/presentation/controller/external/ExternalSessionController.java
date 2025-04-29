@@ -37,7 +37,7 @@ public class ExternalSessionController {
   public ResponseEntity<ApiResponseData<CreateSessionResponse>> createSession(@RequestBody @Valid CreateSessionRequest request,
                                                                              @AuthenticationPrincipal CustomUserDetails details) {
     return ResponseEntity.ok(ApiResponseData.success(CreateSessionResponse.create(
-        sessionService.createSession(request.toCommand(details.getUsername(), details.getRole())))));
+        sessionService.createSession(request.toCommand(details.getTrackingId(), details.getRole())))));
   }
 
 

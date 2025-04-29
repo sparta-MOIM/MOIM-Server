@@ -47,10 +47,10 @@ public class MemberService {
   @Transactional
   public void joinMember(JoinMemberCommand command) {
     UUID sessionId = command.sessionId();
-    String username = command.username();
-    joinValidate(sessionId, username);
+    UUID userId = command.userId();
+    joinValidate(sessionId, userId);
 
-    String lockKey = "join:" + sessionId + ":" + username;
+    String lockKey = "join:" + sessionId + ":" + userId;
     RLock lock = redissonClient.getLock(lockKey);
 
     try {
@@ -58,15 +58,15 @@ public class MemberService {
       boolean isLocked = lock.tryLock(10, 30, TimeUnit.SECONDS);
       if (isLocked) {
         try {
-          joinValidate(command.sessionId(), command.username());
+          joinValidate(command.sessionId(), command.userId());
           Member member = Member.builder()
               .sessionId(command.sessionId())
               .type(MemberType.GENERAL)
-              .memberName(command.username())
+              .memberId(command.userId())
               .build();
 
           redisTemplate.opsForStream().add(streamJoinKey, member.toMap());
-          handleSessionMemberCountPublisher.increase(command.sessionId(), command.username());
+          handleSessionMemberCountPublisher.increase(command.sessionId(), command.userId());
         } finally {
           // 락 해제
           lock.unlock();
@@ -79,16 +79,16 @@ public class MemberService {
 
   }
 
-  private void joinValidate(UUID sessionId, String memberName) {
+  private void joinValidate(UUID sessionId, UUID memberId) {
     sessionService.getSessionValidate(sessionId);
     sessionService.getSessionValidateTime(sessionId);
     sessionService.getSessionValidateOpenStatus(sessionId);
-    isAlreadyParticipation(sessionId, memberName);
+    isAlreadyParticipation(sessionId, memberId);
 
   }
 
-  private void isAlreadyParticipation(UUID sessionId, String username) {
-    if (memberRepository.existsBySessionIdAndMemberName(sessionId, username)) {
+  private void isAlreadyParticipation(UUID sessionId, UUID userId) {
+    if (memberRepository.existsBySessionIdAndMemberId(sessionId, userId)) {
       throw new SessionException(SessionCode.ALREADY_PARTICIPATE_SESSION);
     }
   }
@@ -98,9 +98,9 @@ public class MemberService {
 //    memberRepository.deleteMemberBySessionId(command.sessionId(), command.username());
 
     UUID sessionId = command.sessionId();
-    String username = command.username();
+    UUID userId = command.userId();
 
-    String lockKey = "leave:" + sessionId + ":" + username;
+    String lockKey = "leave:" + sessionId + ":" + userId;
     RLock lock = redissonClient.getLock(lockKey);
     // 락 획득 시도 (10초 대기, 30초 유지)
     try {
@@ -110,9 +110,9 @@ public class MemberService {
         if (isLocked) {
           Map<String, String> map = new HashMap<>();
           map.put("session_id", command.sessionId().toString());
-          map.put("member_id", command.username());
+          map.put("member_id", command.userId().toString());
           redisTemplate.opsForStream().add(streamLeaveKey, map);
-          handleSessionMemberCountPublisher.decrease(command.sessionId(), command.username());
+          handleSessionMemberCountPublisher.decrease(command.sessionId(), command.userId());
         }
 
       } finally {

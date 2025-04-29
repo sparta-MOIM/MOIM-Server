@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 public class AddMemberPublisherImpl implements AddMemberPublisher {
   private final ApplicationEventPublisher publisher;
 
-  public void add(UUID sessionId, String memberName) {
+  public void add(UUID sessionId, UUID memberId) {
     publisher.publishEvent(SharedSessionMember.builder()
         .sessionId(sessionId)
-        .memberName(memberName)
+        .memberId(memberId)
         .type(MemberType.PUBLISHER.name())
         .build());
   }

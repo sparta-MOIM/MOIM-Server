@@ -20,7 +20,7 @@ public class RedisStreamLeaveListener implements StreamListener<String, MapRecor
   public void onMessage(MapRecord<String, String, String> message) {
     try {
       UUID gatheringId = UUID.fromString(message.getValue().get("session_id"));
-      String memberId = message.getValue().get("member_id");
+      UUID memberId = UUID.fromString(message.getValue().get("member_id"));
       log.info("멤버 퇴장 이벤트 수신: gatheringId={}, memberId={}", gatheringId, memberId);
       memberRepository.deleteMemberBySessionId(gatheringId, memberId);
     } catch (Exception e) {

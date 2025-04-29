@@ -5,4 +5,4 @@ import lombok.Builder;
 
 
 @Builder
-public record SharedSessionMember(String memberName, UUID sessionId, String type) {}
+public record SharedSessionMember(UUID memberId, UUID sessionId, String type) {}
