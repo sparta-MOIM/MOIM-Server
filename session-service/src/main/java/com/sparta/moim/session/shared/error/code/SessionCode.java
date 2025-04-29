@@ -18,6 +18,7 @@ public enum SessionCode implements Code {
   NOT_OPEN_SESSION(HttpStatus.BAD_REQUEST, "S007", "this session is not open"),
   NOT_CONNECTED_SESSION(HttpStatus.BAD_REQUEST, "S008", "this session is not connected"),
   ROLE_NOT_ALLOWED_SESSION(HttpStatus.BAD_REQUEST,"S009", "You are not allowed to gather this role"),
+  OPEN_ALLOWED_SESSION(HttpStatus.BAD_REQUEST,"S010", "매니저 이상만 세션승인을 할 수 있습니다."),
 
   ;
 

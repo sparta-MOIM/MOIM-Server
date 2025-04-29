@@ -34,8 +34,9 @@ public class ExternalSessionController {
   private final SessionService sessionService;
 
   @PostMapping
-  public ResponseEntity<ApiResponseData<CreateSessionResponse>> createSession(@RequestBody @Valid CreateSessionRequest request,
-                                                                             @AuthenticationPrincipal CustomUserDetails details) {
+  public ResponseEntity<ApiResponseData<CreateSessionResponse>> createSession(
+      @RequestBody @Valid CreateSessionRequest request,
+      @AuthenticationPrincipal CustomUserDetails details) {
     return ResponseEntity.ok(ApiResponseData.success(CreateSessionResponse.create(
         sessionService.createSession(request.toCommand(details.getTrackingId(), details.getRole())))));
   }
@@ -47,33 +48,38 @@ public class ExternalSessionController {
   }
 
   @GetMapping
-  public ResponseEntity<ApiResponseData<SearchSessionResponse>> searchSession(@ModelAttribute SearchSessionRequest request, @AuthenticationPrincipal CustomUserDetails details) {
+  public ResponseEntity<ApiResponseData<SearchSessionResponse>> searchSession(
+      @ModelAttribute SearchSessionRequest request, @AuthenticationPrincipal CustomUserDetails details) {
     return ResponseEntity.ok(ApiResponseData.success(
         SearchSessionResponse.search(sessionService.searchSession(request.toCommand(details.getRole())))));
   }
 
 
   @PutMapping("/{sessionId}")
-  public ResponseEntity<ApiResponseData<Void>> updateSession(@PathVariable UUID sessionId, @RequestBody @Valid UpdateSessionRequest request) {
+  public ResponseEntity<ApiResponseData<Void>> updateSession(@PathVariable UUID sessionId,
+                                                             @RequestBody @Valid UpdateSessionRequest request) {
     sessionService.updateSession(request.toCommand(sessionId));
     return ResponseEntity.ok(ApiResponseData.success(null));
   }
 
   @PatchMapping("/{sessionId}/status")
-  public ResponseEntity<ApiResponseData<Void>> updateStateSession(@PathVariable UUID sessionId, @RequestBody @Valid UpdateStateRequest request) {
+  public ResponseEntity<ApiResponseData<Void>> updateStateSession(@PathVariable UUID sessionId,
+                                                                  @RequestBody @Valid UpdateStateRequest request) {
     sessionService.statusUpdateSession(request.toCommand(sessionId));
     return ResponseEntity.ok(ApiResponseData.success(null));
   }
 
   @DeleteMapping("/{sessionId}")
-  public ResponseEntity<ApiResponseData<Void>> deleteSession(@PathVariable UUID sessionId, @AuthenticationPrincipal CustomUserDetails details) {
+  public ResponseEntity<ApiResponseData<Void>> deleteSession(@PathVariable UUID sessionId,
+                                                             @AuthenticationPrincipal CustomUserDetails details) {
     sessionService.deleteSession(new DeleteSessionCommand(sessionId, details.getUsername()));
     return ResponseEntity.ok(ApiResponseData.success(null));
   }
 
   @PatchMapping("/{sessionId}/apply")
-  public ResponseEntity<ApiResponseData<Void>> applySession(@PathVariable UUID sessionId) {
-    sessionService.applySession(sessionId);
+  public ResponseEntity<ApiResponseData<Void>> applySession(@PathVariable UUID sessionId,
+                                                            @AuthenticationPrincipal CustomUserDetails details) {
+    sessionService.applySession(sessionId, details.getTrackingId());
     return ResponseEntity.ok(ApiResponseData.success(null));
   }
 
