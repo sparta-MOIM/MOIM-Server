@@ -117,7 +117,7 @@ public class SessionService {
   }
 
   private void checkSessionApply(UUID organizationId, UUID userId) {
-    List<OrganizationMemberRole> roles = List.of(OrganizationMemberRole.MANAGER, OrganizationMemberRole.MANAGER);
+    List<OrganizationMemberRole> roles = List.of(OrganizationMemberRole.MASTER, OrganizationMemberRole.MANAGER);
     ApiResponseData<Boolean> check = organizationSessionService.checkRole(organizationId, userId, roles);
 
     if(!Objects.equals(check.getCode(), CommonCode.SUCCESS.getCode())) {
