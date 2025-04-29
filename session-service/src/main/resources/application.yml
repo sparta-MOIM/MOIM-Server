@@ -23,8 +23,8 @@ spring:
       group-leave-name: session_leave_group
       consumer-id: session_consumer_
       poll-timeout: 1
-      host: ${GATHERING_REDIS_HOST:localhost}
-      port: ${GATHERING_REDIS_PORT:6379}
+      host: ${SESSION_REDIS_HOST:localhost}
+      port: ${SESSION_REDIS_PORT:6379}
       timeout: 6000
       database: 0
       client-type: lettuce
