@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'com.moim.post'
-version = '1.0.0'
+version = 'latest'
 
 java {
     toolchain {

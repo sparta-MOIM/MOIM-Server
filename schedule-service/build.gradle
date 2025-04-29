@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'com.moim.schedule'
-version = '1.0.0'
+version = 'latest'
 
 java {
 	toolchain {
