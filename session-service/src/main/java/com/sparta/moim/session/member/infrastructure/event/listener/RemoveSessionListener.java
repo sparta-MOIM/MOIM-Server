@@ -1,9 +1,7 @@
 package com.sparta.moim.session.member.infrastructure.event.listener;
 
-import com.sparta.moim.session.member.domain.entity.Member;
 import com.sparta.moim.session.member.domain.repository.MemberRepository;
 import com.sparta.moim.session.shared.dto.SharedRemoveSession;
-import com.sparta.moim.session.shared.dto.SharedSessionMember;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
