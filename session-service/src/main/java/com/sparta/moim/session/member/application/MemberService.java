@@ -1,20 +1,27 @@
 package com.sparta.moim.session.member.application;
 
+import com.sparta.moim.common.response.ApiResponseData;
+import com.sparta.moim.common.response.CommonCode;
 import com.sparta.moim.session.member.application.dto.command.GetMemberCommand;
 import com.sparta.moim.session.member.application.dto.command.JoinMemberCommand;
 import com.sparta.moim.session.member.application.dto.command.LeaveMemberCommand;
 import com.sparta.moim.session.member.application.dto.command.RemoveMemberCommand;
 import com.sparta.moim.session.member.application.dto.result.GetMemberListResult;
+import com.sparta.moim.session.member.application.event.feign.OrganizationService;
 import com.sparta.moim.session.member.application.event.feign.SessionInternalService;
 import com.sparta.moim.session.member.application.event.publisher.HandleSessionMemberCountPublisher;
 import com.sparta.moim.session.member.domain.entity.Member;
 import com.sparta.moim.session.member.domain.enums.MemberType;
 import com.sparta.moim.session.member.domain.repository.MemberRepository;
+import com.sparta.moim.session.session.domain.entity.Session;
+import com.sparta.moim.session.session.domain.repository.SessionRepository;
+import com.sparta.moim.session.shared.enums.OrganizationMemberRole;
 import com.sparta.moim.session.shared.error.code.SessionCode;
 import com.sparta.moim.session.shared.error.exception.SessionException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -32,7 +39,8 @@ public class MemberService {
   private final MemberRepository memberRepository;
   private final SessionInternalService sessionService;
   private final HandleSessionMemberCountPublisher handleSessionMemberCountPublisher;
-
+  private final OrganizationService organizationService;
+  private final SessionRepository sessionRepository;
 
   @Value("${spring.data.redis.stream-join-key}")
   private String streamJoinKey;
@@ -48,6 +56,7 @@ public class MemberService {
   public void joinMember(JoinMemberCommand command) {
     UUID sessionId = command.sessionId();
     UUID userId = command.userId();
+    checkOtherOrganization(command.sessionId(), command.userId());
     joinValidate(sessionId, userId);
 
     String lockKey = "join:" + sessionId + ":" + userId;
@@ -77,6 +86,26 @@ public class MemberService {
       throw new RuntimeException("락 획득 중 인터럽트 발생", e);
     }
 
+  }
+
+  private void checkOtherOrganization(UUID SessionId, UUID userId) {
+    Session session = sessionRepository.findByTrackingIdAndDeletedAtIsNull(SessionId)
+        .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION));
+    UUID organizationId = UUID.fromString(session.getOrganizationId());
+
+    List<OrganizationMemberRole> roles = List.of(OrganizationMemberRole.MEMBER, OrganizationMemberRole.MASTER,
+        OrganizationMemberRole.MANAGER);
+
+    ApiResponseData<Boolean> check = organizationService.checkRole(organizationId, userId, roles);
+
+    if (!Objects.equals(check.getCode(), CommonCode.SUCCESS.getCode())) {
+      throw new SessionException(SessionCode.NOT_CONNECTED_SESSION);
+    }
+
+    //다른 모임에서 세션을 가입할 수 없다.
+    if (!check.getData()) {
+      throw new SessionException(SessionCode.ROLE_NOT_ALLOWED_SESSION);
+    }
   }
 
   private void joinValidate(UUID sessionId, UUID memberId) {

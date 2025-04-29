@@ -16,6 +16,8 @@ public enum SessionCode implements Code {
   TIME_OUT_SESSION(HttpStatus.BAD_REQUEST, "S005", "현재시간으로 세션에 참여하실 수 없습니다."),
   ALREADY_PARTICIPATE_SESSION(HttpStatus.BAD_REQUEST, "S006", "this session is already participate"),
   NOT_OPEN_SESSION(HttpStatus.BAD_REQUEST, "S007", "this session is not open"),
+  NOT_CONNECTED_SESSION(HttpStatus.BAD_REQUEST, "S008", "this session is not connected"),
+  ROLE_NOT_ALLOWED_SESSION(HttpStatus.BAD_REQUEST,"S009", "You are not allowed to gather this role"),
 
   ;
 
