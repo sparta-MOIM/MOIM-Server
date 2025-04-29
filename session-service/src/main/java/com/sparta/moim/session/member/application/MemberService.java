@@ -12,7 +12,9 @@ import com.sparta.moim.session.member.domain.enums.MemberType;
 import com.sparta.moim.session.member.domain.repository.MemberRepository;
 import com.sparta.moim.session.shared.error.code.SessionCode;
 import com.sparta.moim.session.shared.error.exception.SessionException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -69,7 +71,11 @@ public class MemberService {
 
   @Transactional
   public void leaveMember(LeaveMemberCommand command) {
-    memberRepository.deleteMemberBySessionId(command.sessionId(), command.username());
+//    memberRepository.deleteMemberBySessionId(command.sessionId(), command.username());
+    Map<String, String> map = new HashMap<>();
+    map.put("session_id", command.sessionId().toString());
+    map.put("member_id", command.username());
+    redisTemplate.opsForStream().add(streamLeaveKey, map);
     handleSessionMemberCountPublisher.decrease(command.sessionId(), command.username());
   }
 
