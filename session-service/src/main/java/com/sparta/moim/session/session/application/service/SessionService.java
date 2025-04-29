@@ -13,13 +13,13 @@ import com.sparta.moim.session.session.application.dto.result.SearchSessionResul
 import com.sparta.moim.session.session.application.event.feign.MemberInternalService;
 import com.sparta.moim.session.session.application.event.publisher.AddMemberPublisher;
 import com.sparta.moim.session.session.application.event.publisher.RemoveMemberPublisher;
-import com.sparta.moim.session.shared.dto.SharedRemoveSession;
-import com.sparta.moim.session.shared.error.exception.SessionException;
 import com.sparta.moim.session.session.domain.entity.Session;
-import com.sparta.moim.session.shared.enums.SessionStatus;
-import com.sparta.moim.session.shared.error.code.SessionCode;
 import com.sparta.moim.session.session.domain.repository.SessionCustomRepository;
 import com.sparta.moim.session.session.domain.repository.SessionRepository;
+import com.sparta.moim.session.shared.dto.SharedRemoveSession;
+import com.sparta.moim.session.shared.enums.SessionStatus;
+import com.sparta.moim.session.shared.error.code.SessionCode;
+import com.sparta.moim.session.shared.error.exception.SessionException;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

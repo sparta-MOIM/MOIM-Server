@@ -19,7 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.moim.common.response.ApiResponseData;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionMemberListResult;
@@ -28,13 +27,12 @@ import com.sparta.moim.session.session.application.dto.result.SearchSessionListR
 import com.sparta.moim.session.session.application.dto.result.SearchSessionResult;
 import com.sparta.moim.session.session.application.service.SessionService;
 import com.sparta.moim.session.session.presentation.controller.external.ExternalSessionController;
-import com.sparta.moim.session.session.presentation.dto.response.GetMemberCountResponse;
-import com.sparta.moim.session.shared.enums.SessionStatus;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionApplyRequest;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionRequest;
 import com.sparta.moim.session.session.presentation.dto.request.SearchSessionRequest;
 import com.sparta.moim.session.session.presentation.dto.request.UpdateSessionRequest;
 import com.sparta.moim.session.session.presentation.dto.request.UpdateStateRequest;
+import com.sparta.moim.session.shared.enums.SessionStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
