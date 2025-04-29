@@ -1,15 +1,11 @@
 spring:
-  security:
-    user:
-      name: user
-      password: 1234
   application:
     name: gathering-service
 
   datasource:
-    url: jdbc:mysql://localhost:3311/gathering_db
-    username: root
-    password: 1234
+    url: ${GATHERING_DATABASE_URL:jdbc:mysql://localhost:3311/gathering_db}
+    username: ${GATHERING_DATABASE_ID:root}
+    password: ${GATHERING_DATABASE_PASSWORD:1234}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -27,8 +23,8 @@ spring:
       group-leave-name: gathering_leave_group
       consumer-id: gathering_consumer_
       poll-timeout: 1
-      host: localhost
-      port: 6379
+      host: ${GATHERING_REDIS_HOST:localhost}
+      port: ${GATHERING_REDIS_PORT:6379}
       timeout: 6000
       database: 0
       client-type: lettuce
@@ -42,12 +38,8 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:19090/eureka/
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:19090/eureka/}
 
-
-member:
-  service:
-    url: http://localhost:8085
 
 server:
   port: 8085
@@ -62,4 +54,3 @@ springdoc:
   api-docs:
     enabled: true
     path: /api-docs-gathering-service
-
