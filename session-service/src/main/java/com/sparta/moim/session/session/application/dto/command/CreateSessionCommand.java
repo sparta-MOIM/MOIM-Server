@@ -3,6 +3,7 @@ package com.sparta.moim.session.session.application.dto.command;
 import com.sparta.moim.session.session.domain.entity.Session;
 import com.sparta.moim.session.shared.enums.SessionStatus;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import lombok.Builder;
 
 @Builder
@@ -14,7 +15,7 @@ public record CreateSessionCommand(
     LocalDateTime openTime,
     LocalDateTime closeTime,
     String reason,
-    String publisher,
+    UUID publisher,
     String role
 ) {
   public Session toDomain() {

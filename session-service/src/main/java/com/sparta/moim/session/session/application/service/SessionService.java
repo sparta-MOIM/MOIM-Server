@@ -1,6 +1,8 @@
 package com.sparta.moim.session.session.application.service;
 
 import com.sparta.moim.common.page.Pagination;
+import com.sparta.moim.common.response.ApiResponseData;
+import com.sparta.moim.common.response.CommonCode;
 import com.sparta.moim.session.session.application.dto.DeleteSessionCommand;
 import com.sparta.moim.session.session.application.dto.command.CreateSessionCommand;
 import com.sparta.moim.session.session.application.dto.command.SearchSessionCommand;
@@ -17,10 +19,13 @@ import com.sparta.moim.session.session.domain.entity.Session;
 import com.sparta.moim.session.session.domain.repository.SessionCustomRepository;
 import com.sparta.moim.session.session.domain.repository.SessionRepository;
 import com.sparta.moim.session.shared.dto.SharedRemoveSession;
+import com.sparta.moim.session.shared.enums.OrganizationMemberRole;
 import com.sparta.moim.session.shared.enums.SessionStatus;
 import com.sparta.moim.session.shared.error.code.SessionCode;
 import com.sparta.moim.session.shared.error.exception.SessionException;
+import com.sparta.moim.session.shared.feign.OrganizationService;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,6 +39,7 @@ public class SessionService {
   private final AddMemberPublisher addMemberPublisher;
   private final RemoveMemberPublisher removeMemberPublisher;
   private final MemberInternalService memberService;
+  private final OrganizationService organizationSessionService;
 
   @Transactional
   public CreateSessionResult createSession(CreateSessionCommand command) {
@@ -101,11 +107,27 @@ public class SessionService {
   }
 
   @Transactional
-  public void applySession(UUID sessionId) {
+  public void applySession(UUID sessionId, UUID userId) {
     Session session = sessionRepository.findByTrackingIdAndDeletedAtIsNull(sessionId)
         .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION));
+    checkSessionApply(UUID.fromString(session.getOrganizationId()), userId);
     validationStatusIsNotReady(session.getStatus());
     session.confirm();
+
+  }
+
+  private void checkSessionApply(UUID organizationId, UUID userId) {
+    List<OrganizationMemberRole> roles = List.of(OrganizationMemberRole.MASTER, OrganizationMemberRole.MANAGER);
+    ApiResponseData<Boolean> check = organizationSessionService.checkRole(organizationId, userId, roles);
+
+    if(!Objects.equals(check.getCode(), CommonCode.SUCCESS.getCode())) {
+      throw new SessionException(SessionCode.NOT_CONNECTED_SESSION);
+    }
+
+    // 매니저 이상만 세션 승인을 할 수 있습니다.
+    if (!check.getData()) {
+      throw new SessionException(SessionCode.OPEN_ALLOWED_SESSION);
+    }
 
   }
 
