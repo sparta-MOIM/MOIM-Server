@@ -24,7 +24,7 @@ spring:
       consumer-id: gathering_consumer_
       poll-timeout: 1
       host: ${GATHERING_REDIS_HOST:localhost}
-      port: ${GATHERING_REDIS_PORT}:6379}
+      port: ${GATHERING_REDIS_PORT:6379}
       timeout: 6000
       database: 0
       client-type: lettuce
