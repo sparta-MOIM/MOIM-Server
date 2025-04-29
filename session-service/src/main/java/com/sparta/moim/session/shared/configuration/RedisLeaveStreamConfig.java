@@ -44,20 +44,10 @@ public class RedisLeaveStreamConfig {
       StringRedisTemplate redisTemplate,
       RedisConnectionFactory factory) {
 
-    // Group 생성 로직
-    StreamOperations<String, Object, Object> streamOps = redisTemplate.opsForStream();
 
-    if (!Boolean.TRUE.equals(redisTemplate.hasKey(streamKey))) {
-      streamOps.add(streamKey, Map.of("init", "init"));
-    }
-
-    try {
-      streamOps.createGroup(streamKey, ReadOffset.latest(), groupName);
-    } catch (RedisSystemException e) {
-      if (!(e.getCause() instanceof RedisBusyException)) {
-        log.error("Redis 그룹 생성 중 오류 발생: {}", e.getMessage(), e);
-        throw e;
-      }
+    if (Boolean.FALSE.equals(redisTemplate.hasKey(streamKey))) {
+      // 키가 없으면 Dummy 메시지 추가해서 키 만든다
+      redisTemplate.boundStreamOps(streamKey).createGroup(ReadOffset.latest(), groupName);
     }
 
     var options = StreamMessageListenerContainer.StreamMessageListenerContainerOptions

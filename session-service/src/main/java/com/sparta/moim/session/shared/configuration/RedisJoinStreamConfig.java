@@ -3,6 +3,7 @@ package com.sparta.moim.session.shared.configuration;
 import com.sparta.moim.session.member.infrastructure.event.listener.redis.RedisStreamJoinListener;
 import io.lettuce.core.RedisBusyException;
 import java.time.Duration;
+import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,11 +11,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.RedisSystemException;
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.stream.Consumer;
 import org.springframework.data.redis.connection.stream.MapRecord;
 import org.springframework.data.redis.connection.stream.ReadOffset;
+import org.springframework.data.redis.connection.stream.StreamInfo;
+import org.springframework.data.redis.connection.stream.StreamInfo.XInfoGroup;
 import org.springframework.data.redis.connection.stream.StreamOffset;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StreamOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.stream.StreamMessageListenerContainer;
@@ -25,6 +30,7 @@ import org.springframework.data.redis.stream.StreamMessageListenerContainer;
 public class RedisJoinStreamConfig {
 
   private final RedisStreamJoinListener myStreamListener;
+  private final RedisTemplate<String, Object> redisTemplate;
 
   @Value("${spring.data.redis.stream-join-key}")
   private String streamKey;
@@ -43,21 +49,12 @@ public class RedisJoinStreamConfig {
       StringRedisTemplate redisTemplate,
       RedisConnectionFactory factory) {
 
-    // Group 생성 로직
-    StreamOperations<String, Object, Object> streamOps = redisTemplate.opsForStream();
 
-    if (!Boolean.TRUE.equals(redisTemplate.hasKey(streamKey))) {
-      streamOps.add(streamKey, Map.of("init", "init"));
+
+    if (Boolean.FALSE.equals(redisTemplate.hasKey(streamKey))) {
+      redisTemplate.boundStreamOps(streamKey).createGroup(ReadOffset.latest(), groupName);
     }
 
-    try {
-      streamOps.createGroup(streamKey, ReadOffset.latest(), groupName);
-    } catch (RedisSystemException e) {
-      if (!(e.getCause() instanceof RedisBusyException)) {
-        log.error("Redis 그룹 생성 중 오류 발생: {}", e.getMessage(), e);
-        throw e;
-      }
-    }
 
     var options = StreamMessageListenerContainer.StreamMessageListenerContainerOptions
         .builder()
