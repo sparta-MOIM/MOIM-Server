@@ -9,19 +9,14 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ApplyOrganizationNotificationCommand {
-
-    private String organizationTrackingId;
+public class UnReadPostNotificationCommand {
+    private String postTrackingId;
     private String organizationName;
-    private String userTrackingId;
-    private String username;
     private List<String> receiverTrackingIds;
 
     public Map<String, String> toPlaceholderMap() {
         Map<String, String> map = new HashMap<>();
-        map.put("username", username);
         map.put("organizationName", organizationName);
         return map;
     }
-
 }
