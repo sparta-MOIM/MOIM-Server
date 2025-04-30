@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         show_sql: true
@@ -25,6 +25,8 @@ spring:
       poll-timeout: 1
       host: ${SESSION_REDIS_HOST:localhost}
       port: ${SESSION_REDIS_PORT:6379}
+      username: ${SESSION_REDIS_USERNAME}
+      password: ${SESSION_REDIS_PASSWORD}
       timeout: 6000
       database: 0
       client-type: lettuce

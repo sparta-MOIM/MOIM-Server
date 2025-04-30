@@ -71,8 +71,7 @@ spring:
         - id: chat-service
           uri: lb://chat-service
           predicates:
-            - Path=/api/v1/chat/**
-            - Path=/api/v1/chat_room/**
+            - Path=/api/v1/chat/**, /api/v1/chat_room/**
           filters:
             - PassportRelayFilter
 
