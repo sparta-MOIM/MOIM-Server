@@ -1,12 +1,10 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.4.4'
-	id 'io.spring.dependency-management' version '1.1.7'
 	id 'com.epages.restdocs-api-spec' version "0.19.4"
+	id 'com.palantir.docker' version "0.35.0"
 }
 
-group = 'com.sparta.moim'
-version = '0.0.1-SNAPSHOT'
+group = 'com.sparta.session'
+version = 'latest'
 
 java {
 	toolchain {
@@ -56,6 +54,9 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
 	testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.19.2'
 
+	// redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.redisson:redisson-spring-boot-starter:3.28.0'
 	runtimeOnly 'com.h2database:h2'
 }
 
@@ -115,4 +116,12 @@ bootJar {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+docker {
+	println(tasks.bootJar.outputs.files)
+	name rootProject.name+'-'+project.name + ":" + version
+	dockerfile file('../Dockerfile')
+	files tasks.bootJar.outputs.files
+	buildArgs(['JAR_FILE': tasks.bootJar.outputs.files.singleFile.name])
 }

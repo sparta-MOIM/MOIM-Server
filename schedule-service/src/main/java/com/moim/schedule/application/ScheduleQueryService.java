@@ -1,5 +1,6 @@
 package com.moim.schedule.application;
 
+import com.moim.schedule.application.exception.NotFoundSchedule;
 import com.moim.schedule.application.query.FindQuery;
 import com.moim.schedule.application.query.SearchScheduleQuery;
 import com.moim.schedule.application.usecase.ScheduleQueryUseCase;
@@ -12,17 +13,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ScheduleQueryService implements ScheduleQueryUseCase {
 
   private final ScheduleQueryRepository repository;
 
   @Override
   public Schedule findSchedule(FindQuery query) {
-    // todo: 예외처리하기
-    return repository.findSchedule(query.id()).orElseThrow(null);
+    return repository.findSchedule(query.id()).orElseThrow(NotFoundSchedule::new);
   }
 
   @Override

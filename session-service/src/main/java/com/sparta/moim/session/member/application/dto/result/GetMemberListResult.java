@@ -1,13 +1,14 @@
 package com.sparta.moim.session.member.application.dto.result;
 
 import com.sparta.moim.session.member.domain.entity.Member;
+import java.util.UUID;
 
 public record GetMemberListResult(
-    String name,
+    UUID id,
     String type
 ) {
 
   public GetMemberListResult(Member member) {
-    this(member.getMemberName(), member.getType().name());
+    this(member.getMemberId(), member.getType().name());
   }
 }

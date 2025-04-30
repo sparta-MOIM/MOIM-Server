@@ -33,4 +33,6 @@ public record SearchGatheringCommand(
         .sort(sort)
         .build();
   }
+
 }
+

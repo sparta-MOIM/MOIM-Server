@@ -2,7 +2,9 @@ package com.moim.post.infrastructure.kafka.config;
 
 
 import com.google.common.collect.ImmutableMap;
-import com.moim.post.application.event.PostNotificationEvent;
+import com.moim.post.infrastructure.kafka.event.FeedEvent;
+import com.moim.post.infrastructure.kafka.event.PostNotificationEvent;
+import com.moim.post.infrastructure.kafka.event.VoteEvent;
 import java.util.Map;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +24,17 @@ public class ProducerConfig {
   private String bootstrapServers;
 
   @Bean
-  public ProducerFactory<String, PostNotificationEvent> messageSendProducerFactory() {
+  public ProducerFactory<String, PostNotificationEvent> postNotificationEventProducerFactory() {
+    return new DefaultKafkaProducerFactory<>(messageSendProducerConfigurations());
+  }
+
+  @Bean
+  public ProducerFactory<String, FeedEvent> feedCreateEventProducerFactory() {
+    return new DefaultKafkaProducerFactory<>(messageSendProducerConfigurations());
+  }
+
+  @Bean
+  public ProducerFactory<String, VoteEvent> voteCreateEventProducerFactory() {
     return new DefaultKafkaProducerFactory<>(messageSendProducerConfigurations());
   }
 
@@ -32,12 +44,24 @@ public class ProducerConfig {
         .put(org.apache.kafka.clients.producer.ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
         .put(org.apache.kafka.clients.producer.ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class)
         .put(org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class)
+        .put(org.apache.kafka.clients.producer.ProducerConfig.TRANSACTIONAL_ID_CONFIG, "tx-id-1")
+
         .build();
   }
 
   @Bean
-  public KafkaTemplate<String, PostNotificationEvent> messageSendKafkaTemplate() {
-    return new KafkaTemplate<>(messageSendProducerFactory());
+  public KafkaTemplate<String, PostNotificationEvent> postNotificationEventKafkaTemplate() {
+    return new KafkaTemplate<>(postNotificationEventProducerFactory());
+  }
+
+  @Bean
+  public KafkaTemplate<String, FeedEvent> feedCreateEventKafkaTemplate() {
+    return new KafkaTemplate<>(feedCreateEventProducerFactory());
+  }
+
+  @Bean
+  public KafkaTemplate<String, VoteEvent> voteCreateEventKafkaTemplate() {
+    return new KafkaTemplate<>(voteCreateEventProducerFactory());
   }
 
 }

@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'com.moim.post'
-version = '1.0.0'
+version = 'latest'
 
 java {
     toolchain {
@@ -63,6 +63,13 @@ dependencies {
     implementation 'org.springframework.kafka:spring-kafka'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
     implementation 'com.google.guava:guava:33.1.0-jre'
+
+    // security
+    implementation "org.springframework.boot:spring-boot-starter-security"
+
+    //mongoDB
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
 
 }
 

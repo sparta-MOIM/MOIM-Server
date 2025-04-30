@@ -9,11 +9,13 @@ import com.moim.post.presentation.request.SearchVoteRequest;
 import com.moim.post.presentation.response.FeedResponse;
 import com.moim.post.presentation.response.VoteResponse;
 import com.sparta.moim.common.response.ApiResponseData;
+import com.sparta.moim.common.security.CustomUserDetails;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,9 +33,12 @@ public class PostQueryController {
   private final PostPresentationMapper mapper;
 
   @GetMapping("/feeds/{id}")
-  public ResponseEntity<ApiResponseData<FeedResponse>> findFeed(@PathVariable final String id) {
+  public ResponseEntity<ApiResponseData<FeedResponse>> findFeed(
+      @PathVariable final String id,
+      @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
     log.info("Feed 조회 요청: {}", id);
-    Feed feed = useCase.findFeed(mapper.toQuery(UUID.fromString(id)));
+    Feed feed = useCase.findFeed(userDetails, mapper.toQuery(UUID.fromString(id)));
     FeedResponse response = mapper.toResponse(feed);
     log.info("Feed 조회 완료");
     return ResponseEntity.ok().body(ApiResponseData.success(response));
@@ -44,17 +49,21 @@ public class PostQueryController {
       @ModelAttribute final SearchFeedRequest request,
       @RequestParam(defaultValue = "0") final int page,
       @RequestParam(defaultValue = "10") final int size,
-      @RequestParam(defaultValue = "createdAt") final String sortType
+      @RequestParam(defaultValue = "createdAt") final String sortType,
+      @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
-    Page<FeedResponse> response = useCase.searchFeed(mapper.toQuery(request), page, size, sortType)
+    Page<FeedResponse> response = useCase.searchFeed(userDetails, mapper.toQuery(request), page, size, sortType)
         .map(mapper::toResponse);
     return ResponseEntity.ok().body(ApiResponseData.success(response));
   }
 
   @GetMapping("/votes/{id}")
-  public ResponseEntity<ApiResponseData<VoteResponse>> findVote(@PathVariable final String id) {
+  public ResponseEntity<ApiResponseData<VoteResponse>> findVote(
+      @PathVariable final String id,
+      @AuthenticationPrincipal CustomUserDetails userDetails
+  ) {
     log.info("Vote 조회 요청: {}", id);
-    Vote vote = useCase.findVote(mapper.toQuery(UUID.fromString(id)));
+    Vote vote = useCase.findVote(userDetails, mapper.toQuery(UUID.fromString(id)));
     VoteResponse response = mapper.toResponse(vote);
     log.info("Vote 조회 완료");
     return ResponseEntity.ok().body(ApiResponseData.success(response));
@@ -65,9 +74,10 @@ public class PostQueryController {
       @ModelAttribute final SearchVoteRequest request,
       @RequestParam(defaultValue = "0") final int page,
       @RequestParam(defaultValue = "10") final int size,
-      @RequestParam(defaultValue = "createdAt") final String sortType
+      @RequestParam(defaultValue = "createdAt") final String sortType,
+      @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
-    Page<VoteResponse> response = useCase.searchVote(mapper.toQuery(request), page, size, sortType)
+    Page<VoteResponse> response = useCase.searchVote(userDetails, mapper.toQuery(request), page, size, sortType)
         .map(mapper::toResponse);
     return ResponseEntity.ok().body(ApiResponseData.success(response));
   }

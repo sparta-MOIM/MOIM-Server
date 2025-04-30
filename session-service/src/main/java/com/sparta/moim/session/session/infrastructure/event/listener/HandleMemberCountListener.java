@@ -1,12 +1,10 @@
 package com.sparta.moim.session.session.infrastructure.event.listener;
 
-import com.sparta.moim.session.session.application.service.SessionService;
 import com.sparta.moim.session.session.domain.entity.Session;
 import com.sparta.moim.session.session.domain.repository.SessionRepository;
 import com.sparta.moim.session.shared.dto.SharedDecreaseMember;
 import com.sparta.moim.session.shared.dto.SharedIncreaseMember;
 import com.sparta.moim.session.shared.dto.SharedRemoveMember;
-import com.sparta.moim.session.shared.dto.SharedRemoveSession;
 import com.sparta.moim.session.shared.error.code.SessionCode;
 import com.sparta.moim.session.shared.error.exception.SessionException;
 import java.util.UUID;

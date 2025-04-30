@@ -7,7 +7,7 @@ public record CreateGatheringResponse(
     UUID gatheringId,
     String organizationId,
     String name,
-    String owner,
+    UUID owner,
     int count,
     boolean status
 ) {

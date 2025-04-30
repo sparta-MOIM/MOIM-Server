@@ -108,3 +108,5 @@ src/main/resources/log4j2.xml
 
 ### QueryDSL ###
 **/src/main/generated
+
+.scannerwork/

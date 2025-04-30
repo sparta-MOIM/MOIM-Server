@@ -4,19 +4,20 @@ import com.sparta.moim.session.session.application.dto.command.CreateSessionComm
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import lombok.Builder;
 
 @Builder
 public record CreateSessionRequest(
     @NotNull String organizationId,
-    @NotNull String publisher,
+    @NotNull UUID publisher,
     @NotNull String title,
     @PositiveOrZero int totalCount,
     @NotNull LocalDateTime openTime,
     @NotNull LocalDateTime closeTime,
     CreateSessionApplyRequest applyInfo
 ) {
-  public CreateSessionCommand toCommand(String userId, String role) {
+  public CreateSessionCommand toCommand(UUID userId, String role) {
     return CreateSessionCommand.builder()
         .organizationId(organizationId)
         .title(title)

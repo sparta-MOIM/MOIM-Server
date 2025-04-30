@@ -2,14 +2,14 @@ package com.sparta.moim.gathering.gathering.infrastructure.repository;
 
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.sparta.moim.common.page.Pagination;
 import com.sparta.moim.gathering.gathering.domain.dto.criteria.SearchGatheringCriteria;
 import com.sparta.moim.gathering.gathering.domain.entity.Gathering;
-
 import com.sparta.moim.gathering.gathering.domain.entity.QGathering;
 import com.sparta.moim.gathering.gathering.domain.repository.GatheringRepositoryCustom;
-import com.sparta.moim.common.page.Pagination;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -21,13 +21,11 @@ public class GatheringRepositoryRepositoryCustomImpl implements GatheringReposit
 
   @Override
   public Pagination<Gathering> searchGathering(SearchGatheringCriteria criteria) {
-    String username = criteria.username();
-    String role = criteria.role();
-    List<Long> gatheringIds = findGatheringIds(username, role);
+//    List<Long> gatheringIds = findGatheringIds(username, role);
 
     List<Gathering> content = query.select(gathering)
         .where(
-            nullCheckGatheringId(gatheringIds),
+//            nullCheckGatheringId(gatheringIds),
             gathering.status.eq(criteria.status()),
             nullCheckStartTime(criteria.startTime(), criteria.endTime()),
             nullCheckGatheringDeleted(criteria.isDeleted(), criteria.role())
@@ -40,7 +38,7 @@ public class GatheringRepositoryRepositoryCustomImpl implements GatheringReposit
 
     Long total = query.select(gathering.count())
         .where(
-            nullCheckGatheringId(gatheringIds),
+//            nullCheckGatheringId(gatheringIds),
             gathering.status.eq(criteria.status()),
             nullCheckStartTime(criteria.startTime(), criteria.endTime()),
             nullCheckGatheringDeleted(criteria.isDeleted(), criteria.role()))
@@ -78,7 +76,7 @@ public class GatheringRepositoryRepositoryCustomImpl implements GatheringReposit
     return gatheringIds == null ? null : gathering.id.in(gatheringIds);
   }
 
-  private List<Long> findGatheringIds(String username, String role) {
+  private List<Long> findGatheringIds(UUID username, String role) {
     if (role == null || "USER".equals(role)) {
       return null;
     }

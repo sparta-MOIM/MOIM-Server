@@ -13,7 +13,8 @@ public enum NotificationCode implements Code {
   INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "NOT500", "예기치 못한 서버 오류가 발생했습니다."),
 
   CANNOT_FIND_NOTIFICATION_TEMPLATE(HttpStatus.BAD_REQUEST, "NOT0001" , "알림 템플릿을 찾을 수 없습니다."),
-  ;
+  CANNOT_FIND_NOTIFICATION(HttpStatus.BAD_REQUEST,"NOT002" , "알림을 찾을 수 없습니다."),
+  CANNOT_FIND_NOTIFICATION_TYPE(HttpStatus.BAD_REQUEST, "N0T003", "알림 타입을 찾을 수 없습니다."),;
   private final HttpStatus status;
   private final String code;
   private final String message;

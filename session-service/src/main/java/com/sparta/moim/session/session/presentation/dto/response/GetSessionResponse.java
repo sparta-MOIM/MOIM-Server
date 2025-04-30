@@ -1,6 +1,5 @@
 package com.sparta.moim.session.session.presentation.dto.response;
 
-import com.sparta.moim.session.session.application.dto.result.GetSessionMemberListResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,7 +11,7 @@ public record GetSessionResponse(
     String organizationId,
     UUID sessionId,
     String title,
-    String publisher,
+    UUID publisher,
     GetMemberCountResponse memberCount,
     List<GetSessionMemberListResponse> member,
     LocalDateTime openTime,

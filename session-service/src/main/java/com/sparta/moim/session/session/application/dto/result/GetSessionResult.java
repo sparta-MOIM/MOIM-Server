@@ -12,7 +12,7 @@ public record GetSessionResult(
     String organizationId,
     UUID sessionId,
     String title,
-    String publisher,
+    UUID publisher,
     int totalCount,
     int currentCount,
     List<GetSessionMemberListResult> member,

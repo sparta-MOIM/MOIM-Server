@@ -9,7 +9,7 @@ import lombok.Builder;
 public record CreateSessionResponse(
     String organizationId,
     UUID sessionId,
-    String publisher,
+    UUID publisher,
     String title,
     int totalCount,
     String status,

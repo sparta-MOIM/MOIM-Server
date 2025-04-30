@@ -1,6 +1,8 @@
 package com.sparta.moim.notificationservice.domain.entity;
 
+import com.sparta.moim.common.utils.BaseEntity;
 import com.sparta.moim.notificationservice.application.dto.command.ApplyOrganizationNotificationCommand;
+import com.sparta.moim.notificationservice.application.dto.command.UnReadPostNotificationCommand;
 import com.sparta.moim.notificationservice.domain.enums.NotificationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,7 +30,7 @@ import org.hibernate.annotations.Where;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder(access = AccessLevel.PRIVATE)
 @Table(name = "p_notification")
-public class Notification {
+public class Notification extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,21 +45,41 @@ public class Notification {
     @Enumerated(EnumType.STRING)
     private NotificationType notificationType;
 
+    @Column(name="access_tracking_id", length = 36, nullable = false)
+    @JdbcTypeCode(Types.VARCHAR)
+    private UUID accessTrackingId;
+
     @Column(name="receiver_tracking_id", length = 36, nullable = false)
+    @JdbcTypeCode(Types.VARCHAR)
     private UUID receiverTrackingId;
 
     @Column(name="content", nullable = false)
     private String content;
 
     @Column(name="is_read", nullable = false)
-    private boolean isRead;
+    private Boolean isRead;
 
-    public static Notification from(ApplyOrganizationNotificationCommand command, String reciverTrackingId, String content) {
+    public static Notification from(ApplyOrganizationNotificationCommand command, String receiverTrackingId, String content) {
         return Notification.builder()
-                .notificationType(command.getNotificationType())
-                .receiverTrackingId(UUID.fromString(reciverTrackingId))
+                .notificationType(NotificationType.ORGANIZATION_MOIM_REQUEST)
+                .accessTrackingId(UUID.fromString(command.getOrganizationTrackingId()))
+                .receiverTrackingId(UUID.fromString(receiverTrackingId))
                 .content(content)
                 .isRead(false)
                 .build();
+    }
+
+    public static Notification from(UnReadPostNotificationCommand command, String receiverTrackingId, String content) {
+        return Notification.builder()
+                .notificationType(NotificationType.UNREAD_USERS)
+                .accessTrackingId(UUID.fromString(command.getPostTrackingId()))
+                .receiverTrackingId(UUID.fromString(receiverTrackingId))
+                .content(content)
+                .isRead(false)
+                .build();
+    }
+
+    public void updateIsRead(boolean isRead) {
+        this.isRead = isRead;
     }
 }

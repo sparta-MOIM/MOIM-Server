@@ -1,5 +1,6 @@
 package com.sparta.moim.organization.infrastruct.repository;
 
+import com.sparta.moim.common.page.Pagination;
 import com.sparta.moim.organization.domain.entity.Organization;
 import com.sparta.moim.organization.domain.entity.OrganizationMember;
 import com.sparta.moim.organization.domain.enums.OrganizationMemberRole;
@@ -8,6 +9,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -32,6 +36,18 @@ public class OrganizationMemberRepositoryImpl implements OrganizationMemberRepos
     }
 
     @Override
+    public Pagination<OrganizationMember> findAllByOrganization(Organization organization, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<OrganizationMember> organizationMembers = jpaRepository.findAllByOrganization(organization, pageable);
+        return Pagination.of(
+                organizationMembers.getNumber(),
+                organizationMembers.getSize(),
+                organizationMembers.getTotalElements(),
+                organizationMembers.getContent()
+        );
+    }
+
+    @Override
     public void saveAll(List<OrganizationMember> members) {
         jpaRepository.saveAll(members);
     }
@@ -45,6 +61,11 @@ public class OrganizationMemberRepositoryImpl implements OrganizationMemberRepos
     public List<OrganizationMember> findAllByOrganizationAndRoleIn(Organization organization,
                                                                    List<OrganizationMemberRole> organizationMemberRoles) {
         return jpaRepository.findAllByOrganizationAndRoleIn(organization, organizationMemberRoles );
+    }
+
+    @Override
+    public Optional<OrganizationMember> findByMemberTrackingId(String memberTrackingId) {
+        return jpaRepository.findByTrackingId(UUID.fromString(memberTrackingId));
     }
 
 

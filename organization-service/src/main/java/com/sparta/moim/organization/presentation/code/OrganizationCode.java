@@ -19,7 +19,8 @@ public enum OrganizationCode implements Code {
   ALREADY_ORGANIZATION_MEMBER(HttpStatus.BAD_REQUEST,"ORG005" ,"이미 모임의 멤버입니다." ),
   CANNOT_FIND_ORGANIZATION_APPLICATION(HttpStatus.BAD_REQUEST,"ORG006" , "모임 신청을 찾을 수 없습니다." ),
   ALREADY_USED_ORGANIZATION_NICKNAME(HttpStatus.BAD_REQUEST,"ORG007" ,"이미 사용중인 닉네임입니다." ),
-  MEMBER_ACCESS_DENIED( HttpStatus.FORBIDDEN, "ORG008", "모임에 해당 권한이 없습니다."),;
+  MEMBER_ACCESS_DENIED( HttpStatus.FORBIDDEN, "ORG008", "모임에 해당 권한이 없습니다."),
+  CANNOT_CHANGE_MASTER_ROLE(HttpStatus.BAD_REQUEST,"ORG009","마스터 이전을 통해서만 가능합니다." );
 
   private final HttpStatus status;
   private final String code;

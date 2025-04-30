@@ -1,15 +1,11 @@
 spring:
-  security:
-    user:
-      name: user
-      password: 1234
   application:
     name: session-service
 
   datasource:
-    url: jdbc:mysql://localhost:3315/session_db
-    username: root
-    password: 1234
+    url: ${SESSION_DATABASE_URL:jdbc:mysql://localhost:3315/session_db}
+    username: ${SESSION_DATABASE_ID:root}
+    password: ${SESSION_DATABASE_PASSWORD:1234}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -19,19 +15,36 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-
-
+  data:
+    redis:
+      stream-join-key: stream:session_join
+      stream-leave-key: stream:session_leave
+      group-join-name: session_join_group
+      group-leave-name: session_leave_group
+      consumer-id: session_consumer_
+      poll-timeout: 1
+      host: ${SESSION_REDIS_HOST:localhost}
+      port: ${SESSION_REDIS_PORT:6379}
+      timeout: 6000
+      database: 0
+      client-type: lettuce
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: 1000ms
 server:
   port: 8089
 
 feign:
   client:
     member:
-      url: "http://localhost:8089"
+      url: ${SESSION_URL:http://localhost:8089}
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:19090/eureka/
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:19090/eureka/}
 
 springdoc:
   swagger-ui:

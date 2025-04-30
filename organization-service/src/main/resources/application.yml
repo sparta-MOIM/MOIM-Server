@@ -1,14 +1,17 @@
 server:
   port: 8084
+  tomcat:
+    mbeanregistry:
+      enabled: true
 
 spring:
   application:
     name: organization-service
 
   datasource:
-    url: jdbc:mysql://localhost:3310/organization_db
-    username: root
-    password: 1234
+    url: ${ORGANIZATION_DB_URL}
+    username: ${ORGANIZATION_DB_USERNAME}
+    password: ${ORGANIZATION_DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -16,10 +19,33 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+    properties:
+      hibernate:
+        generate_statistics: true
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:19090/eureka/
+      defaultZone: ${EUREKA_URL}
     register-with-eureka: true
     fetch-registry: true
+
+management:
+  #  server:
+  #    port: 10100
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, metrics
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+  endpoint:
+    prometheus:
+      access: unrestricted

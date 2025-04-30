@@ -1,12 +1,13 @@
 package com.sparta.moim.session.member.presentation.dto.response;
 
 import com.sparta.moim.session.member.application.dto.result.GetMemberListResult;
+import java.util.UUID;
 
 public record GetMemberListResponse(
-    String name,
+    UUID id,
     String type
 ) {
   public GetMemberListResponse(GetMemberListResult member) {
-    this(member.name(), member.type());
+    this(member.id(), member.type());
   }
 }
