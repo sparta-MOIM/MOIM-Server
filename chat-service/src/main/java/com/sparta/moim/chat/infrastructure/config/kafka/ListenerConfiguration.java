@@ -28,10 +28,7 @@ public class ListenerConfiguration {
   private String autoOffsetReset;
 
   @Value("${spring.kafka.chat.group-id}")
-  private String chatGroupId;
-
-  @Value("${spring.kafka.chat-room.group-id}")
-  private String chatRoomGroupId;
+  private String groupId;
 
 
   // KafkaListener 컨테이너 팩토리를 생성하는 Bean 메서드
@@ -42,12 +39,6 @@ public class ListenerConfiguration {
     return factory;
   }
 
-  @Bean
-  ConcurrentKafkaListenerContainerFactory<String, ChatRoomResponseDTO> kafkaChatRoomContainerFactory() {
-    ConcurrentKafkaListenerContainerFactory<String, ChatRoomResponseDTO> factory = new ConcurrentKafkaListenerContainerFactory<>();
-    factory.setConsumerFactory(chatRoomconsumerFactory());
-    return factory;
-  }
 
   // Kafka ConsumerFactory를 생성하는 Bean 메서드
   @Bean
@@ -61,34 +52,16 @@ public class ListenerConfiguration {
     Map<String, Object> consumerConfigurations =
         ImmutableMap.<String, Object>builder()
             .put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
-            .put(ConsumerConfig.GROUP_ID_CONFIG, chatGroupId)
+            .put(ConsumerConfig.GROUP_ID_CONFIG,groupId)
             .put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class)
             .put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, deserializer)
             .put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset)
             .build();
 
-    return new DefaultKafkaConsumerFactory<>(consumerConfigurations, new StringDeserializer(), deserializer);
+    return new DefaultKafkaConsumerFactory<>(consumerConfigurations , new StringDeserializer(), deserializer);
   }
 
-  @Bean
-  public ConsumerFactory<String, ChatRoomResponseDTO> chatRoomconsumerFactory() {
-    JsonDeserializer<ChatRoomResponseDTO> deserializer = new JsonDeserializer<>();
-    // 패키지 신뢰 오류로 인해 모든 패키지를 신뢰하도록 작성
-    deserializer.addTrustedPackages("*");
 
-    // Kafka Consumer 구성을 위한 설정값들을 설정 -> 변하지 않는 값이므로 ImmutableMap을 이용하여 설정
-    // Kafka Consumer 설정값은 일반적으로 애플리케이션 실행 중에 변경되지 않아야 하는 고정된 구성값이어서 ImmutableMap을 사용해야 함
-    Map<String, Object> consumerConfigurations =
-        ImmutableMap.<String, Object>builder()
-            .put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
-            .put(ConsumerConfig.GROUP_ID_CONFIG, chatRoomGroupId)
-            .put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class)
-            .put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, deserializer)
-            .put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset)
-            .build();
-
-    return new DefaultKafkaConsumerFactory<>(consumerConfigurations, new StringDeserializer(), deserializer);
-  }
 
 
 
