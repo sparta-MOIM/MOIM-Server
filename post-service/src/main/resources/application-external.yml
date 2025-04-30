@@ -27,3 +27,22 @@ spring:
 feign:
   url:
     organization: ${ORGANIZATION_CLIENT_URL}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: ${OTEL_COLLECTOR_TRACES_ENDPOINT}
+    logging:
+      endpoint: ${OTEL_COLLECTOR_LOGS_ENDPOINT}
+    metrics:
+      export:
+        url: ${OTEL_COLLECTOR_METRICS_ENDPOINT}
+
+  # actuator endpoint를 외부에서 볼 수 있도록
+  endpoints:
+    web:
+      exposure:
+        include: "*"

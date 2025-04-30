@@ -47,3 +47,18 @@ management:
   endpoint:
     prometheus:
       access: unrestricted
+    web:
+      exposure:
+        include: "*"
+
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: ${OTEL_COLLECTOR_TRACES_ENDPOINT}
+    logging:
+      endpoint: ${OTEL_COLLECTOR_LOGS_ENDPOINT}
+    metrics:
+      export:
+        url: ${OTEL_COLLECTOR_METRICS_ENDPOINT}
