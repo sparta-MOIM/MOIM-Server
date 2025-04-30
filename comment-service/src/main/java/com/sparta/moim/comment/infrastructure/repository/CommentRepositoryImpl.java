@@ -33,9 +33,8 @@ public class CommentRepositoryImpl implements CommentRepository {
 
   @Override
   public Optional<Comment> findComment(String postId, UUID commentId) {
-    return Optional.ofNullable(
-      jpaCommentRepository.findByPostIdAndTrackingIdAndDeletedByIsNull(postId, commentId)
-          .orElseThrow(() -> new BaseException(COMMENT_NOT_FOUND)));
+    return
+      jpaCommentRepository.findByPostIdAndTrackingIdAndDeletedByIsNull(postId, commentId);
   }
 
   @Override
@@ -45,6 +44,19 @@ public class CommentRepositoryImpl implements CommentRepository {
         .where(qComment.postId.eq(postId)
             .and(qComment.comment.containsIgnoreCase(comment)))
         .fetch();
+  }
+
+  //queryDSL은 반환타입 optional을 허용하지 않는다.
+  //만약 값이 없다면 null을 반환
+  @Override
+  public Comment findUserComment(String postId, UUID commentId, UUID userId){
+    QComment qComment = QComment.comment1;
+    return jpaQueryFactory.selectFrom(qComment)
+        .where(qComment.postId.eq(postId)
+            .and(qComment.trackingId.eq(commentId))
+            .and(qComment.userId.eq(userId))
+            .and(qComment.deletedBy.isNull()))
+        .fetchOne();
   }
 
   @Override
