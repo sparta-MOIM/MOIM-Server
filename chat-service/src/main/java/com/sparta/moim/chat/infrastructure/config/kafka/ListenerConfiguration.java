@@ -27,6 +27,9 @@ public class ListenerConfiguration {
   @Value("${spring.kafka.consumer.auto-offset-reset}")
   private String autoOffsetReset;
 
+  @Value("${spring.kafka.chat.group-id}")
+  private String groupId;
+
 
   // KafkaListener 컨테이너 팩토리를 생성하는 Bean 메서드
   @Bean
@@ -54,11 +57,11 @@ public class ListenerConfiguration {
     // Kafka Consumer 설정값은 일반적으로 애플리케이션 실행 중에 변경되지 않아야 하는 고정된 구성값이어서 ImmutableMap을 사용해야 함
     Map<String, Object> consumerConfigurations =
         ImmutableMap.<String, Object>builder()
-            .put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
-            .put(ConsumerConfig.GROUP_ID_CONFIG,"chat-group")
+            .put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
+            .put(ConsumerConfig.GROUP_ID_CONFIG,groupId)
             .put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class)
             .put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, deserializer)
-            .put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
+            .put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset)
             .build();
 
     return new DefaultKafkaConsumerFactory<>(consumerConfigurations , new StringDeserializer(), deserializer);
@@ -78,7 +81,7 @@ public class ListenerConfiguration {
             .put(ConsumerConfig.GROUP_ID_CONFIG,"chat-group")
             .put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class)
             .put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, deserializer)
-            .put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
+            .put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset)
             .build();
 
     return new DefaultKafkaConsumerFactory<>(consumerConfigurations, new StringDeserializer(), deserializer);
