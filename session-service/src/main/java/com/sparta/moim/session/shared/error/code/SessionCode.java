@@ -19,6 +19,7 @@ public enum SessionCode implements Code {
   NOT_CONNECTED_SESSION(HttpStatus.BAD_REQUEST, "S008", "this session is not connected"),
   ROLE_NOT_ALLOWED_SESSION(HttpStatus.BAD_REQUEST,"S009", "You are not allowed to gather this role"),
   OPEN_ALLOWED_SESSION(HttpStatus.BAD_REQUEST,"S010", "매니저 이상만 세션승인을 할 수 있습니다."),
+  LOCK_TIMEOUT(HttpStatus.INTERNAL_SERVER_ERROR,"S011", "세션 참가/나가기 락 타임아웃이 발생했습니다."),
 
   ;
 

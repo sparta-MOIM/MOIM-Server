@@ -64,18 +64,21 @@ public class MemberService {
     try {
       // 락 획득 시도 (10초 대기, 30초 유지)
       boolean isLocked = lock.tryLock(2, 5, TimeUnit.SECONDS);
-      if (isLocked) {
-        try {
-          Member member = Member.builder()
-              .sessionId(command.sessionId())
-              .type(MemberType.GENERAL)
-              .memberId(command.userId())
-              .build();
-          redisTemplate.opsForStream().add(streamJoinKey, member.toMap());
-        } finally {
-          // 락 해제
-          lock.unlock();
-        }
+
+      if (!isLocked) {
+        throw new SessionException(SessionCode.NOT_FOUND_SESSION);
+      }
+
+      try {
+        Member member = Member.builder()
+            .sessionId(command.sessionId())
+            .type(MemberType.GENERAL)
+            .memberId(command.userId())
+            .build();
+        redisTemplate.opsForStream().add(streamJoinKey, member.toMap());
+      } finally {
+        // 락 해제
+        lock.unlock();
       }
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
@@ -129,14 +132,15 @@ public class MemberService {
     try {
       boolean isLocked = lock.tryLock(2, 5, TimeUnit.SECONDS);
 
-      try {
-        if (isLocked) {
-          Map<String, String> map = new HashMap<>();
-          map.put("session_id", command.sessionId().toString());
-          map.put("member_id", command.userId().toString());
-          redisTemplate.opsForStream().add(streamLeaveKey, map);
-        }
+      if (!isLocked) {
+        throw new SessionException(SessionCode.NOT_FOUND_SESSION);
+      }
 
+      try {
+        Map<String, String> map = new HashMap<>();
+        map.put("session_id", command.sessionId().toString());
+        map.put("member_id", command.userId().toString());
+        redisTemplate.opsForStream().add(streamLeaveKey, map);
       } finally {
         // 락 해제
         lock.unlock();

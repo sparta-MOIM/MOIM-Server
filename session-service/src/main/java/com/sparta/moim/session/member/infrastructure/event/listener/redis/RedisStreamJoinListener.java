@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.connection.stream.MapRecord;
 import org.springframework.data.redis.stream.StreamListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -18,6 +19,7 @@ public class RedisStreamJoinListener implements StreamListener<String, MapRecord
   private final HandleSessionMemberCountPublisher handleSessionMemberCountPublisher;
 
   @Override
+  @Transactional
   public void onMessage(MapRecord<String, String, String> message) {
     UUID sessionId = UUID.fromString(message.getValue().get("session_id"));
     UUID memberId = UUID.fromString(message.getValue().get("member_id"));
@@ -27,12 +29,12 @@ public class RedisStreamJoinListener implements StreamListener<String, MapRecord
 //      return;
 //    }
 
-    handleSessionMemberCountPublisher.increase(sessionId, memberId);
-
     memberRepository.save(Member.builder()
         .sessionId(sessionId)
         .memberId(memberId)
         .type(MemberType.valueOf(message.getValue().get("type")))
         .build());
+
+    handleSessionMemberCountPublisher.increase(sessionId, memberId);
   }
 }
