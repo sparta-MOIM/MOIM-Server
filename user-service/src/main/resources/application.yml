@@ -30,3 +30,22 @@ jwt:
   secret: ${JWT_SECRET}
 server:
   port: 8082
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: http://localhost:4318/v1/traces
+    logging:
+      endpoint: http://localhost:4318/v1/logs
+    metrics:
+      export:
+        url: "http://localhost:4318/v1/metrics"
+
+  # actuator endpoint를 외부에서 볼 수 있도록
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -39,6 +39,7 @@ public class PassportRelayFilter extends AbstractGatewayFilterFactory<Object> {
   public GatewayFilter apply(Object config) {
     return (exchange, chain) -> {
       log.info("PassportRelayFilter apply={}", exchange.getRequest().getPath());
+      log.info("PassportRelayFilter pre traceparent={}", exchange.getRequest().getHeaders().getFirst("traceparent"));
       String accessToken = extractAccessTokenFromCookie(exchange);
       return webClient.get()
           .uri(GET_PASSPORT_URL)
@@ -53,6 +54,7 @@ public class PassportRelayFilter extends AbstractGatewayFilterFactory<Object> {
                 .header(X_USER_ROLE.getValue(), passport.role())
                 .build();
 
+            log.info("PassportRelayFilter post traceparent={}", exchange.getResponse().getHeaders().getFirst("traceparent"));
             return chain.filter(exchange.mutate().request(request).build());
           });
     };
