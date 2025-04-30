@@ -35,6 +35,7 @@ public class HandleSessionMemberCountPublisherImpl implements HandleSessionMembe
    * @param sessionId 세션 ID
    * @param memberId  멤버 ID
    */
+  @Async
   public void decrease(UUID sessionId, UUID memberId) {
     publisher.publishEvent(new SharedDecreaseMember(sessionId, memberId));
   }
