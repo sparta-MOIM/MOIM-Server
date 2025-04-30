@@ -43,7 +43,7 @@ public class MemberController {
   public ResponseEntity<ApiResponseData<Void>> removeGathering(@PathVariable UUID gatheringId,
                                                                @RequestBody @Valid RemoveGatheringRequest request,
                                                                @AuthenticationPrincipal CustomUserDetails details) {
-    memberService.removeGathering(request.toCommand(gatheringId, details.getUsername()));
+    memberService.removeGathering(request.toCommand(gatheringId, details.getTrackingId()));
     return ResponseEntity.ok(ApiResponseData.success(null));
   }
 

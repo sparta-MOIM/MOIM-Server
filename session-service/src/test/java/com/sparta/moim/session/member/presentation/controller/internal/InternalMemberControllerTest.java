@@ -4,7 +4,6 @@ import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.docume
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -54,10 +53,13 @@ class InternalMemberControllerTest {
 
     UUID sessionId = UUID.randomUUID();
 
+    UUID member1 = UUID.randomUUID();
+    UUID member2 = UUID.randomUUID();
+    UUID member3 = UUID.randomUUID();
     List<GetMemberListResult> result = List.of(
-        new GetMemberListResult("user1", "PUBLISHER"),
-        new GetMemberListResult("user2", "GENERAL"),
-        new GetMemberListResult("user3", "GENERAL")
+        new GetMemberListResult(member1, "PUBLISHER"),
+        new GetMemberListResult(member2, "GENERAL"),
+        new GetMemberListResult(member3, "GENERAL")
     );
     when(memberService.getMember(any())).thenReturn(result);
 
@@ -68,11 +70,11 @@ class InternalMemberControllerTest {
             .header("X-User-Role", role)
             .header("X-User-ID", userId.toString()))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$[0].name").value("user1"))
+        .andExpect(jsonPath("$[0].id").value(member1.toString()))
         .andExpect(jsonPath("$[0].type").value("PUBLISHER"))
-        .andExpect(jsonPath("$[1].name").value("user2"))
+        .andExpect(jsonPath("$[1].id").value(member2.toString()))
         .andExpect(jsonPath("$[1].type").value("GENERAL"))
-        .andExpect(jsonPath("$[2].name").value("user3"))
+        .andExpect(jsonPath("$[2].id").value(member3.toString()))
         .andExpect(jsonPath("$[2].type").value("GENERAL"))
         .andDo(document("세션 - 맴버 조회",
             preprocessRequest(Preprocessors.prettyPrint()),
@@ -84,7 +86,7 @@ class InternalMemberControllerTest {
                 .pathParameters(
                     parameterWithName("sessionId").description("세션 아이디")
                 ).responseFields(
-                    fieldWithPath("[].name").description("참여한 참가자 명"),
+                    fieldWithPath("[].id").description("참여한 참가자 ID"),
                     fieldWithPath("[].type").description("참가한 참가자 타입"))
                 .build()
             )));

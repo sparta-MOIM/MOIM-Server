@@ -10,7 +10,7 @@ import lombok.Builder;
 @Builder
 public record UpdateGatheringRequest(
     @Nullable String name,
-    @Nullable String owner,
+    @Nullable UUID owner,
     @Positive int count,
     @Nullable Boolean status
 ) {

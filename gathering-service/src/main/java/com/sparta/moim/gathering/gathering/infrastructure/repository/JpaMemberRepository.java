@@ -16,18 +16,18 @@ public interface JpaMemberRepository extends JpaRepository<Member, Long>, Member
   @Modifying
   @Query("delete from Member m where m.gatheringId = :gatheringId and m.memberId IN (:memberIds)")
   void deleteAllByGatheringIdAndMembers(@Param("gatheringId") UUID gatheringId,
-                                        @Param("memberIds") List<String> memberIds);
+                                        @Param("memberIds") List<UUID> memberIds);
 
   @Query("select m from Member m where m.gatheringId = :gatheringId")
   List<Member> findMembers(@Param("gatheringId") UUID gatheringId);
 
   @Query("select m.type from Member m where m.gatheringId = :gatheringId and m.memberId = :memberId")
-  MemberType findMemberType(@Param("gatheringId") UUID gatheringId, @Param("memberId") String memberId);
+  MemberType findMemberType(@Param("gatheringId") UUID gatheringId, @Param("memberId") UUID memberId);
 
   @Query("""
       select m from Member m where m.gatheringId = :gatheringId  and m.memberId <> :memberId
       """)
-  Optional<Member> findByMemberStatusOwner(@Param("gatheringId") UUID gatheringId, @Param("memberId") String memberId);
+  Optional<Member> findByMemberStatusOwner(@Param("gatheringId") UUID gatheringId, @Param("memberId") UUID memberId);
 
 
   @Query(""" 

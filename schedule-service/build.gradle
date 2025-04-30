@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'com.moim.schedule'
-version = '1.0.0'
+version = 'latest'
 
 java {
 	toolchain {
@@ -51,6 +51,9 @@ dependencies {
 
 	// spring cloud - feign
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+	// eureka client
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
 }
 

@@ -17,11 +17,11 @@ public class SaveMemberListener {
   @EventListener
   public void save(SharedSessionMember sharedSessionMember) {
     try {
-      log.info("Saving publisher {}", sharedSessionMember.memberName());
+      log.info("Saving publisher {}", sharedSessionMember.memberId());
       memberRepository.save(Member.from(sharedSessionMember));
-      log.info("Successfully saved publisher {}", sharedSessionMember.memberName());
+      log.info("Successfully saved publisher {}", sharedSessionMember.memberId());
     } catch (Exception e) {
-      log.error("Failed to save publisher {}: {}", sharedSessionMember.memberName(), e.getMessage(), e);
+      log.error("Failed to save publisher {}: {}", sharedSessionMember.memberId(), e.getMessage(), e);
       //TODO 보상 트랜잭션 적용
     }
   }

@@ -1,7 +1,9 @@
 package com.sparta.moim.session.session.application.dto.result;
 
+import java.util.UUID;
+
 public record GetSessionMemberListResult(
-    String name,
+    UUID id,
     String type
 ) {
 }

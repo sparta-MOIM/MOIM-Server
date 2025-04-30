@@ -4,11 +4,12 @@ import com.sparta.moim.gathering.gathering.application.dto.command.CreateGatheri
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import java.util.UUID;
 
 public record CreateGatheringRequest(
     @NotNull String organizationId,
     @NotNull String name,
-    @NotNull String owner,
+    @NotNull UUID owner,
     @Positive int count,
     @Nullable Boolean status
 ) {

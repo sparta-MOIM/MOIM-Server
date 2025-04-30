@@ -77,7 +77,7 @@ class GatheringControllerTest {
     CreateGatheringCommand request = new CreateGatheringCommand(
         "org123",
         "테스트 모임",
-        "주인장",
+        UUID.randomUUID(),
         10,
         true
     );
@@ -92,11 +92,12 @@ class GatheringControllerTest {
     @DisplayName("게더링 생성 성공")
     void createGathering_success() throws Exception {
       // given
+      UUID owner = UUID.randomUUID();
       CreateGatheringResult response = new CreateGatheringResult(
           gatheringId,
           "org123",
           "테스트 모임",
-          "주인장",
+          owner,
           10,
           true
       );
@@ -114,7 +115,7 @@ class GatheringControllerTest {
           .andExpect(jsonPath("$.data.gatheringId").value(gatheringId.toString()))
           .andExpect(jsonPath("$.data.organizationId").value("org123"))
           .andExpect(jsonPath("$.data.name").value("테스트 모임"))
-          .andExpect(jsonPath("$.data.owner").value("주인장"))
+          .andExpect(jsonPath("$.data.owner").value(owner.toString()))
           .andExpect(jsonPath("$.data.count").value(10))
           .andExpect(jsonPath("$.data.status").value(true))
           .andDo(document("소모임 - 생성",
@@ -180,7 +181,7 @@ class GatheringControllerTest {
       CreateGatheringCommand request = new CreateGatheringCommand(
           "org123",
           "테스트 모임",
-          "주인장",
+          UUID.randomUUID(),
           0,
           true
       );
@@ -221,7 +222,7 @@ class GatheringControllerTest {
     UUID gatheringId = UUID.randomUUID();
     UpdateGatheringRequest request = new UpdateGatheringRequest(
         "수정된 모임 이름",
-        "chnaged",
+        UUID.randomUUID(),
         20,
         false
     );
@@ -374,14 +375,16 @@ class GatheringControllerTest {
       // given
       UUID gatheringId = UUID.randomUUID();
 
+      UUID userId = UUID.randomUUID();
+      UUID owner = UUID.randomUUID();
       List<GetGatheringMemberListResult> members = List.of(
-          new GetGatheringMemberListResult("abc", "ADMIN"));
+          new GetGatheringMemberListResult(owner, "ADMIN"));
 
       GetGatheringResult response = new GetGatheringResult(
           gatheringId,
           "org123",
           "테스트 모임",
-          "테스트유저",
+          owner,
           10,
           true,
           members,
@@ -403,9 +406,9 @@ class GatheringControllerTest {
           .andExpect(jsonPath("$.data.gatheringId").value(gatheringId.toString()))
           .andExpect(jsonPath("$.data.organizationId").value("org123"))
           .andExpect(jsonPath("$.data.name").value("테스트 모임"))
-          .andExpect(jsonPath("$.data.member[0].memberId").value("abc"))
+          .andExpect(jsonPath("$.data.member[0].memberId").value(owner.toString()))
           .andExpect(jsonPath("$.data.member[0].type").value("ADMIN"))
-          .andExpect(jsonPath("$.data.owner").value("테스트유저"))
+          .andExpect(jsonPath("$.data.owner").value(owner.toString()))
           .andExpect(jsonPath("$.data.count").value(10))
           .andExpect(jsonPath("$.data.status").value(true))
           .andDo(document("소모임 - 단일 조회",

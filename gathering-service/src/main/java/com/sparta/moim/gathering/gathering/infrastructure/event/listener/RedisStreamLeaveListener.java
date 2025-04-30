@@ -21,9 +21,9 @@ public class RedisStreamLeaveListener implements StreamListener<String, MapRecor
   public void onMessage(MapRecord<String, String, String> message) {
     try {
       UUID gatheringId = UUID.fromString(message.getValue().get("gathering_id"));
-      String memberName = message.getValue().get("member_name");
-      log.info("멤버 퇴장 이벤트 수신: gatheringId={}, memberName={}", gatheringId, memberName);
-      memberRepository.deleteByGatheringIdAndMemberId(gatheringId, memberName);
+      UUID memberId = UUID.fromString(message.getValue().get("member_id"));
+      log.info("멤버 퇴장 이벤트 수신: gatheringId={}, memberId={}", gatheringId, memberId);
+      memberRepository.deleteByGatheringIdAndMemberId(gatheringId, memberId);
     } catch (Exception e) {
       log.error("멤버 퇴장 처리 중 오류 발생: {}", e.getMessage(), e);
       throw new MemberLeaveProcessingException();

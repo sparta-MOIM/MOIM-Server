@@ -5,7 +5,7 @@ import static com.sparta.moim.user.application.exception.UserErrorCode.USER_NOT_
 import com.sparta.moim.common.passport.Passport;
 import com.sparta.moim.user.application.exception.UserNotFoundException;
 import com.sparta.moim.user.domain.model.User;
-import com.sparta.moim.user.domain.repository.UserRepository;
+import com.sparta.moim.user.domain.UserRepository;
 import com.sparta.moim.user.infrastructure.jwt.JwtUtil;
 import io.jsonwebtoken.Claims;
 import java.util.UUID;

@@ -23,7 +23,7 @@ public class HandleSessionMemberCountPublisherImpl implements HandleSessionMembe
    * @param sessionId 세션 ID
    * @param memberId  멤버 ID
    */
-  public void increase(UUID sessionId, String memberId) {
+  public void increase(UUID sessionId, UUID memberId) {
     publisher.publishEvent(new SharedIncreaseMember(sessionId, memberId));
   }
 
@@ -33,7 +33,7 @@ public class HandleSessionMemberCountPublisherImpl implements HandleSessionMembe
    * @param sessionId 세션 ID
    * @param memberId  멤버 ID
    */
-  public void decrease(UUID sessionId, String memberId) {
+  public void decrease(UUID sessionId, UUID memberId) {
     publisher.publishEvent(new SharedDecreaseMember(sessionId, memberId));
   }
 

@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'com.moim.post'
-version = '1.0.0'
+version = 'latest'
 
 java {
     toolchain {
@@ -66,6 +66,10 @@ dependencies {
 
     // security
     implementation "org.springframework.boot:spring-boot-starter-security"
+
+    //mongoDB
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
 
 }
 

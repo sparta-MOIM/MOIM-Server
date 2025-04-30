@@ -16,6 +16,8 @@ public enum GatheringCode implements Code {
   ROLE_NOT_ALLOWED_GATHERING(HttpStatus.BAD_REQUEST,"G005", "You are not allowed to gather this role"),
   NOT_FOUND_GATHERING_MEMBER(HttpStatus.NOT_FOUND,"G006", "The gathering member could not be found"),
   PROCESSING_LEAVE_GATHERING_MEMBER(HttpStatus.INTERNAL_SERVER_ERROR,"G007", "An error occurred while processing the gathering leave request"),
+  NOT_CONNECTED_INFRA(HttpStatus.INTERNAL_SERVER_ERROR,"G008", "Failed to connect to external service"),
+  NOT_JOIN_GATHERING(HttpStatus.BAD_REQUEST,"G009", "The gathering could not be joined due to membership restrictions"),
   ;
 
   private final HttpStatus status;

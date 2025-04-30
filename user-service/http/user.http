@@ -19,7 +19,8 @@ Content-Type: application/json
 
 ### logout
 POST http://localhost:19091/api/v1/users/logout
-Cookie: accessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YThmMzAwNC1mZWNmLTQ0ZGMtYTAzYi1jMjlkOGNiMjUzNzciLCJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaXNzIjoiaHR0cHM6Ly9tb2ltLmNvbSIsImlhdCI6MTc0NTI1NTI4MCwiZXhwIjoxNzQ1MjU3MDgwfQ.k7nbNHIs2AikRzFdtUTkfMpd0-t-gbKuqYvsdWJjhh8; Path=/; Max-Age=1800; Expires=Mon, 21 Apr 2025 17:38:00 GMT; Secure; HttpOnly; SameSite=LAX
+Cookie: accessToken=eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzMDIzNDBiMi0wMmMzLTRiN2MtYmYzMy02YTAwMGIyMGJkY2YiLCJzdWIiOiIwYTlkZjAyNi1jMGQzLTQ1MmMtYTQ2Zi0yMzQ1ODVlMjBlYjMiLCJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaXNzIjoiaHR0cHM6Ly9tb2ltLmNvbSIsImlhdCI6MTc0NTU0Nzg2NCwiZXhwIjoxNzQ1NTQ5NjY0fQ.3Mi5lFz2HRFAtHGYSI3l05xTpy2KFE1UGLEFkhD0crM; Path=/; Max-Age=1800; Expires=Fri, 25 Apr 2025 02:54:24 GMT; Secure; HttpOnly; SameSite=LAXr
+// Cookie: refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI2MmY1YjhkNy00MjRmLTQyYzQtOTI5MS00MGI1NTMxYWEyNWMiLCJzdWIiOiI2OTlkM2NjMC04MTY4LTQzYTYtYjU3Zi05ZTY1ZWNhMDQzYzUiLCJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaXNzIjoiaHR0cHM6Ly9tb2ltLmNvbSIsImlhdCI6MTc0NTU0NjM2MSwiZXhwIjoxNzQ2MTUxMTYxfQ.BjLABkYOYxzqpQTh33uDNL0zRy0wTnMp3Eup36IjP5w; Path=/api/v1/auth/refresh; Max-Age=604800; Expires=Fri, 02 May 2025 01:59:21 GMT; Secure; HttpOnly; SameSite=STRICT
 
 ### 유저 조회 by TrackingId
 GET http://localhost:8082/internal/v1/users/a03730a3-9163-43ce-87db-ef40be8e6b6f

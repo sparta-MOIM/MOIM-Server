@@ -4,6 +4,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 import com.sparta.moim.common.response.ApiResponseData;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,17 +14,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
   //스프링에서 감지하는 에러들
   @ExceptionHandler(RuntimeException.class)
   public ResponseEntity<String> handleRuntimeException(RuntimeException e) {
+    log.error(e.getMessage(), e);
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
         .body("런타임 오류 발생: " + e.getMessage());
   }
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<String> handleException(Exception e) {
+    log.error(e.getMessage(), e);
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
         .body("예상치 못한 오류 발생: " + e.getMessage());
   }
@@ -31,6 +35,7 @@ public class GlobalExceptionHandler {
   // 커스텀 에러처리 가능 (아래 예외 핸들러 추가 하면 됨)
   @ExceptionHandler(BaseException.class)
   public ResponseEntity<ApiResponseData<String>> handleBaseException(BaseException e) {
+    log.error(e.getMessage(), e);
     return ResponseEntity.status(e.getCode().getStatus())
         .body(ApiResponseData.failure(e.getCode().getCode(), e.getCode().getMessage()));
   }
@@ -38,6 +43,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<ApiResponseData<Object>> handleMethodArgumentNotValidException(
       MethodArgumentNotValidException e) {
+    log.error(e.getMessage(), e);
     StringBuilder sb = new StringBuilder();
     e.getBindingResult().getFieldErrors()
         .stream().map(DefaultMessageSourceResolvable::getDefaultMessage)
