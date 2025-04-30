@@ -7,6 +7,7 @@ import com.sparta.moim.session.shared.dto.SharedRemoveMember;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,6 +24,7 @@ public class HandleSessionMemberCountPublisherImpl implements HandleSessionMembe
    * @param sessionId 세션 ID
    * @param memberId  멤버 ID
    */
+  @Async
   public void increase(UUID sessionId, UUID memberId) {
     publisher.publishEvent(new SharedIncreaseMember(sessionId, memberId));
   }

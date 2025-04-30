@@ -1,6 +1,7 @@
 package com.sparta.moim.session.member.infrastructure.event.listener.redis;
 
 
+import com.sparta.moim.session.member.application.event.publisher.HandleSessionMemberCountPublisher;
 import com.sparta.moim.session.member.domain.entity.Member;
 import com.sparta.moim.session.member.domain.enums.MemberType;
 import com.sparta.moim.session.member.domain.repository.MemberRepository;
@@ -14,19 +15,23 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RedisStreamJoinListener implements StreamListener<String, MapRecord<String, String, String>> {
   private final MemberRepository memberRepository;
+  private final HandleSessionMemberCountPublisher handleSessionMemberCountPublisher;
 
   @Override
   public void onMessage(MapRecord<String, String, String> message) {
     UUID sessionId = UUID.fromString(message.getValue().get("session_id"));
+    UUID memberId = UUID.fromString(message.getValue().get("member_id"));
 //    Member owner = memberRepository.existsOwner(sessionId).orElse(null);
 //    // 리더가 존재하지 않는 경우 무시
 //    if (owner == null) {
 //      return;
 //    }
 
+    handleSessionMemberCountPublisher.increase(sessionId, memberId);
+
     memberRepository.save(Member.builder()
         .sessionId(sessionId)
-        .memberId(UUID.fromString(message.getValue().get("member_id")))
+        .memberId(memberId)
         .type(MemberType.valueOf(message.getValue().get("type")))
         .build());
   }
