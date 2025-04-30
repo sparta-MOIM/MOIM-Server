@@ -8,7 +8,7 @@ spring:
     password: ${CHAT_DATASOURCE_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         transaction:
@@ -23,12 +23,10 @@ spring:
       database: ${CHAT_MONGODB_DATABASE}
 
   kafka:
-    chat-room:
-      group-id: ${CHAT-ROOM-GROUP-ID}
     chat:
       group-id: ${CHAT-GROUP-ID}
     consumer:
-      group-id: chat-group
+      group-id: ${CHAT-GROUP-ID}
       auto-offset-reset: latest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer

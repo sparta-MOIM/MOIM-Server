@@ -39,7 +39,7 @@ public class ProducerConfiguration {
         .put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class)
         .build();
   }
-  
+
   // KafkaTemplate을 생성하는 Bean 메서드
   @Bean
   public KafkaTemplate<String, MessageSendDTO> messageSendKafkaTemplate() {
