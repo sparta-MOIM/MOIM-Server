@@ -6,6 +6,7 @@ import com.sparta.moim.session.shared.dto.SharedIncreaseMember;
 import com.sparta.moim.session.shared.dto.SharedRemoveMember;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 /**
  * 세션의 멤버 수를 관리하기 위한 이벤트 발행 인터페이스
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class HandleSessionMemberCountPublisherImpl implements HandleSessionMemberCountPublisher {
@@ -26,7 +28,11 @@ public class HandleSessionMemberCountPublisherImpl implements HandleSessionMembe
    */
   @Async
   public void increase(UUID sessionId, UUID memberId) {
-    publisher.publishEvent(new SharedIncreaseMember(sessionId, memberId));
+    try {
+      publisher.publishEvent(new SharedIncreaseMember(sessionId, memberId));
+    } catch (Exception ex) {
+      log.error("세션 멤버 증가 이벤트 발행 중 예외 발생: sessionId={}, memberId={}", sessionId, memberId, ex);
+    }
   }
 
   /**
@@ -37,7 +43,11 @@ public class HandleSessionMemberCountPublisherImpl implements HandleSessionMembe
    */
   @Async
   public void decrease(UUID sessionId, UUID memberId) {
-    publisher.publishEvent(new SharedDecreaseMember(sessionId, memberId));
+    try {
+      publisher.publishEvent(new SharedDecreaseMember(sessionId, memberId));
+    } catch (Exception ex) {
+      log.error("세션 멤버 감소 이벤트 발행 중 예외 발생: sessionId={}, memberId={}", sessionId, memberId, ex);
+    }
   }
 
   /**
