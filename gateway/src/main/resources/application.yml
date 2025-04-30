@@ -11,6 +11,8 @@ eureka:
 spring:
   main:
     web-application-type: reactive
+  reactor:
+    context-propagation: auto
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   application:
@@ -71,8 +73,7 @@ spring:
         - id: chat-service
           uri: lb://chat-service
           predicates:
-            - Path=/api/v1/chat/**
-            - Path=/api/v1/chat_room/**
+            - Path=/api/v1/chat/**, /api/v1/chat_room/**
           filters:
             - PassportRelayFilter
 
@@ -89,3 +90,22 @@ spring:
             - Path=/api/v1/session/**
           filters:
             - PassportRelayFilter
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: ${OTEL_COLLECTOR_TRACES_ENDPOINT}
+    logging:
+      endpoint: ${OTEL_COLLECTOR_LOGS_ENDPOINT}
+    metrics:
+      export:
+        url: ${OTEL_COLLECTOR_METRICS_ENDPOINT}
+
+  # actuator endpoint를 외부에서 볼 수 있도록
+  endpoints:
+    web:
+      exposure:
+        include: "*"

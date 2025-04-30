@@ -33,7 +33,9 @@ public class Member {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String memberName;
+  @JdbcTypeCode(Types.VARCHAR)
+  @Column(length = 36, nullable = false)
+  private UUID memberId;
 
   @JdbcTypeCode(Types.VARCHAR)
   @Column(length = 36, nullable = false)
@@ -44,7 +46,7 @@ public class Member {
 
   public static Member from(SharedSessionMember sharedSessionMember) {
     return Member.builder()
-        .memberName(sharedSessionMember.memberName())
+        .memberId(sharedSessionMember.memberId())
         .sessionId(sharedSessionMember.sessionId())
         .type(MemberType.valueOf(sharedSessionMember.type()))
         .build();
@@ -53,7 +55,7 @@ public class Member {
   public Map<String, String> toMap() {
     Map<String, String> map = new HashMap<>();
     map.put("session_id", sessionId.toString());
-    map.put("member_id", memberName);
+    map.put("member_id", memberId.toString());
     map.put("type", MemberType.GENERAL.name());
     return map;
   }

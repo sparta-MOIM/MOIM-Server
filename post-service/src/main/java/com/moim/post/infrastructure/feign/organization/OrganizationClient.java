@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface OrganizationClient {
   @GetMapping("/{organizationTrackingId}/members/{userTrackingId}/has-role")
   ApiResponseData<Boolean> checkRole(
-      @PathVariable String organizationTrackingId,
-      @PathVariable String userTrackingId,
-      @RequestParam List<OrganizationMemberRole> roles
+      @PathVariable("organizationTrackingId") String organizationTrackingId,
+      @PathVariable("userTrackingId") String userTrackingId,
+      @RequestParam("roles") List<OrganizationMemberRole> roles
   );
 
 

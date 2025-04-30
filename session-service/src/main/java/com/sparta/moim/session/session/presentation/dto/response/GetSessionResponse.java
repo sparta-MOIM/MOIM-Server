@@ -11,7 +11,7 @@ public record GetSessionResponse(
     String organizationId,
     UUID sessionId,
     String title,
-    String publisher,
+    UUID publisher,
     GetMemberCountResponse memberCount,
     List<GetSessionMemberListResponse> member,
     LocalDateTime openTime,

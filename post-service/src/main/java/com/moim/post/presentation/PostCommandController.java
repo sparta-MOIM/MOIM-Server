@@ -3,6 +3,8 @@ package com.moim.post.presentation;
 import com.moim.post.application.usecase.PostCommandUseCase;
 import com.moim.post.domain.feed.Feed;
 import com.moim.post.domain.vote.Vote;
+import com.moim.post.infrastructure.persistence.repository.mongo.ProcessedMessage;
+import com.moim.post.infrastructure.persistence.repository.mongo.ProcessedMessageRepository;
 import com.moim.post.presentation.mapper.PostPresentationMapper;
 import com.moim.post.presentation.request.CreateFeedRequest;
 import com.moim.post.presentation.request.CreateVoteRequest;
@@ -34,6 +36,7 @@ public class PostCommandController {
 
   private final PostCommandUseCase useCase;
   private final PostPresentationMapper mapper;
+  private final ProcessedMessageRepository processedMessageRepository;
 
   @PostMapping("/feeds")
   public ResponseEntity<ApiResponseData<FeedResponse>> createFeed(
@@ -88,7 +91,7 @@ public class PostCommandController {
   }
 
   @DeleteMapping("/feeds")
-  public ResponseEntity<ApiResponseData> deleteFeed(
+  public ResponseEntity<ApiResponseData<Void>> deleteFeed(
       @Valid @RequestBody DeleteRequest request,
       @AuthenticationPrincipal CustomUserDetails userDetails
   ) {
@@ -99,7 +102,7 @@ public class PostCommandController {
   }
 
   @DeleteMapping("/votes")
-  public ResponseEntity<ApiResponseData> deleteVote(
+  public ResponseEntity<ApiResponseData<Void>> deleteVote(
       @Valid @RequestBody DeleteRequest request,
       @AuthenticationPrincipal CustomUserDetails userDetails
   ) {

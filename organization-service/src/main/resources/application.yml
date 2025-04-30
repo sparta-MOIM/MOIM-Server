@@ -18,7 +18,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         generate_statistics: true
@@ -27,6 +27,18 @@ spring:
     redis:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+      username: ${REDIS_USERNAME}
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    consumer:
+      group-id: organization-service
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      properties:
+        max.poll.interval.ms: 300000
+        max.poll.records: 1000
+        session.timeout.ms: 10000
 
 eureka:
   client:
@@ -36,16 +48,20 @@ eureka:
     fetch-registry: true
 
 management:
-  #  server:
-  #    port: 10100
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: ${OTEL_COLLECTOR_TRACES_ENDPOINT}
+    logging:
+      endpoint: ${OTEL_COLLECTOR_LOGS_ENDPOINT}
+    metrics:
+      export:
+        url: ${OTEL_COLLECTOR_METRICS_ENDPOINT}
+
+  # actuator endpoint를 외부에서 볼 수 있도록
   endpoints:
     web:
       exposure:
-        include: prometheus, metrics
-  metrics:
-    distribution:
-      percentiles-histogram:
-        http.server.requests: true
-  endpoint:
-    prometheus:
-      access: unrestricted
+        include: "*"

@@ -26,6 +26,15 @@ ext {
 }
 
 dependencies {
+    // 분산 추적
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-tracing-bridge-otel'
+    implementation "com.google.protobuf:protobuf-java:3.25.3"
+    implementation platform('io.micrometer:micrometer-bom:1.14.6')
+    implementation 'io.micrometer:micrometer-registry-otlp'
+    implementation 'io.opentelemetry:opentelemetry-exporter-otlp'
+    implementation 'io.opentelemetry.instrumentation:opentelemetry-logback-appender-1.0:2.15.0-alpha'
+
     // Spring
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -66,6 +75,10 @@ dependencies {
 
     // security
     implementation "org.springframework.boot:spring-boot-starter-security"
+
+    //mongoDB
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
 
 }
 

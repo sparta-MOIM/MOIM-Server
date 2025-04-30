@@ -27,13 +27,13 @@ public class ExternalMemberController {
   @PostMapping("/{sessionId}/join")
   public ResponseEntity<ApiResponseData<Void>> joinMember(@PathVariable UUID sessionId,
                                                          @AuthenticationPrincipal CustomUserDetails details) {
-    memberService.joinMember(new JoinMemberCommand(sessionId, details.getUsername()));
+    memberService.joinMember(new JoinMemberCommand(sessionId, details.getTrackingId()));
     return ResponseEntity.ok(ApiResponseData.success(null));
   }
 
   @DeleteMapping("/{sessionId}/leave")
   public ResponseEntity<ApiResponseData<Void>> leaveMember(@PathVariable UUID sessionId, @AuthenticationPrincipal CustomUserDetails user) {
-    memberService.leaveMember(new LeaveMemberCommand(sessionId, user.getUsername()));
+    memberService.leaveMember(new LeaveMemberCommand(sessionId, user.getTrackingId()));
     return ResponseEntity.ok(ApiResponseData.success(null));
   }
 

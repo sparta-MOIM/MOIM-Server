@@ -1,4 +1,4 @@
-package com.moim.post.application.event;
+package com.moim.post.infrastructure.kafka.event;
 
 import java.io.Serializable;
 import java.util.List;

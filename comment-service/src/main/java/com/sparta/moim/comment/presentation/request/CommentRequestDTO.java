@@ -1,5 +1,6 @@
 package com.sparta.moim.comment.presentation.request;
 
+import com.sparta.moim.common.dto.req.RoleCheckDTO;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -18,9 +19,11 @@ public class CommentRequestDTO {
   private String postId;
 
   @NotNull
-  @Min(value = 0, message = "commentClass must be 0 or 1")
-  @Max(value = 1, message = "commentClass must be 0 or 1")
+  @Min(value = 0, message = "commentClass 0(댓글) 혹은 1(대댓글) 중 하나 입니다.")
+  @Max(value = 1, message = "commentClass 0(댓글) 혹은 1(대댓글) 중 하나 입니다.")
   private Integer commentClass;
 
-  private Long parentId;
+  private String parentId;
+
+  private RoleCheckDTO roleCheckDTO; //권한 체크를 위한 모임 id (feignClient)
 }

@@ -1,4 +1,4 @@
-package com.moim.post.infrastructure.persistence.repository;
+package com.moim.post.infrastructure.persistence.repository.jpa;
 
 import com.moim.post.domain.feed.Feed;
 import com.moim.post.domain.repository.command.FeedCommandRepository;
