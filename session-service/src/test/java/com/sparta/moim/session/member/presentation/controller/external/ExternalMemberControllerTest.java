@@ -132,8 +132,11 @@ class ExternalMemberControllerTest {
     );
 
     UUID sessionId = UUID.randomUUID();
+    UUID member1 = UUID.randomUUID();
+    UUID member2 = UUID.randomUUID();
+    UUID member3 = UUID.randomUUID();
 
-    RemoveMemberRequest request = new RemoveMemberRequest(List.of("member1", "member2", "member3"));
+    RemoveMemberRequest request = new RemoveMemberRequest(List.of(member1, member2, member3));
 
     // when & then
     mockMvc.perform(delete("/api/v1/session/{sessionId}/remove", sessionId)
@@ -154,7 +157,7 @@ class ExternalMemberControllerTest {
                     parameterWithName("sessionId").description("세션 아이디")
                 )
                 .requestFields(
-                    fieldWithPath("members[]").description("강퇴시킬 계정명")
+                    fieldWithPath("members[]").description("강퇴시킬 계정 아이디")
                 )
                 .build()
             )));
