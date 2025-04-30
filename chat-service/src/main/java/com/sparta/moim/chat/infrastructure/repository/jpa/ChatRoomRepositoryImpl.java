@@ -1,10 +1,14 @@
 package com.sparta.moim.chat.infrastructure.repository.jpa;
 
+import static com.sparta.moim.chat.infrastructure.response.ChatCode.*;
+
 import com.sparta.moim.chat.domain.model.ChatRoom;
 import com.sparta.moim.chat.domain.repository.ChatRoomRepository;
+import com.sparta.moim.chat.infrastructure.response.ChatCode;
 import com.sparta.moim.common.exception.BaseException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -14,8 +18,8 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
   private final JpaChatRoomRepository jpaChatRoomRepository;
 
   @Override
-  public Optional<ChatRoom> save(ChatRoom chatRoom) {
-    return Optional.of(jpaChatRoomRepository.save(chatRoom));
+  public ChatRoom save(ChatRoom chatRoom) {
+    return jpaChatRoomRepository.save(chatRoom);
   }
 
   @Override
@@ -24,9 +28,15 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
   }
 
   @Override
-  public Optional<ChatRoom> findById(Long chat_room_id){
-    return Optional.ofNullable(jpaChatRoomRepository.findByIdAndDeletedByIsNull(chat_room_id)
-        .orElseThrow(() -> new BaseException("해당 채팅방을 찾지 못하였습니다.")));
+  public ChatRoom findByChatRoomId(String chatRoomId){
+    return jpaChatRoomRepository.findByTrackingIdAndDeletedByIsNull(UUID.fromString(chatRoomId))
+        .orElseThrow(() -> new BaseException(CHAT_NOT_FOUND));
+  }
+
+  @Override
+  public ChatRoom findByTrackingId(UUID trackingId){
+    return jpaChatRoomRepository.findByTrackingId(trackingId).orElseThrow(() -> new BaseException(
+        CHAT_NOT_FOUND));
   }
 
 
