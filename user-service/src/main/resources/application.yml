@@ -1,22 +1,25 @@
+server:
+  port: 8082
+
 spring:
   application:
     name: user-service
   data:
     redis:
-      host: localhost
-      port: 6379
+      host: ${USER_REDIS_HOST}
+      port: ${USER_REDIS_PORT}
 
   datasource:
-    url: jdbc:mysql://localhost:3308/user_db
-    username: root
-    password: 1234
+    url: ${USER_DATABASE_URL}
+    username: ${USER_DATABASE_ID}
+    password: ${USER_DATABASE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: none
+    show-sql: false
 
 eureka:
   client:
@@ -26,7 +29,24 @@ eureka:
     fetch-registry: true
 
 jwt:
-  issuer: "https://moim.com"
+  issuer: ${JWT_ISSUER}
   secret: ${JWT_SECRET}
-server:
-  port: 8082
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: ${OTEL_COLLECTOR_TRACES_ENDPOINT}
+    logging:
+      endpoint: ${OTEL_COLLECTOR_LOGS_ENDPOINT}
+    metrics:
+      export:
+        url: ${OTEL_COLLECTOR_METRICS_ENDPOINT}
+
+  # actuator endpoint를 외부에서 볼 수 있도록
+  endpoints:
+    web:
+      exposure:
+        include: "*"
