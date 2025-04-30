@@ -52,7 +52,6 @@ public class MemberService {
 
   private final RedissonClient redissonClient;
 
-  @Transactional
   public void joinMember(JoinMemberCommand command) {
     UUID sessionId = command.sessionId();
     UUID userId = command.userId();
@@ -64,22 +63,22 @@ public class MemberService {
 
     try {
       // 락 획득 시도 (10초 대기, 30초 유지)
-      boolean isLocked = lock.tryLock(10, 30, TimeUnit.SECONDS);
-      if (isLocked) {
-        try {
-          joinValidate(command.sessionId(), command.userId());
-          Member member = Member.builder()
-              .sessionId(command.sessionId())
-              .type(MemberType.GENERAL)
-              .memberId(command.userId())
-              .build();
+      boolean isLocked = lock.tryLock(2, 5, TimeUnit.SECONDS);
 
-          redisTemplate.opsForStream().add(streamJoinKey, member.toMap());
-          handleSessionMemberCountPublisher.increase(command.sessionId(), command.userId());
-        } finally {
-          // 락 해제
-          lock.unlock();
-        }
+      if (!isLocked) {
+        throw new SessionException(SessionCode.NOT_FOUND_SESSION);
+      }
+
+      try {
+        Member member = Member.builder()
+            .sessionId(command.sessionId())
+            .type(MemberType.GENERAL)
+            .memberId(command.userId())
+            .build();
+        redisTemplate.opsForStream().add(streamJoinKey, member.toMap());
+      } finally {
+        // 락 해제
+        lock.unlock();
       }
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
@@ -124,8 +123,6 @@ public class MemberService {
 
   @Transactional
   public void leaveMember(LeaveMemberCommand command) {
-//    memberRepository.deleteMemberBySessionId(command.sessionId(), command.username());
-
     UUID sessionId = command.sessionId();
     UUID userId = command.userId();
 
@@ -133,17 +130,17 @@ public class MemberService {
     RLock lock = redissonClient.getLock(lockKey);
     // 락 획득 시도 (10초 대기, 30초 유지)
     try {
-      boolean isLocked = lock.tryLock(10, 30, TimeUnit.SECONDS);
+      boolean isLocked = lock.tryLock(2, 5, TimeUnit.SECONDS);
+
+      if (!isLocked) {
+        throw new SessionException(SessionCode.NOT_FOUND_SESSION);
+      }
 
       try {
-        if (isLocked) {
-          Map<String, String> map = new HashMap<>();
-          map.put("session_id", command.sessionId().toString());
-          map.put("member_id", command.userId().toString());
-          redisTemplate.opsForStream().add(streamLeaveKey, map);
-          handleSessionMemberCountPublisher.decrease(command.sessionId(), command.userId());
-        }
-
+        Map<String, String> map = new HashMap<>();
+        map.put("session_id", command.sessionId().toString());
+        map.put("member_id", command.userId().toString());
+        redisTemplate.opsForStream().add(streamLeaveKey, map);
       } finally {
         // 락 해제
         lock.unlock();

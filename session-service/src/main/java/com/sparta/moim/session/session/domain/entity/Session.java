@@ -42,7 +42,7 @@ public class Session extends BaseEntity {
   private String title;
 
   @JdbcTypeCode(Types.VARCHAR)
-  @Column(length = 36, nullable = false, unique = true)
+  @Column(length = 36, nullable = false)
   private UUID publisher;
 
   private Integer totalCount;
