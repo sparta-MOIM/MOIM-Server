@@ -5,6 +5,7 @@ import com.moim.post.application.command.CreateVoteCommand;
 import com.moim.post.application.command.DeleteCommand;
 import com.moim.post.application.command.UpdateFeedCommand;
 import com.moim.post.application.command.UpdateVoteCommand;
+import com.moim.post.application.event.OutBoxEventHelper;
 import com.moim.post.application.exception.NotFoundFeed;
 import com.moim.post.application.exception.NotFoundVote;
 import com.moim.post.application.exception.PostUnauthorizedAccessException;
@@ -18,9 +19,11 @@ import com.moim.post.domain.vote.Vote;
 import com.sparta.moim.common.security.CustomUserDetails;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -30,13 +33,14 @@ public class PostCommandService implements PostCommandUseCase {
   private final VoteCommandRepository voteRepository;
   private final FeedEntityManager feedEntityManager;
   private final RoleValidator roleValidator;
+  private final OutBoxEventHelper outboxEventHelper;
 
   @Override
   public Feed createFeed(
       CustomUserDetails userDetails,
       CreateFeedCommand command
   ) {
-    checkRole("CREATE", command.organizationId(), userDetails.getTrackingId());
+//    checkRole("CREATE", command.organizationId(), userDetails.getTrackingId());
     Feed feed = Feed.create(
         command.organizationId(),
         command.title(),
@@ -44,7 +48,11 @@ public class PostCommandService implements PostCommandUseCase {
         command.imageUrl(),
         command.taggedIds()
     );
-    return feedRepository.save(feed);
+    feedRepository.save(feed);
+    // OutBox 이벤트 발행
+    outboxEventHelper.publishEvent("CREATE_FEED", feed);
+    log.info("OutBox Event 발행 완료");
+    return feed;
   }
 
   @Override
@@ -52,7 +60,7 @@ public class PostCommandService implements PostCommandUseCase {
       CustomUserDetails userDetails,
       CreateVoteCommand command
   ) {
-    checkRole("CREATE", command.organizationId(), userDetails.getTrackingId());
+//    checkRole("CREATE", command.organizationId(), userDetails.getTrackingId());
     Vote vote = Vote.create(
         command.organizationId(),
         command.title(),
@@ -61,7 +69,11 @@ public class PostCommandService implements PostCommandUseCase {
         command.end(),
         command.totalVoter()
     );
-    return voteRepository.save(vote);
+    voteRepository.save(vote);
+    // OutBox 이벤트 발행
+    outboxEventHelper.publishEvent("CREATE_VOTE", vote);
+    log.info("OutBox Event 발행 완료");
+    return vote;
   }
 
   @Override

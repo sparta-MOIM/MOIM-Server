@@ -67,6 +67,10 @@ dependencies {
     // security
     implementation "org.springframework.boot:spring-boot-starter-security"
 
+    //mongoDB
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+
 }
 
 ext {

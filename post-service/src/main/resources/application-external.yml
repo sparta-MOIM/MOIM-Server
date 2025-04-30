@@ -1,7 +1,8 @@
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:${EUREKA_PORT}/eureka/
+      defaultZone: ${EUREKA_URL}
+#      defaultZone: http://localhost:19090/eureka/
   instance:
     hostname: localhost    # 추가: 호스트명 명시적 설정
     preferIpAddress: true
@@ -9,14 +10,16 @@ eureka:
 
 spring:
   kafka:
-    chat-room:
-      group-id: post-notification
+    feed:
+      group-id: ${FEED_GROUP_ID}
+    vote:
+      group-id: ${VOTE_GROUP_ID}
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
     consumer:
-      group-id: chat-group
+      group-id: post-group
       auto-offset-reset: latest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

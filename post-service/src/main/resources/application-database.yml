@@ -9,11 +9,16 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
         show_sql: true
+
+  data:
+    mongodb:
+      uri: mongodb://post:moimserver@localhost:27017/post?authSource=admin
+      database: post
 
   # Redis 필요시
 #  data:
