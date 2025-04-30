@@ -27,7 +27,8 @@ eureka:
       defaultZone: ${EUREKA_DISCOVERY_URL}
     register-with-eureka: true
     fetch-registry: true
-
+  instance:
+    prefer-ip-address: true
 jwt:
   issuer: ${JWT_ISSUER}
   secret: ${JWT_SECRET}
