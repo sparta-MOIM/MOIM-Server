@@ -4,10 +4,9 @@ eureka:
       defaultZone: ${EUREKA_URL}
 #      defaultZone: http://localhost:19090/eureka/
   instance:
-    hostname: localhost    # 추가: 호스트명 명시적 설정
-    preferIpAddress: true
-    instanceId: ${spring.application.name}:${server.port}  # 추가: 인스턴스 ID 설정
-
+    prefer-ip-address: true
+    ip-address: ${ECS_INSTANCE_IP_ADDRESS}
+    instance-id: ${spring.application.name}:${ECS_INSTANCE_IP_ADDRESS}:${server.port}
 spring:
   kafka:
     feed:
@@ -27,3 +26,22 @@ spring:
 feign:
   url:
     organization: ${ORGANIZATION_CLIENT_URL}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: ${OTEL_COLLECTOR_TRACES_ENDPOINT}
+    logging:
+      endpoint: ${OTEL_COLLECTOR_LOGS_ENDPOINT}
+    metrics:
+      export:
+        url: ${OTEL_COLLECTOR_METRICS_ENDPOINT}
+
+  # actuator endpoint를 외부에서 볼 수 있도록
+  endpoints:
+    web:
+      exposure:
+        include: "*"

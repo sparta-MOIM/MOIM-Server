@@ -36,6 +36,15 @@ dependencyManagement {
 dependencies {
     implementation project(":common")
 
+    // 분산 추적
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-tracing-bridge-otel'
+    implementation "com.google.protobuf:protobuf-java:3.25.3"
+    implementation platform('io.micrometer:micrometer-bom:1.14.6')
+    implementation 'io.micrometer:micrometer-registry-otlp'
+    implementation 'io.opentelemetry:opentelemetry-exporter-otlp'
+    implementation 'io.opentelemetry.instrumentation:opentelemetry-logback-appender-1.0:2.15.0-alpha'
+
     //QUERY DSL
     implementation "com.querydsl:querydsl-jpa:${querydslVersion}:jakarta"
     annotationProcessor "com.querydsl:querydsl-apt:${querydslVersion}:jakarta"
@@ -131,6 +140,6 @@ docker {
     println(tasks.bootJar.outputs.files)
     name rootProject.name+'-'+project.name + ":" + version
     dockerfile file('../Dockerfile')
-    files tasks.bootJar.outputs.files
+    files tasks.bootJar.outputs.files, rootProject.file('entrypoint.sh')
     buildArgs(['JAR_FILE': tasks.bootJar.outputs.files.singleFile.name])
 }
