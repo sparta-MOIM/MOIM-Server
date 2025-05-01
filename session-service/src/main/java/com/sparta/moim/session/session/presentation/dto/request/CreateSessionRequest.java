@@ -17,6 +17,10 @@ public record CreateSessionRequest(
     @NotNull LocalDateTime closeTime,
     CreateSessionApplyRequest applyInfo
 ) {
+  public CreateSessionRequest {
+    applyInfo = applyInfo == null ? new CreateSessionApplyRequest(null) : applyInfo;
+  }
+
   public CreateSessionCommand toCommand(UUID userId, String role) {
     return CreateSessionCommand.builder()
         .organizationId(organizationId)
