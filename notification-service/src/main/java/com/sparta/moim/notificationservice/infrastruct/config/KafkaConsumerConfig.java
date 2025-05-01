@@ -34,7 +34,7 @@ public class KafkaConsumerConfig {
         consumerConfig.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         consumerConfig.put(ConsumerConfig.GROUP_ID_CONFIG, "notification-group");
         consumerConfig.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-        consumerConfig.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
+        consumerConfig.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
         consumerConfig.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, 1000);
         consumerConfig.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 100);
         consumerConfig.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, 30000);
@@ -52,7 +52,7 @@ public class KafkaConsumerConfig {
         consumerConfig.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         consumerConfig.put(ConsumerConfig.GROUP_ID_CONFIG, "notification-group");
         consumerConfig.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-        consumerConfig.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
+        consumerConfig.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
         consumerConfig.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, 1000);
         consumerConfig.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 100);
         consumerConfig.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, 30000);
