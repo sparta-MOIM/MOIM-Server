@@ -8,7 +8,7 @@ spring:
     password: ${CHAT_DATASOURCE_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         transaction:
@@ -23,19 +23,17 @@ spring:
       database: ${CHAT_MONGODB_DATABASE}
 
   kafka:
-    chat-room:
-      group-id: chat-room-group
     chat:
-      group-id: chat-group
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+      group-id: ${CHAT-GROUP-ID}
     consumer:
-      group-id: chat-group
+      group-id: ${CHAT-GROUP-ID}
       auto-offset-reset: latest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
 
   main:
     allow-bean-definition-overriding: true
@@ -44,6 +42,29 @@ eureka:
   client:
     service-url:
       defaultZone: ${EUREKA_DISCOVERY}
+  instance:
+    prefer-ip-address: true
+    ip-address: ${ECS_INSTANCE_IP_ADDRESS}
+    instance-id: ${spring.application.name}:${ECS_INSTANCE_IP_ADDRESS}:8087
 
 server:
   port: 8087
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: ${OTEL_COLLECTOR_TRACES_ENDPOINT}
+    logging:
+      endpoint: ${OTEL_COLLECTOR_LOGS_ENDPOINT}
+    metrics:
+      export:
+        url: ${OTEL_COLLECTOR_METRICS_ENDPOINT}
+
+  # actuator endpoint를 외부에서 볼 수 있도록
+  endpoints:
+    web:
+      exposure:
+        include: "*"

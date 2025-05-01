@@ -11,9 +11,5 @@ import org.springframework.context.annotation.Import;
 @Import({
         PropertyConfig.class
 })
-@ImportAutoConfiguration(exclude = {
-        SecurityAutoConfiguration.class,
-        ReactiveSecurityAutoConfiguration.class
-})
 public class GlobalConfig {
 }

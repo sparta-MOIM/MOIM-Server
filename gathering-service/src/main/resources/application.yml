@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         show_sql: true
@@ -25,6 +25,8 @@ spring:
       poll-timeout: 1
       host: ${GATHERING_REDIS_HOST:localhost}
       port: ${GATHERING_REDIS_PORT:6379}
+      username: ${GATHERING_REDIS_USERNAME}
+      password: ${GATHERING_REDIS_PASSWORD}
       timeout: 6000
       database: 0
       client-type: lettuce
@@ -39,6 +41,10 @@ eureka:
   client:
     service-url:
       defaultZone: ${EUREKA_SERVER_URL:http://localhost:19090/eureka/}
+  instance:
+    prefer-ip-address: true
+    ip-address: ${ECS_INSTANCE_IP_ADDRESS}
+    instance-id: ${spring.application.name}:${ECS_INSTANCE_IP_ADDRESS}:8085
 
 
 server:
@@ -54,3 +60,22 @@ springdoc:
   api-docs:
     enabled: true
     path: /api-docs-gathering-service
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: ${OTEL_COLLECTOR_TRACES_ENDPOINT}
+    logging:
+      endpoint: ${OTEL_COLLECTOR_LOGS_ENDPOINT}
+    metrics:
+      export:
+        url: ${OTEL_COLLECTOR_METRICS_ENDPOINT}
+
+  # actuator endpoint를 외부에서 볼 수 있도록
+  endpoints:
+    web:
+      exposure:
+        include: "*"

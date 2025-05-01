@@ -30,23 +30,9 @@ public class ProducerConfiguration {
     return new DefaultKafkaProducerFactory<>(messageSendProducerConfigurations());
   }
 
-  @Bean
-  public ProducerFactory<String, ChatRoomResponseDTO> chatRoomProducerFactory() {
-    return new DefaultKafkaProducerFactory<>(chatRoomProducerConfigurations());
-  }
-
   // Kafka Producer 구성을 위한 설정값들을 포함한 맵을 반환하는 메서드
   @Bean
   public Map<String, Object> messageSendProducerConfigurations() {
-    return ImmutableMap.<String, Object>builder()
-        .put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
-        .put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class)
-        .put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class)
-        .build();
-  }
-
-  @Bean
-  public Map<String, Object> chatRoomProducerConfigurations() {
     return ImmutableMap.<String, Object>builder()
         .put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers)
         .put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class)
@@ -60,8 +46,4 @@ public class ProducerConfiguration {
     return new KafkaTemplate<>(messageSendProducerFactory());
   }
 
-  @Bean
-  public KafkaTemplate<String, ChatRoomResponseDTO> chatRoomKafkaTemplate() {
-    return new KafkaTemplate<>(chatRoomProducerFactory());
-  }
 }
