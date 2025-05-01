@@ -9,4 +9,5 @@ public class GetOrganizationMemberResponse {
     private String memberTrackingId;
     private String nickname;
     private String organizationRole;
+    private String userTrackingId;
 }
