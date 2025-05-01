@@ -18,4 +18,4 @@ echo "[entrypoint] ECS_INSTANCE_IP_ADDRESS resolved as: $ECS_INSTANCE_IP_ADDRESS
 echo "[entrypoint] JAVA_OPTS: $JAVA_OPTS"
 
 # Spring Boot JAR 실행
-exec java "$JAVA_OPTS" -jar /app.jar
+exec java $JAVA_OPTS -jar /app.jar
