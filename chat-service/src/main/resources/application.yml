@@ -42,6 +42,10 @@ eureka:
   client:
     service-url:
       defaultZone: ${EUREKA_DISCOVERY}
+  instance:
+    prefer-ip-address: true
+    ip-address: ${ECS_INSTANCE_IP_ADDRESS}
+    instance-id: ${spring.application.name}:${ECS_INSTANCE_IP_ADDRESS}:8087
 
 server:
   port: 8087
