@@ -102,6 +102,6 @@ docker {
     println(tasks.bootJar.outputs.files)
     name rootProject.name+'-'+project.name + ":" + version
     dockerfile file('../Dockerfile')
-    files tasks.bootJar.outputs.files
+    files tasks.bootJar.outputs.files, rootProject.file('entrypoint.sh')
     buildArgs(['JAR_FILE': tasks.bootJar.outputs.files.singleFile.name])
 }
