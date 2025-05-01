@@ -16,7 +16,7 @@ public record SearchSessionResponse(
         .sessions(result.sessions().stream().map(session ->
             SearchSessionListResponse.builder()
                 .title(session.title())
-                .publisher(session.publisher())
+                .sessionId(session.sessionId())
                 .build()).toList())
         .total(result.total())
         .page(result.page())
