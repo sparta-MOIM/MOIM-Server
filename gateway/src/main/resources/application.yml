@@ -9,6 +9,8 @@ eureka:
     fetch-registry: true
   instance:
     prefer-ip-address: true
+    ip-address: ${ECS_INSTANCE_IP_ADDRESS}
+    instance-id: ${spring.application.name}:${ECS_INSTANCE_IP_ADDRESS}:19091
 
 spring:
   main:
