@@ -124,4 +124,9 @@ public class Session extends BaseEntity {
     }
     this.currentCount = result;
   }
+
+  public void createManger(String reason, SessionStatus status) {
+    this.reason = reason;
+    this.status = status;
+  }
 }

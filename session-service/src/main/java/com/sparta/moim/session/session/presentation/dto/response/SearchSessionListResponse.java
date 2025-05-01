@@ -6,6 +6,6 @@ import lombok.Builder;
 @Builder
 public record SearchSessionListResponse(
     String title,
-    UUID publisher
+    UUID sessionId
 ) {
 }

@@ -16,6 +16,7 @@ public record CreateSessionCommand(
     LocalDateTime closeTime,
     String reason,
     UUID publisher,
+    UUID userId,
     String role
 ) {
   public Session toDomain() {

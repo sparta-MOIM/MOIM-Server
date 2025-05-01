@@ -24,6 +24,7 @@ import com.sparta.moim.session.shared.enums.SessionStatus;
 import com.sparta.moim.session.shared.error.code.SessionCode;
 import com.sparta.moim.session.shared.error.exception.SessionException;
 import com.sparta.moim.session.shared.feign.OrganizationService;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -46,10 +47,30 @@ public class SessionService {
     if (sessionRepository.existsByTitleAndDeletedByIsNull(command.title())) {
       throw new SessionException(SessionCode.EXITS_TITLE_SESSION);
     }
+
     Session createSession = sessionRepository.save(command.toDomain());
+    isCreateManager(command.userId(), createSession);
+
     createSession.timeValidate();
     addMemberPublisher.add(createSession.getTrackingId(), command.publisher());
     return CreateSessionResult.create(createSession);
+  }
+
+  private void isCreateManager(UUID userId, Session createSession) {
+    ApiResponseData<Boolean> check = organizationSessionService.checkRole(createSession.getTrackingId(), userId,
+        List.of(OrganizationMemberRole.MASTER,
+            OrganizationMemberRole.MANAGER));
+
+    // 200이 발생하지 않는 다면 에러를 리턴한다.
+    if (!Objects.equals(check.getCode(), CommonCode.SUCCESS.getCode())) {
+      throw new SessionException(SessionCode.NOT_CONNECTED_SESSION);
+    }
+
+    // 매니저 이상이 생성한 경우
+    if (check.getData()) {
+      createSession.createManger("매니저가 생성한 세션입니다.", SessionStatus.OPEN);
+    }
+
   }
 
   @Transactional(readOnly = true)
@@ -120,7 +141,7 @@ public class SessionService {
     List<OrganizationMemberRole> roles = List.of(OrganizationMemberRole.MASTER, OrganizationMemberRole.MANAGER);
     ApiResponseData<Boolean> check = organizationSessionService.checkRole(organizationId, userId, roles);
 
-    if(!Objects.equals(check.getCode(), CommonCode.SUCCESS.getCode())) {
+    if (!Objects.equals(check.getCode(), CommonCode.SUCCESS.getCode())) {
       throw new SessionException(SessionCode.NOT_CONNECTED_SESSION);
     }
 
@@ -138,9 +159,10 @@ public class SessionService {
   }
 
   public void isValidateSessionTimeCheck(UUID sessionId) {
-    boolean isCollectJoinSession = sessionRepository.checkOpenTimeByTrackingId(sessionId).isPresent();
+    boolean isCollectJoinSession = sessionRepository.checkOpenTimeByTrackingId(sessionId, LocalDateTime.now())
+        .isPresent();
 
-    if (isCollectJoinSession) {
+    if (!isCollectJoinSession) {
       throw new SessionException(SessionCode.TIME_OUT_SESSION);
     }
   }

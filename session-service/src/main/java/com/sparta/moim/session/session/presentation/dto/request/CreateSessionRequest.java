@@ -28,6 +28,7 @@ public record CreateSessionRequest(
         .role(role)
         .reason(role.equals("ADMIN") && applyInfo.reason() == null ? "관리자가 생성한 세션입니다." : applyInfo.reason())
         .publisher(publisher == null ? userId : publisher)
+        .userId(userId)
         .build();
   }
 }

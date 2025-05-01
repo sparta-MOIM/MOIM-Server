@@ -406,7 +406,7 @@ class ExternalSessionControllerTest {
     List<SearchSessionListResult> sessions = List.of(
         SearchSessionListResult.builder()
             .title("title")
-            .publisher(publisher)
+            .sessionId(publisher)
             .build()
     );
 
@@ -441,7 +441,7 @@ class ExternalSessionControllerTest {
         .andExpect(jsonPath("$.data.sessions").isArray())
         .andExpect(jsonPath("$.data.sessions.length()").value(1))
         .andExpect(jsonPath("$.data.sessions[0].title").value("title"))
-        .andExpect(jsonPath("$.data.sessions[0].publisher").value(publisher.toString()))
+        .andExpect(jsonPath("$.data.sessions[0].sessionId").value(publisher.toString()))
         .andExpect(jsonPath("$.data.page").value(0))
         .andExpect(jsonPath("$.data.content").value(1))
         .andExpect(jsonPath("$.data.total").value(1))
@@ -476,7 +476,7 @@ class ExternalSessionControllerTest {
                     fieldWithPath("message").description("성공메시지"),
                     fieldWithPath("data.sessions").description("세션 리스트"),
                     fieldWithPath("data.sessions[].title").description("세션 제목"),
-                    fieldWithPath("data.sessions[].publisher").description("발표자"),
+                    fieldWithPath("data.sessions[].sessionId").description("세션 아이디"),
                     fieldWithPath("data.total").description("전체 갯수"),
                     fieldWithPath("data.page").description("페이지 수"),
                     fieldWithPath("data.content").description("현재 페이지에서 보여주는 아이템 수"))
