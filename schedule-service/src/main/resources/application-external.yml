@@ -3,9 +3,9 @@ eureka:
     serviceUrl:
       defaultZone: ${EUREKA_URL}
   instance:
-    hostname: localhost    # 추가: 호스트명 명시적 설정
-    preferIpAddress: true
-    instanceId: ${spring.application.name}:${server.port}  # 추가: 인스턴스 ID 설정
+    prefer-ip-address: true
+    ip-address: ${ECS_INSTANCE_IP_ADDRESS}
+    instance-id: ${spring.application.name}:${ECS_INSTANCE_IP_ADDRESS}:${server.port}
 
 management:
   tracing:

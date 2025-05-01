@@ -46,6 +46,11 @@ eureka:
       defaultZone: ${EUREKA_URL}
     register-with-eureka: true
     fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    ip-address: ${ECS_INSTANCE_IP_ADDRESS}
+    instance-id: ${spring.application.name}:${ECS_INSTANCE_IP_ADDRESS}:8084
+
 
 management:
   tracing:
