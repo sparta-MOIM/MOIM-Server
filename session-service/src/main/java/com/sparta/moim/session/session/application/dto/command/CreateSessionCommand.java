@@ -19,18 +19,18 @@ public record CreateSessionCommand(
     UUID userId,
     String role
 ) {
-  public Session toDomain() {
+  public Session toDomain(String reason, SessionStatus status) {
     return Session.builder()
         .organizationId(organizationId)
         .title(title)
         .totalCount(totalCount)
-        .status(SessionStatus.valueOf(status))
+        .status(status != null ? status : SessionStatus.valueOf(this.status))
         .openTime(openTime)
         .currentCount(1)
         .closeTime(closeTime)
         .applyTime(LocalDateTime.now())
         .confirmTime(role.equals("USER") ? null : LocalDateTime.now())
-        .reason(reason)
+        .reason(reason != null ? reason : this.reason)
         .publisher(publisher)
         .build();
   }
