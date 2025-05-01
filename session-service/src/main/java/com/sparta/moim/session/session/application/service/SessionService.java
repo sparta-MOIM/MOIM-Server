@@ -8,6 +8,7 @@ import com.sparta.moim.session.session.application.dto.command.CreateSessionComm
 import com.sparta.moim.session.session.application.dto.command.SearchSessionCommand;
 import com.sparta.moim.session.session.application.dto.command.UpdateSessionCommand;
 import com.sparta.moim.session.session.application.dto.command.UpdateStateStateCommand;
+import com.sparta.moim.session.session.application.dto.result.CreateManagerResult;
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionMemberListResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
@@ -48,16 +49,17 @@ public class SessionService {
       throw new SessionException(SessionCode.EXITS_TITLE_SESSION);
     }
 
-    Session createSession = sessionRepository.save(command.toDomain());
-    isCreateManager(command.userId(), createSession);
+    CreateManagerResult createManager = isCreateManager(command.userId(), command);
+    Session createSession = sessionRepository.save(command.toDomain(createManager.reason(), createManager.status()));
 
     createSession.timeValidate();
     addMemberPublisher.add(createSession.getTrackingId(), command.publisher());
     return CreateSessionResult.create(createSession);
   }
 
-  private void isCreateManager(UUID userId, Session createSession) {
-    ApiResponseData<Boolean> check = organizationSessionService.checkRole(createSession.getTrackingId(), userId,
+  private CreateManagerResult isCreateManager(UUID userId, CreateSessionCommand command) {
+    ApiResponseData<Boolean> check = organizationSessionService.checkRole(UUID.fromString(command.organizationId()),
+        userId,
         List.of(OrganizationMemberRole.MASTER,
             OrganizationMemberRole.MANAGER));
 
@@ -68,9 +70,10 @@ public class SessionService {
 
     // 매니저 이상이 생성한 경우
     if (check.getData()) {
-      createSession.createManger("매니저가 생성한 세션입니다.", SessionStatus.OPEN);
+      return new CreateManagerResult("매니저가 생성한 세션입니다.", SessionStatus.OPEN);
     }
 
+    return new CreateManagerResult(null, null);
   }
 
   @Transactional(readOnly = true)
