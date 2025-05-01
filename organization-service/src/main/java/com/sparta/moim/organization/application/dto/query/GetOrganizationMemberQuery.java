@@ -11,12 +11,14 @@ public class GetOrganizationMemberQuery {
     private String memberTrackingId;
     private String nickname;;
     private String organizationRole;
+    private String userTrackingId;
 
     public static GetOrganizationMemberQuery from(OrganizationMember organizationMember){
         return GetOrganizationMemberQuery.builder()
                 .memberTrackingId(organizationMember.getTrackingId().toString())
                 .nickname(organizationMember.getNickname())
                 .organizationRole(organizationMember.getRole().toString())
+                .userTrackingId(organizationMember.getUserTrackingId().toString())
                 .build();
     }
 }
