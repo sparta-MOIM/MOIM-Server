@@ -17,7 +17,7 @@ public record SearchSessionResult(
             sessions.stream().map(session ->
                     SearchSessionListResult.builder()
                         .title(session.getTitle())
-                        .publisher(session.getPublisher())
+                        .sessionId(session.getTrackingId())
                         .build())
                 .toList())
         .total(total)
