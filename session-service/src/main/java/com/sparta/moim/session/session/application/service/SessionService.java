@@ -47,10 +47,30 @@ public class SessionService {
     if (sessionRepository.existsByTitleAndDeletedByIsNull(command.title())) {
       throw new SessionException(SessionCode.EXITS_TITLE_SESSION);
     }
+
     Session createSession = sessionRepository.save(command.toDomain());
+    isCreateManager(command.userId(), createSession);
+
     createSession.timeValidate();
     addMemberPublisher.add(createSession.getTrackingId(), command.publisher());
     return CreateSessionResult.create(createSession);
+  }
+
+  private void isCreateManager(UUID userId, Session createSession) {
+    ApiResponseData<Boolean> check = organizationSessionService.checkRole(createSession.getTrackingId(), userId,
+        List.of(OrganizationMemberRole.MASTER,
+            OrganizationMemberRole.MANAGER));
+
+    // 200이 발생하지 않는 다면 에러를 리턴한다.
+    if (!Objects.equals(check.getCode(), CommonCode.SUCCESS.getCode())) {
+      throw new SessionException(SessionCode.NOT_CONNECTED_SESSION);
+    }
+
+    // 매니저 이상이 생성한 경우
+    if (check.getData()) {
+      createSession.createManger("매니저가 생성한 세션입니다.", SessionStatus.OPEN);
+    }
+
   }
 
   @Transactional(readOnly = true)
