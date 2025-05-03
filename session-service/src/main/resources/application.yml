@@ -25,8 +25,8 @@ spring:
       poll-timeout: 1
       host: ${SESSION_REDIS_HOST:localhost}
       port: ${SESSION_REDIS_PORT:6379}
-      username: ${SESSION_REDIS_USERNAME}
-      password: ${SESSION_REDIS_PASSWORD}
+#      username: ${SESSION_REDIS_USERNAME}
+#      password: ${SESSION_REDIS_PASSWORD}
       timeout: 6000
       database: 0
       client-type: lettuce
@@ -39,10 +39,6 @@ spring:
 server:
   port: 8089
 
-feign:
-  client:
-    member:
-      url: ${SESSION_URL:http://localhost:8089}
 eureka:
   client:
     service-url:
