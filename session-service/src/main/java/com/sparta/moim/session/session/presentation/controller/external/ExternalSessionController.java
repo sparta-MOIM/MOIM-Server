@@ -2,7 +2,7 @@ package com.sparta.moim.session.session.presentation.controller.external;
 
 import com.sparta.moim.common.response.ApiResponseData;
 import com.sparta.moim.common.security.CustomUserDetails;
-import com.sparta.moim.session.session.application.dto.DeleteSessionCommand;
+import com.sparta.moim.session.session.application.dto.command.DeleteSessionCommand;
 import com.sparta.moim.session.session.application.service.SessionService;
 import com.sparta.moim.session.session.presentation.dto.request.CreateSessionRequest;
 import com.sparta.moim.session.session.presentation.dto.request.SearchSessionRequest;

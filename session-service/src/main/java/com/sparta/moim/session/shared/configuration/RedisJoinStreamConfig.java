@@ -1,6 +1,6 @@
 package com.sparta.moim.session.shared.configuration;
 
-import com.sparta.moim.session.member.infrastructure.event.listener.redis.RedisStreamJoinListener;
+import com.sparta.moim.session.session.infrastructure.event.listener.redis.RedisStreamJoinListener;
 import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
