@@ -15,8 +15,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.common.security.CustomUserDetails;
-import com.sparta.moim.session.member.application.MemberService;
-import com.sparta.moim.session.member.presentation.dto.request.RemoveMemberRequest;
+import com.sparta.moim.session.session.application.service.MemberService;
+import com.sparta.moim.session.session.presentation.dto.request.RemoveMemberRequest;
+import com.sparta.moim.session.session.presentation.controller.external.ExternalMemberController;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;

@@ -3,7 +3,7 @@ package com.sparta.moim.session.session.application.service;
 import com.sparta.moim.common.page.Pagination;
 import com.sparta.moim.common.response.ApiResponseData;
 import com.sparta.moim.common.response.CommonCode;
-import com.sparta.moim.session.session.application.dto.DeleteSessionCommand;
+import com.sparta.moim.session.session.application.dto.command.DeleteSessionCommand;
 import com.sparta.moim.session.session.application.dto.command.CreateSessionCommand;
 import com.sparta.moim.session.session.application.dto.command.SearchSessionCommand;
 import com.sparta.moim.session.session.application.dto.command.UpdateSessionCommand;
@@ -155,27 +155,6 @@ public class SessionService {
 
   }
 
-  public void isValidateSession(UUID sessionId) {
-    sessionRepository.findByTrackingIdAndDeletedAtIsNull(sessionId)
-        .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION));
-
-  }
-
-  public void isValidateSessionTimeCheck(UUID sessionId) {
-    boolean isCollectJoinSession = sessionRepository.checkOpenTimeByTrackingId(sessionId, LocalDateTime.now())
-        .isPresent();
-
-    if (!isCollectJoinSession) {
-      throw new SessionException(SessionCode.TIME_OUT_SESSION);
-    }
-  }
-
-  public void isValidateSessionStatus(UUID sessionId) {
-    if (sessionRepository.checkSessionIdAndStatusOpen(sessionId).isPresent()) {
-      throw new SessionException(SessionCode.NOT_OPEN_SESSION);
-    }
-  }
-
   private void validationStatusIsNotReady(SessionStatus status) {
     if (status != SessionStatus.READY) {
       throw new SessionException(SessionCode.STATUS_NOT_READY_SESSION);
@@ -187,5 +166,6 @@ public class SessionService {
       throw new SessionException(SessionCode.STATUS_READY_SESSION);
     }
   }
+
 
 }
