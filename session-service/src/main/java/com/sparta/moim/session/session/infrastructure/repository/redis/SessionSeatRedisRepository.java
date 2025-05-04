@@ -8,10 +8,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 public class SessionSeatRedisRepository implements SessionSeatRepository {
-  private final RedisTemplate<String, Integer> redisTemplate;
+  private final RedisTemplate<String, Integer> integerRedisTemplate;
 
   public void set(String sessionId, Integer remainSeats) {
-    redisTemplate.opsForValue().set("session:" + sessionId + ":remain", remainSeats);
+    integerRedisTemplate.opsForValue().set("session:" + sessionId + ":remain", remainSeats);
 
   }
 
