@@ -8,7 +8,7 @@ spring:
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
   datasource:
-    url: ${NOTIFICATION_DB_URL}
+    url: ${NOTIFICATION_DB_URL}&rewriteBatchedStatements=true
     username: ${NOTIFICATION_DB_USERNAME}
     password: ${NOTIFICATION_DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
