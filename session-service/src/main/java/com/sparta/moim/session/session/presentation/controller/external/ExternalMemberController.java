@@ -2,9 +2,9 @@ package com.sparta.moim.session.session.presentation.controller.external;
 
 import com.sparta.moim.common.response.ApiResponseData;
 import com.sparta.moim.common.security.CustomUserDetails;
-import com.sparta.moim.session.session.application.service.MemberService;
 import com.sparta.moim.session.session.application.dto.command.JoinMemberCommand;
 import com.sparta.moim.session.session.application.dto.command.LeaveMemberCommand;
+import com.sparta.moim.session.session.application.service.MemberService;
 import com.sparta.moim.session.session.presentation.dto.request.RemoveMemberRequest;
 import jakarta.validation.Valid;
 import java.util.UUID;

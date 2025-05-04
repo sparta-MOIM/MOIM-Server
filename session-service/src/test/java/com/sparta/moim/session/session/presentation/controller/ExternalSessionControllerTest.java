@@ -21,7 +21,7 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.moim.common.security.CustomUserDetails;
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
-import com.sparta.moim.session.session.application.dto.result.GetSessionMemberListResult;
+import com.sparta.moim.session.session.application.dto.result.GetMemberListResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionListResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionResult;
@@ -46,7 +46,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -170,8 +169,8 @@ class ExternalSessionControllerTest {
         .status(SessionStatus.OPEN)
         .title("test")
         .member(List.of(
-            new GetSessionMemberListResult(user1, "PUBLISHER"),
-            new GetSessionMemberListResult(user2, "GENERAL")
+            new GetMemberListResult(user1, "PUBLISHER"),
+            new GetMemberListResult(user2, "GENERAL")
         ))
         .openTime(LocalDateTime.now())
         .applyTime(LocalDateTime.now())

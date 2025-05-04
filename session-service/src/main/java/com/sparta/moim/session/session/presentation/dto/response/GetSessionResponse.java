@@ -13,7 +13,7 @@ public record GetSessionResponse(
     String title,
     UUID publisher,
     GetMemberCountResponse memberCount,
-    List<GetSessionMemberListResponse> member,
+    List<GetMemberListResponse> member,
     LocalDateTime openTime,
     LocalDateTime closeTime,
     String status,
@@ -26,7 +26,7 @@ public record GetSessionResponse(
         .title(result.title())
         .publisher(result.publisher())
         .memberCount(new GetMemberCountResponse(result.totalCount(),result.currentCount()))
-        .member(result.member().stream().map(GetSessionMemberListResponse::new).toList())
+        .member(result.member().stream().map(GetMemberListResponse::new).toList())
         .openTime(result.openTime())
         .closeTime(result.closeTime())
         .status(result.status().name())

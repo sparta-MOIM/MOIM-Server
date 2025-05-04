@@ -1,8 +1,8 @@
 package com.sparta.moim.session.session.presentation.controller.internal;
 
-import com.sparta.moim.session.session.application.service.MemberService;
 import com.sparta.moim.session.session.application.dto.command.GetMemberCommand;
 import com.sparta.moim.session.session.application.dto.result.GetMemberListResult;
+import com.sparta.moim.session.session.application.service.MemberService;
 import com.sparta.moim.session.session.presentation.dto.response.GetMemberListResponse;
 import java.util.List;
 import java.util.UUID;

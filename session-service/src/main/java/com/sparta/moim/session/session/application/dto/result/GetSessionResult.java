@@ -15,7 +15,7 @@ public record GetSessionResult(
     UUID publisher,
     int totalCount,
     int currentCount,
-    List<GetSessionMemberListResult> member,
+    List<GetMemberListResult> member,
     LocalDateTime openTime,
     LocalDateTime closeTime,
     SessionStatus status,
@@ -23,7 +23,7 @@ public record GetSessionResult(
     LocalDateTime confirmTime,
     String reason
 ) {
-  public static GetSessionResult get(Session session, List<GetSessionMemberListResult> members) {
+  public static GetSessionResult get(Session session, List<GetMemberListResult> members) {
     return GetSessionResult.builder()
         .organizationId(session.getOrganizationId())
         .sessionId(session.getTrackingId())
