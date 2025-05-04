@@ -19,6 +19,7 @@ import com.sparta.moim.session.session.application.event.publisher.RemoveMemberP
 import com.sparta.moim.session.session.domain.entity.Session;
 import com.sparta.moim.session.session.domain.repository.SessionCustomRepository;
 import com.sparta.moim.session.session.domain.repository.SessionRepository;
+import com.sparta.moim.session.session.domain.repository.redis.SessionSeatRepository;
 import com.sparta.moim.session.shared.dto.SharedRemoveSession;
 import com.sparta.moim.session.shared.enums.OrganizationMemberRole;
 import com.sparta.moim.session.shared.enums.SessionStatus;
@@ -41,6 +42,8 @@ public class SessionService {
   private final RemoveMemberPublisher removeMemberPublisher;
   private final MemberService memberService;
   private final OrganizationService organizationSessionService;
+
+  private final SessionSeatRepository sessionSeatRepository;
 
   @Transactional
   public CreateSessionResult createSession(CreateSessionCommand command) {
@@ -136,7 +139,7 @@ public class SessionService {
     checkSessionApply(UUID.fromString(session.getOrganizationId()), userId);
     validationStatusIsNotReady(session.getStatus());
     session.confirm();
-
+    sessionSeatRepository.set(sessionId.toString(),session.getTotalCount());
   }
 
   private void checkSessionApply(UUID organizationId, UUID userId) {

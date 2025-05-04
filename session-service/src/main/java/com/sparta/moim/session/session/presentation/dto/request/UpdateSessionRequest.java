@@ -7,7 +7,7 @@ import java.util.UUID;
 import lombok.Builder;
 
 @Builder
-public record UpdateSessionRequest(
+public record  UpdateSessionRequest(
     @Nullable String title,
     @PositiveOrZero int count
 ) {
