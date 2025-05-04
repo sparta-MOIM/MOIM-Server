@@ -5,15 +5,15 @@ import com.sparta.moim.common.response.ApiResponseData;
 import com.sparta.moim.common.response.CommonCode;
 import com.sparta.moim.session.session.application.dto.command.DeleteSessionCommand;
 import com.sparta.moim.session.session.application.dto.command.CreateSessionCommand;
+import com.sparta.moim.session.session.application.dto.command.GetMemberCommand;
 import com.sparta.moim.session.session.application.dto.command.SearchSessionCommand;
 import com.sparta.moim.session.session.application.dto.command.UpdateSessionCommand;
 import com.sparta.moim.session.session.application.dto.command.UpdateStateStateCommand;
 import com.sparta.moim.session.session.application.dto.result.CreateManagerResult;
 import com.sparta.moim.session.session.application.dto.result.CreateSessionResult;
-import com.sparta.moim.session.session.application.dto.result.GetSessionMemberListResult;
+import com.sparta.moim.session.session.application.dto.result.GetMemberListResult;
 import com.sparta.moim.session.session.application.dto.result.GetSessionResult;
 import com.sparta.moim.session.session.application.dto.result.SearchSessionResult;
-import com.sparta.moim.session.session.application.event.feign.MemberInternalService;
 import com.sparta.moim.session.session.application.event.publisher.AddMemberPublisher;
 import com.sparta.moim.session.session.application.event.publisher.RemoveMemberPublisher;
 import com.sparta.moim.session.session.domain.entity.Session;
@@ -25,7 +25,6 @@ import com.sparta.moim.session.shared.enums.SessionStatus;
 import com.sparta.moim.session.shared.error.code.SessionCode;
 import com.sparta.moim.session.shared.error.exception.SessionException;
 import com.sparta.moim.session.shared.feign.OrganizationService;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -40,7 +39,7 @@ public class SessionService {
   private final SessionCustomRepository sessionCustomRepository;
   private final AddMemberPublisher addMemberPublisher;
   private final RemoveMemberPublisher removeMemberPublisher;
-//  private final MemberInternalService memberService;
+  private final MemberService memberService;
   private final OrganizationService organizationSessionService;
 
   @Transactional
@@ -78,10 +77,9 @@ public class SessionService {
 
   @Transactional(readOnly = true)
   public GetSessionResult getSession(UUID sessionId) {
-//    List<GetSessionMemberListResult> members = memberService.getMembers(sessionId);
-//    return GetSessionResult.get(sessionRepository.findByTrackingIdAndDeletedAtIsNull(sessionId)
-//        .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION)), members);
-    return null;
+    List<GetMemberListResult> members = memberService.getMember(new GetMemberCommand(sessionId));
+    return GetSessionResult.get(sessionRepository.findByTrackingIdAndDeletedAtIsNull(sessionId)
+        .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION)), members);
   }
 
   @Transactional(readOnly = true)
