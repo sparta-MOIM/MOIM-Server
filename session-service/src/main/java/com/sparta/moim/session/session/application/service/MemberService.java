@@ -9,7 +9,7 @@ import com.sparta.moim.session.session.application.dto.command.RemoveMemberComma
 import com.sparta.moim.session.session.application.dto.map.SendSessionEventMap;
 import com.sparta.moim.session.session.application.dto.result.GetMemberListResult;
 import com.sparta.moim.session.session.application.event.publisher.HandleSessionMemberCountPublisher;
-import com.sparta.moim.session.session.application.template.redis.SessionTemplate;
+import com.sparta.moim.session.session.application.lock.redisson.SessionLock;
 import com.sparta.moim.session.session.domain.entity.Member;
 import com.sparta.moim.session.session.domain.entity.Session;
 import com.sparta.moim.session.session.domain.repository.MemberRepository;
@@ -22,11 +22,9 @@ import com.sparta.moim.session.shared.feign.OrganizationService;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,43 +36,25 @@ public class MemberService {
   private final HandleSessionMemberCountPublisher handleSessionMemberCountPublisher;
   private final OrganizationService organizationMemberService;
   private final SessionRepository sessionRepository;
-  private final SessionTemplate sessionTemplate;
 
+  @Value("${spring.data.redis.stream-join-key}")
+  private String streamJoinKey;
+  @Value("${spring.data.redis.stream-leave-key}")
+  private String streamLeaveKey;
 
-  private final RedissonClient redissonClient;
+  private final SessionLock sessionLock;
 
   public void joinMember(JoinMemberCommand command) {
     UUID sessionId = command.sessionId();
     UUID userId = command.userId();
-//    checkOtherOrganization(command.sessionId(), command.userId());
-//    joinValidate(sessionId, userId);
-
+    checkOtherOrganization(command.sessionId(), command.userId());
+    joinValidate(sessionId, userId);
     String lockKey = "join:" + sessionId + ":" + userId;
-    RLock lock = redissonClient.getLock(lockKey);
-
-    try {
-      // 락 획득 시도 (10초 대기, 30초 유지)
-      boolean isLocked = lock.tryLock(2, 5, TimeUnit.SECONDS);
-
-      if (!isLocked) {
-        throw new SessionException(SessionCode.NOT_FOUND_SESSION);
-      }
-
-      try {
-
-        sessionTemplate.join(SendSessionEventMap.builder()
+    sessionLock.access(SendSessionEventMap.builder()
             .sessionId(sessionId.toString())
             .memberId(userId.toString())
             .type(MemberType.GENERAL)
-            .build());
-      } finally {
-        // 락 해제
-        lock.unlock();
-      }
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new RuntimeException("락 획득 중 인터럽트 발생", e);
-    }
+        .build(),lockKey,streamJoinKey);
 
   }
 
@@ -118,29 +98,11 @@ public class MemberService {
     UUID userId = command.userId();
 
     String lockKey = "leave:" + sessionId + ":" + userId;
-    RLock lock = redissonClient.getLock(lockKey);
-    // 락 획득 시도 (10초 대기, 30초 유지)
-    try {
-      boolean isLocked = lock.tryLock(2, 5, TimeUnit.SECONDS);
-
-      if (!isLocked) {
-        throw new SessionException(SessionCode.NOT_FOUND_SESSION);
-      }
-
-      try {
-        sessionTemplate.leave(SendSessionEventMap.builder()
-            .sessionId(sessionId.toString())
-            .memberId(userId.toString())
-            .type(MemberType.GENERAL).build());
-      } finally {
-        // 락 해제
-        lock.unlock();
-      }
-
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new RuntimeException("락 획득 중 인터럽트 발생", e);
-    }
+    sessionLock.access(SendSessionEventMap.builder()
+        .sessionId(sessionId.toString())
+        .memberId(userId.toString())
+        .type(MemberType.GENERAL)
+        .build(),lockKey,streamLeaveKey);
 
   }
 
