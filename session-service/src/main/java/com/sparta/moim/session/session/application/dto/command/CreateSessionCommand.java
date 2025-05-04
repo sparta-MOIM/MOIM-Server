@@ -26,7 +26,7 @@ public record CreateSessionCommand(
         .totalCount(totalCount)
         .status(status != null ? status : SessionStatus.valueOf(this.status))
         .openTime(openTime)
-        .currentCount(1)
+        .currentCount(0)
         .closeTime(closeTime)
         .applyTime(LocalDateTime.now())
         .confirmTime(role.equals("USER") ? null : LocalDateTime.now())
