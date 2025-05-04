@@ -52,3 +52,4 @@ management:
   endpoint:
     prometheus:
       access: unrestricted
+
