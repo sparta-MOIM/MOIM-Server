@@ -54,8 +54,8 @@ public class MemberService {
   public void joinMember(JoinMemberCommand command) {
     UUID sessionId = command.sessionId();
     UUID userId = command.userId();
-    checkOtherOrganization(command.sessionId(), command.userId());
-    joinValidate(sessionId, userId);
+//    checkOtherOrganization(command.sessionId(), command.userId());
+//    joinValidate(sessionId, userId);
 
     String lockKey = "join:" + sessionId + ":" + userId;
     RLock lock = redissonClient.getLock(lockKey);

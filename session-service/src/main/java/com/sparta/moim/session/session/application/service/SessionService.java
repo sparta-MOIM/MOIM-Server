@@ -40,7 +40,7 @@ public class SessionService {
   private final SessionCustomRepository sessionCustomRepository;
   private final AddMemberPublisher addMemberPublisher;
   private final RemoveMemberPublisher removeMemberPublisher;
-  private final MemberInternalService memberService;
+//  private final MemberInternalService memberService;
   private final OrganizationService organizationSessionService;
 
   @Transactional
@@ -78,9 +78,10 @@ public class SessionService {
 
   @Transactional(readOnly = true)
   public GetSessionResult getSession(UUID sessionId) {
-    List<GetSessionMemberListResult> members = memberService.getMembers(sessionId);
-    return GetSessionResult.get(sessionRepository.findByTrackingIdAndDeletedAtIsNull(sessionId)
-        .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION)), members);
+//    List<GetSessionMemberListResult> members = memberService.getMembers(sessionId);
+//    return GetSessionResult.get(sessionRepository.findByTrackingIdAndDeletedAtIsNull(sessionId)
+//        .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION)), members);
+    return null;
   }
 
   @Transactional(readOnly = true)
