@@ -11,9 +11,3 @@ eureka:
     fetch-registry: false
     service-url:
       defaultZone: ${EUREKA_DISCOVERY_URL}
-
-  instance:
-    hostname: eureka-service
-    prefer-ip-address: true
-    ip-address: ${ECS_INSTANCE_IP_ADDRESS}
-    instance-id: ${spring.application.name}:${ECS_INSTANCE_IP_ADDRESS}:19090

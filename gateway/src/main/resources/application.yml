@@ -7,10 +7,6 @@ eureka:
       defaultZone: ${EUREKA_DISCOVERY_URL}
     register-with-eureka: true
     fetch-registry: true
-  instance:
-    prefer-ip-address: true
-    ip-address: ${ECS_INSTANCE_IP_ADDRESS}
-    instance-id: ${spring.application.name}:${ECS_INSTANCE_IP_ADDRESS}:19091
 
 spring:
   main:
@@ -95,21 +91,3 @@ spring:
           filters:
             - PassportRelayFilter
 
-management:
-  tracing:
-    sampling:
-      probability: 1.0
-  otlp:
-    tracing:
-      endpoint: ${OTEL_COLLECTOR_TRACES_ENDPOINT}
-    logging:
-      endpoint: ${OTEL_COLLECTOR_LOGS_ENDPOINT}
-    metrics:
-      export:
-        url: ${OTEL_COLLECTOR_METRICS_ENDPOINT}
-
-  # actuator endpoint를 외부에서 볼 수 있도록
-  endpoints:
-    web:
-      exposure:
-        include: "*"

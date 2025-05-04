@@ -17,7 +17,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
-    show-sql: false
+    show-sql: true
     properties:
       hibernate:
         generate_statistics: true
@@ -25,8 +25,11 @@ spring:
     redis:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
-      username: ${REDIS_USERNAME}
-      password: ${REDIS_PASSWORD}
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql: trace
 
 eureka:
   client:
@@ -34,10 +37,6 @@ eureka:
       defaultZone: ${EUREKA_URL}
     register-with-eureka: true
     fetch-registry: true
-  instance:
-    prefer-ip-address: true
-    ip-address: ${ECS_INSTANCE_IP_ADDRESS}
-    instance-id: ${spring.application.name}:${ECS_INSTANCE_IP_ADDRESS}:8081
 
 management:
   #  server:
@@ -53,18 +52,3 @@ management:
   endpoint:
     prometheus:
       access: unrestricted
-    web:
-      exposure:
-        include: "*"
-
-  tracing:
-    sampling:
-      probability: 1.0
-  otlp:
-    tracing:
-      endpoint: ${OTEL_COLLECTOR_TRACES_ENDPOINT}
-    logging:
-      endpoint: ${OTEL_COLLECTOR_LOGS_ENDPOINT}
-    metrics:
-      export:
-        url: ${OTEL_COLLECTOR_METRICS_ENDPOINT}

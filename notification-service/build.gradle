@@ -27,9 +27,6 @@ dependencies {
 	implementation 'io.micrometer:micrometer-tracing-bridge-otel'
 	implementation "com.google.protobuf:protobuf-java:3.25.3"
 	implementation platform('io.micrometer:micrometer-bom:1.14.6')
-	implementation 'io.micrometer:micrometer-registry-otlp'
-	implementation 'io.opentelemetry:opentelemetry-exporter-otlp'
-	implementation 'io.opentelemetry.instrumentation:opentelemetry-logback-appender-1.0:2.15.0-alpha'
 
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
