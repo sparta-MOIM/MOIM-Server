@@ -6,20 +6,20 @@ import com.sparta.moim.session.session.application.dto.command.GetMemberCommand;
 import com.sparta.moim.session.session.application.dto.command.JoinMemberCommand;
 import com.sparta.moim.session.session.application.dto.command.LeaveMemberCommand;
 import com.sparta.moim.session.session.application.dto.command.RemoveMemberCommand;
+import com.sparta.moim.session.session.application.dto.map.SendSessionEventMap;
 import com.sparta.moim.session.session.application.dto.result.GetMemberListResult;
 import com.sparta.moim.session.session.application.event.publisher.HandleSessionMemberCountPublisher;
+import com.sparta.moim.session.session.application.template.redis.SessionTemplate;
 import com.sparta.moim.session.session.domain.entity.Member;
-import com.sparta.moim.session.session.domain.enums.MemberType;
-import com.sparta.moim.session.session.domain.repository.MemberRepository;
 import com.sparta.moim.session.session.domain.entity.Session;
+import com.sparta.moim.session.session.domain.repository.MemberRepository;
 import com.sparta.moim.session.session.domain.repository.SessionRepository;
+import com.sparta.moim.session.shared.enums.MemberType;
 import com.sparta.moim.session.shared.enums.OrganizationMemberRole;
 import com.sparta.moim.session.shared.error.code.SessionCode;
 import com.sparta.moim.session.shared.error.exception.SessionException;
 import com.sparta.moim.session.shared.feign.OrganizationService;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -27,8 +27,6 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,14 +38,8 @@ public class MemberService {
   private final HandleSessionMemberCountPublisher handleSessionMemberCountPublisher;
   private final OrganizationService organizationMemberService;
   private final SessionRepository sessionRepository;
+  private final SessionTemplate sessionTemplate;
 
-  @Value("${spring.data.redis.stream-join-key}")
-  private String streamJoinKey;
-
-  @Value("${spring.data.redis.stream-leave-key}")
-  private String streamLeaveKey;
-
-  private final RedisTemplate<String, Member> redisTemplate;
 
   private final RedissonClient redissonClient;
 
@@ -69,12 +61,12 @@ public class MemberService {
       }
 
       try {
-        Member member = Member.builder()
-            .sessionId(command.sessionId())
+
+        sessionTemplate.join(SendSessionEventMap.builder()
+            .sessionId(sessionId.toString())
+            .memberId(userId.toString())
             .type(MemberType.GENERAL)
-            .memberId(command.userId())
-            .build();
-        redisTemplate.opsForStream().add(streamJoinKey, member.toMap());
+            .build());
       } finally {
         // 락 해제
         lock.unlock();
@@ -136,10 +128,10 @@ public class MemberService {
       }
 
       try {
-        Map<String, String> map = new HashMap<>();
-        map.put("session_id", command.sessionId().toString());
-        map.put("member_id", command.userId().toString());
-        redisTemplate.opsForStream().add(streamLeaveKey, map);
+        sessionTemplate.leave(SendSessionEventMap.builder()
+            .sessionId(sessionId.toString())
+            .memberId(userId.toString())
+            .type(MemberType.GENERAL).build());
       } finally {
         // 락 해제
         lock.unlock();

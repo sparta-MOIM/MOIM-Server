@@ -1,6 +1,6 @@
 ### 환경 변수 설정
 @baseUrl = http://localhost:8089
-@userId = d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c76
+@userId = d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c78
 @username = 테스트유저
 @role = USER
 
@@ -77,14 +77,14 @@ X-User-ID: {{userId}}
 GET http://localhost:8089/internal/v1/session/74df0a24-5589-475a-8925-01b4a900404c
 
 ### 세션 참가
-POST http://localhost:8089/api/v1/session/62c6cacc-86a3-4c77-87ba-a1648bcd770e/join
+POST http://localhost:8089/api/v1/session/f8a51985-df04-4184-866a-2f0f34e3c35a/join
 Content-Type: application/json
 X-User-Name: test3
 X-User-Role: {{role}}
 X-User-ID: {{userId}}
 
 ### 세션 나가기
-DELETE http://localhost:8089/api/v1/session/b4ac9c28-3f9c-432f-bdbf-7eef7f41b625/leave
+DELETE http://localhost:8089/api/v1/session/f8a51985-df04-4184-866a-2f0f34e3c35a/leave
 Content-Type: application/json
 X-User-Name: test3
 X-User-Role: {{role}}

@@ -14,8 +14,8 @@ public record SendSessionEventMap(
 
   public Map<String, String> toMap() {
     Map<String, String> result = new HashMap<>();
-    result.put("sessionId", sessionId);
-    result.put("memberId", memberId);
+    result.put("session_id", sessionId);
+    result.put("member_id", memberId);
     result.put("type", type.name());
     return result;
   }

@@ -2,8 +2,9 @@ package com.sparta.moim.session.session.application.template.redis;
 
 import com.sparta.moim.session.session.application.dto.map.SendSessionEventMap;
 
-public interface RedisSessionTemplate {
+public interface SessionTemplate {
 
-  void send(SendSessionEventMap event);
+  void join(SendSessionEventMap event);
+  void leave(SendSessionEventMap event);
 
 }
