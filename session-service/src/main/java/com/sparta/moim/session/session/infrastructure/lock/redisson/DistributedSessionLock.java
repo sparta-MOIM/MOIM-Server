@@ -3,7 +3,6 @@ package com.sparta.moim.session.session.infrastructure.lock.redisson;
 import com.sparta.moim.session.session.application.dto.map.SendSessionEventMap;
 import com.sparta.moim.session.session.application.lock.redisson.SessionLock;
 import com.sparta.moim.session.session.domain.entity.Member;
-import com.sparta.moim.session.shared.enums.MemberType;
 import com.sparta.moim.session.shared.error.code.SessionCode;
 import com.sparta.moim.session.shared.error.exception.SessionException;
 import java.util.concurrent.TimeUnit;

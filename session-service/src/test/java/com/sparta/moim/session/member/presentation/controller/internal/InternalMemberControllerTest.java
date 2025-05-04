@@ -14,8 +14,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sparta.moim.session.session.application.service.MemberService;
 import com.sparta.moim.session.session.application.dto.result.GetMemberListResult;
+import com.sparta.moim.session.session.application.service.MemberService;
 import com.sparta.moim.session.session.presentation.controller.internal.InternalMemberController;
 import java.util.List;
 import java.util.UUID;

@@ -4,7 +4,6 @@ import com.sparta.moim.session.session.domain.entity.Session;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.data.repository.query.Param;
 
 public interface SessionRepository {
   Session save(Session session);
