@@ -10,4 +10,4 @@ eureka:
     register-with-eureka: false
     fetch-registry: false
     service-url:
-      defaultZone: ${EUREKA_DISCOVERY_URL}
+      defaultZone: http://localhost:19090/eureka/
