@@ -8,10 +8,10 @@ spring:
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
   datasource:
-    url: ${NOTIFICATION_DB_URL}&rewriteBatchedStatements=true
+    url: ${NOTIFICATION_DB_URL}?rewriteBatchedStatements=true&logger=Slf4JLogger&maxQuerySizeToLog=999999
     username: ${NOTIFICATION_DB_USERNAME}
     password: ${NOTIFICATION_DB_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -21,6 +21,7 @@ spring:
     properties:
       hibernate:
         generate_statistics: true
+
   data:
     redis:
       host: ${REDIS_HOST}

@@ -55,6 +55,7 @@ dependencies {
 	implementation 'org.hibernate.orm:hibernate-core:6.5.3.Final'
 	implementation 'org.hibernate:hibernate-micrometer:6.5.3.Final'
 	implementation 'io.micrometer:micrometer-core'
+	runtimeOnly 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 
 
 }
