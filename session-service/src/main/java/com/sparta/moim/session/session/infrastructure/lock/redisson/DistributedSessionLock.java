@@ -3,6 +3,7 @@ package com.sparta.moim.session.session.infrastructure.lock.redisson;
 import com.sparta.moim.session.session.application.dto.map.SendSessionEventMap;
 import com.sparta.moim.session.session.application.lock.redisson.SessionLock;
 import com.sparta.moim.session.session.domain.entity.Member;
+import com.sparta.moim.session.session.infrastructure.manager.lua.LuaScriptManager;
 import com.sparta.moim.session.shared.error.code.SessionCode;
 import com.sparta.moim.session.shared.error.exception.SessionException;
 import java.util.concurrent.TimeUnit;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 public class DistributedSessionLock implements SessionLock {
   private final RedissonClient redissonClient;
   private final RedisTemplate<String, Member> redisTemplate;
+  private final LuaScriptManager luaScriptManager;
 
   @Override
   public void access(SendSessionEventMap event, String lockKey, String key) {
