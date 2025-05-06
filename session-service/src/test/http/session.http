@@ -1,6 +1,6 @@
 ### 환경 변수 설정
 @baseUrl = http://localhost:8089
-@userId = d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c78
+@userId = d5a2c91b-6c8a-4f1c-9e2e-4a3f5f2e8c99
 @username = 테스트유저
 @role = USER
 
@@ -12,13 +12,13 @@ X-User-Role: {{role}}
 X-User-ID: {{userId}}
 
 {
-  "organizationId": "org123",
-  "publisher": "{{username}}",
-  "title": "스파르타 세션",
-  "totalCount": 2,
+  "organizationId": "374569af-ac46-46a2-bd97-cc10dbbec4e4",
+  "publisher": "{{userId}}",
+  "title": "스파르타 세션23",
+  "totalCount": 15,
   "status": "READY",
-  "openTime": "2024-04-13T10:00:00",
-  "closeTime": "2024-04-20T12:00:00",
+  "openTime": "2025-04-13T10:00:00",
+  "closeTime": "2025-06-20T12:00:00",
    "applyInfo": {
    "reason": "hello"
   }
@@ -67,7 +67,7 @@ X-User-Role: {{role}}
 X-User-ID: {{userId}}
 
 ### 세션 승인
-PATCH http://localhost:8089/api/v1/session/d0effb8c-ad19-4c9e-a098-14ed86a3ea16/apply
+PATCH http://localhost:8089/api/v1/session/fa787bd6-05c8-4514-b332-ec77ecf2fa82/apply
 Content-Type: application/json
 X-User-Name: {{username}}
 X-User-Role: {{role}}
@@ -77,7 +77,7 @@ X-User-ID: {{userId}}
 GET http://localhost:8089/internal/v1/session/f8a51985-df04-4184-866a-2f0f34e3c35a
 
 ### 세션 참가
-POST http://localhost:8089/api/v1/session/f8a51985-df04-4184-866a-2f0f34e3c35a/join
+POST http://localhost:8089/api/v1/session/fa787bd6-05c8-4514-b332-ec77ecf2fa82/join
 Content-Type: application/json
 X-User-Name: test3
 X-User-Role: {{role}}

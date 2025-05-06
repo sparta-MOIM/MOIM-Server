@@ -6,6 +6,7 @@ import com.sparta.moim.session.session.application.dto.command.GetMemberCommand;
 import com.sparta.moim.session.session.application.dto.command.JoinMemberCommand;
 import com.sparta.moim.session.session.application.dto.command.LeaveMemberCommand;
 import com.sparta.moim.session.session.application.dto.command.RemoveMemberCommand;
+import com.sparta.moim.session.session.application.dto.context.SessionRedisExecutionContext;
 import com.sparta.moim.session.session.application.dto.map.SendSessionEventMap;
 import com.sparta.moim.session.session.application.dto.result.GetMemberListResult;
 import com.sparta.moim.session.session.application.event.publisher.HandleSessionMemberCountPublisher;
@@ -47,14 +48,18 @@ public class MemberService {
   public void joinMember(JoinMemberCommand command) {
     UUID sessionId = command.sessionId();
     UUID userId = command.userId();
-    checkOtherOrganization(command.sessionId(), command.userId());
+//    checkOtherOrganization(command.sessionId(), command.userId());
     joinValidate(sessionId, userId);
     String lockKey = "join:" + sessionId + ":" + userId;
-    sessionLock.access(SendSessionEventMap.builder()
+    sessionLock.access(SessionRedisExecutionContext.builder()
+        .event(SendSessionEventMap.builder()
             .sessionId(sessionId.toString())
             .memberId(userId.toString())
-            .type(MemberType.GENERAL)
-        .build(),lockKey,streamJoinKey);
+            .build())
+        .lockKey(lockKey)
+        .streamKey(streamJoinKey)
+        .scriptName("sessionJoin")
+        .build());
 
   }
 
@@ -98,11 +103,15 @@ public class MemberService {
     UUID userId = command.userId();
 
     String lockKey = "leave:" + sessionId + ":" + userId;
-    sessionLock.access(SendSessionEventMap.builder()
-        .sessionId(sessionId.toString())
-        .memberId(userId.toString())
-        .type(MemberType.GENERAL)
-        .build(),lockKey,streamLeaveKey);
+    sessionLock.access(SessionRedisExecutionContext.builder()
+        .event(SendSessionEventMap.builder()
+            .sessionId(sessionId.toString())
+            .memberId(userId.toString())
+            .build())
+        .streamKey(streamLeaveKey)
+        .lockKey(lockKey)
+        .scriptName("sessionLeave")
+        .build());
 
   }
 
