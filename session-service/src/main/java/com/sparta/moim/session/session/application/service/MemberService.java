@@ -112,7 +112,7 @@ public class MemberService {
             .build())
         .streamKey(streamLeaveKey)
         .lockKey(lockKey)
-        .scriptName("script")
+        .scriptName("sessionLeave")
         .build());
 
   }
