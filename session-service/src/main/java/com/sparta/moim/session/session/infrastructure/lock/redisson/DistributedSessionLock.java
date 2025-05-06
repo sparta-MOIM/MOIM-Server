@@ -1,11 +1,14 @@
 package com.sparta.moim.session.session.infrastructure.lock.redisson;
 
+import com.sparta.moim.session.session.application.dto.context.SessionRedisExecutionContext;
 import com.sparta.moim.session.session.application.dto.map.SendSessionEventMap;
 import com.sparta.moim.session.session.application.lock.redisson.SessionLock;
 import com.sparta.moim.session.session.domain.entity.Member;
 import com.sparta.moim.session.session.infrastructure.manager.lua.LuaScriptManager;
 import com.sparta.moim.session.shared.error.code.SessionCode;
 import com.sparta.moim.session.shared.error.exception.SessionException;
+import java.time.Instant;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RLock;
@@ -22,9 +25,9 @@ public class DistributedSessionLock implements SessionLock {
   private final LuaScriptManager luaScriptManager;
 
   @Override
-  public void access(SendSessionEventMap event, String lockKey, String key) {
-    RLock lock = redissonClient.getLock(lockKey);
-
+  public void access(SessionRedisExecutionContext context) {
+    RLock lock = redissonClient.getLock(context.lockKey());
+    SendSessionEventMap event = context.event();
     try {
       // 락 획득 시도 (10초 대기, 30초 유지)
       boolean isLocked = lock.tryLock(2, 5, TimeUnit.SECONDS);
@@ -34,7 +37,19 @@ public class DistributedSessionLock implements SessionLock {
       }
 
       try {
-        redisTemplate.opsForStream().add(key, event.toMap());
+        Long execute = redisTemplate.execute(luaScriptManager.load(context.scriptName()),
+            List.of(
+                "session:" + event.sessionId() + ":remain",
+                "session:" + event.sessionId() + ":member",
+                context.streamKey()
+            ),
+            event.memberId(),
+            event.sessionId(),
+            Instant.now().toString()
+        );
+
+        //예외처리
+
       } finally {
         // 락 해제
         lock.unlock();

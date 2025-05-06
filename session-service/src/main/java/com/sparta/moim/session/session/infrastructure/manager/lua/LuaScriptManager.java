@@ -7,7 +7,7 @@ import org.springframework.scripting.support.ResourceScriptSource;
 
 @Configuration
 public class LuaScriptManager {
-  public DefaultRedisScript<Long> load(String scriptName) {
+  public  DefaultRedisScript<Long> load(String scriptName) {
     DefaultRedisScript<Long> script = new DefaultRedisScript<>();
     script.setScriptSource(new ResourceScriptSource(
         new ClassPathResource("lua/" + scriptName + ".lua")
