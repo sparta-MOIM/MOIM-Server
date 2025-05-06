@@ -21,6 +21,10 @@ public enum SessionCode implements Code {
   OPEN_ALLOWED_SESSION(HttpStatus.BAD_REQUEST,"S010", "매니저 이상만 세션승인을 할 수 있습니다."),
   LOCK_TIMEOUT(HttpStatus.INTERNAL_SERVER_ERROR,"S011", "세션 참가/나가기 락 타임아웃이 발생했습니다."),
 
+  SESSION_FULL_EXCEPTION(HttpStatus.BAD_REQUEST,"S012", "좌석수가 만석입니다."),
+  SESSION_NOT_INITIALIZED(HttpStatus.INTERNAL_SERVER_ERROR,"S013", "좌석 키가 초기화 되지 않았습니다."),
+  SESSION_NOT_JOINED(HttpStatus.BAD_REQUEST,"S014", "가입된 계정이 존재하지 않습니다."),
+
   ;
 
 

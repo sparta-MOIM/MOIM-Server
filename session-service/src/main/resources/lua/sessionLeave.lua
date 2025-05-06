@@ -8,7 +8,7 @@
 -- 1. 참가 여부 확인
 local isMember = redis.call("SISMEMBER", KEYS[2], ARGV[1])
 if isMember == 0 then
-    return -2  -- 참가하지 않은 사용자
+    return -3  -- 참가하지 않은 사용자
 end
 
 -- 2. 참가자 목록에서 제거

@@ -6,17 +6,23 @@ import com.sparta.moim.session.session.application.lock.redisson.SessionLock;
 import com.sparta.moim.session.session.domain.entity.Member;
 import com.sparta.moim.session.session.infrastructure.manager.lua.LuaScriptManager;
 import com.sparta.moim.session.shared.error.code.SessionCode;
+import com.sparta.moim.session.shared.error.exception.DuplicateJoinException;
 import com.sparta.moim.session.shared.error.exception.SessionException;
+import com.sparta.moim.session.shared.error.exception.SessionFullException;
+import com.sparta.moim.session.shared.error.exception.SessionNotInitialized;
+import com.sparta.moim.session.shared.error.exception.SessionNotJoinException;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DistributedSessionLock implements SessionLock {
@@ -49,7 +55,7 @@ public class DistributedSessionLock implements SessionLock {
         );
 
         //예외처리
-
+        handleSessionJoinResult(execute.intValue());
       } finally {
         // 락 해제
         lock.unlock();
@@ -57,6 +63,19 @@ public class DistributedSessionLock implements SessionLock {
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new RuntimeException("락 획득 중 인터럽트 발생", e);
+    }
+  }
+
+  public void handleSessionJoinResult(Integer result) {
+    if (result == null) throw new IllegalStateException("Lua 실행 실패");
+
+    switch (result) {
+      case 1 -> log.info("입장/나가기 성공");
+      case 0 -> throw new SessionFullException();        // 좌석 없음
+      case -1 -> throw new SessionNotInitialized();      // remain 키 없음
+      case -2 -> throw new DuplicateJoinException();     // 이미 참가함
+      case -3 -> throw new SessionNotJoinException();     // 입장한 계정이 존재하지 않음
+      default -> throw new RuntimeException("예상치 못한 Lua 결과: " + result);
     }
   }
 }
