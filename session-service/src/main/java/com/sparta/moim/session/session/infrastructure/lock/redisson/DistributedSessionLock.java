@@ -72,19 +72,19 @@ public class DistributedSessionLock implements SessionLock {
     switch (result) {
       case 1 -> log.info("입장/나가기 성공");
       case 0 -> {
-        log.warn("좌석이 존재하지 않습니다.");
+        log.info("좌석이 존재하지 않습니다.");
         throw new SessionFullException();        // 좌석 없음
       }
       case -1 -> {
-        log.warn("remain 키가 존재하지 않습니다.");
+        log.warn("remain 키가 존재하지 않습니다. result={}", result);
         throw new SessionNotInitialized();      // remain 키 없음
       }
       case -2 -> {
-        log.warn("이미 참여하였습니다.");
+        log.info("이미 참여하였습니다.");
         throw new DuplicateJoinException();     // 이미 참가함
       }
       case -3 -> {
-        log.warn("입장하지 않았습니다.");
+        log.info("입장하지 않았습니다.");
         throw new SessionNotJoinException();     // 입장한 계정이 존재하지 않음
       }
       default -> throw new RuntimeException("예상치 못한 Lua 결과: " + result);
