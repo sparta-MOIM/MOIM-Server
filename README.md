@@ -155,7 +155,9 @@
   - 내용
 
 - **채팅**:
-  - 내용
+  - ws-stomp를 통해 **실시간 채팅**이 가능합니다. (1대1 채팅과 1대N 채팅이 가능합니다)
+  - **Kafka를 채팅 브로커로 사용**하여, **대용량 채팅 트래픽을 견딜 수 있도록 설계**되었습니다.
+  - 기획상으로, 모임 1개당 채팅방을 1개만 생성할 수 있도록 설계되었지만, **추후 확장이 가능**합니다.
 
 - **모임**:
   - 내용
@@ -167,7 +169,10 @@
   - 내용
     
 - **댓글**
-  - 내용
+  - 게시글과 댓글 도메인은 분리되어 있습니다.
+  - 부모댓글과 자식댓글을 구분하여 댓글과 대댓글을 구분지었습니다.
+  - 게시된지 시간이 지난 게시글의 댓글은 수정이 빈번하게 일어나지 않는다고 판단하여, 댓글 조회 최적화를 위해 캐싱을 도입하였습니다.
+  - 게시글이 삭제되면, 댓글도 모두 삭제되는 트랜잭션을 갖고 있습니다.
  
 - **일정**
   - 내용
@@ -196,7 +201,8 @@
 <br/>
 <p align="center">
   <img src="https://img.shields.io/badge/MySQL-v.latest-4479A1?style=flat&logo=MySQL&logoColor=white" alt="MySQL"> <img src="https://img.shields.io/badge/Redis-v.latest-FF4438?style=flat&logo=Redis&logoColor=white" alt="Redis"> <img src="https://img.shields.io/badge/Redisson-v.latest-FF4438?style=flat&logo=Redis&logoColor=white" alt="Redisson">
-  <br/> <img src="https://img.shields.io/badge/Lua Script-v.latest-2C2D72?style=flat&logo=Lua&logoColor=white" alt="Lua"> <img src="https://img.shields.io/badge/MongoDB-v.latest-47A248?style=flat&logo=mongodb&logoColor=white" alt="mongodb">
+  <br/> <img src="https://img.shields.io/badge/Lua Script-v.latest-2C2D72?style=flat&logo=Lua&logoColor=white" alt="Lua"> <img src="https://img.shields.io/badge/MongoDB-v.latest-47A248?style=flat&logo=mongodb&logoColor=white" alt="mongodb"> <br/> <img src="https://img.shields.io/badge/phpMyAdmin-v.latest-6C78AF?style=flat&logo=phpMyAdmin&logoColor=white" alt="phpMyAdmin">
+  <img src="https://img.shields.io/badge/RedisInsight-v.latest-FF4438?style=flat&logo=Redis&logoColor=white" alt="RedisInsight"> <img src="https://img.shields.io/badge/MongoExpress-v.latest-47A248?style=flat&logo=mongodb&logoColor=white" alt="mongo-express">
 </p>
 
 <br/>
