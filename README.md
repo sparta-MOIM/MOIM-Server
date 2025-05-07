@@ -2,7 +2,7 @@
 > 대규모 모임의 인원관리, 일정조율, 소통을 효율적으로 도와주는 MSA 기반 모임 통합 관리 서비스</br>
 > 개발 기간 : 2025.04 ~ 2025.05
 <br/>
-<p align="center">
+<p >
 <img width="700" alt="서비스 소개" src="https://github.com/user-attachments/assets/071baaf0-2ee8-49f2-9c7c-82114b360200">
 </p>
 <br/>
@@ -185,47 +185,48 @@
 
 - 링크
 
-- 
+</br>
+
 ## 📝 Technology Stack (기술 스택)
 
+<h3>Framework</h3>
 <br/>
-<h3 align="center">Framework</h3>
-<br/>
-<p align="center">
+<p>
   <img src="https://img.shields.io/badge/OpenJDK-v17.0.14-000000?style=flat&logo=OpenJDK&logoColor=white" alt="openJDK"> <img src="https://img.shields.io/badge/Spring Boot-v3.4.4-6DB33F?style=flat&logo=SpringBoot&logoColor=white" alt="Spring Boot"> <img src="https://img.shields.io/badge/Spring Data JPA-v3.4.4-6DB33F?style=flat&logo=Spring&logoColor=white" alt="Spring"> 
   <br/> <img src="https://img.shields.io/badge/Spring Security-v6.2.5-6DB33F?style=flat&logo=springsecurity&logoColor=white" alt="Spring Security"> <img src="https://img.shields.io/badge/Spring Cloud-v2024.0.0-6DB33F?style=flat&logo=Spring&logoColor=white" alt="Spring Cloud"> <img src="https://img.shields.io/badge/QueryDsl-v5.0.0-0769AD?style=flat&logo=Github&logoColor=white" alt="QueryDsl"> 
 </p>
 
 <br/>
-<h3 align="center">Database</h3>
+<h3>Database</h3>
 <br/>
-<p align="center">
+<p>
   <img src="https://img.shields.io/badge/MySQL-v.latest-4479A1?style=flat&logo=MySQL&logoColor=white" alt="MySQL"> <img src="https://img.shields.io/badge/Redis-v.latest-FF4438?style=flat&logo=Redis&logoColor=white" alt="Redis"> <img src="https://img.shields.io/badge/Redisson-v.latest-FF4438?style=flat&logo=Redis&logoColor=white" alt="Redisson">
   <br/> <img src="https://img.shields.io/badge/Lua Script-v.latest-2C2D72?style=flat&logo=Lua&logoColor=white" alt="Lua"> <img src="https://img.shields.io/badge/MongoDB-v.latest-47A248?style=flat&logo=mongodb&logoColor=white" alt="mongodb"> <br/> <img src="https://img.shields.io/badge/phpMyAdmin-v.latest-6C78AF?style=flat&logo=phpMyAdmin&logoColor=white" alt="phpMyAdmin">
   <img src="https://img.shields.io/badge/RedisInsight-v.latest-FF4438?style=flat&logo=Redis&logoColor=white" alt="RedisInsight"> <img src="https://img.shields.io/badge/MongoExpress-v.latest-47A248?style=flat&logo=mongodb&logoColor=white" alt="mongo-express">
 </p>
 
 <br/>
-<h3 align="center">Monitoring</h3>
+<h3 >Monitoring</h3>
 <br/>
-<p align="center">
+<p>
   <img src="https://img.shields.io/badge/Grafana-v.latest-F46800?style=flat&logo=Grafana&logoColor=white" alt="Grafana"> <img src="https://img.shields.io/badge/Prometheus-v.latest-E6522C?style=flat&logo=prometheus&logoColor=white" alt="prometheus"> <img src="https://img.shields.io/badge/Grafana Tempo-v.latest-F46800?style=flat&logo=Grafana&logoColor=white" alt="Grafana Tempo">
   <br/> <img src="https://img.shields.io/badge/Grafana Loki-v.latest-F46800?style=flat&logo=Grafana&logoColor=white" alt="Grafana Loki"> <img src="https://img.shields.io/badge/OpenTelemetry-v.latest-FFE033?style=flat&logo=opentelemetry&logoColor=white" alt="opentelemetry">
 </p>
 
 <br/>
-<h3 align="center">Infra</h3>
+<h3>Infra</h3>
 <br/>
-<p align="center">
+<p>
   <img src="https://img.shields.io/badge/Docker-v.latest-2496ED?style=flat&logo=docker&logoColor=white" alt="docker"> <img src="https://img.shields.io/badge/Docker Compose-v.latest-004B8D?style=flat&logo=docker&logoColor=white" alt="docker compose"> <img src="https://img.shields.io/badge/Apache Kafka-v.latest-A100FF?style=flat&logo=apachekafka&logoColor=white" alt="apachekafka"> <img src="https://img.shields.io/badge/Jenkins-v.latest-D24939?style=flat&logo=jenkins&logoColor=white" alt="jenkins">
    <br/> <img src="https://img.shields.io/badge/EC2-None-FF9900?style=flat&logo=amazonec2&logoColor=white" alt="amazonec2"> <img src="https://img.shields.io/badge/ECS-None-FF9900?style=flat&logo=amazonecs&logoColor=white" alt="amazonecs"> <img src="https://img.shields.io/badge/AWS Fargate-None-FF9900?style=flat&logo=awsfargate&logoColor=white" alt="awsfargate"> <img src="https://img.shields.io/badge/ECR-None-FF9900?style=flat&logo=amazonwebservices&logoColor=white" alt="amazonwebservices">
   <br/> <img src="https://img.shields.io/badge/RDS-None-527FFF?style=flat&logo=amazonrds&logoColor=white" alt="amazonrds"> <img src="https://img.shields.io/badge/Route 53-None-8C4FFF?style=flat&logo=amazonroute53&logoColor=white" alt="amazonroute53"> <img src="https://img.shields.io/badge/Nginx-None-009639?style=flat&logo=nginx&logoColor=white" alt="nginx"> <img src="https://img.shields.io/badge/Nginx Proxy Manager-None-F15833?style=flat&logo=nginxproxymanager&logoColor=white" alt="nginxproxymanager">
 </p>
 
+</br>
 
 ## 🎲 Development Convention (개발 컨벤션)
 
-- wiki로 문서화할 예정입니다.
+- [개발 컨벤션](https://github.com/sparta-MOIM/MOIM-Server/wiki/Development-Workflow-(%EA%B0%9C%EB%B0%9C-%EC%9B%8C%ED%81%AC%ED%94%8C%EB%A1%9C%EC%9A%B0))
 
 <br/>
 
