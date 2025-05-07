@@ -1,11 +1,13 @@
-# 대규모 모임 관리 시스템 - MOIM
-
-<img src="https://github.com/user-attachments/assets/071baaf0-2ee8-49f2-9c7c-82114b360200" alt="서비스 소개" width="100%"/>
-
+# 🐧 대규모 모임 관리 시스템 - MOIM
+> 대규모 모임의 인원관리, 일정조율, 소통을 효율적으로 도와주는 MSA 기반 모임 통합 관리 서비스</br>
+> 개발 기간 : 2025.04 ~ 2025.05
 <br/>
+<p align="center">
+<img width="700" alt="서비스 소개" src="https://github.com/user-attachments/assets/071baaf0-2ee8-49f2-9c7c-82114b360200">
+</p>
 <br/>
 
-# Members (팀원 및 팀 소개)
+## 🎯 Members (팀원 및 팀 소개)
 <table style="margin-left:auto;margin-right:auto;">
   <tr height="160px">
     <th align="center" width="140px">
@@ -78,29 +80,39 @@
 </table>
 
 <br/>
-<br/>
 
-# Getting Started (서비스 URL 및 API 명세서)
+## ✨ Getting Started (서비스 URL 및 API 명세서)
 
 - 서비스 URL : https://moim.agong.store
 - API : (wiki에 문서화할 예정입니다.)
 
 <br/>
+
+## 📚 About Project
+**프로젝트 목적**
+  - 대규모 모임 관리를 보다 쉽고 편하게 도와주는 서비스 입니다.
 <br/>
 
-# About Project
-- **프로젝트 목적**: 대규모 모임 관리를 보다 쉽고 편하게 도와주는 서비스 입니다.
-- **프로젝트 설명**: 모든 인원이 공지를 확인할 수 있도록 주기적으로 알람을 보내주고, 선착순 세션, 채팅, 투표 등의 부가적인 기능을 통해 모임을 관리를 수월하게 할 수 있도록 지원해줍니다.
-- **프로젝트 구성** : 회원, 세션, 알림, 채팅, 모임, 소모임, 게시글, 댓글, 일정 도메인으로 이루어져 있으며, 서비스 간의 통신은 FeignClient로 이루어집니다. 또한 Kafka를 사용하여 이벤트 기반 아키텍처를 구성하였으며, OpenTelemetry를 통하여 모든 로그들을 효율적으로 수집하였으며, 분산추적을 수행하였고, Grafana로 시각화를 진행하여 지속적인 모니터링을 진행했습니다.
-- **아키텍쳐 설명** : MSA 기반이며, 각 서비스 인스턴스들은 AWS ECS 에서 동작합니다. 젠킨스를 통한 CI/CD 파이프라인을 구축하였습니다. RDB는 MySQL을 사용하였고, AWS RDS에 DB서버를 구축하였습니다. NoSQL인 Redis와 MongoDB는 AWS EC2에 구축하였습니다. Kafka/Zookeeper, Prometheus, Grafana, Grafana Tempo, Grafana Loki, OpenTelemetry는 AWS EC2에 배포환경을 구축하였습니다.
+**프로젝트 설명**
+  - 모든 인원이 공지를 확인할 수 있도록 주기적으로 알람을 보내주고, 선착순 세션, 채팅, 투표 등의 부가적인 기능을 통해 모임을 관리를 수월하게 할 수 있도록 지원해줍니다.
 <br/>
 
-![image](https://github.com/user-attachments/assets/73b40880-9225-4ceb-ad65-7410f13e0f2c)
-
-
-<br/>
+**프로젝트 구성**
+  - 회원, 세션, 알림, 채팅, 모임, 소모임, 게시글, 댓글, 일정 도메인으로 이루어져 있으며, 서비스 간의 통신은 FeignClient로 이루어집니다. 또한 Kafka를 사용하여 이벤트 기반 아키텍처를 구성하였으며, OpenTelemetry를 통하여 모든 로그들을 효율적으로 수집하였으며, 분산추적을 수행하였고, Grafana로 시각화를 진행하여 지속적인 모니터링을 진행했습니다.
 <br/>
 
+**아키텍쳐 설명**
+  - MSA 기반이며, 각 서비스 인스턴스들은 AWS ECS 에서 동작합니다. 젠킨스를 통한 CI/CD 파이프라인을 구축하였습니다. RDB는 MySQL을 사용하였고, AWS RDS에 DB서버를 구축하였습니다. NoSQL인 Redis와 MongoDB는 AWS EC2에 구축하였습니다. Kafka/Zookeeper, Prometheus, Grafana, Grafana Tempo, Grafana Loki, OpenTelemetry는 AWS EC2에 배포환경을 구축하였습니다.
+<br/>
+
+
+## 🧩 서버 아키텍처
+
+<br/>
+<p align="center">
+<img width="1000" alt="서비스 소개" src="https://github.com/user-attachments/assets/73b40880-9225-4ceb-ad65-7410f13e0f2c">
+</p>
+<br/>
 
 ## 해당 스택을 적용한 이유
 
