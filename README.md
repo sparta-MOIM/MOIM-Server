@@ -214,25 +214,11 @@
 
 
 # ERD
-<br/>
-<br/>
 
-<img width="443" alt="image" src="https://github.com/user-attachments/assets/cbd62bc6-8e74-4d89-a434-91bb57df744f" />
-<img width="501" alt="image" src="https://github.com/user-attachments/assets/00199941-d48c-441b-85b3-9ac77e1f6d86" />
-<img width="861" alt="image" src="https://github.com/user-attachments/assets/da75a30a-0247-4986-9228-a23e13fa7c69" />
-<img width="772" alt="image" src="https://github.com/user-attachments/assets/90a8bd97-3e85-4f3a-9f25-a68ea54246bf" />
-<img width="431" alt="image" src="https://github.com/user-attachments/assets/54feef4e-c300-49a5-9a9d-041e15c5a63d" />
-<img width="497" alt="image" src="https://github.com/user-attachments/assets/eef50f82-c287-4f3f-af65-09cf83f3158e" />
+- 링크
 
-
- <br/>
-
-
-<br/>
-<br/>
-
-
-# Technology Stack (기술 스택)
+- 
+## 📝 Technology Stack (기술 스택)
 
 - 업데이트 예정입니다.
 
@@ -255,47 +241,14 @@
 | Docker  |  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white" alt="docker" width="200">    |  |
 
 <br/>
-<br/>
 
-# Development Convention (개발 컨벤션)
+## 🎲 Development Convention (개발 컨벤션)
 
 - wiki로 문서화할 예정입니다.
 
 <br/>
-<br/>
 
-# Development Workflow (개발 워크플로우)
-## 브랜치 전략 (Branch Strategy)
-우리의 브랜치 전략은 아래와 같은 Git Flow를 기반으로 하며, 다음과 같은 브랜치를 사용합니다. </br>
-MSA 구조로 인하여, 각 서비스별로 브랜치를 만들었고, 브랜치 별로 CI/CD 작업을 통해 서비스 별 배포를 진행하였습니다. (즉, 각 브랜치는 아래와 같은 깃 플로우를 지킵니다.)
+## 〰️ Development Workflow (개발 워크플로우)
 
-<img src="https://github.com/user-attachments/assets/f683ef08-c485-4447-a1d8-a5c6468e093a" alt="git flow" width="500">
-
-
-- Main Branch
-  - 배포 가능한 상태의 코드를 유지합니다.
-  - 모든 배포는 이 브랜치에서 이루어집니다.
-  
-- develop Branch
-  - 통합 기능 관리 브랜치 입니다
-  - feat에서 개발한 기능을 develop 브랜치에서 통합하여 관리합니다.
- 
-- feat Branch
-  - 기능 개발 브랜치 입니다.
-  - 기능 단위로 브랜치를 나누어 기능을 개발하였습니다.
- 
-- refactor Branch
-  - 코드 리팩토링 브랜치 입니다.
-  - 코드 리팩토링이 필요한 경우 refactor 브랜치에서 작업했습니다.
- 
-- release Branch
-  - 배포 전 버전을 관리하는 브랜치 입니다.
-  - 최종 배포하기 전 테스트를 진행하고, 이상이 없다면 Main브랜치로 배포를 진행합니다.
- 
-- hotfix Branch
-  - 핫픽스를 관리하는 브랜치 입니다.
-  - 배포된 환경에서 수정사항이 발생했을 경우, hotfix 브랜치에서 관리하였습니다.
-
-<br/>
-<br/>
+- wiki로 문서화할 예정입니다.
 
