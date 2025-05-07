@@ -89,6 +89,13 @@
 <br/>
 
 ## 📚 About Project
+> 🧩 서버 아키텍처
+> 
+<p align="center">
+<img width="1000" alt="서비스 소개" src="https://github.com/user-attachments/assets/73b40880-9225-4ceb-ad65-7410f13e0f2c">
+</p>
+<br/>
+
 **프로젝트 목적**
   - 대규모 모임 관리를 보다 쉽고 편하게 도와주는 서비스 입니다.
 <br/>
@@ -103,50 +110,6 @@
 
 **아키텍쳐 설명**
   - MSA 기반이며, 각 서비스 인스턴스들은 AWS ECS 에서 동작합니다. 젠킨스를 통한 CI/CD 파이프라인을 구축하였습니다. RDB는 MySQL을 사용하였고, AWS RDS에 DB서버를 구축하였습니다. NoSQL인 Redis와 MongoDB는 AWS EC2에 구축하였습니다. Kafka/Zookeeper, Prometheus, Grafana, Grafana Tempo, Grafana Loki, OpenTelemetry는 AWS EC2에 배포환경을 구축하였습니다.
-<br/>
-
-
-## 🧩 서버 아키텍처
-
-<br/>
-<p align="center">
-<img width="1000" alt="서비스 소개" src="https://github.com/user-attachments/assets/73b40880-9225-4ceb-ad65-7410f13e0f2c">
-</p>
-<br/>
-
-## 해당 스택을 적용한 이유
-
-### Redis
-
-- 내용 입력 예정
-
-### QueryDSL
-
-- 내용 입력 예정
-
-### Swagger
-
-- 내용 입력 예정
-
-### OpenTelemetry, Loki, Tempo, Prometheus, Grafana
-
-- 내용 입력 예정
-
-### Kafka
-
-- 내용 입력 예정
-
-### SonarCube
-
-- 내용 입력 예정
-
-### STOMP
-
-- 내용 입력 예정
-
-
-<br/>
-<br/>
 
 
 ## 트러블 슈팅
@@ -213,34 +176,46 @@
 <br/>
 
 
-# ERD
+## ERD
 
 - 링크
 
 - 
 ## 📝 Technology Stack (기술 스택)
 
-- 업데이트 예정입니다.
-
-## BackEnd
-|  |  |  |
-|-----------------|-----------------|-----------------|
-| SpringBoot  |  <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=SpringBoot&logoColor=white" alt="SpringBoot" width="200"> | 3.4.3    |
-| Java  |  <img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=Java&logoColor=white" alt="Java" width="200" > | 17 |
-| Spring Data JPA  |  <img src="https://img.shields.io/badge/Spring Data JPA-6DB33F?style=for-the-badge&logo=SpringDataJPA&logoColor=white" alt="JPA" width="200" >    | 5.0.0  |
-| QueryDSL  |  <img src="https://img.shields.io/badge/QueryDSL-0769AD?style=for-the-badge&logo=QueryDSL&logoColor=white" alt="QueryDSL" alt="QueryDSL" width="200" >    | 1.11.12    |
-| Spring Security |  <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=SpringSecurity&logoColor=white" alt="QueryDSL" alt="QueryDSL" width="200">    | 3.4.2    |
+<br/>
+<h3 align="center">Framework</h3>
+<br/>
+<p align="center">
+  <img src="https://img.shields.io/badge/OpenJDK-v17.0.14-000000?style=flat&logo=OpenJDK&logoColor=white" alt="openJDK"> <img src="https://img.shields.io/badge/Spring Boot-v3.4.4-6DB33F?style=flat&logo=SpringBoot&logoColor=white" alt="Spring Boot"> <img src="https://img.shields.io/badge/Spring Data JPA-v3.4.4-6DB33F?style=flat&logo=Spring&logoColor=white" alt="Spring"> 
+  <br/> <img src="https://img.shields.io/badge/Spring Security-v6.2.5-6DB33F?style=flat&logo=springsecurity&logoColor=white" alt="Spring Security"> <img src="https://img.shields.io/badge/Spring Cloud-v2024.0.0-6DB33F?style=flat&logo=Spring&logoColor=white" alt="Spring Cloud"> <img src="https://img.shields.io/badge/QueryDsl-v5.0.0-0769AD?style=flat&logo=Github&logoColor=white" alt="QueryDsl"> 
+</p>
 
 <br/>
-
-## Infra
-|  |  |  |
-|-----------------|-----------------|-----------------|
-| PostgreSQL  |  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=PostgreSQL&logoColor=white" alt="PostgreSQL" width="200">    | 16.3 |
-| pgAdmin    |  <img src="https://img.shields.io/badge/pgAdmin-4169E1?style=for-the-badge&logo=pgAdmin&logoColor=white" alt="pgAdmin" width="200">    | latest  |
-| Docker  |  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white" alt="docker" width="200">    |  |
+<h3 align="center">Database</h3>
+<br/>
+<p align="center">
+  <img src="https://img.shields.io/badge/MySQL-v.latest-4479A1?style=flat&logo=MySQL&logoColor=white" alt="MySQL"> <img src="https://img.shields.io/badge/Redis-v.latest-FF4438?style=flat&logo=Redis&logoColor=white" alt="Redis"> <img src="https://img.shields.io/badge/Redisson-v.latest-FF4438?style=flat&logo=Redis&logoColor=white" alt="Redisson">
+  <br/> <img src="https://img.shields.io/badge/Lua Script-v.latest-2C2D72?style=flat&logo=Lua&logoColor=white" alt="Lua"> <img src="https://img.shields.io/badge/MongoDB-v.latest-47A248?style=flat&logo=mongodb&logoColor=white" alt="mongodb">
+</p>
 
 <br/>
+<h3 align="center">Monitoring</h3>
+<br/>
+<p align="center">
+  <img src="https://img.shields.io/badge/Grafana-v.latest-F46800?style=flat&logo=Grafana&logoColor=white" alt="Grafana"> <img src="https://img.shields.io/badge/Prometheus-v.latest-E6522C?style=flat&logo=prometheus&logoColor=white" alt="prometheus"> <img src="https://img.shields.io/badge/Grafana Tempo-v.latest-F46800?style=flat&logo=Grafana&logoColor=white" alt="Grafana Tempo">
+  <br/> <img src="https://img.shields.io/badge/Grafana Loki-v.latest-F46800?style=flat&logo=Grafana&logoColor=white" alt="Grafana Loki"> <img src="https://img.shields.io/badge/OpenTelemetry-v.latest-FFE033?style=flat&logo=opentelemetry&logoColor=white" alt="opentelemetry">
+</p>
+
+<br/>
+<h3 align="center">Infra</h3>
+<br/>
+<p align="center">
+  <img src="https://img.shields.io/badge/Docker-v.latest-2496ED?style=flat&logo=docker&logoColor=white" alt="docker"> <img src="https://img.shields.io/badge/Docker Compose-v.latest-004B8D?style=flat&logo=docker&logoColor=white" alt="docker compose"> <img src="https://img.shields.io/badge/Apache Kafka-v.latest-A100FF?style=flat&logo=apachekafka&logoColor=white" alt="apachekafka"> <img src="https://img.shields.io/badge/Jenkins-v.latest-D24939?style=flat&logo=jenkins&logoColor=white" alt="jenkins">
+   <br/> <img src="https://img.shields.io/badge/EC2-None-FF9900?style=flat&logo=amazonec2&logoColor=white" alt="amazonec2"> <img src="https://img.shields.io/badge/ECS-None-FF9900?style=flat&logo=amazonecs&logoColor=white" alt="amazonecs"> <img src="https://img.shields.io/badge/AWS Fargate-None-FF9900?style=flat&logo=awsfargate&logoColor=white" alt="awsfargate"> <img src="https://img.shields.io/badge/ECR-None-FF9900?style=flat&logo=amazonwebservices&logoColor=white" alt="amazonwebservices">
+  <br/> <img src="https://img.shields.io/badge/RDS-None-527FFF?style=flat&logo=amazonrds&logoColor=white" alt="amazonrds"> <img src="https://img.shields.io/badge/Route 53-None-8C4FFF?style=flat&logo=amazonroute53&logoColor=white" alt="amazonroute53"> <img src="https://img.shields.io/badge/Nginx-None-009639?style=flat&logo=nginx&logoColor=white" alt="nginx"> <img src="https://img.shields.io/badge/Nginx Proxy Manager-None-F15833?style=flat&logo=nginxproxymanager&logoColor=white" alt="nginxproxymanager">
+</p>
+
 
 ## 🎲 Development Convention (개발 컨벤션)
 
@@ -248,7 +223,7 @@
 
 <br/>
 
-## 〰️ Development Workflow (개발 워크플로우)
+## 📌 Development Workflow (개발 워크플로우)
 
 - wiki로 문서화할 예정입니다.
 
