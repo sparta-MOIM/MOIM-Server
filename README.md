@@ -226,7 +226,7 @@
 
 ## 🎲 Development Convention (개발 컨벤션)
 
-- [개발 컨벤션](https://github.com/sparta-MOIM/MOIM-Server/wiki/Development-Workflow-(%EA%B0%9C%EB%B0%9C-%EC%9B%8C%ED%81%AC%ED%94%8C%EB%A1%9C%EC%9A%B0))
+- [🚀 개발 컨벤션](https://github.com/sparta-MOIM/MOIM-Server/wiki/Development-Workflow-(%EA%B0%9C%EB%B0%9C-%EC%9B%8C%ED%81%AC%ED%94%8C%EB%A1%9C%EC%9A%B0))
 
 <br/>
 
