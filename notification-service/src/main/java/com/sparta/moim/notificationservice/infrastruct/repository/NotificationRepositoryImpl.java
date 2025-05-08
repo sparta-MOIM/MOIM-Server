@@ -25,7 +25,10 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     private final NotificationJpaRepository notificationJpaRepository;
     private final JdbcTemplate jdbcTemplate;
 
-
+//    @Override
+//    public void saveAll(List<Notification> notificationList){
+//        notificationJpaRepository.saveAll(notificationList);
+//    }
     @Override
     public void saveAll(List<Notification> notificationList) {
         String sql = "INSERT INTO p_notification ("
@@ -66,9 +69,10 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     public Pagination<Notification> findByUserTrackingIdAndIsRead(
             String userTrackingId,
             Boolean isRead,
+            LocalDateTime startDate,
             int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Notification> notificationPage = notificationJpaRepository.findByUserTrackingIdAndIsRead(UUID.fromString(userTrackingId), isRead, pageable);
+        Page<Notification> notificationPage = notificationJpaRepository.findByUserTrackingIdAndIsRead(UUID.fromString(userTrackingId), isRead, startDate, pageable);
         return Pagination.of(
                 notificationPage.getNumber(),
                 notificationPage.getSize(),
@@ -86,5 +90,10 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     @Override
     public void save(Notification notification) {
         notificationJpaRepository.save(notification);
+    }
+
+    @Override
+    public Optional<Notification> findById(long id) {
+        return notificationJpaRepository.findById(id);
     }
 }

@@ -19,6 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.annotations.Where;
@@ -28,7 +29,7 @@ import org.hibernate.annotations.Where;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder(access = AccessLevel.PRIVATE)
+@SuperBuilder
 @Table(name = "p_notification")
 public class Notification extends BaseEntity {
 
@@ -82,4 +83,6 @@ public class Notification extends BaseEntity {
     public void updateIsRead(boolean isRead) {
         this.isRead = isRead;
     }
+
+
 }

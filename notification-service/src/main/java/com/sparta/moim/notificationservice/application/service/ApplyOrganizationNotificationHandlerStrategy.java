@@ -11,6 +11,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -28,6 +29,7 @@ public class ApplyOrganizationNotificationHandlerStrategy implements Notificatio
     }
 
     @Override
+    @Transactional
     public void handleNotification(String rawJson) {
         try{
             ApplyOrganizationNotificationCommand command = objectMapper.readValue(rawJson, ApplyOrganizationNotificationCommand.class);
@@ -44,7 +46,12 @@ public class ApplyOrganizationNotificationHandlerStrategy implements Notificatio
                 Notification notification = Notification.from(command, receiverTrackingId, content);
                 notificationList.add(notification);
             }
+            // 알림을 저장한다.
+            //소요시간
+            long startTime = System.currentTimeMillis();
             notificationRepository.saveAll(notificationList);
+            long endTime = System.currentTimeMillis();
+            log.info(endTime - startTime + "ms 소요");
         } catch (JsonProcessingException e){
             log.error("JSON 파싱 오류: {}", e.getMessage());
         } catch (Exception e) {
