@@ -2,9 +2,10 @@
 > 대규모 모임의 인원관리, 일정조율, 소통을 효율적으로 도와주는 MSA 기반 모임 통합 관리 서비스</br>
 > 개발 기간 : 2025.04 ~ 2025.05
 <br/>
-<p >
+<p>
 <img width="700" alt="서비스 소개" src="https://github.com/user-attachments/assets/071baaf0-2ee8-49f2-9c7c-82114b360200">
 </p>
+<br/>
 <br/>
 
 ## 🎯 Members (팀원 및 팀 소개)
@@ -80,6 +81,7 @@
 </table>
 
 <br/>
+<br/>
 
 ## ✨ Getting Started (서비스 URL 및 API 명세서)
 
@@ -87,8 +89,9 @@
 - API : (wiki에 문서화할 예정입니다.)
 
 <br/>
+<br/>
 
-## 📚 About Project
+## 🧑‍💻 About Project
 > 🧩 서버 아키텍처
 > 
 <p align="center">
@@ -111,46 +114,16 @@
 **아키텍쳐 설명**
   - MSA 기반이며, 각 서비스 인스턴스들은 AWS ECS 에서 동작합니다. 젠킨스를 통한 CI/CD 파이프라인을 구축하였습니다. RDB는 MySQL을 사용하였고, AWS RDS에 DB서버를 구축하였습니다. NoSQL인 Redis와 MongoDB는 AWS EC2에 구축하였습니다. Kafka/Zookeeper, Prometheus, Grafana, Grafana Tempo, Grafana Loki, OpenTelemetry는 AWS EC2에 배포환경을 구축하였습니다.
 
-
-## 트러블 슈팅
-
-- wiki 문서화 예정
-
-
 <br/>
 <br/>
 
-
-## 구현/로직/리팩토링에 대한 고민
-
-**구현에 대한 고민**
-
-- wiki 문서화 예정
-
-- wiki 문서화 예정
-
-
-**로직에 대한 고민**
-
-- wiki 문서화 예정
-  
-
-**리팩토링에 대한 고민**
-
-- wiki 문서화 예정
-
-
-
-<br/>
-<br/>
-
-# Key Features (주요 기능)
+## 🔑 Key Features (주요 기능)
 - **회원**:
   - 내용
 
 - **세션**:
   - 세션 생성/수정이 가능합니다.
-  - 세션에 참여/나가기가 가능하도록 설계**되었습니다.
+  - 세션에 참여/나가기가 가능하도록 설계되었습니다.
   - 세션 생성을 하게 되면 모임 - 매니저가 승인을 시켜 세션을 활성화가 가능합니다.
   - 다수의 사용자가 동시에 입장할 수 있도록 루아스크립트를 통해 원자성을 제어하고 있습니다.
   
@@ -185,9 +158,46 @@
 <br/>
 
 
-## ERD
+## 📚 트러블 슈팅
 
-- 링크
+- wiki 문서화 예정
+
+
+<br/>
+<br/>
+
+
+## 💬 개발 과정에서의 고민 (구현/로직/리팩토링)
+
+**구현**
+
+- wiki 문서화 예정
+
+- wiki 문서화 예정
+
+
+**로직**
+
+- wiki 문서화 예정
+  
+
+**리팩토링**
+
+- wiki 문서화 예정
+
+
+
+<br/>
+<br/>
+
+
+## 📊 ERD
+
+> [🔗 ERDCloud Link](https://www.erdcloud.com/p/iDACkZjnWaotukz3t)
+
+<p >
+<img width="900" alt="erd" src="https://github.com/user-attachments/assets/aa859830-9d14-4fda-b235-be19b91270c2">
+</p>
 
 </br>
 
@@ -236,5 +246,5 @@
 
 ## 📌 Development Workflow (개발 워크플로우)
 
-- wiki로 문서화할 예정입니다.
+- [🚀 Development Workflow (개발 워크플로우)](https://github.com/sparta-MOIM/MOIM-Server/wiki/%F0%9F%9A%80-Development-Workflow-(%EA%B0%9C%EB%B0%9C-%EC%9B%8C%ED%81%AC%ED%94%8C%EB%A1%9C%EC%9A%B0))
 
