@@ -143,7 +143,11 @@
   - 소모임에 참여/나가기가 가능하도록 설계**되었습니다.
   
 - **게시글**
-  - 내용
+  - 모임별 게시글 관리가 가능하며, 게시글은 피드 혹은 투표로 생성할 수 있습니다.
+  - 권한에 따라 게시글 수정 및 삭제가 가능합니다.
+  - 수정보다는 조회가 빈번할 것으로 판단하여, CQRS를 활용하여 읽기 DB(MongoDB)를 분리함으로써 조회 성능을 높였습니다.
+  - DB 사이의 데이터 일관성은 이벤트 소싱으로 구성했으며, 정확히 한번을 보장하기 위해 OutBox패턴과 멱등적 소비자 패턴을 활용하였습니다.
+  - 캐시와 인덱스를 활용하여 조회 성능을 더욱 최적화 가능합니다.
     
 - **댓글**
   - 게시글과 댓글 도메인은 분리되어 있습니다.
@@ -152,7 +156,8 @@
   - 게시글이 삭제되면, 댓글도 모두 삭제되는 트랜잭션을 갖고 있습니다.
  
 - **일정**
-  - 내용
+  - 모임별 일정 관리가 가능합니다.
+  - 모임의 권한에 따라 일정을 수정하고, 삭제할 수 있습니다.
 
 <br/>
 <br/>
@@ -160,8 +165,9 @@
 
 ## 📚 트러블 슈팅
 
-- wiki 문서화 예정
-
+- [🚧 알림 서비스 잦은 INSERT로 인한 DB 부하](https://github.com/sparta-MOIM/MOIM-Server/wiki/%F0%9F%9A%A7-%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85-%5B%EC%95%8C%EB%A6%BC-%EC%84%9C%EB%B9%84%EC%8A%A4-%EC%9E%A6%EC%9D%80-INSERT%EB%A1%9C-%EC%9D%B8%ED%95%9C-DB-%EB%B6%80%ED%95%98%5D)
+- [🚧 taggedIds 변경시, 발생하는 쿼리 수 최적화](https://github.com/sparta-MOIM/MOIM-Server/wiki/%F0%9F%9A%A7-%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85-%5BtaggedIds-%EB%B3%80%EA%B2%BD%EC%8B%9C,-%EB%B0%9C%EC%83%9D%ED%95%98%EB%8A%94-%EC%BF%BC%EB%A6%AC-%EC%88%98-%EC%B5%9C%EC%A0%81%ED%99%94%5D)
+ 
 
 <br/>
 <br/>
@@ -169,22 +175,9 @@
 
 ## 💬 개발 과정에서의 고민 (구현/로직/리팩토링)
 
-**구현**
-
-- wiki 문서화 예정
-
-- wiki 문서화 예정
-
-
-**로직**
-
-- wiki 문서화 예정
-  
-
-**리팩토링**
-
-- wiki 문서화 예정
-
+- [ 🤔 대기큐 처리 속도 개선 ](https://github.com/sparta-MOIM/MOIM-Server/wiki/%F0%9F%A4%94-%EA%B5%AC%ED%98%84-%EB%A1%9C%EC%A7%81-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81-%EA%B3%A0%EB%AF%BC-%5B%EB%8C%80%EA%B8%B0%ED%81%90-%EC%B2%98%EB%A6%AC-%EC%86%8D%EB%8F%84-%EA%B0%9C%EC%84%A0-%5D)
+- [ 🤔 Redisson 기반 세션 참가 기능 최적화 과정 ](https://github.com/sparta-MOIM/MOIM-Server/wiki/%F0%9F%A4%94-%EA%B5%AC%ED%98%84-%EB%A1%9C%EC%A7%81-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81-%EA%B3%A0%EB%AF%BC:-%5BRedisson-%EA%B8%B0%EB%B0%98-%EC%84%B8%EC%85%98-%EC%B0%B8%EA%B0%80-%EA%B8%B0%EB%8A%A5-%EC%B5%9C%EC%A0%81%ED%99%94-%EA%B3%BC%EC%A0%95%5D)
+- [ 🤔 관측 환경 구축 Part#1 ](https://github.com/sparta-MOIM/MOIM-Server/wiki/%F0%9F%A4%94-%EA%B5%AC%ED%98%84-%EB%A1%9C%EC%A7%81-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81-%EA%B3%A0%EB%AF%BC:-%5B%EA%B4%80%EC%B8%A1-%ED%99%98%EA%B2%BD-%EA%B5%AC%EC%B6%95-Part%231%5D)
 
 
 <br/>
