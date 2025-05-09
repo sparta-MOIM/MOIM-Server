@@ -60,6 +60,7 @@ public class Notification extends BaseEntity {
     @Column(name="is_read", nullable = false)
     private Boolean isRead;
 
+
     public static Notification from(ApplyOrganizationNotificationCommand command, String receiverTrackingId, String content) {
         return Notification.builder()
                 .notificationType(NotificationType.ORGANIZATION_MOIM_REQUEST)

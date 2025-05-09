@@ -27,10 +27,10 @@ spring:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
 
-#logging:
-#  level:
-#    org.hibernate.SQL: debug
-#    org.hibernate.type.descriptor.sql: trace
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql: trace
 
 eureka:
   client:

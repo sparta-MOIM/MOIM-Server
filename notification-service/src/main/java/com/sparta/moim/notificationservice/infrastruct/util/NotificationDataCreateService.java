@@ -53,11 +53,12 @@ public class NotificationDataCreateService {
                         .createdBy("System")
                         .modifiedBy("System")
                         .build();
+                log.info("알림 생성날짜" +String.valueOf(notification.getCreatedAt()));
                 notifications.add(notification);
+                notificationRepository.save(notification);
             }
         }
 
-        notificationRepository.saveAll(notifications);
         log.info("✅ {}일 알림 1000건 생성 완료", day);
     }
 }
