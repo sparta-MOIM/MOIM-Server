@@ -31,7 +31,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 //    }
     @Override
     public void saveAll(List<Notification> notificationList) {
-        String sql = "INSERT INTO p_notification ("
+        String sql = "INSERT INTO p_notification_partition ("
                 + "tracking_id, notification_type, access_tracking_id, receiver_tracking_id, content, is_read, "
                 + "created_at, created_by, modified_at, modified_by) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

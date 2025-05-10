@@ -30,7 +30,7 @@ import org.hibernate.annotations.Where;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @SuperBuilder
-@Table(name = "p_notification")
+@Table(name = "p_notification_partition")
 public class Notification extends BaseEntity {
 
     @Id
