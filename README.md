@@ -187,6 +187,7 @@
 - [ 🤔 Redisson 기반 세션 참가 기능 최적화 과정 ](https://github.com/sparta-MOIM/MOIM-Server/wiki/%F0%9F%A4%94-%EA%B5%AC%ED%98%84-%EB%A1%9C%EC%A7%81-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81-%EA%B3%A0%EB%AF%BC:-%5BRedisson-%EA%B8%B0%EB%B0%98-%EC%84%B8%EC%85%98-%EC%B0%B8%EA%B0%80-%EA%B8%B0%EB%8A%A5-%EC%B5%9C%EC%A0%81%ED%99%94-%EA%B3%BC%EC%A0%95%5D)
 - [ 🤔 쿼리튜닝 ‐ 쓰기 최적화 ](https://github.com/sparta-MOIM/MOIM-Server/wiki/%F0%9F%A4%94-%EA%B5%AC%ED%98%84-%EB%A1%9C%EC%A7%81-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81-%EA%B3%A0%EB%AF%BC:-%5B%EC%BF%BC%EB%A6%AC%ED%8A%9C%EB%8B%9D-%E2%80%90-%EC%93%B0%EA%B8%B0-%EC%B5%9C%EC%A0%81%ED%99%94%5D)
 - [ 🤔 관측 환경 구축 Part#1 ](https://github.com/sparta-MOIM/MOIM-Server/wiki/%F0%9F%A4%94-%EA%B5%AC%ED%98%84-%EB%A1%9C%EC%A7%81-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81-%EA%B3%A0%EB%AF%BC:-%5B%EA%B4%80%EC%B8%A1-%ED%99%98%EA%B2%BD-%EA%B5%AC%EC%B6%95-Part%231%5D)
+- [ 🤔 관측 환경 구축 Part#2 ](https://github.com/sparta-MOIM/MOIM-Server/wiki/%EA%B5%AC%ED%98%84-%EB%A1%9C%EC%A7%81-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81-%EA%B3%A0%EB%AF%BC:-%5B%EA%B4%80%EC%B8%A1-%ED%99%98%EA%B2%BD-%EA%B5%AC%EC%B6%95-Part%232%5D)
 
 
 <br/>
