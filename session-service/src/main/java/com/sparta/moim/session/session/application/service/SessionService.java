@@ -51,7 +51,7 @@ public class SessionService {
       throw new SessionException(SessionCode.EXITS_TITLE_SESSION);
     }
 
-     CreateManagerResult createManager = isCreateManager(command.userId(), command);
+    CreateManagerResult createManager = isCreateManager(command.userId(), command);
     Session createSession = sessionRepository.save(command.toDomain(createManager.reason(), createManager.status()));
 
     createSession.timeValidate();
@@ -60,21 +60,24 @@ public class SessionService {
   }
 
   private CreateManagerResult isCreateManager(UUID userId, CreateSessionCommand command) {
-//    ApiResponseData<Boolean> check = organizationSessionService.checkRole(UUID.fromString(command.organizationId()),
-//        userId,
-//        List.of(OrganizationMemberRole.MASTER,
-//            OrganizationMemberRole.MANAGER));
+    try {
+      ApiResponseData<Boolean> check = organizationSessionService.checkRole(UUID.fromString(command.organizationId()),
+          userId,
+          List.of(OrganizationMemberRole.MASTER,
+              OrganizationMemberRole.MANAGER));
 
-//    // 200이 발생하지 않는 다면 에러를 리턴한다.
-//    if (!Objects.equals(check.getCode(), CommonCode.SUCCESS.getCode())) {
-//      throw new SessionException(SessionCode.NOT_CONNECTED_SESSION);
-//    }
-//
-//    // 매니저 이상이 생성한 경우
-//    if (check.getData()) {
-//      return new CreateManagerResult("매니저가 생성한 세션입니다.", SessionStatus.OPEN);
-//    }
+      // 200이 발생하지 않는 다면 에러를 리턴한다.
+      if (!Objects.equals(check.getCode(), CommonCode.SUCCESS.getCode())) {
+        throw new SessionException(SessionCode.NOT_CONNECTED_SESSION);
+      }
 
+      // 매니저 이상이 생성한 경우
+      if (check.getData()) {
+        return new CreateManagerResult("매니저가 생성한 세션입니다.", SessionStatus.OPEN);
+      }
+    } catch (Exception e) {
+      return new CreateManagerResult(null, null);
+    }
     return new CreateManagerResult(null, null);
   }
 
@@ -139,7 +142,7 @@ public class SessionService {
 //    checkSessionApply(UUID.fromString(session.getOrganizationId()), userId);
     validationStatusIsNotReady(session.getStatus());
     session.confirm();
-    sessionSeatRepository.set(sessionId.toString(),session.getTotalCount());
+    sessionSeatRepository.set(sessionId.toString(), session.getTotalCount());
   }
 
   private void checkSessionApply(UUID organizationId, UUID userId) {
