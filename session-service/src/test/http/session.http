@@ -12,13 +12,13 @@ X-User-Role: {{role}}
 X-User-ID: {{userId}}
 
 {
-  "organizationId": "org123",
-  "publisher": "{{username}}",
-  "title": "스파르타 세션",
-  "totalCount": 2,
+  "organizationId": "374569af-ac46-46a2-bd97-cc10dbbec4e4",
+  "publisher": "{{userId}}",
+  "title": "스파르타 세션2",
+  "totalCount": 10001,
   "status": "READY",
-  "openTime": "2024-04-13T10:00:00",
-  "closeTime": "2024-04-20T12:00:00",
+  "openTime": "2025-04-13T10:00:00",
+  "closeTime": "2025-06-20T12:00:00",
    "applyInfo": {
    "reason": "hello"
   }
@@ -67,7 +67,7 @@ X-User-Role: {{role}}
 X-User-ID: {{userId}}
 
 ### 세션 승인
-PATCH http://localhost:8089/api/v1/session/d0effb8c-ad19-4c9e-a098-14ed86a3ea16/apply
+PATCH http://localhost:8089/api/v1/session/d05c7812-1bac-4e28-8e0c-e772864fe0ff/apply
 Content-Type: application/json
 X-User-Name: {{username}}
 X-User-Role: {{role}}

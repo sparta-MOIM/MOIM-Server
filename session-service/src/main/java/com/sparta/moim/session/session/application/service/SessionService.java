@@ -60,20 +60,20 @@ public class SessionService {
   }
 
   private CreateManagerResult isCreateManager(UUID userId, CreateSessionCommand command) {
-    ApiResponseData<Boolean> check = organizationSessionService.checkRole(UUID.fromString(command.organizationId()),
-        userId,
-        List.of(OrganizationMemberRole.MASTER,
-            OrganizationMemberRole.MANAGER));
-
-    // 200이 발생하지 않는 다면 에러를 리턴한다.
-    if (!Objects.equals(check.getCode(), CommonCode.SUCCESS.getCode())) {
-      throw new SessionException(SessionCode.NOT_CONNECTED_SESSION);
-    }
-
-    // 매니저 이상이 생성한 경우
-    if (check.getData()) {
-      return new CreateManagerResult("매니저가 생성한 세션입니다.", SessionStatus.OPEN);
-    }
+//    ApiResponseData<Boolean> check = organizationSessionService.checkRole(UUID.fromString(command.organizationId()),
+//        userId,
+//        List.of(OrganizationMemberRole.MASTER,
+//            OrganizationMemberRole.MANAGER));
+//
+//    // 200이 발생하지 않는 다면 에러를 리턴한다.
+//    if (!Objects.equals(check.getCode(), CommonCode.SUCCESS.getCode())) {
+//      throw new SessionException(SessionCode.NOT_CONNECTED_SESSION);
+//    }
+//
+//    // 매니저 이상이 생성한 경우
+//    if (check.getData()) {
+//      return new CreateManagerResult("매니저가 생성한 세션입니다.", SessionStatus.OPEN);
+//    }
 
     return new CreateManagerResult(null, null);
   }
@@ -136,7 +136,7 @@ public class SessionService {
   public void applySession(UUID sessionId, UUID userId) {
     Session session = sessionRepository.findByTrackingIdAndDeletedAtIsNull(sessionId)
         .orElseThrow(() -> new SessionException(SessionCode.NOT_FOUND_SESSION));
-    checkSessionApply(UUID.fromString(session.getOrganizationId()), userId);
+//    checkSessionApply(UUID.fromString(session.getOrganizationId()), userId);
     validationStatusIsNotReady(session.getStatus());
     session.confirm();
     sessionSeatRepository.set(sessionId.toString(),session.getTotalCount());
